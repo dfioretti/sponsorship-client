@@ -4,12 +4,15 @@ var Header = require('../components/Header.react.jsx');
 var SessionStore = require('../stores/SessionStore.react.jsx');
 var RouteStore = require('../stores/RouteStore.react.jsx');
 var Navigation = require('react-router').Navigation;
-var Auth = require('j-toker');
+//var Auth = require('j-toker');
+var Auth = require('../vendor/jtoker.js');
+
 var PubSub = require('pubsub-js');
 var Nav = require('../components/common/nav.jsx');
 var Fluxxor = require('fluxxor');
 var stores = require('../stores/stores.js');
 var actions = require('../actions/actions.js');
+window.Auth = Auth;
 
 const LoggedOutPaths = [
   '/account_login',
@@ -42,8 +45,8 @@ var SmallApp = React.createClass({
         return "http://" + "<%=j ENV['DEFAULT_HOST'] %>" + "/reset_password";
       }
     });
-  },
-  componentDidMount: function() {
+  //},
+  //componentWillMount: function() {
       PubSub.subscribe('auth.signIn.success', function(ev, user) {
         this.transitionTo('/dev');
         //this.transitionTo('/apt/portfolio/dashboard');
@@ -67,10 +70,10 @@ var SmallApp = React.createClass({
               }
             }
           }.bind(this));
-
           this.setState({loaded: true});
         }.bind(this))
         .fail(function(resp) {
+          console.log("WTF");
           this.setState({loaded: true});
           if (LoggedOutPaths.indexOf(window.location.pathname) == -1) {
             this.transitionTo('/account_login');
@@ -105,12 +108,13 @@ var SmallApp = React.createClass({
 
   render: function() {
     var flux = new Fluxxor.Flux(stores, actions);
+    window.flux = flux;
     flux.on("dispatch", function(type, payload) {
       console.log("[Dispatch]", type, payload);
     });
     return (
       <div id="main">
-        <Nav />
+        <Nav {...this.props} flux={flux} />
         <RouteHandler {...this.props} flux={flux} />
       </div>
     );

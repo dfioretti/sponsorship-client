@@ -3,6 +3,8 @@ var React = require('react'),
 		FluxMixin = Fluxxor.FluxMixin(React),
 		Link = require('react-router').Link,
 		Glyphicon = require('react-bootstrap').Glyphicon,
+		ScoreEditContextMenu = require('./ScoreEditContextMenu.jsx'),
+		DashboardContextMenu = require('./DashboardContextMenu.jsx'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var AppSidebar = React.createClass({
@@ -95,10 +97,10 @@ var AppSidebar = React.createClass({
         </div>
       );
     } else if (this.props.view === "score") {
-			//          <ScoreEditContextMenu />
 
       return (
         <div className="context-menu">
+          <ScoreEditContextMenu />
         </div>
       );
     } else if (this.props.view === 'asset') {

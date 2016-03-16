@@ -19,7 +19,6 @@ var EditorSubNav = React.createClass({
     this.getFlux().actions.newComponent();
   },
   handleSaveClick: function() {
-    console.log(this.props);
     if (this.props != null && this.props.handleSave != null) {
       this.props.handleSave();
       return;
@@ -37,8 +36,6 @@ var EditorSubNav = React.createClass({
   },
   render: function() {
     var message = ""
-    console.log(this.props);
-    console.log(this.props.message);
     if (this.props.message === null || typeof(this.props.message) === 'undefined') {
       message = this.getStateFromFlux().message;
     } else {

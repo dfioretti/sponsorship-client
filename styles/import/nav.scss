@@ -62,7 +62,6 @@
       box-shadow: none;
       background: transparent;
       border: none;
-
       .dropdown-searchbar {
         input {
           width: 300px;
@@ -74,12 +73,12 @@
           box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
           outline: none;
           background-size: 20px 20px;
-          background-image: image-url("dashboard/Icon-SearchLightGrey@2x");
+          background-image: url("../images/dashboard/Icon-SearchLightGrey@2x.png");
           background-repeat: no-repeat;
           background-position: center right 20px;
 
           &:focus {
-            background-image: image-url("dashboard/Icon-SearchGrey@2x");
+            background-image: url("../images/dashboard/Icon-SearchGrey@2x.png");
           }
         }
       }
@@ -144,7 +143,7 @@
       background-color: $darker-grey;
       background-repeat: no-repeat;
       background-position: center center;
-      background-image: image-url("login/icon-user-white.svg");
+      background-image: url("../images/login/icon-user-white.svg");
     }
   }
 
@@ -164,4 +163,3 @@
     }
   }
 }
-

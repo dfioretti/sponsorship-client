@@ -15,7 +15,9 @@ var PasswordRecovery = require('./components/session/PasswordRecovery.react.jsx'
 var ResetPassword = require('./components/session/ResetPassword.react.jsx');
 var EditorComponent = require('./components/editors/editor_component.jsx');
 var DashboardHome = require('./components/dashboards/dashboard_home.jsx');
-
+var UsersIndex = require('./components/session/UsersIndex.jsx');
+var EditorScore = require('./components/editors/EditorScore.jsx');
+var ScoreIndex = require('./components/editors/ScoreIndex.jsx');
 var Dev = require('./components/Dev.jsx');
 
 
@@ -30,6 +32,18 @@ module.exports = (
     <Route name='editor_component' handler={EditorComponent} path='/apt/editor_component' />
     <Route name='editor_component_update' handler={EditorComponent} path='/apt/editor_component/:id' />
     <Route name='dashboard_home' handler={DashboardHome} path='/apt/dashboard/:id' />
+    <Route name='users' handler={UsersIndex} path='admin/users'/>
+    <Route name='editor_score' handler={EditorScore} path='/apt/editor_score' />
+    <Route name='editor_score_update' handler={EditorScore} path='/apt/editor_score/:id' />
+    <Route name='score_index' handler={ScoreIndex} path='apt/scores/score_index' />
+
+
+
+
+    <Route name='fifa_dashboard' handler={Dev} path='/dev' />
+    <Route name='choose_company' handler={Dev} path='/dev' />
+
+
 
 
     <Route name="login" path="/login" handler={AccountLogin} />

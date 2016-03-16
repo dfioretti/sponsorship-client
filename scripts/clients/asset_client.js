@@ -1,5 +1,5 @@
 var asset_url = {
-  ASSET_URL: "http://localhost:4000/api/v1/apt/assets/",
+  ASSET_URL: "http://localhost:4000/api/v1/assets/",
 };
 
 var AssetClient = {

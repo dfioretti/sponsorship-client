@@ -3,6 +3,7 @@ var DashboardClient = require('../clients/dashboard_client.js');
 var ComponentClient = require('../clients/component_client.js');
 var DataClient = require('../clients/data_client.js');
 var ScoreClient = require('../clients/score_client.js');
+var AssetClient = require('../clients/asset_client.js');
 var constants = require('../constants/constants.js');
 
 
@@ -141,6 +142,22 @@ var actions = {
       this.dispatch(constants.SAVE_SCORE_SUCCESS, { score: data });
     }.bind(this), function(error) {
       this.dispatch(constants.SAVE_SCORE_FAIL);
+    }.bind(this));
+  },
+  loadAssets: function() {
+    this.dispatch(constants.LOAD_ASSETS);
+    AssetClient.getAssets(function(data) {
+      this.dispatch(constants.LOAD_ASSETS_SUCCESS, { assets: data});
+    }.bind(this), function(error) {
+      this.dispatch(constants.LOAD_ASSETS_FAIL);
+    }.bind(this));
+  },
+  loadScores: function() {
+    this.dispatch(constants.LOAD_SCORES);
+    ScoreClient.getScores(function(data) {
+      this.dispatch(constants.LOAD_SCORES_SUCCESS, { scores: data});
+    }.bind(this), function(error) {
+      this.dispatch(constants.LOAD_SCORES_FAIL);
     }.bind(this));
   }
 };

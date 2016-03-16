@@ -4,7 +4,7 @@ var React = require('react'),
 		Link = require('react-router').Link,
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
-//var DynamicComponent = require('../common/dynamic_component.jsx');
+var DynamicComponent = require('../common/DynamicComponent.jsx');
 //var EditorPreview = require('./editor_preview.jsx');
 var EditorPane = require('./editor_pane.jsx');
 var EditorSubNav = require('./editor_subnav.jsx');
@@ -21,7 +21,6 @@ var EditorPreview = React.createClass({
     if (component == null) {
       component = this.getFlux().store("ComponentEditorStore").getPreview();
     }
-		//          <DynamicComponent component={component}  />
 
     return (
       <div className="editor-preview">
@@ -29,6 +28,7 @@ var EditorPreview = React.createClass({
           Component Preview
         </div>
         <div className="preview-component">
+					<DynamicComponent component={component}  />
         </div>
       </div>
     );

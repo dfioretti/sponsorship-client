@@ -8,21 +8,38 @@ var AppSidebar = require('../sidebar/app_sidebar.jsx');
 var ComponentEditor = require('./component_editor.jsx');
 
 var EditorComponent = React.createClass({
-  mixins: [FluxMixin],
+  mixins: [FluxMixin, StoreWatchMixin("ComponentsStore")],
   getInitialState: function() {
-    return {};
+    return { loaded: false };
   },
+	getStateFromFlux: function() {
+		return this.getFlux().store("ComponentsStore").getState();
+	},
   componentDidMount: function() {
-    /**
-     * Load the component into the editor for update
-     */
-    if (this.props.params.id) {
-      var editComponent = this.props.flux.store("ComponentsStore").getComponent(this.props.params.id);
-      this.getFlux().actions.loadComponentUpdate(editComponent);
-      this.getFlux().actions.generatePreviewData();
-    }
+		if (!this.getFlux().store("ComponentsStore").getState().componentsLoaded)
+			return;
+		this.loadPreview();
   },
+	componentDidUpdate: function() {
+		if (!this.getFlux().store("ComponentsStore").getState().componentsLoaded)
+			return;
+
+		this.loadPreview();
+	},
+	loadPreview: function() {
+		console.log("load 1");
+		if (this.props.params.id) {
+			console.log("load 2");
+			var editComponent = this.props.flux.store("ComponentsStore").getComponent(this.props.params.id);
+			this.getFlux().actions.loadComponentUpdate(editComponent);
+			this.getFlux().actions.generatePreviewData();
+			this.setState({loaded: true});
+		}
+	},
   render: function() {
+		if (!this.getFlux().store("ComponentsStore").getState().componentsLoaded)
+			return ( <div className="editor"><AppSidebar view="component" /></div>);
+
     return (
       <div className="editor">
         <AppSidebar view="component" />

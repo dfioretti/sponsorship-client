@@ -1,6 +1,7 @@
 var React = require('react');
 var Link = require('react-router').Link;
-var Auth = require('j-toker');
+//var Auth = require('j-toker');
+var Auth = require('../../vendor/jtoker.js');
 var ReactDOM = require('react-dom');
 var PubSub = require('pubsub-js');
 
@@ -20,6 +21,7 @@ var AccountLogin = React.createClass({
 
     Auth.emailSignIn(params)
       .then(function(user) {
+        console.log("success");
         console.log(user);
         // console.log(user);
       }.bind(this))

@@ -8,6 +8,8 @@ var EditorPreviewStore = require('./editor_preview_store.js');
 var DashboardEditStore = require('./dashboard_edit_store.js');
 var DashboardHomeStore = require('./dashboard_home_store.js');
 var ScoreEditorStore = require('./score_editor_store.js');
+var AssetsStore = require('./AssetsStore.js');
+var ScoresStore = require('./ScoresStore.js');
 
 var stores = {
   ComponentEditorStore: new ComponentEditorStore(),
@@ -15,7 +17,9 @@ var stores = {
   EditorPreviewStore: new EditorPreviewStore(),
   DashboardEditStore: new DashboardEditStore(),
   DashboardHomeStore: new DashboardHomeStore(),
-  ScoreEditorStore: new ScoreEditorStore()
+  ScoreEditorStore: new ScoreEditorStore(),
+  ScoresStore: new ScoresStore(),
+  AssetsStore: new AssetsStore()
 };
 
 module.exports = stores;

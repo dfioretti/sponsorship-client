@@ -21,7 +21,9 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     del = require('del'),
     notify = require('gulp-notify'),
+    buffer = require('vinyl-buffer'),
     browserSync = require('browser-sync'),
+    sourcemaps = require('gulp-sourcemaps'),
     reload = browserSync.reload,
     p = {
       jsx: './scripts/app.jsx',
@@ -57,6 +59,9 @@ gulp.task('watchify', function() {
       .bundle()
       .on('error', notify.onError())
       .pipe(source(p.bundle))
+      .pipe(buffer())
+      .pipe(sourcemaps.init({loadMaps: true}))
+      .pipe(sourcemaps.write('./'))
       .pipe(gulp.dest(p.distJs))
       .pipe(reload({stream: true}));
   }
