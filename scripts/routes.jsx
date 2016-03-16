@@ -18,6 +18,7 @@ var DashboardHome = require('./components/dashboards/dashboard_home.jsx');
 var UsersIndex = require('./components/session/UsersIndex.jsx');
 var EditorScore = require('./components/editors/EditorScore.jsx');
 var ScoreIndex = require('./components/editors/ScoreIndex.jsx');
+var PortfolioDashboard = require('./components/dashboards/PortfolioDashboard.jsx');
 var Dev = require('./components/Dev.jsx');
 
 
@@ -36,6 +37,7 @@ module.exports = (
     <Route name='editor_score' handler={EditorScore} path='/apt/editor_score' />
     <Route name='editor_score_update' handler={EditorScore} path='/apt/editor_score/:id' />
     <Route name='score_index' handler={ScoreIndex} path='apt/scores/score_index' />
+    <Route name='portfolio_dashboard' handler={PortfolioDashboard} path='apt/portfolio/dashboard' />
 
 
 

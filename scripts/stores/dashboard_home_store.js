@@ -28,6 +28,13 @@ var DashboardHomeStore = Fluxxor.createStore({
       }
     }
   },
+  getPortoflioDashboard: function () {
+    for (var i = 0; i < this.dashboards.length; i++) {
+      if (this.dashboards[i].kind === 'portoflio') {
+        return this.dashboards[i];
+      }
+    }
+  },
   getCustomDashboards: function() {
     this.customDashboards = [];
     this.dashboards.forEach(function(d){
