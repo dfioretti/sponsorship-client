@@ -1,0 +1,135 @@
+/*
+ *= require_self
+ */
+
+// fonts and colors
+//@import "./partials/*";
+@import "./partials/_colors";
+@import "./partials/_fonts";
+@import "./partials/_icons";
+
+//@import "bootstrap-sprockets";
+//@import "bootstrap";
+
+//@import "bootstrap-daterangepicker/daterangepicker";
+//@import "jscrollpane";
+//@import "chartist.min";
+//@import "cartodb";
+
+@import "nav";
+@import "component";
+@import "editor";
+@import "workspace";
+@import "dashboard_create";
+@import "app_sidebar";
+@import "component_editor";
+@import "score_editor";
+// rubix stuff
+//@import "colors";
+//@import "font-faces";
+//@import "main";
+//@import "theme";
+//@import "editable/bootstrap-editable";
+//@import "react-widgets";
+//@import "fullcalendar";
+
+
+@import "logged_out";
+@import "company_index";
+@import "dashboard";
+@import "company_detail";
+
+@import "fifa/detail";
+@import "fifa/components/_cartodb";
+@import "fifa/components/_date_range_picker";
+@import "fifa/components/_filters";
+@import "fifa/components/_influencer_card";
+@import "fifa/components/_insight_item";
+@import "fifa/components/_rep_trends";
+@import "fifa/components/_scrollpane";
+@import "fifa/components/_trend_image";
+@import "fifa/components/_trend_list";
+
+
+
+
+@import "admin";
+@import "apt/apt";
+@import "apt/asset_views";
+//@import "bootstrap-drilldown-select";
+//@import "slider";
+//@import "datatables";
+
+body {
+  font-family: "Avenir-Medium";
+  color: $darker-grey;
+}
+
+#main {
+  padding-top: 80px;
+  background: $dark-blue;
+  height: 100vh;
+
+  &.logged-out {
+    background: -moz-linear-gradient(180deg, #03387a 0%, #3c88d1 100%);
+    background: -webkit-linear-gradient(180deg, #03387a 0%,#3c88d1 100%);
+    background: linear-gradient(180deg, #03387a 0%,#3c88d1 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#03387a', endColorstr='#3c88d1',GradientType=1 );
+  }
+}
+
+.alert {
+  opacity: 0.69;
+  padding: 10px 20px;
+  border-radius: 0px;
+
+  button.close {
+    right: 0px;
+  }
+}
+
+.btn {
+  height: 40px;
+  min-width: 100px;
+
+  &.primary {
+    color: rgba(153, 153, 153, 0.69);
+    border: 1px solid #cccccc;
+    background: -moz-linear-gradient(180deg, #ffffff 0%, #dddddd 100%);
+    background: -webkit-linear-gradient(180deg, #ffffff 0%,#dddddd 100%);
+    background: linear-gradient(180deg, #ffffff 0%,#dddddd 100%);
+
+    &:hover {
+      color: $white;
+      border: 1px solid $primary-border;
+      box-shadow: 0px 1px 0px 0px #144980;
+      background: -moz-linear-gradient(180deg, #176fd0 0%, #1562b3 100%);
+      background: -webkit-linear-gradient(180deg, #176fd0 0%,#1562b3 100%);
+      background: linear-gradient(180deg, #176fd0 0%,#1562b3 100%);
+    }
+  }
+}
+
+.custom-tooltip {
+  padding-top: 12px;
+  width: 65px;
+  height: 50px;
+  border-radius: 3px;
+  text-align: center;
+  font-family: 'Oswald';
+  font-weight: 300;
+  font-size: 18px;
+  color: $white;
+  position: absolute;
+  top: -26px;
+  z-index: 99999;
+  display: none;
+}
+
+.custom-tooltip-arrow {
+  width: 0;
+  height: 0;
+  margin-left: 11px;
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+}

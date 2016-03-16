@@ -1,6 +1,9 @@
 @import 'fonts';
 @import 'spinner';
 @import '../bower_components/foundation/scss/foundation/_functions.scss';
+@import '../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss';
+
+@import './import/application.scss';
 @import url(http://fonts.googleapis.com/css?family=Raleway:700,400);
 
 $topbar-height: rem-calc(45);
@@ -105,7 +108,7 @@ body {
 
 .error-notice {
   position: absolute;
-  top: $topbar-height; 
+  top: $topbar-height;
   width: 100%;
   z-index: 9999;
   background-color: #E44646;
@@ -117,4 +120,3 @@ body {
     margin: 0;
   }
 }
-

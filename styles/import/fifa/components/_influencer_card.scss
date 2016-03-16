@@ -1,0 +1,158 @@
+.company-detail .details-box .details-container .detail-module {
+  &.detail-influencer-card {
+    height: 500px;
+
+    .main {
+      position: relative;
+      min-height: 110px;
+      padding: 20px 0 0 0;
+    }
+
+    .header-container {
+      padding: 0 20px;
+      min-height: 60px;
+    }
+
+    .media-image {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: 60px;
+
+      > img {
+        max-width: 100%;
+        border-radius: 50%;
+      }
+    }
+
+    .media-text {
+      padding-left: 75px;
+      color: #738694;
+      font-size: 12px;
+    }
+
+    .twitter-handle {
+      color: #0b4487;
+      font-family: 'Avenir-Medium';
+      line-height: 30px;
+      margin-right: 20px;
+    }
+
+    .detail-influencer-card-tags {
+      @extend .list-unstyled;
+      max-height: 60px;
+      overflow: hidden;
+
+      > li {
+        display: inline-block;
+        margin-right: 5px;
+        margin-bottom: 4px;
+        color: $white;
+        background: $silver;
+        border-radius: 15px;
+        font-size: 12px;
+        padding: 2px 10px;
+        cursor: pointer;
+
+        &:hover {
+          background: $battleship-grey;
+        }
+
+        &.add-influencer-tag {
+          padding-left: 30px;
+          background-image: image-url("fifa/icon-add-tag.svg");
+          background-position: 10px 6px;
+          background-repeat: no-repeat;
+          background-size: 16px 8px;
+        }
+      }
+    }
+
+    .twitter-stats {
+      @extend .clearfix;
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid $light-grey;
+      border-bottom: 1px solid $light-grey;
+
+      li {
+        float: left;
+        width: 33.3333333333%;
+        text-align: center;
+        color: $battleship-grey;
+        border-right: 1px solid $light-grey;
+        padding: 14px 0;
+
+        &:last-child {
+          border-right: 0;
+        }
+
+        .metric {
+          text-transform: uppercase;
+          font-family: 'Avenir-Medium';
+          font-size: 14px;
+        }
+
+        .metric-label {
+          text-transform: uppercase;
+          font-family: 'Avenir-Medium';
+          font-size: 10px;
+        }
+      }
+    }
+
+    .news-container {
+      padding: 20px 20px 0 20px;
+      @extend .list-unstyled;
+
+      height: 275px;
+      overflow-y: auto;
+
+      > li {
+        margin-bottom: 10px;
+
+        > a {
+          display: block;
+          padding: 10px;
+          border-radius: 3px;
+          border: 1px solid $light-grey;
+          color: $silver;
+          text-decoration: none;
+
+          &:hover {
+            border-color: $battleship-grey;
+            background: rgba(185, 194, 201, 0.10);
+          }
+        }
+
+        .news-title {
+          font-family: 'Avenir-Medium';
+          font-size: 12px;
+          color: $battleship-grey;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          width: 100%;
+          margin: 0;
+          margin-bottom: 2px;
+        }
+
+        .news-subheader {
+          font-family: 'Avenir-Book';
+          font-size: 10px;
+          margin-bottom: 5px;
+        }
+
+        .news-text-snippet {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          width: 100%;
+          font-size: 12px;
+          margin: 0;
+        }
+      }
+    }
+  }
+}

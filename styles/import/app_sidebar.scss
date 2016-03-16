@@ -1,0 +1,34 @@
+
+.context-heading {
+  text-align: center;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  color: $light-grey;
+  text-transform: uppercase;
+  font-weight: bolder;
+  letter-spacing: 1.5px;
+}
+
+.dropdown-item-wrapper {
+  width: 100%;
+  color: $white;
+  padding-left: 10px;
+  background-color: $darker-grey;
+  li {
+    color: $white;
+    background-color: transparent;
+  }
+  &:hover, &:focus {
+    // todo - figure out state on this shit
+    //background-color: $dark-grey;
+  }
+  a, a:active, a:focus, a:hover {
+    -webkit-appearance: none;
+    background-color: transparent;
+  }
+  .navdrop {
+    background-color: transparent;
+    color: $white;
+    font-size: 12px;
+  }
+}

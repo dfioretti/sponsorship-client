@@ -1,0 +1,38 @@
+.dashboard {
+  height: 100%;
+  .sidebar {
+
+    }
+    .modules-box {
+      position: relative;
+      height: 100%;
+      margin-left: 250px;
+      background-color: $dark-blue;
+      overflow: auto;
+
+      .modules-container {
+        position: relative;
+        height: 100%;
+        width: 1200px;
+
+        .dashboard-module .component-wrapper {
+          color: $white;
+          position: absolute;
+          overflow: hidden;
+          width: 400px;
+          height: 320px;
+          // passing this down to child
+          // for custom components
+          //background-color: $blue;
+          background-color: green;
+          border-radius: 3px;
+          margin-bottom: 20px;
+          font-size: 14px;
+
+          .component {
+            background-color: $blue;
+          }
+        }
+      }
+    }
+}

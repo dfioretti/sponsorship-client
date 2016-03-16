@@ -1,0 +1,32 @@
+.insight-item {
+
+  .insight-item-body {
+    padding-bottom: 10px;
+  }
+
+  .insight-item-tags-list {
+    @extend .list-unstyled;
+    list-style: none;
+    border-top: 1px dotted rgba(255, 255, 255, 0.3);
+    padding-top: 7px;
+
+    .insight-tag-item {
+      text-transform: capitalize;
+      display: inline-block;
+      background: $med-blue;
+      border-radius: 15px;
+      margin-right: 5px;
+      margin-bottom: 4px;
+      padding: 3px 10px;
+      border: 0;
+      cursor: pointer;
+
+      &:first-of-type {
+        background: transparent;
+        padding-right: 5px;
+        padding-left: 0;
+        cursor: default;
+      }
+    }
+  }
+}

@@ -13,7 +13,10 @@ var gulp = require('gulp'),
     browserify = require('browserify'),
     watchify = require('watchify'),
     source = require('vinyl-source-stream'),
+    livereload = require('gulp-livereload'),
     buffer = require('vinyl-buffer'),
+    imagemin = require('gulp-imagemin'),
+    cache = require('gulp-cache'),
     reactify = require('reactify'),
     uglify = require('gulp-uglify'),
     del = require('del'),
@@ -24,11 +27,13 @@ var gulp = require('gulp'),
       jsx: './scripts/app.jsx',
       scss: 'styles/main.scss',
       scssSource: 'styles/*',
-      font: 'fonts/*',
+      font: 'fonts/**/*',
       bundle: 'app.js',
+      images: 'images/**/*',
       distJs: 'dist/js',
       distCss: 'dist/css',
-      distFont: 'dist/fonts'
+      distFont: 'dist/fonts',
+      distImages: 'dist/images/*'
     };
 
 gulp.task('clean', function(cb) {
@@ -75,6 +80,14 @@ gulp.task('fonts', function() {
   return gulp.src(p.font)
     .pipe(gulp.dest(p.distFont));
 });
+
+// Images
+gulp.task('images', function() {
+  return gulp.src('images/**/*')
+    .pipe(imagemin({optimizationLevel: 5}))
+    .pipe(gulp.dest('dist/images'));
+});
+
 
 gulp.task('styles', function() {
   return gulp.src(p.scss)
@@ -137,7 +150,7 @@ gulp.task('watchTask', function() {
 });
 
 gulp.task('watch', ['clean'], function() {
-  gulp.start(['libs', 'browserSync', 'watchTask', 'watchify', 'styles']);
+  gulp.start(['libs', 'browserSync', 'watchTask', 'watchify', 'styles', 'images']);
 });
 
 gulp.task('build', ['clean'], function() {
@@ -148,4 +161,3 @@ gulp.task('build', ['clean'], function() {
 gulp.task('default', function() {
   console.log('Run "gulp watch or gulp build"');
 });
-

@@ -1,0 +1,49 @@
+.dashboard-module {
+  .cartodb-logo {
+    display: none !important;
+  }
+
+  .leaflet-container .leaflet-control-attribution {
+    background: rgba(255,255,255, 0.3);
+  }
+
+  #cartodb-tooltip {
+    display: block;
+    background: $white;
+    text-align: center;
+    width: 150px;
+    position: absolute;
+    padding: 12px 6px;
+    color: $battleship-grey;
+    z-index: 1000;
+    border: 1px solid $light-grey;
+    border-radius: 6px;
+    cursor: pointer;
+
+    p{
+      margin: 0;
+    }
+  }
+  .arrow-down {
+      height: 0;
+      width: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid $light-grey;
+      position: absolute;
+      bottom: -8px;
+      right: calc(50% - 12px);
+      z-index: 2;
+
+      &:before {
+        content: "";
+        border-left: 7px solid transparent;
+        border-right: 7px solid transparent;
+        border-top: 6px solid $white;
+        position: absolute;
+        z-index: 1;
+        right: -7px;
+        bottom: 2px;
+      }
+  }
+}

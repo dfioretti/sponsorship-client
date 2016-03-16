@@ -1,0 +1,488 @@
+.nospace {
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+}
+.apt-sidebar {
+  width: 250px;
+  height: calc(100% - 80px);
+  background-color: $dark-grey;
+  position: absolute;
+  .top-menu {
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: $white;
+    padding-top: 35px;
+    padding-bottom: 28px;
+    background-color: $darkest-grey;
+    padding-left: 20px;
+
+    .menu-container {
+      #menu-button {
+        cursor: pointer;
+        font-size: 22px;
+        display: inline-block;
+      }
+      .menu-text {
+        padding-left: 10px;
+        height: 100%;
+        display: inline-block;
+        font-size: 16px;
+        vertical-align: top;
+      }
+    }
+    #app-menu {
+      display: none;
+      ul {
+        list-style: none;
+        padding: 0px;
+        li {
+          padding-top: 10px;
+          a {
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-size: 13px;
+            color: $light-grey;
+            text-decoration: none;
+          }
+          &:last-child {
+            padding-bottom: 0px;
+          }
+        }
+      }
+    }
+  }
+
+  .context-menu {
+    .editor-menu {
+      cursor: pointer;
+      ul {
+        list-style: none;
+        padding: 0px;
+
+        li {
+          width: 100%;
+          padding-left: 20px;
+          padding-top: 15px;
+          padding-bottom: 15px;
+          color: $white;
+          font-size: 14px;
+          letter-spacing: 1.5px;
+          font-family: 'Avenir-Book';
+          text-transform: uppercase;
+
+          &:hover, &:focus {
+            background: $darker-grey;
+          }
+          &.active-item {
+            background-color: $white;
+            color: $darker-grey;
+          }
+        }
+      }
+    }
+  }
+}
+
+.filter-list {
+  width: 100%;
+  overflow-y: scroll;
+  list-style: none;
+  height: 150px;
+  padding-left: 0px;
+  border-radius: 3px;
+  border: 1px solid $light-grey;
+  padding-bottom: 10px;
+  margin-top: 10px;
+}
+.filter-row {
+  margin: 0px;
+  padding: 0px;
+  .data-item {
+    text-transform: capitalize;
+  }
+}
+
+.filter-content {
+  list-style: none;
+  width: 100%;
+  vertical-align: center;
+  cursor: pointer;
+  img {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    margin-left: 0px;
+  }
+}
+
+.editor-button {
+  width: 100%;
+}
+.subnav {
+  background-color: $light-grey;
+  height: 70px;
+  line-height: 70px;
+  font-size: 15px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.none {
+  display: none;
+}
+
+.editor-container {
+  margin: 0px;
+  padding: 0px;
+  height: calc(100% - 70px);
+  width: 100%;
+  .editor-2-col {
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+    width: 100%;
+  }
+  .editor-pane {
+    margin: 0px;
+    margin-top: 20px;
+    padding: 0px;
+    height: calc(100% - 20px);
+    background-color: $white;
+    }
+  .editor-data {
+    padding-top: 15px;
+  }
+  .input-heading {
+    width: 100%;
+    height: 45px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: $blue;
+    font-size: 16px;
+    text-align: center;
+    border-bottom: 1px solid $dark-grey-opacity;
+  }
+
+  .form-content {
+    padding-top: 20px;
+    margin-left: 25px;
+    margin-right: 25px;
+    textarea {
+      color: $dark-grey-opacity;
+      width: 100%;
+      height: 125px;
+      border-radius: 3px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+    }
+    img {
+      height: 241px;
+      width: 357px;
+      margin-left: 45px;
+    }
+}
+
+  .editor-views {
+    margin: 0px;
+    margin-top: 20px;
+    padding: 0px;
+    height: calc(100% - 20px);
+    margin-left: 20px;
+    .preview-title {
+      height: 40px;
+    }
+  }
+}
+
+.content-main {
+  padding-top: 20px;
+  margin-left: 25px;
+  margin-right: 25px;
+  textarea {
+    color: $dark-grey-opacity;
+    width: 100%;
+    height: 125px;
+    border-radius: 3px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+  }
+  img {
+    height: 135px;
+    width: 200px;
+    padding-right: 20px;
+  }
+}
+
+.editor-preview {
+  height: 480px;
+  width: 100%;
+  background-color: $dark-blue;
+  border-radius: 3px;
+}
+
+.preview-title {
+  color: white;
+  padding-left: 20px;
+  padding-top: 10px;
+}
+.module-preview {
+  background-color: $blue;
+  width: 400px;
+  height: 320px;
+  border-radius: 3px;
+  color: $white;
+  font-size: 14px;
+  margin-left: 90px;
+
+
+  .ptop {
+    height: 50px;
+    padding-top: 17px;
+    padding-bottom: 11px;
+    border-bottom: 1px solid $dark-blue;
+  }
+
+  .pdrag-handle {
+    width: 16px;
+    height: 16px;
+    float: left;
+    margin-left: 20px;
+    cursor: pointer;
+    background-image: image-url("dashboard/icon-move.svg");
+  }
+
+  .ptop-title {
+    font-size: 14px;
+    color: $white;
+    width: 382px;
+    text-align: left;
+    margin-left: 57px;
+  }
+
+  .expand-handle {
+    line-height: 24px;
+    width: 24px;
+    height: 24px;
+    float: right;
+    margin-right: 20px;
+    cursor: pointer;
+    background-image: image-url("fifa/icon-expand.svg");
+    position: relative;
+    top: -3px;
+
+    &:hover, &:focus {
+      background-image: image-url("fifa/icon-expand-hover.svg");
+    }
+  }
+}
+
+.editor-box {
+  height: calc(100% - 80px);
+  width: calc(100% - 250px);
+  top: 80px;
+  left: 250px;
+  position: absolute;
+}
+
+
+
+
+
+/*$subnav: 68px;
+
+
+.editable {
+  height: 100%;
+  .editor-side {
+    width: 250px;
+    height: calc(100% - 80px);
+    background-color: $dark-grey;
+    position: absolute;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+
+    .top-menu {
+      color: $white;
+      padding-top: 25px;
+      padding-bottom: 25px;
+      background-color: $darkest-grey;
+      padding-left: 20px;
+
+      .menu-container {
+        #menu-button {
+          cursor: pointer;
+          font-size: 22px;
+          display: inline-block;
+        }
+        .menu-text {
+          padding-left: 10px;
+          height: 100%;
+          display: inline-block;
+          font-size: 16px;
+          vertical-align: top;
+        }
+      }
+      #app-menu {
+        display: none;
+        ul {
+          list-style: none;
+          padding: 0px;
+          li {
+            padding-top: 10px;
+            a {
+              text-transform: uppercase;
+              letter-spacing: 1.5px;
+              font-size: 13px;
+              color: $light-grey;
+              text-decoration: none;
+            }
+            &:last-child {
+              padding-bottom: 0px;
+            }
+          }
+        }
+      }
+    }
+
+    .context-menu {
+      .editor-menu {
+        ul {
+          list-style: none;
+          padding: 0px;
+
+          li {
+            width: 100%;
+            padding-left: 20px;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            color: $white;
+            font-size: 14px;
+            letter-spacing: 1.5px;
+            font-family: 'Avenir-Book';
+            text-transform: uppercase;
+
+            &:hover, &:focus {
+              background: $darker-grey;
+            }
+            &.active-item {
+              background-color: $white;
+              color: $darker-grey;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.subnav {
+  margin-left: 250px;
+  background-color: $light-grey;
+  height: 70px;
+}
+
+.editor-box {
+  margin-left: 250px;
+}
+
+}
+.editor-container {
+  padding: 0px;
+  margin: 0px 0px 0px 250px;
+  .editor-window {
+    height: 100%;
+    background: $white;
+  }
+}
+
+
+/*
+.subnav {
+  margin-left: 250px;
+  background-color: $light-grey;
+  height: $subnav;
+  padding: 25px 20px;
+  .save-group {
+    float: left;
+    padding-right: 10px;
+    border-right: 1px solid $darker-grey;
+
+
+    > * {
+      display: inline-block;
+    }
+
+    .save-text {
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      line-height: 30px;
+      margin-right: 10px;
+      vertical-align: top;
+    }
+    .save-icon {
+      width: 25px;
+      height: 25px;
+      padding-left: 10px;
+      background-size: 25px 25px;
+      background-image: image-url('icons/vintage.png');
+      padding-right: 10px;
+    }
+  }
+}
+
+  .editor-box {
+    position: relative;
+    height: 100%;
+    margin-left: 250px;
+    //overflow: auto;
+
+    .editor-container {
+      position: relative;
+      height: 100%;
+      width: 1280px;
+
+      .edit-pane {
+        position: relative;
+        margin-top: 8.667px;
+        height: 1000px;
+        width: 500px;
+        background-color: $white;
+        //display: inline-block;
+        //float: left;
+      }
+
+      .preview-view {
+        position: absolute;
+        height: 500px;
+        width: 700px;
+        margin-left: 8.667px;
+        background-color: $dark-blue;
+        border-radius: 3px;
+        left: 500px;
+        top: 0px;
+
+        .preview-chart {
+          width: 100%;
+          height: 100%;
+          margin: 20px;
+          background: $blue;
+        }
+      }
+
+      .preview-data {
+        position: absolute;
+        top: 500px;
+        left: 500px;
+        margin-top: 8.667px;
+        margin-left: 8.667px;
+        width: 700px;
+        height: 491.3333px;
+        margin-bottom: 8.667px;
+        border-radius: 3px;
+        background: $white;
+
+      }
+    }
+  }
+}
+*/

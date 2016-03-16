@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.4.2 (15855) - http://www.bohemiancoding.com/sketch -->
+    <title>Icon-DetailBack</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Final" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="6-Detailed-Charts" sketch:type="MSArtboardGroup" transform="translate(-280.000000, -110.000000)" fill="#4A4A4A" opacity="0.7">
+            <g id="Navigation-Bar" sketch:type="MSLayerGroup" transform="translate(250.000000, 80.000000)">
+                <path d="M34.2676504,38.7502246 L40.8839521,32.1339229 C41.3720809,31.6457941 41.3717684,30.8545379 40.8839521,30.3660966 C40.3958233,29.8779678 39.6045671,29.8779678 39.1161258,30.3660966 L30.3660574,39.116165 C29.8779286,39.6042938 29.8779286,40.3958625 30.3657449,40.8836788 L39.1158133,49.6337471 C39.3598777,49.8778115 39.6798802,50 39.9998827,50 C40.3195727,50 40.6395752,49.8778115 40.8839521,49.6334346 C41.3720809,49.1456183 41.3717684,48.3540496 40.8839521,47.8662333 L34.2673379,41.2502441 L48.7499901,41.2502441 C49.440308,41.2502441 50.0003124,40.6902398 49.9999999,40.0002344 C49.9999999,39.3099165 49.440308,38.7502246 48.7499901,38.7502246 L34.2676504,38.7502246 Z" id="Icon-DetailBack" sketch:type="MSShapeGroup"></path>
+            </g>
+        </g>
+    </g>
+</svg>

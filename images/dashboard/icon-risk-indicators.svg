@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: sketchtool 3.4 (375) - http://www.bohemiancoding.com/sketch -->
+    <title>Icon-3</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Final" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="5-Dashboard" sketch:type="MSArtboardGroup" transform="translate(-22.000000, -276.000000)" fill="#FFFFFF" opacity="0.4">
+            <g id="Sidebar" sketch:type="MSLayerGroup" transform="translate(0.000000, 80.000000)">
+                <g id="Group" transform="translate(22.000000, 130.000000)" sketch:type="MSShapeGroup">
+                    <g id="Risk-Indicators-+-Shape-+-Shape" transform="translate(0.000000, 66.000000)">
+                        <path d="M16.25,20 L3.75,20 C1.67875,20 0,18.32 0,16.25 L0,3.75 C0,1.67875 1.67875,0 3.75,0 L16.25,0 C18.32125,0 20,1.67875 20,3.75 L20,16.25 C20,18.32 18.32125,20 16.25,20 L16.25,20 Z M17.5,3.75 C17.5,3.06 16.94125,2.5 16.25,2.5 L3.75,2.5 C3.06,2.5 2.5,3.06 2.5,3.75 L2.5,16.25 C2.5,16.94125 3.06,17.5 3.75,17.5 L16.25,17.5 C16.94125,17.5 17.5,16.94125 17.5,16.25 L17.5,3.75 L17.5,3.75 Z M11.25,11.25 L15,11.25 L15,15 L11.25,15 L11.25,11.25 L11.25,11.25 Z M12.5,13.75 L13.75,13.75 L13.75,12.5 L12.5,12.5 L12.5,13.75 L12.5,13.75 Z M11.25,5 L15,5 L15,8.75 L11.25,8.75 L11.25,5 L11.25,5 Z M12.5,7.5 L13.75,7.5 L13.75,6.25 L12.5,6.25 L12.5,7.5 L12.5,7.5 Z M5,11.25 L8.75,11.25 L8.75,15 L5,15 L5,11.25 L5,11.25 Z M6.25,13.75 L7.5,13.75 L7.5,12.5 L6.25,12.5 L6.25,13.75 L6.25,13.75 Z M5,5 L8.75,5 L8.75,8.75 L5,8.75 L5,5 L5,5 Z M6.25,7.5 L7.5,7.5 L7.5,6.25 L6.25,6.25 L6.25,7.5 L6.25,7.5 Z" id="Icon-3"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

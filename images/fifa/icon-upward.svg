@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: sketchtool 3.4.4 (395) - http://www.bohemiancoding.com/sketch -->
+    <title>Icon-Upward</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.290196078   0 0 0 0 0.290196078   0 0 0 0 0.290196078  0 0 0 0.14 0" in="shadowBlurOuter1" type="matrix" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="Use-Case-3" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="FIFA1-Dash" sketch:type="MSArtboardGroup" transform="translate(-1126.000000, -641.000000)">
+            <g id="Top-Global-Issues" sketch:type="MSLayerGroup" transform="translate(1110.000000, 440.000000)">
+                <g id="Group" transform="translate(20.000000, 198.000000)" sketch:type="MSShapeGroup">
+                    <g id="Icon-Upward" transform="translate(0.000000, 5.000000)">
+                        <ellipse id="Oval-231" stroke="#50E3C2" stroke-width="2" fill="#0B4487" filter="url(#filter-1)" cx="12" cy="11.994003" rx="12" ry="11.994003"></ellipse>
+                        <path d="M7.95194281,16.8595157 L15.6627156,9.14488748 L15.6640249,14.3859673 C15.6641215,14.7726368 15.9774385,15.0861106 16.3639148,15.0862072 C16.7503911,15.0863038 17.0636752,14.772863 17.0635786,14.3861935 L17.0618471,7.454858 C17.0617505,7.06818849 16.7483097,6.75459097 16.3619572,6.75461813 L9.43408558,6.75288573 C9.24084745,6.75283741 9.06593823,6.83101874 8.93916513,6.95785523 C8.81263939,7.08444423 8.73437345,7.25956464 8.73442175,7.45289939 C8.73451835,7.8395689 9.04795915,8.15316642 9.43431167,8.15313926 L14.6727723,8.1544492 L6.9619995,15.8690774 C6.68878801,16.1424255 6.68889877,16.5857834 6.96224686,16.8592682 C7.23559496,17.1327529 7.67873132,17.1328638 7.95194281,16.8595157 L7.95194281,16.8595157 L7.95194281,16.8595157 Z" id="Shape" fill="#50E3C2"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

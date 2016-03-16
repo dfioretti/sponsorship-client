@@ -9,15 +9,34 @@ var StoriesPage = require('./components/stories/StoriesPage.react.jsx');
 var StoryPage = require('./components/stories/StoryPage.react.jsx');
 var StoryNew = require('./components/stories/StoryNew.react.jsx');
 var SignupPage = require('./components/session/SignupPage.react.jsx');
+var AccountLogin = require('./components/session/AccountLogin.react.jsx');
+var CreateAccount = require('./components/session/CreateAccount.react.jsx');
+var PasswordRecovery = require('./components/session/PasswordRecovery.react.jsx');
+var ResetPassword = require('./components/session/ResetPassword.react.jsx');
+var EditorComponent = require('./components/editors/editor_component.jsx');
+var DashboardHome = require('./components/dashboards/dashboard_home.jsx');
+
+var Dev = require('./components/Dev.jsx');
+
+
 
 module.exports = (
-  <Route name="app" path="/" handler={SmallApp}>
-    <DefaultRoute handler={StoriesPage} />
-    <Route name="login" path="/login" handler={LoginPage}/>
-    <Route name="signup" path="/signup" handler={SignupPage}/>
+  <Route handler={SmallApp}>
+    <Route name='account_login' handler={AccountLogin} path='/account_login' />
+    <Route name='create_account' handler={CreateAccount} path='/create_account' />
+    <Route name='password_recovery' handler={PasswordRecovery} path='/password_recovery' />
+    <Route name='reset_password' handler={ResetPassword} path='/reset_password' />
+    <Route name='dev' handler={Dev} path='/dev' />
+    <Route name='editor_component' handler={EditorComponent} path='/apt/editor_component' />
+    <Route name='editor_component_update' handler={EditorComponent} path='/apt/editor_component/:id' />
+    <Route name='dashboard_home' handler={DashboardHome} path='/apt/dashboard/:id' />
+
+
+    <Route name="login" path="/login" handler={AccountLogin} />
+    <Route name="signup" path="/signup" handler={SignupPage} />
     <Route name="stories" path="/stories" handler={StoriesPage}/>
     <Route name="story" path="/stories/:storyId" handler={StoryPage} />
     <Route name="new-story" path="/story/new" handler={StoryNew}/>
+    <DefaultRoute handler={SmallApp} />
   </Route>
 );
-

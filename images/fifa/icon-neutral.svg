@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.4.4 (17249) - http://www.bohemiancoding.com/sketch -->
+    <title>Icon-Neutral</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.290196078   0 0 0 0 0.290196078   0 0 0 0 0.290196078  0 0 0 0.14 0" in="shadowBlurOuter1" type="matrix" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="Use-Case-3" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="FIFA2-Select-Data-Range" sketch:type="MSArtboardGroup" transform="translate(-1127.000000, -575.000000)">
+            <g id="Top-Global-Issues" sketch:type="MSLayerGroup" transform="translate(1110.000000, 440.000000)">
+                <g id="Group" transform="translate(20.000000, 132.000000)" sketch:type="MSShapeGroup">
+                    <g id="Rectangle-162-+-2,432" transform="translate(1.000000, 0.000000)">
+                        <g id="Icon-Neutral" transform="translate(0.000000, 5.000000)">
+                            <ellipse id="Oval-231" stroke="#F6A623" stroke-width="2" fill="#0B4487" filter="url(#filter-1)" cx="12" cy="12" rx="12" ry="12"></ellipse>
+                            <path d="M12.6095291,18.2094941 L12.6095291,7.29936232 L16.314606,11.0044392 C16.5879543,11.2777875 17.0310515,11.2777875 17.3043998,11.0044392 C17.5777481,10.7310909 17.5777481,10.2878186 17.3043998,10.0144704 L12.4044304,5.11450098 C12.1310821,4.84115269 11.6878099,4.84115269 11.4146366,5.11450098 L6.51466723,10.0144704 C6.37799308,10.1511445 6.30956851,10.3301684 6.30956851,10.5095423 C6.30956851,10.6885661 6.37799308,10.867765 6.51466723,11.0044392 C6.78801552,11.2777875 7.23128775,11.2777875 7.50446104,11.0044392 L11.2095379,7.29936232 L11.2095379,18.2094941 C11.2095379,18.5960667 11.5229609,18.9094898 11.9095335,18.9094898 C12.2961061,18.9094898 12.6095291,18.5960667 12.6095291,18.2094941 L12.6095291,18.2094941 Z" id="Shape" fill="#F6A623" transform="translate(11.909490, 11.909490) rotate(-270.000000) translate(-11.909490, -11.909490) "></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

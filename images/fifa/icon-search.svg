@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="10px" height="10px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: sketchtool 3.5.2 (25235) - http://www.bohemiancoding.com/sketch -->
+    <title>Icon-SearchGrey</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="FIFA5-Top-Global-Influencers" sketch:type="MSArtboardGroup" transform="translate(-848.000000, -115.000000)" fill="#D6D7D8">
+            <g id="Navigation-Bar" sketch:type="MSLayerGroup" transform="translate(250.000000, 80.000000)">
+                <g id="Group-2" transform="translate(588.000000, 25.000000)" sketch:type="MSShapeGroup">
+                    <path d="M17.9497562,17.2484748 C18.5605416,16.484962 18.9256244,15.5165318 18.9256244,14.4628122 C18.9256244,11.9981002 16.9276482,10 14.4628122,10 C11.9981002,10 10,11.9981002 10,14.4628122 C10,16.9275242 11.9981002,18.9256244 14.4628122,18.9256244 C15.5165318,18.9256244 16.484962,18.5604176 17.2484748,17.9496322 L19.1535533,19.8547107 C19.2503715,19.9515289 19.3773137,20 19.504132,20 C19.6310742,20 19.7580164,19.9515289 19.8548346,19.8547107 C20.0484711,19.6611982 20.0484711,19.3470658 19.8548346,19.1535533 L17.9497562,17.2484748 Z M14.4628122,17.9338884 C12.5457864,17.9338884 10.991736,16.379838 10.991736,14.4628122 C10.991736,12.5457864 12.5457864,10.991736 14.4628122,10.991736 C16.379962,10.991736 17.9338884,12.5457864 17.9338884,14.4628122 C17.9338884,16.379838 16.379962,17.9338884 14.4628122,17.9338884 L14.4628122,17.9338884 Z" id="Icon-SearchGrey"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

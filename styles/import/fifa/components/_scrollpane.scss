@@ -1,0 +1,69 @@
+.dashboard-module{
+  ::-webkit-scrollbar {
+      height: 3px;
+      width: 3px;
+      background: transparent;
+  }
+
+  ::-webkit-scrollbar-corner {
+      background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    opacity: 0;
+    -webkit-transition: opacity 0.3s ease-in;
+    -moz-transition: opacity 0.3s ease-in;
+    -o-transition: opacity 0.3s ease-in;
+    -ms-transition: opacity 0.3s ease-in;
+    transition: opacity 0.3s ease-in;
+  }
+
+  .scroll-active {
+    &::-webkit-scrollbar-thumb {
+        background: rgba(255,255,255, 0.6);
+        -webkit-border-radius: 3ex;
+        -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15);
+        opacity: 1;
+        -webkit-transition: opacity 0.3s ease-out;
+        -moz-transition: opacity 0.3s ease-out;
+        -o-transition: opacity 0.3s ease-out;
+        -ms-transition: opacity 0.3s ease-out;
+        transition: opacity 0.3s ease-out;
+    }
+  }
+}
+
+.detail-module {
+  ::-webkit-scrollbar {
+      height: 3px;
+      width: 3px;
+      background: transparent;
+  }
+
+  ::-webkit-scrollbar-corner {
+      background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    opacity: 0;
+    -webkit-transition: opacity 0.3s ease-in;
+    -moz-transition: opacity 0.3s ease-in;
+    -o-transition: opacity 0.3s ease-in;
+    -ms-transition: opacity 0.3s ease-in;
+    transition: opacity 0.3s ease-in;
+  }
+
+  .scroll-active {
+    &::-webkit-scrollbar-thumb {
+        background: $battleship-grey;
+        -webkit-border-radius: 3ex;
+        -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.15);
+        opacity: 1;
+        -webkit-transition: opacity 0.3s ease-out;
+        -moz-transition: opacity 0.3s ease-out;
+        -o-transition: opacity 0.3s ease-out;
+        -ms-transition: opacity 0.3s ease-out;
+        transition: opacity 0.3s ease-out;
+    }
+  }
+}

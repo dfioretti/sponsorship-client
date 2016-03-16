@@ -1,0 +1,48 @@
+
+.heading-text {
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.dashboard-edit-body {
+  padding: 10px;
+  margin: 0px;
+  height: 200px;
+  width: 100%;
+  overflow-y: scroll;
+}
+
+.modal-body {
+  max-height: 300px;
+}
+
+.dash-edit-component-row {
+  height: 50px;
+  padding-left: 0px;
+  margin-left: 0px;
+  line-height: 50px;
+  font-size: 15px;
+  text-transform: capitalize;
+
+  .bs-col {
+    margin-left: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-right: 0px;
+  }
+}
+
+.small-round-images {
+  overflow-x: scroll;
+  img {
+    margin-left: 0px;
+    height: 26px;
+    width: 26px;
+    border-radius: 50%;
+    padding: 3px;
+  }
+}
+
+.actionable {
+  cursor: pointer;
+}

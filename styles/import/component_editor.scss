@@ -1,0 +1,55 @@
+.preview-heading {
+  height: 65px;
+  color: $white;
+  font-size: 16px;
+  padding-top: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-align: center;
+  border-bottom: 1px solid $dark-grey-opacity;
+}
+
+.preview-component {
+  margin-left: 90px;
+  padding-top: 40px;
+}
+
+.editor-data {
+  margin-top: 20px;
+  height: 350px;
+  border-radius: 3px;
+  background-color: $white;
+  .editor-data-table {
+    height: 280px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    overflow-y: scroll;
+  }
+}
+
+.added-data-row {
+  height: 50px;
+  padding: 10px;
+  margin-left: 0px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  line-height: 50px;
+  font-size: 16px;
+  text-transform: capitalize;
+
+  .bs-col {
+    margin-left: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-right: 0px;
+  }
+}
+
+.medium-round-images {
+  img {
+    margin-left: 0px;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+  }
+}

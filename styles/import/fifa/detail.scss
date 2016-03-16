@@ -1,0 +1,83 @@
+.detail-chart {
+  .doughnut-main-container {
+    padding: 0 70px;
+    padding-right: 0;
+    display: table;
+  }
+
+  .doughnut-chart-container {
+    padding: 44px 0;
+    display: table-cell;
+    vertical-align: top;
+  }
+
+  .doughnut-chart-legend {
+    display: table-cell;
+    vertical-align: middle;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    padding-left: 55px;
+    color: $battleship-grey;
+
+    > li {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 250px;
+    }
+  }
+
+  .chart-legend {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .legend-droplet {
+    height: 10px;
+    width: 10px;
+    border: 2px solid $white;
+    display: inline-block;
+    border-radius: 50%;
+    margin-right: 5px;
+  }
+
+  &.volume-chart {
+    overflow: auto;
+
+    #chartjs-tooltip {
+      margin-left: -10px;
+    }
+  }
+}
+
+.company-detail {
+  .details-box {
+    .detail-module {
+      .main {
+        position: relative;
+        height: calc(100% - 50px);
+        padding-top: 20px;
+        padding-right: 20px;
+        padding-left: 6px;
+        padding-bottom: 10px;
+
+        &.main-centered {
+          padding: 15px 0;
+        }
+      }
+    }
+  }
+}
+
+.details-box {
+  .detail-module {
+    .trend-list {
+      margin: 0;
+      padding: 0 25px;
+      overflow-y: auto;
+      height: 310px;
+    }
+  }
+}

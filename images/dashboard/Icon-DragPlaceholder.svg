@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="78px" height="78px" viewBox="0 0 78 78" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.4.2 (15855) - http://www.bohemiancoding.com/sketch -->
+    <title>Icon-DragPlaceholder</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Final" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="7-Drag-n-Drop" sketch:type="MSArtboardGroup" transform="translate(-1166.000000, -731.000000)">
+            <g id="Rectangle-141-+-Shape-+-Path-+-Shape" sketch:type="MSLayerGroup" transform="translate(900.000000, 580.000000)">
+                <g id="Icon-DragPlaceholder" transform="translate(265.000000, 150.000000)" sketch:type="MSShapeGroup">
+                    <path d="M69,8 L11,8 C9.343,8 8,9.343 8,11 L8,69 C8,70.657 9.343,72 11,72 L69,72 C70.657,72 72,70.657 72,69 L72,11 C72,9.343 70.657,8 69,8 L69,8 Z M66,66 L14,66 L14,14 L66,14 L66,66 L66,66 Z M54,63 L60,63 C61.657,63 63,61.657 63,60 L63,39 C63,37.343 61.657,36 60,36 L54,36 C52.343,36 51,37.343 51,39 L51,60 C51,61.657 52.343,63 54,63 L54,63 Z M37,63 L43,63 C44.657,63 46,61.657 46,60 L46,27 C46,25.343 44.657,24 43,24 L37,24 C35.343,24 34,25.343 34,27 L34,60 C34,61.657 35.343,63 37,63 L37,63 Z M20,63 L26,63 C27.657,63 29,61.657 29,60 L29,54 C29,52.343 27.657,51 26,51 L20,51 C18.343,51 17,52.343 17,54 L17,60 C17,61.657 18.343,63 20,63 L20,63 Z" id="Shape" opacity="0.1" fill="#000000"></path>
+                    <path d="M69,8 L11,8 C9.343,8 8,9.343 8,11 L8,69 C8,70.657 9.343,72 11,72 L69,72 C70.657,72 72,70.657 72,69 L72,11 C72,9.343 70.657,8 69,8 L69,8 Z" id="Path" fill="#FCFDFE" transform="translate(40.000000, 40.000000) rotate(-345.000000) translate(-40.000000, -40.000000) "></path>
+                    <path d="M69,8 L11,8 C9.343,8 8,9.343 8,11 L8,69 C8,70.657 9.343,72 11,72 L69,72 C70.657,72 72,70.657 72,69 L72,11 C72,9.343 70.657,8 69,8 L69,8 Z M66,66 L14,66 L14,14 L66,14 L66,66 L66,66 Z M54,63 L60,63 C61.657,63 63,61.657 63,60 L63,39 C63,37.343 61.657,36 60,36 L54,36 C52.343,36 51,37.343 51,39 L51,60 C51,61.657 52.343,63 54,63 L54,63 Z M37,63 L43,63 C44.657,63 46,61.657 46,60 L46,27 C46,25.343 44.657,24 43,24 L37,24 C35.343,24 34,25.343 34,27 L34,60 C34,61.657 35.343,63 37,63 L37,63 Z M20,63 L26,63 C27.657,63 29,61.657 29,60 L29,54 C29,52.343 27.657,51 26,51 L20,51 C18.343,51 17,52.343 17,54 L17,60 C17,61.657 18.343,63 20,63 L20,63 Z" id="Shape" fill="#E2E3E4" transform="translate(40.000000, 40.000000) rotate(-345.000000) translate(-40.000000, -40.000000) "></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,167 @@
+#navbar {
+  background-color: $white;
+  height: 80px;
+  padding: 20px 40px;
+  border-bottom: 1px solid #e7e7e7;
+
+  & > div {
+    line-height: 40px;
+  }
+
+  .nav-brand {
+    font-size: 24px;
+
+    a {
+      &:hover, &:active, &:visited {
+        text-decoration: none;
+        color: $darker-grey;
+      }
+    }
+  }
+
+  .nav-center {
+    position: absolute;
+    width: 50%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    margin: auto;
+
+    h3 {
+      margin-top: 0;
+      margin-bottom: 0;
+      font-size: 24px;
+    }
+
+    p {
+      line-height: 16px;
+      font-size: 16px;
+      opacity: 0.4;
+    }
+
+    .company-select {
+      min-width: 140px;
+      height: 40px;
+      padding: 0px 10px;
+      display: inline-block;
+      color: $white;
+      border: 1px solid #175499;
+      border-radius: 3px;
+      background: -moz-linear-gradient(180deg, #176fd0 0%, #1562b3 100%);
+      background: -webkit-linear-gradient(180deg, #176fd0 0%,#1562b3 100%);
+      background: linear-gradient(180deg, #176fd0 0%,#1562b3 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f4f4f4',GradientType=1 );
+    }
+
+    .dropdown-menu {
+      margin: 25px auto;
+      width: 300px;
+      right: 0px;
+      left: 0px;
+      overflow: hidden;
+      box-shadow: none;
+      background: transparent;
+      border: none;
+
+      .dropdown-searchbar {
+        input {
+          width: 300px;
+          height: 50px;
+          padding: 3px 42px 3px 20px;
+          border: none;
+          border-radius: 4px;
+          -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+          outline: none;
+          background-size: 20px 20px;
+          background-image: image-url("dashboard/Icon-SearchLightGrey@2x");
+          background-repeat: no-repeat;
+          background-position: center right 20px;
+
+          &:focus {
+            background-image: image-url("dashboard/Icon-SearchGrey@2x");
+          }
+        }
+      }
+
+      .company-list {
+        width: 300px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        float: left;
+        max-height: 400px;
+
+        background-color: #fff;
+        border: 1px solid #ccc;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+        -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+        background-clip: padding-box;
+
+        ul {
+          padding: 5px 0;
+          list-style: none;
+          text-align: left;
+
+          li a {
+            display: block;
+            padding: 3px 20px;
+            clear: both;
+            font-weight: normal;
+            line-height: 1.42857143;
+            color: #333333;
+          }
+        }
+      }
+    }
+
+  }
+
+  .nav-user {
+    li a {
+      padding-top: 0px;
+
+      &:focus, &:hover, &:active {
+        background-color: transparent;
+      }
+
+      > * {
+        float: right;
+      }
+    }
+
+    .nav-user-name {
+      margin-top: 10px;
+      margin-right: 10px;
+    }
+
+    .nav-user-image {
+      width: 50px;
+      height: 50px;
+      margin-top: -5px;
+      border-radius: 50%;
+      background-color: $darker-grey;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-image: image-url("login/icon-user-white.svg");
+    }
+  }
+
+  .dropdown-menu, .company-list {
+    border-radius: 3px;
+    margin-top: 20px;
+
+    li {
+      a {
+        cursor: pointer;
+        white-space: inherit;
+
+        &:hover {
+          background-color: $light-grey;
+        }
+      }
+    }
+  }
+}
+

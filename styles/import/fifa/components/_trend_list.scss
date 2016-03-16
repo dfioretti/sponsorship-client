@@ -1,0 +1,61 @@
+ul.trend-list {
+  list-style: none;
+  padding: 0 20px;
+
+  li {
+    height: 65px;
+    padding: 20px 0;
+    border-bottom: 1px solid $dark-blue;
+
+    .trend-image {
+      margin-right: 14px;
+      float: left;
+    }
+
+    .trend-text {
+      .trend-header {
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .trend-subheader {
+        font-size: 12px;
+        font-family: "Avenir-Book";
+        color: $light-grey;
+      }
+    }
+
+    .trend-score {
+      min-width: 44px;
+      height: 30px;
+      margin-top: -4px;
+      padding: 6px 12px;
+      border-radius: 15px;
+      background-color: $dark-blue;
+      float: right;
+      color: $white;
+    }
+  }
+  &.light {
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+
+    li {
+      border-color: $light-grey;
+
+      .trend-text {
+        .trend-subheader {
+          color: #CED3D9
+        }
+      }
+
+      &:last-of-type {
+        border: 0;
+      }
+    }
+  }
+}

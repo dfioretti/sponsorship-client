@@ -1,0 +1,33 @@
+.editor-score {
+  height: 700px;
+  width: 100%;
+  background-color: $dark-blue;
+  border-radius: 3px;
+}
+
+.score-heading {
+  height: 65px;
+  color: $white;
+  font-size: 16px;
+  padding-top: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-align: center;
+  border-bottom: 1px solid $dark-grey-opacity;
+}
+
+.editor-tree {
+  height: calc(100% - 65px);
+  width: 100%;
+}
+
+.editor-commands {
+  position: absolute;
+  top: 70px;
+  left: 10px;
+  width: 170px;
+  z-index: 1000;
+  height: 70px;
+  background-color: $dark-blue;
+  color: $light-blue;
+}

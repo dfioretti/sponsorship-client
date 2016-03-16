@@ -1,0 +1,71 @@
+.users-index {
+  width: 690px;
+  background-color: $white;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 100px;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
+
+
+  .top {
+    height: 61px;
+    background-color: $dark-grey;
+    font-size: 16px;
+    color: $white;
+    text-align: center;
+    padding-top: 22px;
+    padding-bottom: 17px;
+    position: relative;
+  }
+
+  table {
+    width: 100%;
+
+    thead {
+      box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
+      display: block;
+      width: 690px;
+      position: absolute;
+
+      tr {
+        th {
+          padding: 13px 10px 11px;
+          font-size: 12px;
+          letter-spacing: 1px;
+          opacity: 0.8;
+          text-transform: uppercase;
+          width: 230px;
+        }
+      }
+    }
+
+    tbody {
+      overflow-y: auto;
+      height: 400px;
+      display: block;
+      margin-top: 42px;
+
+      tr {
+        height: 50px;
+        border-bottom: 1px solid $light-grey;
+
+        td {
+          padding-left: 10px;
+          font-size: 16px;
+          display: table-cell;
+          width: 230px;
+
+          &.permissions-checklist {
+            .checkbox-container {
+              margin-right: 10px;
+
+              input[type="checkbox"] {
+                margin-right: 4px;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

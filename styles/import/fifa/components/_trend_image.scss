@@ -1,0 +1,21 @@
+.trend-image {
+  width: 24px;
+  height: 24px;
+  margin-right: 14px;
+  float: left;
+  background-size: 28px 28px;
+  background-repeat: no-repeat;
+  background-position: -2px 0;
+
+  &.up {
+    background-image: image-url("fifa/icon-upward.svg");
+  }
+
+  &.down {
+    background-image: image-url("fifa/icon-downward.svg");
+  }
+
+  &.no-change {
+    background-image: image-url("fifa/icon-neutral.svg");
+  }
+}

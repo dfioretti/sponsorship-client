@@ -1,0 +1,21 @@
+.filters {
+  &.media-list-filters {
+    border-bottom: 1px solid $dark-blue;
+    padding: 10px 0;
+    text-align: center;
+  }
+
+  &.filters-search-form {
+    padding: 8px 9px;
+    background: #0b4487;
+
+    .filters-search-input {
+      @extend .form-control;
+      border-radius: 1000px;
+      text-align: center;
+      color: $dark-grey;
+      border-color: $light-grey;
+      text-transform: capitalize;
+    }
+  }
+}

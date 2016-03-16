@@ -1,0 +1,44 @@
+.daterangepicker {
+  background: #33363b;
+
+  &.opensright {
+    left: 20px !important;
+    right: initial !important;
+  }
+
+  .daterangepicker_input {
+    display: none;
+  }
+
+  .ranges li {
+    padding: 5px 12px;
+    color: $dark-grey;
+  }
+
+  .ranges li.active, .ranges li:hover {
+    background: $blue;
+    border: 1px solid $blue;
+  }
+
+  td.in-range {
+    background: rgba(45, 99, 165, 0.20);
+  }
+
+  td.active, td.active:hover {
+    border-radius: 50%;
+    background-color: $blue;
+    border-color: $blue;
+  }
+
+  td.available:hover, th.available:hover {
+    border-radius: 50%;
+  }
+
+  .calendar-table {
+    border: 0;
+  }
+
+  .calendar {
+    display: block;
+  }
+}

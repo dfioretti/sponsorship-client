@@ -1,0 +1,1261 @@
+.sidebar {
+  width: 250px;
+  height: calc(100% - 80px);
+  background-color: $dark-grey;
+  position: absolute;
+  border-right: 1px solid #1c1c1c;
+  .hack-top {
+    padding-top: 23.5px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+    background-color: $darkest-grey;
+  }
+  .top {
+    height: 98px;
+    padding: 41px 20px 36px;
+    background-color: $darkest-grey;
+
+    &.light {
+      height: 80px;
+      padding-top: 31px;
+      background-color: $dark-grey;
+
+      .top-title {
+        opacity: 0.4;
+      }
+
+      .bkg-bar {
+        background-color: $darkest-grey;
+      }
+    }
+
+    &.social {
+      height: 120px;
+      padding-top: 34px;
+      padding-bottom: 29px
+    }
+
+    > * {
+      display: inline-block;
+    }
+
+    .top-title {
+      text-transform: uppercase;
+      color: $white;
+      font-size: 12px;
+      letter-spacing: 1.5px;
+    }
+
+    .custom-tooltip {
+      padding-top: 12px;
+      width: 65px;
+      height: 50px;
+      border-radius: 3px;
+      text-align: center;
+      font-family: 'Oswald';
+      font-weight: 300;
+      font-size: 18px;
+      color: $white;
+      position: absolute;
+      top: -20px;
+      z-index: 99999;
+      display: none;
+
+      &.up, &.down, &.no-change {
+        right: -3px;
+        top: -25px;
+      }
+
+      &.up {
+        background: $positive-color;
+
+        .custom-tooltip-arrow {
+          border-top: 20px solid $positive-color;
+        }
+      }
+
+      &.down {
+        background: $negative-color;
+        .custom-tooltip-arrow {
+          border-top: 20px solid $negative-color;
+        }
+      }
+
+      &.no-change {
+        background: $neutral-color;
+
+        .custom-tooltip-arrow {
+          border-top: 20px solid $neutral-color;
+        }
+      }
+    }
+
+    .trend-image {
+      margin-right: 0;
+    }
+
+    .custom-tooltip-arrow {
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      position: absolute;
+      left: 50%;
+      margin-left: -20px;
+    }
+
+    .bkg-bar {
+      background-color: $dark-grey;
+      width: 80px;
+      height: 8px;
+      border-radius: 4px;
+      margin-left: 15px;
+      display: inline-block;
+      float: right;
+      margin-top: 6px;
+
+      .fill-bar {
+        width: 0px;
+        height: 8px;
+        border-radius: 8px;
+      }
+    }
+
+    .range-select {
+      width: 210px;
+      height: 30px;
+      margin-top: 10px;
+      background-color: #33363b;
+      border: 1px solid black;
+      border-radius: 3px;
+      color: white;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+      outline: none;
+      padding: 0 0 0 15px;
+      -webkit-appearance:none;
+      position: relative;
+      cursor: pointer;
+
+      &:after {
+        content: "";
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        margin-top: -2px;
+        width: 0;
+        height: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+
+        border-top: 4px solid $white;
+      }
+
+      input[type="text"] {
+        background: transparent;
+        border: 0;
+        padding: 0;
+        width: 100%;
+        line-height: 30px;
+        cursor: pointer;
+
+        &:focus {
+          outline: 0;
+        }
+      }
+    }
+  }
+}
+
+.dashboard {
+  height: 100%;
+
+  .sidebar {
+    .module-toggle-container {
+      width: 210px;
+      margin: 0 auto;
+      border-bottom: 1px solid rgba(28, 28, 28, 0.4);
+    }
+
+    .print-report {
+      width: 210px;
+      margin: 0 auto;
+
+      ul {
+        margin-top: 13px;
+      }
+
+      .gear {
+        width: 20px;
+        height: 21px;
+        background-size: 20px 21px;
+        background-repeat: no-repeat;
+        float: right;
+        background-image: url("../images/dashboard/Icon-Settings@2x.png");
+        cursor: pointer;
+      }
+    }
+
+    ul, ul.toggle-list {
+      margin-top: 30px;
+      padding-left: 0px;
+      list-style: none;
+
+      li {
+        height: 21px;
+        margin-bottom: 13px;
+        color: $white;
+        opacity: 0.4;
+        font-size: 12px;
+        font-family: 'Avenir-Book';
+        text-transform: capitalize;
+
+        .toggle {
+          width: 36px;
+          height: 18px;
+          float: right;
+          border-radius: 9px;
+          opacity: 0.4;
+          background-color: $white;
+          cursor: pointer;
+
+          .handle {
+            height: 14px;
+            width: 14px;
+            border-radius: 7px;
+            background-color: $dark-grey;
+            margin-top: 2px;
+            margin-left: 20px;
+          }
+
+          &.off {
+            opacity: 0.1;
+
+            .handle {
+              margin-left: 2px;
+            }
+          }
+        }
+
+        .icon {
+          height: 21px;
+          padding-top: 4px;
+          padding-left: 32px;
+          background-size: 20px 20px;
+          background-repeat: no-repeat;
+          background-position: left;
+
+          &.general_financials, &.teneo_rep_score {
+            background-image: url("../images/dashboard/icon-general-financials.svg");
+          }
+          &.historical_precedent, &.insights_implications {
+            background-image: url("../images/dashboard/icon-historical-precedent.svg");
+          }
+          &.key_social_posts, &.global_hotspots, &.consumer_survey {
+            background-image: url("../images/dashboard/icon-key-social-posts.svg");
+          }
+          &.likely_attackers, &.top_global_influencers {
+            background-image: url("../images/dashboard/icon-likely-attackers.svg");
+          }
+          &.notes, &.top_news {
+            background-image: url("../images/dashboard/icon-notes.svg");
+          }
+          &.risk_assessment, &.top_global_issues {
+            background-image: url("../images/dashboard/icon-risk-assessment.svg");
+          }
+          &.risk_indicators, &.asset_overview {
+            background-image: url("../images/dashboard/icon-risk-indicators.svg");
+          }
+          &.social_sentiment, &.social_stats {
+            background-image: url("../images/dashboard/icon-social-sentiment.svg");
+          }
+          &.iss_governance {
+            background-image: url("../images/dashboard/Icon-ISS@2x.png");
+          }
+          &.print-report {
+            background-image: url("../images/dashboard/Icon-Print@2x.png");
+          }
+        }
+      }
+    }
+  }
+
+  .modules-box {
+    position: relative;
+    height: 100%;
+    margin-left: 250px;
+    background-color: $dark-blue;//#FAFBFD;
+    overflow: auto;
+
+    .modules-container {
+      position: relative;
+      height: 100%;
+      width: 1280px;
+
+      .dashboard-module {
+        color: $white;
+        position: absolute;
+        overflow: hidden;
+        width: 400px;
+        height: 320px;
+        background-color: $blue;
+        border-radius: 3px;
+        margin-bottom: 20px;
+        font-size: 14px;
+
+        &.tall {
+          height: 660px;
+        }
+
+        &.huge {
+          height: 660px;
+          width: 800px;
+        }
+        &.full {
+          width: 1200px;
+        }
+
+        .top {
+          height: 50px;
+          padding-top: 17px;
+          padding-bottom: 11px;
+          border-bottom: 1px solid $dark-blue;
+
+          .drag-handle {
+            width: 16px;
+            height: 16px;
+            float: left;
+            margin-left: 20px;
+            cursor: pointer;
+            background-image: url("../images/dashboard/icon-move.svg");
+          }
+
+          .top-title {
+            font-size: 14px;
+            color: $white;
+            width: 382px;
+            text-align: left;
+            margin-left: 57px;
+          }
+
+          .expand-handle {
+            line-height: 24px;
+            width: 24px;
+            height: 24px;
+            float: right;
+            margin-right: 20px;
+            cursor: pointer;
+            background-image: url("../images/fifa/icon-expand.svg");
+            position: relative;
+            top: -3px;
+
+            &:hover, &:focus {
+              background-image: url("../images/fifa/icon-expand-hover.svg");
+            }
+          }
+          .edit-handle {
+            line-height: 24px;
+            width: 24px;
+            height: 24px;
+            float: right;
+            margin-right: 20px;
+            cursor: pointer;
+            background-image: url("../images/dashboard/Icon-Settings.png");
+            background-repeat: no-repeat;
+            position: relative;
+            top: -3px;
+
+          }
+        }
+
+        .dashboard-module-footer {
+          border-top: 1px solid $dark-blue;
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          height: 50px;
+          line-height: 20px;
+          padding: 10px 15px;
+
+          h5 {
+            margin: 5px 0;
+          }
+
+          .btn-primary {
+            height: initial;
+            border-radius: 15px;
+            background: $med-blue;
+            min-width: initial;
+            border: 0;
+
+            &:hover, &:focus {
+              background: $dark-blue;
+            }
+
+            .glyphicon {
+              font-size: 10px;
+              margin-left: 2px;
+            }
+          }
+        }
+
+        ul.text-list {
+          height: 435px;
+          overflow-x: hidden;
+          overflow-y: auto;
+          list-style: none;
+
+          > li {
+            padding: 15px 5px;
+            border-bottom: 1px solid $dark-blue;
+
+            .li-info {
+              height: 30px;
+
+              .li-image {
+                float: left;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                background-color: $darker-grey;
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-size: 15px 15px;
+                background-image: rl("../images/login/icon-user-white.svg");
+              }
+
+              .li-name {
+                float: left;
+                line-height: 30px;
+                margin-left: 10px;
+              }
+
+              .li-date {
+                float: right;
+                line-height: 30px;
+                font-family: "Avenir-Book";
+                font-size: 12px;
+                color: $light-grey;
+              }
+            }
+
+            .li-text {
+              clear: both;
+              margin-top: 10px;
+              white-space: pre-line;
+              word-wrap: break-word;
+            }
+
+            .li-attachment {
+              height: 40px;
+              margin-top: 10px;
+
+              .li-attachment-download {
+                float: left;
+                height: 40px;
+                width: 40px;
+                margin-right: 5px;
+                display: inline-block;
+                background-color: $med-blue;
+                border-radius: 3px;
+                cursor: pointer;
+                background-image: url("../images/dashboard/icon-attach.svg");
+                background-size: 16px 16px;
+                background-repeat: no-repeat;
+                background-position: center center;
+
+                &:hover {
+                  background-color: $dark-blue;
+                }
+              }
+
+              .li-attachment-name {
+                line-height: 40px;
+                font-family: "Avenir-Book";
+                font-size: 12px;
+                color: $light-grey;
+              }
+            }
+          }
+        }
+
+        ul.probability-list {
+          list-style: none;
+          margin-left: 20px;
+          margin-right: 20px;
+
+          &.short {
+            height: 230px;
+          }
+
+          li {
+            padding-left: 10px;
+            padding-top: 23px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid $dark-blue;
+
+            &:last-child {
+              border-bottom: none;
+            }
+
+            a {
+              color: white;
+              text-decoration: none;
+            }
+
+            .li-tooltip-button {
+              width: 20px;
+              height: 20px;
+              position: relative;
+              margin-right: 13px;
+              float: left;
+              background-size: 20px 20px;
+              background-repeat: no-repeat;
+              background-image: url("../images/dashboard/icon-view.svg");
+              cursor: pointer;
+            }
+
+            .li-right-text {
+              float: right;
+            }
+
+            .li-probability-bkg {
+              float: right;
+              width: 100px;
+              height: 4px;
+              margin-top: 8px;
+              margin-left: 10px;
+              border-radius: 2px;
+              background-color: $dark-blue;
+
+              .li-probability-bar {
+                width: 0px;
+                height: 4px;
+                border-radius: 2px;
+              }
+            }
+          }
+        }
+
+        ul.media-list {
+          list-style: none;
+          padding: 0 20px;
+
+          &.media-list-scrollable-tall {
+            height: 560px;
+            overflow-y: auto;
+          }
+
+          > li {
+            padding-left: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid $dark-blue;
+
+            &:last-child {
+              border-bottom: none;
+            }
+
+            a {
+              color: white;
+              text-decoration: none;
+            }
+
+            .media-image {
+              width: 50px;
+              height: 50px;
+              border-radius: 25px;
+              float: left;
+              overflow: hidden;
+
+              img {
+                width: 100%;
+              }
+
+              &.icon.file {
+                border-radius: 0;
+              }
+            }
+
+            .media-text {
+              font-family: "Avenir-Book";
+              font-size: 12px;
+              margin-left: 60px;
+
+              .media-header {
+                margin-top: 6px;
+                font-size: 14px;
+
+                &.media-header-limit-2-lines {
+                  display: block;
+                  display: -webkit-box;
+                  max-width: 100%;
+                  height: 28px;
+                  margin: 0 auto;
+                  margin-top: 6px;
+                  margin-bottom: 3px;
+                  line-height: 1;
+                  -webkit-line-clamp: 2;
+                  -webkit-box-orient: vertical;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                }
+              }
+
+              .media-subheader {
+                font-size: 10px;
+                margin-bottom: 5px;
+              }
+            }
+
+            .media-break-text {
+              word-wrap: break-word;
+            }
+          }
+        }
+      }
+
+      ul.trend-list {
+        list-style: none;
+        padding: 0 20px;
+
+        > li {
+          @extend .clearfix;
+        }
+
+        li {
+          height: auto;
+          border-bottom: 1px solid $dark-blue;
+
+          .trend-text {
+            .trend-header {
+              font-size: 14px;
+            }
+
+            .trend-subheader {
+              font-size: 12px;
+              font-family: "Avenir-Book";
+              color: $light-grey;
+            }
+          }
+
+          .trend-score {
+            min-width: 44px;
+            height: 30px;
+            margin-top: -4px;
+            padding: 6px 12px;
+            border-radius: 15px;
+            background-color: $dark-blue;
+            float: right;
+          }
+
+          .global-issues-subtopics-container {
+            @extend .list-unstyled;
+            margin-top: 10px;
+            padding-left: 38px;
+
+            > .global-issues-subtopic {
+              @extend .clearfix;
+              border: 1px solid $med-blue;
+              border-radius: 6px;
+              padding: 9px;
+              font-size: 12px;
+              margin-bottom: 8px;
+              line-height: 12px;
+
+              &:last-of-type {
+                margin-bottom: 0;
+              }
+
+              .global-issues-subtopic-title {
+                margin: 0;
+              }
+
+              .trend-score {
+                padding: 0;
+                margin: 0;
+                height: auto;
+                min-width: auto;
+                background: none;
+              }
+            }
+          }
+        }
+      }
+
+      .ss-placeholder-child {
+        background: transparent;
+        border: 2px dashed $blue;
+        position: absolute;
+      }
+    }
+  }
+
+  .li-tooltip {
+    position: absolute;
+    width: 115px;
+    padding: 10px 8px 12px;
+    background-color: $white;
+    color: #9b9b9b;
+    font-size: 12px;
+    font-family: "Avenir-Book";
+    border-radius: 3px;
+    border: 1px solid $light-grey;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+
+    .li-tooltip-arrow {
+      position: absolute;
+      width: 0;
+      height: 0;
+      margin-left: 26px;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-top: 20px solid $white;
+    }
+  }
+}
+
+.dashboard-module {
+  .legend {
+    padding: 14px 0px 12px;
+    //border-bottom: 1px solid $dark-blue;
+    font-size: 10px;
+    text-align: center;
+
+    .legend-item {
+      display: inline-block;
+      margin-right: 10px;
+
+      .legend-point {
+        width: 6px;
+        height: 6px;
+        border-radius: 3px;
+        float: left;
+        margin-top: 3px;
+        margin-right: 5px;
+
+        &.legend-color-1 {
+          background-color: $high-risk-color;
+        }
+        &.legend-color-2 {
+          background-color: $mid-risk-color;
+        }
+        &.legend-color-3 {
+          background-color: $low-risk-color;
+        }
+        &.legend-color-4 {
+          background-color: $negative-color;
+        }
+        &.legend-color-5 {
+          background-color: $neutral-color;
+        }
+        &.legend-color-6 {
+          background-color: $positive-color;
+        }
+      }
+    }
+  }
+
+  &#risk_assessment {
+    .main {
+      text-align: center;
+
+      .risk {
+        margin-top: 40px;
+        font-family: 'Oswald';
+        font-weight: 300;
+        font-size: 72px;
+        text-transform: uppercase;
+      }
+
+      .subheader {
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      .slider-bar {
+        width: 300px;
+        height: 12px;
+        margin: 36px auto 0px;
+        position: relative;
+        border-radius: 6px;
+        box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2), inset 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
+        background: -moz-linear-gradient(90deg, $low-risk-color 0%, $mid-risk-color 50%, $high-risk-color 100%);
+        background: -webkit-linear-gradient(90deg, $low-risk-color 0%, $mid-risk-color 50%, $high-risk-color 100%);
+        background: linear-gradient(90deg, $low-risk-color 0%, $mid-risk-color 50%, $high-risk-color 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$low-risk-color', endColorstr='$high-risk-color',GradientType=1 );
+
+        .slider-button {
+          width: 24px;
+          height: 24px;
+          position: absolute;
+          top: -6px;
+          border-radius: 12px;
+          border: 9px solid rgba(255, 255, 255, 1);
+          box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.22), inset 0px 1px 2px 0px rgba(0, 0, 0, 0.22);
+        }
+      }
+    }
+  }
+
+  &#notes, &#insights_implications {
+    .main {
+      border-bottom: 1px solid $dark-blue;
+
+      .notes-list {
+        height: 435px;
+        overflow-y: auto;
+
+        .text-list {
+          height: initial;
+        }
+      }
+
+      .new-note {
+        position: absolute;
+        bottom: 0px;
+        margin: 17px 20px;
+        margin-bottom: 10px;
+
+        .error-message {
+          text-align: center;
+        }
+
+        form {
+          width: 360px;
+
+          @mixin notable-form-input-defaults {
+            border: 1px solid $light-grey;
+            border-radius: 3px;
+            color: #9b9b9b;
+            font-family: "Avenir-Book";
+            font-size: 12px;
+            box-shadow: inner 0px 1px 6px 0px rgba(0, 0, 0, 0.1);
+          }
+
+          textarea {
+            width: 100%;
+            height: 96px;
+            padding: 12px 15px;
+            margin-bottom: 7px;
+            resize: vertical;
+            @include notable-form-input-defaults;
+          }
+
+          .notable-tags-input {
+            @include notable-form-input-defaults;
+            margin-bottom: 10px;
+          }
+
+          .attachment {
+            float: left;
+            height: 40px;
+
+            .file-input {
+              height: 40px;
+              font-family: "Avenir-Book";
+              color: $light-grey;
+              font-size: 12px;
+              outline: none;
+            }
+
+            .file-input::-webkit-file-upload-button {
+              visibility: hidden;
+              outline: none;
+              height: 40px;
+              width: 40px;
+              display: inline-block;
+              border: none;
+            }
+
+            .file-input::before {
+              content: ' ';
+              height: 40px;
+              width: 40px;
+              padding-left: 20px;
+              display: inline-block;
+              background-color: $med-blue;
+              border-radius: 3px;
+              white-space: nowrap;
+              -webkit-user-select: none;
+              cursor: pointer;
+              background-image: url("../images/dashboard/icon-attach.svg");
+              background-size: 16px 16px;
+              background-repeat: no-repeat;
+              background-position: center center;
+            }
+
+            .file-input:hover::before {
+              background-color: $dark-blue;
+            }
+
+          }
+
+          .note-submit {
+            width: 100px;
+            padding: 12px 0;
+            float: right;
+            background-color: $med-blue;
+            border: none;
+            border-radius: 3px;
+            font-family: "Avenir-Book";
+            font-size: 12px;
+            outline: none;
+
+            &:hover {
+              background-color: $dark-blue;
+            }
+
+            &:disabled {
+              opacity: 0.2;
+              background-color: $med-blue;
+            }
+          }
+        }
+      }
+
+      .loader-bar {
+        height: 2px;
+        position: absolute;
+        bottom: 0px;
+        background-color: red;
+      }
+    }
+  }
+  &#risk_indicators {
+    .main {
+      ul.risk-indicator-list {
+        padding-left: 0px;
+      }
+
+      .risk-indicator-list-container {
+        height: 560px;
+      }
+
+      .filters {
+        border-bottom: 1px solid $dark-blue;
+        margin: 0 20px;
+        padding: 10px 0;
+        text-align: center;
+      }
+    }
+  }
+  &#historical_precedent {
+    .main {
+      ul.historical-precedent-list {
+        padding-left: 0px;
+      }
+    }
+  }
+  &#likely_attackers {
+
+  }
+  &#iss_governance {
+    .main {
+      ul.iss-governance-list {
+        padding-left: 0px;
+      }
+
+      .iss-governance-list-container {
+        height: 270px;
+      }
+    }
+  }
+  &#social_sentiment {
+    .main {
+      padding-top: 40px;
+      padding-right: 40px;
+      padding-left: 28px;
+      padding-bottom: 30px;
+      color: rgba(255, 255, 255, 0.8);
+      text-align: center;
+
+      div:last-child {
+        margin-top: 10px;
+      }
+    }
+  }
+  &#key_social_posts {
+
+  }
+  &#general_financials {
+    .main {
+      ul.general-financials-list {
+        height: 270px;
+        margin-right: 0px;
+        margin-left: 0px;
+
+        li.stock {
+          width: 400px;
+          padding: 10px 20px 16px;
+
+          .left {
+            .ticker {
+              font-family: "Oswald";
+              font-size: 42px;
+            }
+
+            .time {
+              font-family: "Avenir-Book";
+              font-size: 14px;
+            }
+          }
+          .right {
+            float: right;
+            text-align: right;
+
+            .price {
+              font-family: "Oswald";
+              font-size: 42px;
+
+              .change-icon {
+                width: 20px;
+                height: 20px;
+                background-image: url("../images/dashboard/icon-change.svg");
+                display: inline-block;
+                margin-right: 10px;
+                margin-bottom: 6px;
+
+                &.down {
+                  transform: rotate(180deg);
+                }
+              }
+            }
+
+            .change {
+              font-family: "Avenir-Book";
+              font-size: 14px;
+              letter-spacing: 2px;
+            }
+          }
+        }
+
+        li.probability-list-item {
+          margin-left: 20px;
+          margin-right: 20px;
+        }
+      }
+    }
+  }
+  &#chart-view {
+    overflow: visible;
+
+    .top {
+      .overall-trend-score {
+        margin-top: -3px;
+        font-size: 18px;
+        display: table;
+
+        span {
+          vertical-align: top;
+          display: table-cell;
+          padding-right: 10px;
+        }
+      }
+      .trend-image {
+        float: none;
+        display: inline-block;
+
+      }
+    }
+    .main {
+      padding-top: 20px;
+      padding-right: 20px;
+      padding-left: 8px;
+      padding-bottom: 10px;
+      color: rgba(255, 255, 255, 0.8);
+      text-align: center;
+      position: relative;
+    }
+    .chart-legend {
+      right: 15px;
+      color: $white;
+    }
+  }
+  &#teneo_rep_score {
+    overflow: visible;
+
+    .top {
+      .overall-trend-score {
+        margin-top: -3px;
+        font-size: 18px;
+        display: table;
+
+        span {
+          vertical-align: top;
+          display: table-cell;
+          padding-right: 10px;
+        }
+      }
+      .trend-image {
+        float: none;
+        display: inline-block;
+
+      }
+    }
+    .main {
+      padding-top: 20px;
+      padding-right: 20px;
+      padding-left: 8px;
+      padding-bottom: 10px;
+      color: rgba(255, 255, 255, 0.8);
+      text-align: center;
+      position: relative;
+    }
+    .chart-legend {
+      right: 15px;
+      color: $white;
+    }
+  }
+  &#insights_implications {
+    .media-list-scrollable-tall {
+      height: 340px;
+      overflow: auto;
+    }
+
+    ul.text-list {
+      height: auto;
+    }
+  }
+  &#global_hotspots {
+    .main {
+      #map {
+        height: 229px;
+        outline: none;
+        overflow: hidden;
+        z-index: 0;
+        border-radius: 3px;
+      }
+      #tree-map {
+        height: 270px;
+        outline: none;
+        overflow: hidden;
+        z-index: 0;
+        border-radius: 3px;
+      }
+    }
+  }
+  &#top_global_influencers {
+    .media-list-scrollable-tall {
+      height: 610px;
+      overflow-y: auto;
+    }
+  }
+  &#top_news {
+    .news-separator {
+      padding: 0 4px;
+    }
+
+    .media-list-scrollable-tall {
+      height: 600px;
+      overflow-y: auto;
+    }
+
+    .media-list {
+      li {
+        overflow: hidden;
+        width: 360px;
+      }
+    }
+  }
+  &#top_global_issues {
+    .main {
+      ul.global-issues-list {
+        height: initial;
+
+        > li {
+          &:last-child {
+            border-bottom: 0;
+          }
+        }
+      }
+
+      .global-issues-list-container {
+        height: 270px;
+        overflow-y: auto;
+      }
+    }
+  }
+}
+
+#chartjs-tooltip {
+  padding: 12px 6px;
+  border: 1px solid $light-grey;
+  opacity: 0;
+  position: absolute;
+  background: $white;
+  color: #9b9b9b;
+  font-family: "Avenir-Book" !important;
+  font-size: 12px;
+  border-radius: 3px;
+  pointer-events: none;
+  width: 140px;
+  z-index: 1000;
+  text-align: center;
+
+
+
+  .chartjs-tooltip-key{
+    display:inline-block;
+    width:6px;
+    height:6px;
+    border-radius: 50%;
+  }
+
+  h6 {
+    margin: 0 0 2px 0;
+  }
+
+  .arrow-down {
+      height: 0;
+      width: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-top: 8px solid $light-grey;
+      position: absolute;
+      bottom: -8px;
+      right: calc(50% - 12px);
+      z-index: 2;
+
+      &:before {
+        content: "";
+        border-left: 7px solid transparent;
+        border-right: 7px solid transparent;
+        border-top: 6px solid $white;
+        position: absolute;
+        z-index: 1;
+        right: -7px;
+        bottom: 2px;
+      }
+  }
+}
+
+.filter {
+  color: white;
+  height: 30px;
+  padding-left: 14px;
+  padding-right: 14px;
+  padding-top: 7px;
+  border-radius: 15px;
+  background-color: $med-blue;
+  font-family: "Avenir-Book";
+  font-size: 12px;
+  text-align: center;
+  cursor: pointer;
+  display: inline-block;
+  opacity: 0.4;
+  margin-right: 10px;
+
+  &:last-child {
+    margin-right: 0px;
+  }
+
+  &:hover, &.filter-active {
+    opacity: 1.0;
+  }
+
+  &.asc .caret {
+    transform: rotate(180deg);
+  }
+}

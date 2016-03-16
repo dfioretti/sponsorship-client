@@ -1,0 +1,47 @@
+.icon {
+  &.file {
+    height: 40px;
+    width: 32px;
+    padding-top: 4px;
+    padding-left: 32px;
+    background-size: 32px 40px;
+    background-image: image-url("fifa/icon-default.svg");
+    background-repeat: no-repeat;
+
+    &:hover {
+      background-image: image-url("fifa/icon-default-hover.svg");
+    }
+
+    &.file-ppt  {
+      background-image: image-url("fifa/icon-ppt.svg");
+
+      &:hover {
+        background-image: image-url("fifa/icon-ppt-hover.svg");
+      }
+    }
+
+    &.file-doc {
+      background-image: image-url("fifa/icon-doc.svg");
+
+      &:hover {
+        background-image: image-url("fifa/icon-doc-hover.svg");
+      }
+    }
+
+    &.file-xls {
+      background-image: image-url("fifa/icon-xls.svg");
+
+      &:hover {
+        background-image: image-url("fifa/icon-xls-hover.svg");
+      }
+    }
+
+    &.file-pdf {
+      background-image: image-url("fifa/icon-pdf.svg");
+
+      &:hover {
+        background-image: image-url("fifa/icon-pdf-hover.svg");
+      }
+    }
+  }
+}

@@ -22,7 +22,7 @@ var Header = React.createClass({
           <ul className="dropdown">
             <li><a href='#' onClick={this.logout}>Logout</a></li>
           </ul>
-        </li> 
+        </li>
       </ul>
     ) : (
       <ul className="right">
@@ -43,7 +43,7 @@ var Header = React.createClass({
       <nav className="top-bar" data-topbar role="navigation">
         <ul className="title-area">
           <li className="name">
-            <h1><a href="#"><strong>S</strong></a></h1>
+            <h1><a href="#"><strong>is this YES</strong></a></h1>
           </li>
           <li className="toggle-topbar menu-icon"><a href="#"><span>Menu</span></a></li>
         </ul>
@@ -58,4 +58,3 @@ var Header = React.createClass({
 });
 
 module.exports = Header;
-
