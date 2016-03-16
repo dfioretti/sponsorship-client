@@ -2,6 +2,9 @@ var React = require('react'),
 		Fluxxor = require('fluxxor'),
 		FluxMixin = Fluxxor.FluxMixin(React),
 		Link = require('react-router').Link,
+		AssetSearch = require('./AssetSearch.jsx'),
+		
+		DataListForSelected = require('./DataListForSelected.jsx'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var AddDataButton = require('./add_data_button.jsx');

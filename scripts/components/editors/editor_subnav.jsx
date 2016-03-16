@@ -45,16 +45,16 @@ var EditorSubNav = React.createClass({
       <div className="subnav">
         <div className="filter-row">
           <div onClick={this.handleBackClick} style={{cursor: "pointer", height: "70px", borderRight: "1px solid #b9c3ca", opacity: "0.6"}} className="col-md-1">
-            <img style={{height: "20px", width: "20px", marginRight: "8px", marginTop: "-4px"}}src="/edit/arrows.png" />
+            <img style={{height: "20px", width: "20px", marginRight: "8px", marginTop: "-4px"}}src="/images/edit/arrows.png" />
             Back
           </div>
           <div onClick={this.handleNewClick} style={{cursor: "pointer", height: "70px", borderRight: "1px solid #b9c3ca", opacity: "0.6"}} className="col-md-1">
             New
-            <img style={{height: "20px", width: "20px", marginLeft: "8px", marginTop: "-4px"}}src="/edit/interface.png" />
+            <img style={{height: "20px", width: "20px", marginLeft: "8px", marginTop: "-4px"}}src="/images/edit/interface.png" />
           </div>
           <div onClick={this.handleSaveClick} style={{cursor: "pointer", height: "70px", borderRight: "1px solid #b9c3ca", opacity: "0.6"}} className="col-md-1">
             Save
-            <img style={{height: "20px", width: "20px", marginLeft: "8px", marginTop: "-4px"}}src="/edit/vintage.png" />
+            <img style={{height: "20px", width: "20px", marginLeft: "8px", marginTop: "-4px"}}src="/images/edit/vintage.png" />
           </div>
           <div className="col-md-5">
           </div>

@@ -89,11 +89,12 @@ var AppSidebar = React.createClass({
     }
   },
   renderContent: function() {
-		//          <DashboardContextMenu />
+		//
 
     if (this.props.view === "dashboard") {
       return (
         <div className="context-menu">
+					<DashboardContextMenu />
         </div>
       );
     } else if (this.props.view === "score") {
@@ -108,6 +109,7 @@ var AppSidebar = React.createClass({
 
       return (
         <div className="context-menu">
+					<AssetContextMenu />
         </div>
       )
     }

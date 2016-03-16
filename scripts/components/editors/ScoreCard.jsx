@@ -17,7 +17,7 @@ var ScoreCard = React.createClass({
       color: "white",
       marginTop: "0px"
     };
-    var link = "/apt/scores/score_editor/" + this.props.score.id;
+    var link = "/apt/editor_score/" + this.props.score.id;
     return (
       <div id={id} className="dashboard-module">
         <div className="top">

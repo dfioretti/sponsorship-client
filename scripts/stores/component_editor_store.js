@@ -54,7 +54,8 @@ var ComponentEditorStore = Fluxxor.createStore({
       constants.PREVIEW_DATA, this.onPreviewData,
       constants.PREVIEW_SUCCESS, this.onPreviewSuccess,
       constants.PREVIEW_FAIL, this.onPreviewFail,
-      constants.LOAD_COMPONENT_UPDATE, this.onLoadComponentUpdate
+      constants.LOAD_COMPONENT_UPDATE, this.onLoadComponentUpdate,
+      constants.LOAD_ASSETS_SUCCESS, this.onLoadAssetsSucess
     )
   },
   getObject: function() {
@@ -79,6 +80,11 @@ var ComponentEditorStore = Fluxxor.createStore({
         this.filterList = this.startList;
         this.emit("change");
     }.bind(this));
+  },
+  onLoadAssetsSucess: function(payload) {
+    this.startList = payload.assets;
+    this.filterList = this.startList;
+    this.emit("change");
   },
   onLoadComponentUpdate: function(payload) {
     this.id = payload.component.id;
@@ -167,9 +173,20 @@ var ComponentEditorStore = Fluxxor.createStore({
     this.emit("change");
   },
   onAssetSelected: function(payload) {
+    console.log("log", payload);
+    console.log(payload.selectedAsset);
     if (payload.selectedAsset === null || payload.selectedAsset.length < 1)
       return;
-    this.selectedAsset = AssetsStore.find(payload.selectedAsset);
+    for(var i = 0; i < this.startList.length; i++) {
+      console.log("test", this.startList[i].id, payload.selectedAsset);
+      if (this.startList[i].id == payload.selectedAsset) {
+        console.log("found");
+        this.selectedAsset = this.startList[i];
+        console.log(this.selectedAsset);
+        break;
+      }
+    }
+    //this.selectedAsset = AssetsStore.find(payload.selectedAsset);
     this.filteredDataPointList = this.dataPointList;
     this.emit("change");
   },

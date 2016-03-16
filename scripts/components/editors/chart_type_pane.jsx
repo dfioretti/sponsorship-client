@@ -25,9 +25,9 @@ var ChartTypePane = React.createClass({
     chartTypes.map(function(item) {
       typeList.push(<option key={item.id} value={item.id}>{item.name}</option>);
     }.bind(this));
-    var chartImage = "/edit/line.png";
+    var chartImage = "/images/edit/line.png";
     if (this.getStateFromFlux().view === 'barChart') {
-      chartImage = "/edit/bar.png";
+      chartImage = "/images/edit/bar.png";
     }
     return (
       <div className="editor-pane">
