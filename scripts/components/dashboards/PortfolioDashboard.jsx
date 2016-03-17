@@ -87,7 +87,7 @@ var PortfolioDashboard = React.createClass({
           //el = <ScoreTrend hidden={hidden} key={name}  title="Top 5 Passion Scores"  />
           break;
         case 'portfolio_tree_map':
-          //el = <PortfolioTreemap hidden={hidden} key={name} />
+          el = <PortfolioTreemap hidden={hidden} key={name} />
           break;
         }
     }

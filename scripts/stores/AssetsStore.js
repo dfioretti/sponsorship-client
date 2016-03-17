@@ -21,6 +21,15 @@ var AssetsStore = Fluxxor.createStore({
 		this.loading = false;
 		this.emit("change");
 	},
+	getOwnedAssets: function () {
+		var ownedAssets = [];
+		$.each(this.assets, function (i, a) {
+			if (a.owned == true) {
+				ownedAssets.push(a);
+			}
+		});
+		return ownedAssets;
+	},
 	getState: function() {
 		return {
 			assets: this.assets,

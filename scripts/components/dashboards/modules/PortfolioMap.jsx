@@ -1,6 +1,7 @@
 var React = require('react');
 var Highcharts = require('highcharts/highmaps');
 var ChartTooltipHandler = require('../../mixins/ChartTooltipHandler.jsx');
+var mapData = require('../../../vendor/us-all.js');
 
 var PortfolioMap = React.createClass({
   mixins: [
@@ -17,17 +18,17 @@ var PortfolioMap = React.createClass({
   },
   renderChart: function () {
     $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=us-capitals.json&callback=?', function (json) {
-    var data = [];
-    $.each(json, function () {
-        this.z = this.population;
-        data.push(this);
+      var data = [];
+      $.each(json, function () {
+          this.z = this.population;
+          data.push(this);
     });
 
     var H = Highcharts,
-          map = H.maps['countries/us/us-all'],
+          map = mapData,//H.maps['countries/us/us-all'],
           chart;
 
-//          $('#container').highcharts('Map', {
+//            $('#container').ddhighcharts('Map', {
 
     chart = new H.Map({
             chart: {
@@ -132,4 +133,4 @@ var PortfolioMap = React.createClass({
     );
   }
 });
-module.exports = PortfolioMap;
+module.exports = PortfolioMap

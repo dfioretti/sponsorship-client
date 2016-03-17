@@ -53,6 +53,6 @@ module.exports = (
     <Route name="stories" path="/stories" handler={StoriesPage}/>
     <Route name="story" path="/stories/:storyId" handler={StoryPage} />
     <Route name="new-story" path="/story/new" handler={StoryNew}/>
-    <DefaultRoute handler={SmallApp} />
+    <DefaultRoute handler={PortfolioDashboard} />
   </Route>
 );
