@@ -12,7 +12,7 @@ var EditorScore = React.createClass({
   render: function() {
     return (
       <div className="editor">
-        <AppSidebar view="score" />
+        <AppSidebar context="score" />
         <ScoreEditor params={this.props.params} />
       </div>
     );

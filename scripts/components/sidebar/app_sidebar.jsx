@@ -5,6 +5,7 @@ var React = require('react'),
 		Glyphicon = require('react-bootstrap').Glyphicon,
 		ScoreEditContextMenu = require('./ScoreEditContextMenu.jsx'),
 		DashboardContextMenu = require('./DashboardContextMenu.jsx'),
+		CreateDashboardModal = require('./CreateDashboardModal.jsx'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var AppSidebar = React.createClass({
@@ -20,8 +21,8 @@ var AppSidebar = React.createClass({
     $("#app-menu").slideToggle(250);
   },
   renderTopMenu: function() {
-		//<CreateDashboardModal id="create-dashboard-modal" flux={this.getFlux()} />
-		//            <div id="menu-button" className="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></div>
+		//<div id="menu-button" className="glyphicon glyphicon-menu-hamburger" aria-hidden="true">
+		//</div>
 
 
     return (
@@ -29,7 +30,7 @@ var AppSidebar = React.createClass({
         <div className="top-menu">
           <div onClick={this.toggleMenu} className="menu-container">
 						<Glyphicon glyph='menu-hamburger' bStyle="info" />
-
+							<CreateDashboardModal id="create-dashboard-modal" flux={this.getFlux()} />
             <div className="menu-text">Menu</div>
           </div>
           <div id="app-menu">
@@ -89,22 +90,20 @@ var AppSidebar = React.createClass({
     }
   },
   renderContent: function() {
-		//
-
-    if (this.props.view === "dashboard") {
+    if (this.props.context === "dashboard") {
       return (
         <div className="context-menu">
 					<DashboardContextMenu />
         </div>
       );
-    } else if (this.props.view === "score") {
+    } else if (this.props.context === "score") {
 
       return (
         <div className="context-menu">
           <ScoreEditContextMenu />
         </div>
       );
-    } else if (this.props.view === 'asset') {
+    } else if (this.props.context === 'asset') {
 			//<AssetContextMenu />
 
       return (

@@ -33,7 +33,7 @@ var DashboardContextMenu = React.createClass({
     }
   },
   render: function() {
-    if (this.getStateFromFlux().loaded) {
+    if (this.getStateFromFlux().dashboardLoaded) {
       return (
         <div className="editor-menu">
           <ReactBootstrap.NavDropdown key='nav-drop' style={{width: "100%"}}eventKey={1} title="Dashboards" id="dashbard-nav-dropdown">

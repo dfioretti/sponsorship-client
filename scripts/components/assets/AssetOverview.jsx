@@ -7,7 +7,6 @@ var AssetOverview = React.createClass({
   componentWillReceiveProps: function(newProps) {
   },
   render: function() {
-    console.log("WTF");
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
     var asset = this.props.asset;
     var imageUrl = "/images/" + asset.id + ".jpg";

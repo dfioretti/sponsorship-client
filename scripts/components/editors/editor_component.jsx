@@ -38,11 +38,11 @@ var EditorComponent = React.createClass({
 	},
   render: function() {
 		if (!this.getFlux().store("ComponentsStore").getState().componentsLoaded)
-			return ( <div className="editor"><AppSidebar view="component" /></div>);
+			return ( <div className="editor"><AppSidebar context="component" /></div>);
 
     return (
       <div className="editor">
-        <AppSidebar view="component" />
+        <AppSidebar context="component" />
         <ComponentEditor />
       </div>
     );

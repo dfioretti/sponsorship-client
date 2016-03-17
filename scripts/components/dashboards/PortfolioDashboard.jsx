@@ -109,13 +109,13 @@ var PortfolioDashboard = React.createClass({
 		if (!this.isDashboardLoaded() || !this.areComponentsLoaded()) {
 			return (
 				<div className="dashboard">
-					<AppSidebar view="dashboard" />
+					<AppSidebar context="dashboard" />
 				</div>
 			);
 		} else {
 			return (
 				<div className="dashboard">
-					<AppSidebar view="dashboard" />
+					<AppSidebar context="dashboard" />
 					<div className="modules-box">
 						{this.renderModules(this.getDashboardFromFlux().state)}
 					</div>

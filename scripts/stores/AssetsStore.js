@@ -15,7 +15,6 @@ var AssetsStore = Fluxxor.createStore({
 		this.loading = true;
 	},
 	onLoadAssetsSuccess: function(payload) {
-		console.log("here");
 		this.assets = payload.assets;
 		this.assetsLoaded = true;
 		this.loading = false;

@@ -110,7 +110,7 @@ var AssetDashboard = React.createClass({
       var dashboardState = this.state.dashboardState;
       return (
         <div className="dashboard">
-          <AppSidebar view="dashboard" />
+          <AppSidebar context="dashboard" />
           <div className="modules-box">
             {this.renderModules(dashboardState.state)}
           </div>
