@@ -1,6 +1,6 @@
 var Fluxxor = require('fluxxor');
 var ComponentClient = require('../clients/component_client.js');
-var constants = require('../constants/constants.js')
+var constants = require('../constants/constants.js');
 
 var DashboardEditStore = Fluxxor.createStore({
   initialize: function() {
@@ -19,16 +19,10 @@ var DashboardEditStore = Fluxxor.createStore({
       constants.DASHBOARD_CREATE_FAIL, this.onDashboardCreateFail,
       constants.DASHBOARD_CREATE_SUCCESS, this.onDashboardCreateSuccess,
       constants.LOAD_EDITOR_DASHBOARD, this.onLoadEditorDashboard
-    )
+    );
   },
-  /**
-   * Loads a dashboard editor store - if editing
-   * we load the current dashboard state,
-   * otherwise, we clear the state.
-   *
-   * @param payload - dashboard_id, or null
-   */
-  onLoadEditorDashboard(payload) {
+
+  onLoadEditorDashboard: function(payload) {
     this.selectedComponents = [];
     if (payload.dashboard_id === null) {
       this.dashboardName = '';

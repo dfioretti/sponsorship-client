@@ -1,5 +1,6 @@
 @import 'fonts';
 @import 'spinner';
+@import 'react-grid-layout';
 @import '../bower_components/foundation/scss/foundation/_functions.scss';
 @import '../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss';
 
@@ -7,6 +8,7 @@
 @import url(http://fonts.googleapis.com/css?family=Raleway:700,400);
 
 $topbar-height: rem-calc(45);
+
 
 *, *:before, *:after {
   box-sizing: border-box;

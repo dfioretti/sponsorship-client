@@ -8,6 +8,7 @@ var gulp = require('gulp'),
     minifycss = require('gulp-minify-css'),
     changed = require('gulp-changed'),
     sass = require('gulp-sass'),
+    gulpUtil = require('gulp-util'),
     csso = require('gulp-csso'),
     autoprefixer = require('gulp-autoprefixer'),
     browserify = require('browserify'),
@@ -77,7 +78,7 @@ gulp.task('browserify', function() {
     .bundle()
     .pipe(source(p.bundle))
     .pipe(buffer())
-    .pipe(uglify())
+    .pipe(uglify().on('error', gulpUtil.log))
     .pipe(gulp.dest(p.distJs));
 });
 
