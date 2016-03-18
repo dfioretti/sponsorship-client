@@ -29,7 +29,7 @@ var gulp = require('gulp'),
     p = {
       jsx: './scripts/app.jsx',
       scss: 'styles/main.scss',
-      scssSource: 'styles/*',
+      scssSource: 'styles/**/*',
       font: 'fonts/**/*',
       bundle: 'app.js',
       images: 'images/**/*',

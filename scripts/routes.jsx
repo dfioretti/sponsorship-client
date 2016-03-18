@@ -20,6 +20,9 @@ var EditorScore = require('./components/editors/EditorScore.jsx');
 var ScoreIndex = require('./components/editors/ScoreIndex.jsx');
 var PortfolioDashboard = require('./components/dashboards/PortfolioDashboard.jsx');
 var Dev = require('./components/Dev.jsx');
+var PortfolioOverview = require('./components/routes/PortfolioOverview.jsx');
+var EntityOverview = require('./components/routes/EntityOverview.jsx');
+
 
 
 
@@ -38,15 +41,11 @@ module.exports = (
     <Route name='editor_score_update' handler={EditorScore} path='/apt/editor_score/:id' />
     <Route name='score_index' handler={ScoreIndex} path='apt/scores/score_index' />
     <Route name='portfolio_dashboard' handler={PortfolioDashboard} path='apt/portfolio/dashboard' />
-
-
-
+    <Route name='portfolio_overview' handler={PortfolioOverview} path='portfolio_overview' />
+    <Route name='asset_overview' handler={EntityOverview} path='asset_overview' />
 
     <Route name='fifa_dashboard' handler={Dev} path='/dev' />
     <Route name='choose_company' handler={Dev} path='/dev' />
-
-
-
 
     <Route name="login" path="/login" handler={AccountLogin} />
     <Route name="signup" path="/signup" handler={SignupPage} />

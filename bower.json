@@ -13,6 +13,7 @@
     "jquery-knob": "^1.2.13",
     "highcharts": "^4.2.3",
     "proj4": "^2.3.14",
-    "gridster": "^0.5.6"
+    "gridster": "^0.5.6",
+    "fullcalendar": "^2.6.1"
   }
 }

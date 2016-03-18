@@ -1,0 +1,56 @@
+.overview-content {
+	height: 100%;
+	width: calc(100% - 250px);
+	position: absolute;
+	background-color: #124c93;
+	left: 250px;
+	//background-color: $white;
+	background-color: rgba(60,136,209, 0.9);
+
+	.overview-container {
+		$margin-top: 0%;
+		$margin-bottom: 2%;
+		$margin-left: 0%;
+		$margin-right: 0%;
+		position: fixed;
+		width: calc(100% - #{$margin-right} - #{$margin-left} - 250px);
+		height: calc(100% - #{$margin-top} - #{$margin-bottom} - 80px);
+		margin: 0 #{$margin-right} #{$margin-bottom} #{$margin-left};
+		padding-top: 2%;
+		.container {
+			width: 100%;
+			position: relative;
+		}
+	}
+}
+
+.content-grid {
+	height: 100%;
+	width: 100%;
+}
+
+.overview-calendar {
+	position: relative;;
+	width: 100%;
+	height: 100%;
+	//padding: 5%;
+}
+.react-bs-table-container {
+	background-color: white;
+	border-radius: 3px;
+	padding: 20px;
+	box-shadow: 0 4px 6px rgba(0,0,0,0.12), 0 4px 4px rgba(0,0,0,0.12);
+}
+.rbc-calendar {
+	background-color: white;
+	border-radius: 3px;
+	padding: 20px;
+	box-shadow: 0 4px 6px rgba(0,0,0,0.12), 0 4px 4px rgba(0,0,0,0.12);
+	height: 700px;
+}
+.overview-data {
+	position: relative;
+	//padding: 0% 2% 2% 2%;
+	width: 100%;
+	//height: 500px;
+}

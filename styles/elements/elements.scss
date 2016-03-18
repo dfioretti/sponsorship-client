@@ -1,0 +1,91 @@
+$row-height: 800px;
+
+
+.chart-panel {
+	padding: 1%;
+	border-radius: 3px;
+	box-shadow: 0 5px 6px rgba(0,0,0,0.12), 0 5px 4px rgba(0,0,0,0.12);
+	height: 100px;
+	canvas {
+		position: relative;;
+		height: 100px;
+		//height: 150px;
+		//width: 100%;
+	}
+}
+.stat-panel {
+	padding: 1%;
+	border-radius: 3px;
+	box-shadow: 0 5px 6px rgba(0,0,0,0.12), 0 5px 4px rgba(0,0,0,0.12);
+
+	.chart-heading {
+		padding: 1% 0% 1% 1%;
+		font-size: 1.1vw;
+		font-family: 'Avenir-Medium';
+		opacity: 0.7;
+		text-transform: uppercase;
+		letter-spacing: 1.5px;
+		font-weight: lighter;
+		width: 100%;
+	}
+	canvas {
+		position: relative;
+		height: 200px;
+		width: 100%;
+	}
+
+	.stat-heading {
+		padding: 2.5% 0% 0% 2.5%;
+		font-size: 1.1vw;
+		font-family: 'Avenir-Medium';
+		opacity: 0.7;
+		text-transform: uppercase;
+		letter-spacing: 1.5px;
+		font-weight: lighter;
+		width: 100%;
+	}
+
+	.stat-title {
+		padding: 2.5% 0% 0% 2.5%;
+		font-size: 2vw;
+		font-family: 'Avenir-Medium';
+		//opacity: 0.7;
+		text-transform: uppercase;
+		letter-spacing: 1.5px;
+		width: 100%;
+		color: $light-blue;
+	}
+
+	.stat-subheading {
+		font-size: 1vw;
+		padding-left: 2.5%;
+		opacity: 0.4;
+		text-transform: uppercase;
+		letter-spacing: 1.5px;
+		font-weight: lighter;
+	}
+
+	.stat-value {
+		font-size: 4.0vw;
+		text-transform: uppercase;
+		letter-spacing: 1.5px;
+		width: 100%;
+		margin-top: 5%;
+		text-align: center;
+		color: $light-blue;
+	}
+}
+
+
+// TODO - my dynamic compnent
+.cog-handle {
+	line-height: 24px;
+	width: 24px;
+	height: 24px;
+	float: right;
+	margin-right: 20px;
+	cursor: pointer;
+	background-repeat: no-repeat;
+	position: relative;
+	top: -3px;
+}

@@ -1,11 +1,19 @@
 @import 'fonts';
 @import 'spinner';
 @import 'react-grid-layout';
+@import 'node/react-big-calendar';
+@import 'node/react-bootstrap-table';
 @import '../bower_components/foundation/scss/foundation/_functions.scss';
 @import '../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss';
-
 @import './import/application.scss';
 @import url(http://fonts.googleapis.com/css?family=Raleway:700,400);
+
+
+//pages
+@import 'pages/overview-content';
+@import 'elements/elements';
+
+
 
 $topbar-height: rem-calc(45);
 

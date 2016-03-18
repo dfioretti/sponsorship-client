@@ -6,6 +6,7 @@ var React = require('react'),
 		SeriesChart = require('./charts/SeriesChart.jsx'),
 		RoundChart = require('./charts/RoundChart.jsx'),
 		DataList = require('./charts/DataList.jsx'),
+		Cog = require('react-icons/lib/fa/cog');
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var DynamicComponent = React.createClass({
@@ -47,7 +48,9 @@ var DynamicComponent = React.createClass({
     return (
       <div id={componentStyle} className="dashboard-module">
         <div className="top">
-          <Link to={editLink} className="edit-handle"></Link>
+					<Link to={editLink}>
+						<Cog className="cog-handle" />
+					</Link>
           <div className="drag-handle"></div>
           <div className="top-title">{this.props.component.name}</div>
         </div>

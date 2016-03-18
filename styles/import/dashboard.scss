@@ -1230,7 +1230,8 @@
       }
   }
 }
-
+// Breaking my bootstrap filter on table so i renamed
+.main {
 .filter {
   color: white;
   height: 30px;
@@ -1258,4 +1259,5 @@
   &.asc .caret {
     transform: rotate(180deg);
   }
+}
 }

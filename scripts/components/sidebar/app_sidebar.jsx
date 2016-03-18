@@ -6,6 +6,7 @@ var React = require('react'),
 		ScoreEditContextMenu = require('./ScoreEditContextMenu.jsx'),
 		DashboardContextMenu = require('./DashboardContextMenu.jsx'),
 		CreateDashboardModal = require('./CreateDashboardModal.jsx'),
+		OverviewContextmenu  = require('./OverviewContextmenu.jsx'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var AppSidebar = React.createClass({
@@ -24,7 +25,14 @@ var AppSidebar = React.createClass({
 		//<div id="menu-button" className="glyphicon glyphicon-menu-hamburger" aria-hidden="true">
 		//</div>
 
-
+		if (true) {
+			return (
+				<div className="sidebar-top-menu">
+					<div className="top-menu">
+					</div>
+				</div>
+			);
+		}
     return (
       <div className="sidebar-top-menu">
         <div className="top-menu">
@@ -97,21 +105,24 @@ var AppSidebar = React.createClass({
         </div>
       );
     } else if (this.props.context === "score") {
-
       return (
         <div className="context-menu">
           <ScoreEditContextMenu />
         </div>
       );
     } else if (this.props.context === 'asset') {
-			//<AssetContextMenu />
-
       return (
         <div className="context-menu">
 					<AssetContextMenu />
         </div>
       )
-    }
+    } else if (this.props.context === 'overview') {
+			return (
+				<div className="context-menu">
+					<OverviewContextmenu />
+				</div>
+			);
+		}
     else {
       return (
         <div className="context-menu">
