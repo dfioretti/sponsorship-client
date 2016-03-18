@@ -226,7 +226,8 @@ function initilizeScoreCanvas(savedModel) {
   }
 
   function findIcon(icon) {
-    if (icon.indexOf('/icon') !== -1) {
+    console.log("icon", icon);
+    if (icon.toString().indexOf('/icon') !== -1) {
       return icon;
     }
     return "/images/icons-blue/" + icon + ".png";
@@ -235,7 +236,7 @@ function initilizeScoreCanvas(savedModel) {
   function findHeadShot(key) {
     //return "";
     //if (key > 16) return ""; // There are only 16 images on the server
-    return "/images/cancel-button.png";
+    return "/imags/cancel-button.png";
   };
 
 
