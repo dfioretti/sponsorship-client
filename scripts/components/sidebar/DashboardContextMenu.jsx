@@ -12,7 +12,8 @@ var React = require('react'),
 var DashboardContextMenu = React.createClass({
   mixins: [FluxMixin, Navigation, StoreWatchMixin("DashboardHomeStore")],
   componentWillMount: function() {
-    if (!this.getStateFromFlux().loaded) {
+    if (!this.getStateFromFlux().dashboardsLoaded
+					&& !this.getStateFromFlux().loading) {
       this.getFlux().actions.loadDashboards();
     }
   },
@@ -47,7 +48,7 @@ var DashboardContextMenu = React.createClass({
 		$('#dashboard-edit-modal').click();
 	},
   render: function() {
-    if (this.getStateFromFlux().dashboardLoaded) {
+    if (this.getStateFromFlux().dashboardsLoaded) {
       return (
         <div className="editor-menu">
 					<button style={{margin: "10px -10px 10px 10px", width: "calc(100% - 20px)", letterSpacing: "1.5px"}} onClick={this.createDashboard} className="btn btn-primary form-control">
@@ -65,7 +66,7 @@ var DashboardContextMenu = React.createClass({
 										</Link>
 										<div id={d.id} onClick={function(e) { this.editDashboard(e)}.bind(this)}>
 										<Col id={d.id}  md={4}>
-											<Cog id={d.id} className="cog-handle"/>
+											<Cog id={d.id} style={{pointerEvents: "none"}}className="cog-handle"/>
 										</Col>
 										</div>
 									</Row>

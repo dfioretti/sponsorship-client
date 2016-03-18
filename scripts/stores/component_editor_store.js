@@ -62,7 +62,7 @@ var Fluxxor = require("fluxxor"),
             this.message = "Preview failed!", this.emit("change")
         },
         onSaveComponent: function() {
-            this.saving = !0, this.emit("change")
+            this.saving = !0 
         },
         onSaveSuccess: function(t) {
             this.id = t.component.id, this.saving = !1, this.message = "Component saved!", this.emit("change")

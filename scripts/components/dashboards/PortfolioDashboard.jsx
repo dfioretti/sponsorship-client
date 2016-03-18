@@ -30,7 +30,7 @@ var PortfolioDashboard = React.createClass({
 		return Immutable.Map();
 	},
 	isDashboardLoaded: function () {
-		return this.getFlux().store("DashboardHomeStore").getState().dashboardLoaded;
+		return this.getFlux().store("DashboardHomeStore").getState().dashboardsLoaded;
 	},
 	setupGrid: function() {
     $('.modules-container').shapeshift({
@@ -109,6 +109,7 @@ var PortfolioDashboard = React.createClass({
     );
   },
 	render: function() {
+		console.log(this.state);
 		if (!this.isDashboardLoaded() || !this.areComponentsLoaded()) {
 			return (
 				<div className="dashboard">

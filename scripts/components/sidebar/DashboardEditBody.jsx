@@ -1,6 +1,8 @@
 var React = require('react'),
 		Fluxxor = require('fluxxor'),
 		FluxMixin = Fluxxor.FluxMixin(React),
+		CloseIcon = require('react-icons/lib/fa/close'),
+		AddIcon = require('react-icons/lib/fa/plus'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var DashboardEditName = React.createClass({
@@ -49,19 +51,25 @@ var AddRemoveComponentButton = new React.createClass({
     return this.getFlux().store("DashboardEditStore").getState();
   },
   handleAddComponent: function(e) {
+		console.log(e.target);
     this.getFlux().actions.addDashboardComponent(e.target.id);
   },
   handleRemoveComponent: function(e) {
+		console.log(e.target);
     this.getFlux().actions.removeDashboardComponent(e.target.id);
   },
   render: function() {
     if (this.getStateFromFlux().selectedComponents.indexOf(this.props.component.id.toString()) != -1) {
       return (
-        <span style={{color: "#e76959", fontSize: "40px", padding: "5px"}}onClick={this.handleRemoveComponent} id={this.props.component.id} className="glyphicon glyphicon-remove actionable" aria-hidden="true"></span>
+				<div style={{cursor: "pointer"}}onClick={this.handleRemoveComponent} id={this.props.component.id}>
+					<CloseIcon id={this.props.component.id} style={{color: "#e76959", height: "40px", width: "40px", pointerEvents: "none", padding: "5px", cursor: "pointer"}} />
+				</div>
       );
     } else {
       return (
-        <span style={{color: "#50e3c2", fontSize: "40px", padding: "5px"}} onClick={this.handleAddComponent} id={this.props.component.id} className="glyphicon glyphicon-plus actionable" aria-hidden="true"></span>
+				<div style={{cursor: "pointer"}}onClick={this.handleAddComponent} id={this.props.component.id}>
+					<AddIcon id={this.props.component.id} style={{color: "#50e3c2", height: "40px", width: "40px", pointerEvents: "none", padding: "5px", cursor: "pointer"}} />
+				</div>
       );
     }
   }

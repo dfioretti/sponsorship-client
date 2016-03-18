@@ -19,6 +19,17 @@ var DashboardHome = React.createClass({
 	getInitialState: function() {
 		return Immutable.Map();
 	},
+	componentDidMount: function() {
+		console.log("WTF");
+		if (!this.getFlux().store("DashboardHomeStore").getState().dashboardsLoaded
+				&& !this.getFlux().store("DashboardHomeStore").getState().loading) {
+			this.getFlux().actions.loadDashboards();
+		}
+		if (!this.getFlux().store("ComponentsStore").getState().componentsLoaded
+					&& !this.getFlux().store("ComponentsStore").getState().loading) {
+			this.getFlux().actions.loadComponents();
+		}
+	},
   setupGrid: function() {
     $('.modules-container').shapeshift({
       selector: ".dashboard-module",
@@ -43,17 +54,13 @@ var DashboardHome = React.createClass({
   },
 	getStateFromFlux: function() {
 		return {
-			//stateFromDashboardHomeStore: this.getFlux().store("DashboardHomeStore").getState(),
-			//stateFromComponentsStore: this.getFlux().store("ComponentsStore").getState()
 		};
 	},
   getComponentFromFlux: function(cid) {
     return this.getFlux().store("ComponentsStore").getComponent(cid);
   },
-  componentWillMount: function() {
-  },
 	isDashboardLoaded: function() {
-		return this.getFlux().store("DashboardHomeStore").getState().dashboardLoaded;
+		return this.getFlux().store("DashboardHomeStore").getState().dashboardsLoaded;
 	},
   componentWillReceiveProps: function(newProps) {
 		if (this.isDashboardLoaded())
@@ -89,6 +96,7 @@ var DashboardHome = React.createClass({
     );
   },
   render: function() {
+		console.log("render");
 		if (!this.isDashboardLoaded() || !this.areComponentsLoaded()) {
 			return (
 				<div className="dashboard">
@@ -96,6 +104,7 @@ var DashboardHome = React.createClass({
 				</div>
 			);
 		} else {
+			console.log("IM LOSING IT");
       return (
         <div className="dashboard">
           <AppSidebar context="dashboard" />

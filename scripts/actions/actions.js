@@ -108,16 +108,13 @@ var DashboardClient = require("../clients/dashboard_client.js"),
             }.bind(this))
         },
         dashboardUpdate: function() {
-            this.dispatch(constants.DASHBOARD_CREATE), DashboardClient.updateDashboard(flux.store("DashboardEditStore").getObject(), function(t) {
-                this.dispatch(constants.DASHBOARD_CREATE_SUCCESS, {
+            this.dispatch(constants.DASHBOARD_UPDATE), DashboardClient.updateDashboard(flux.store("DashboardEditStore").getObject(), function(t) {
+                this.dispatch(constants.DASHBOARD_UPDATE_SUCCESS, {
                     dashboard: t
                 })
             }.bind(this), function(t) {
-                this.dispatch(constants.DASHBOARD_CREATE_FAIL)
+                this.dispatch(constants.DASHBOARD_UPDATE_FAIL)
             }.bind(this))
-        },
-        loadDashboards: function() {
-            this.dispatch(constants.LOAD_DASHBOARDS)
         },
         dashboardEditLoad: function(t) {
             this.dispatch(constants.LOAD_EDITOR_DASHBOARD, {
@@ -220,6 +217,14 @@ var DashboardClient = require("../clients/dashboard_client.js"),
           }.bind(this), function(error) {
             this.dispatch(constants.LOAD_COMPONENTS_FAIL);
           }.bind(this));
+        },
+        loadDashboards: function() {
+          this.dispatch(constants.LOAD_DASHBOARDS);
+          DashboardClient.getDashboards(function(data) {
+            this.dispatch(constants.LOAD_DASHBOARDS_SUCCESS, { dashboards: data})
+          }.bind(this), function(error) {
+            this.dispatch(constants.LOAD_DASHBOARDS_FAIL);
+          });
         }
 
     };
