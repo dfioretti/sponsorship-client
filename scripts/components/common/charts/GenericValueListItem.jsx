@@ -60,7 +60,7 @@ var GenericValueListItem = React.createClass({
       <li style={liStyle} onMouseOver={this.showTooltip} onMouseLeave={this.hideToolip}>
         <Link to={this.props.link} >
           <div className="stat-image">
-            <img src={"/images/" + this.props.statImage} />
+            <img src={"/images" + this.props.statImage} />
           </div>
           <div className="stat-header">{this.props.statHeader.split("_").join(" ")}</div>
           <div id="iconOverride" className={this.getTrendIconClass()}></div>

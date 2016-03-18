@@ -34,10 +34,9 @@ var CreateDashboardModal = React.createClass({
       <div>
         <div>
           <li id='dashboard-edit-modal'
-              style={{cursor: "pointer", fontSize: "13px"}}
+              style={{cursor: "pointer", listStyle: "none", fontSize: "13px"}}
               onClick={this.open}
           >
-            &nbsp;&nbsp; -Create
           </li>
         </div>
         <ReactBootstrap.Modal flux={this.props.flux} show={this.state.showModal} onHide={this.close}>

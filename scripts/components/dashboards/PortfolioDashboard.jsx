@@ -21,6 +21,11 @@ var PortfolioDashboard = React.createClass({
 		StoreWatchMixin("DashboardHomeStore"),
 		StoreWatchMixin("ComponentsStore")
   ],
+	componentDidMount: function() {
+		if (!this.getFlux().store("ComponentsStore").getState().componentsLoaded) {
+			this.getFlux().actions.loadComponents();
+		}
+	},
 	getInitialState: function() {
 		return Immutable.Map();
 	},
@@ -70,7 +75,6 @@ var PortfolioDashboard = React.createClass({
     hidden = false;
 		el = null;
     if (name.indexOf('custom_component') > -1) {
-      console.log(name);
       var component = this.getComponentFromFlux(parseInt(name.split("_").pop(-1)));
       if (typeof(component) == 'undefined') return;
       el = <DynamicComponent key={component.id} component={component} />
@@ -78,7 +82,7 @@ var PortfolioDashboard = React.createClass({
     else {
       switch (name) {
         case 'portfolio_map':
-        	//el = <PortfolioMap hidden={hidden} key={name} />
+        	el = <PortfolioMap hidden={hidden} key={name} />
           break;
         case 'portfolio_summary':
           el = <PortfolioSummary hidden={hidden} key={name} />
@@ -95,7 +99,6 @@ var PortfolioDashboard = React.createClass({
   },
   renderModules: function(dashboardState) {
     var modules = $.map(dashboardState, function(v, k){
-			console.log("map", k, v.toggle);
       return this.mapModule(k, v.toggle);
     }.bind(this));
 

@@ -22,6 +22,8 @@ var PortfolioDashboard = require('./components/dashboards/PortfolioDashboard.jsx
 var Dev = require('./components/Dev.jsx');
 var PortfolioOverview = require('./components/routes/PortfolioOverview.jsx');
 var EntityOverview = require('./components/routes/EntityOverview.jsx');
+var ComponentsIndex = require('./components/routes/ComponentsIndex.jsx');
+var DataIndex = require('./components/routes/DataIndex.jsx');
 
 
 
@@ -40,6 +42,9 @@ module.exports = (
     <Route name='editor_score' handler={EditorScore} path='/apt/editor_score' />
     <Route name='editor_score_update' handler={EditorScore} path='/apt/editor_score/:id' />
     <Route name='score_index' handler={ScoreIndex} path='apt/scores/score_index' />
+    <Route name='components_index' handler={ComponentsIndex} path="components_index" />
+    <Route name='data_index' handler={DataIndex} path='data_index' />
+
     <Route name='portfolio_dashboard' handler={PortfolioDashboard} path='apt/portfolio/dashboard' />
     <Route name='portfolio_overview' handler={PortfolioOverview} path='portfolio_overview' />
     <Route name='asset_overview' handler={EntityOverview} path='asset_overview' />

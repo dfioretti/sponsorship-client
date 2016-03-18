@@ -25,6 +25,8 @@ var DashboardContextMenu = React.createClass({
    * @param {e} item click event
    */
   handleMenuSelect: function(e) {
+		console.log("hee");
+		console.log(e.target);
     if (e.target.dataset.action === 'view') {
       this.transitionTo('/apt/dashboard/' + e.target.id);
     } else if (e.target.dataset.action === 'edit'){
@@ -32,10 +34,17 @@ var DashboardContextMenu = React.createClass({
       $('#dashboard-edit-modal').click();
     }
   },
+	createDashboard: function() {
+		this.getFlux().actions.dashboardEditLoad(null);
+		$('#dashboard-edit-modal').click();
+	},
   render: function() {
     if (this.getStateFromFlux().dashboardLoaded) {
       return (
         <div className="editor-menu">
+					<button style={{margin: "10px -10px 10px 10px", width: "calc(100% - 20px)", letterSpacing: "1.5px"}}onClick={this.createDashboard()} className="btn btn-primary form-control">
+						CREATE DASHBOARD
+					</button>
           <ReactBootstrap.NavDropdown key='nav-drop' style={{width: "100%"}}eventKey={1} title="Dashboards" id="dashbard-nav-dropdown">
            {this.getStateFromFlux().customDashboards.map(function(d) {
              return (

@@ -23,6 +23,10 @@ $topbar-height: rem-calc(45);
   font-family: lato;
 }
 
+#app {
+  height: 100%;
+  background-color: #03387a;
+}
 body {
   background-color: #ffffff;
 }

@@ -1,6 +1,7 @@
 .preview-heading {
   height: 65px;
-  color: $white;
+  //color: $white;
+  color: $blue;
   font-size: 16px;
   padding-top: 20px;
   text-transform: uppercase;
@@ -16,11 +17,11 @@
 
 .editor-data {
   margin-top: 20px;
-  height: 350px;
+  height: 300px;
   border-radius: 3px;
   background-color: $white;
   .editor-data-table {
-    height: 280px;
+    height: 200px;
     margin-top: 5px;
     margin-bottom: 5px;
     overflow-y: scroll;

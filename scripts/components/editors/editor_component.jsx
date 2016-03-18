@@ -16,24 +16,29 @@ var EditorComponent = React.createClass({
 		return this.getFlux().store("ComponentsStore").getState();
 	},
   componentDidMount: function() {
-		if (!this.getFlux().store("ComponentsStore").getState().componentsLoaded)
+		if (!this.getFlux().store("ComponentsStore").getState().componentsLoaded
+				&& !this.getFlux().store("ComponentsStore").getState().loading) {
+			this.getFlux().actions.loadComponents();
 			return;
+		}
 		this.loadPreview();
   },
 	componentDidUpdate: function() {
-		if (!this.getFlux().store("ComponentsStore").getState().componentsLoaded)
+		if (!this.getFlux().store("ComponentsStore").getState().componentsLoaded
+				&& !this.getFlux().store("ComponentsStore").getState().loading) {
+			this.getFlux().actions.loadComponents();
 			return;
+		}
 
 		this.loadPreview();
 	},
 	loadPreview: function() {
-		console.log("load 1");
+		if (this.getFlux().store("ComponentsStore").getState().previewLoaded === true) return;
 		if (this.props.params.id) {
 			console.log("load 2");
-			var editComponent = this.props.flux.store("ComponentsStore").getComponent(this.props.params.id);
+			var editComponent = this.getFlux().store("ComponentsStore").getComponent(this.props.params.id);
 			this.getFlux().actions.loadComponentUpdate(editComponent);
 			this.getFlux().actions.generatePreviewData();
-			this.setState({loaded: true});
 		}
 	},
   render: function() {

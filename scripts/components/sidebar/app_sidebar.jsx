@@ -7,6 +7,7 @@ var React = require('react'),
 		DashboardContextMenu = require('./DashboardContextMenu.jsx'),
 		CreateDashboardModal = require('./CreateDashboardModal.jsx'),
 		OverviewContextmenu  = require('./OverviewContextmenu.jsx'),
+		MainMenu = require('./MainMenu.jsx'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var AppSidebar = React.createClass({
@@ -28,8 +29,7 @@ var AppSidebar = React.createClass({
 		if (true) {
 			return (
 				<div className="sidebar-top-menu">
-					<div className="top-menu">
-					</div>
+					<MainMenu />
 				</div>
 			);
 		}

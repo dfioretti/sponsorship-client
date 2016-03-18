@@ -4,7 +4,7 @@ var Fluxxor = require("fluxxor"),
     constants = require("../constants/constants.js"),
     ComponentEditorStore = Fluxxor.createStore({
         initialize: function() {
-            this.id = null, this.title = "", this.data = [], this.view = "lineChart", this.interval = "weekly", this.editorPane = "general", this.message = "", this.selectedAsset = null, this.selectedData = null, this.error = null, this.loading = !1, this.saving = !1, this.startList = [], this.dataIndex = 0, this.filteredList = [], this.dataPointList = [], DataClient.getData(function(t) {
+            this.id = null, this.title = "", this.data = [], this.previewLoaded = false, this.view = "lineChart", this.interval = "weekly", this.editorPane = "general", this.message = "", this.selectedAsset = null, this.selectedData = null, this.error = null, this.loading = !1, this.saving = !1, this.startList = [], this.dataIndex = 0, this.filteredList = [], this.dataPointList = [], DataClient.getData(function(t) {
                 this.dataPointList = t
             }.bind(this)), this.filteredDataPointList = [], this.filterText = "", this.dataFilterText = "", this.previewObject = this.getObject(), this.state = null, this.bindActions(constants.UPDATE_TYPE, this.onUpdateType, constants.ADD_DATA, this.onDataAdded, constants.UPDATE_TITLE, this.onUpdateTitle, constants.CHANGE_PANE, this.onChangePane, constants.FILTER_LIST, this.onFilterList, constants.FILTER_DATA, this.onFilterData, constants.ASSET_SELECT, this.onAssetSelected, constants.DATA_SELECT, this.onDataSelected, constants.REMOVE_DATA, this.onDataRemoved, constants.SAVE_COMPONENT, this.onSaveComponent, constants.SAVE_SUCCESS, this.onSaveSuccess, constants.SAVE_FAIL, this.onSaveFail, constants.UPDATE_COMPONENT, this.onUpdateComponent, constants.UPDATE_SUCCESS, this.onUpdateSuccess, constants.UPDATE_FAIL, this.onUpdateFail, constants.NEW_COMPONENT, this.onNewComponent, constants.PREVIEW_DATA, this.onPreviewData, constants.PREVIEW_SUCCESS, this.onPreviewSuccess, constants.PREVIEW_FAIL, this.onPreviewFail, constants.LOAD_COMPONENT_UPDATE, this.onLoadComponentUpdate, constants.LOAD_ASSETS_SUCCESS, this.onLoadAssetsSucess)
         },
@@ -32,7 +32,14 @@ var Fluxxor = require("fluxxor"),
             this.startList = t.assets, this.filterList = this.startList, this.emit("change")
         },
         onLoadComponentUpdate: function(t) {
-            this.id = t.component.id, this.title = t.component.name, this.view = t.component.view, this.interval = t.component.interval, this.model = t.component.model, this.state = t.component.state, this.data = this.model.data, this.emit("change")
+            this.id = t.component.id,
+            this.title = t.component.name,
+            this.view = t.component.view,
+            this.interval = t.component.interval,
+            this.model = t.component.model,
+            this.state = t.component.state,
+            this.data = this.model.data
+          //  this.emit("change")
         },
         onChangePane: function(t) {
             this.editorPane = t.editorPane, this.emit("change")
@@ -43,9 +50,13 @@ var Fluxxor = require("fluxxor"),
         onUpdateTitle: function(t) {
             this.title = t.title, this.previewObject = this.getObject(), this.emit("change")
         },
-        onPreviewData: function() {},
+        onPreviewData: function() {
+          this.previewLoaded = false;
+        },
         onPreviewSuccess: function(t) {
-            this.state = t.component.state, this.emit("change")
+            this.state = t.component.state
+            this.previewLoaded = true;
+            this.emit("change");
         },
         onPreviewFail: function(t) {
             this.message = "Preview failed!", this.emit("change")
@@ -138,6 +149,7 @@ var Fluxxor = require("fluxxor"),
                 dataPointList: this.dataPointList,
                 filteredDataPointList: this.filteredDataPointList,
                 message: this.message,
+                previewLoaded: this.previewLoaded,
                 data: this.data
             }
         }

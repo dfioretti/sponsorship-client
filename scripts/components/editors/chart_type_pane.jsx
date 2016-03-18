@@ -2,6 +2,11 @@ var React = require('react'),
 		Fluxxor = require('fluxxor'),
 		FluxMixin = Fluxxor.FluxMixin(React),
 		Link = require('react-router').Link,
+		LineIcon = require('react-icons/lib/fa/line-chart');
+		BarIcon = require('react-icons/lib/fa/bar-chart');
+		PieIcon = require('react-icons/lib/fa/pie-chart');
+		DIcon = require('react-icons/lib/fa/circle-o-notch');
+		ListIcon = require('react-icons/lib/fa/list-ul');
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var ChartTypePane = React.createClass({
@@ -14,6 +19,31 @@ var ChartTypePane = React.createClass({
     this.getFlux().actions.updateType(e.target.value);
     this.getFlux().actions.generatePreviewData();
   },
+	renderChartImage: function() {
+		var style = {
+			height: "300px",
+			width: "300px",
+			paddingLeft: "80px",
+			color: "#03387a"
+		}
+		switch (this.getStateFromFlux().view) {
+			case 'barChart':
+				return <BarIcon style={style}/>
+				break;
+			case 'lineChart':
+				return <LineIcon style={style}/>
+				break;
+			case 'pieChart':
+				return <PieIcon style={style}/>
+				break;
+			case 'doughnutChart':
+				return <DIcon style={style}/>
+				break;
+			case 'dataList':
+				return <ListIcon style={style}/>
+				break;
+		}
+	},
   render: function() {
     var chartTypes = [{id: 'lineChart', name: 'Line Chart'},
                       {id: 'barChart', name: "Bar Chart"},
@@ -25,9 +55,9 @@ var ChartTypePane = React.createClass({
     chartTypes.map(function(item) {
       typeList.push(<option key={item.id} value={item.id}>{item.name}</option>);
     }.bind(this));
-    var chartImage = "/images/edit/line.png";
+    var chartImage = BarIcon;
     if (this.getStateFromFlux().view === 'barChart') {
-      chartImage = "/images/edit/bar.png";
+			chartImage = BarIcon;
     }
     return (
       <div className="editor-pane">
@@ -42,7 +72,7 @@ var ChartTypePane = React.createClass({
             </select>
           </div>
           <div className="form-group">
-            <img src={chartImage} />
+						{this.renderChartImage()}
           </div>
         </div>
       </div>

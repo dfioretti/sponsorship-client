@@ -212,6 +212,15 @@ var DashboardClient = require("../clients/dashboard_client.js"),
           }.bind(this), function(error) {
             this.dispatch(constants.LOAD_DATA_FAIL)
           }.bind(this))
+        },
+        loadComponents: function() {
+          this.dispatch(constants.LOAD_COMPONETS);
+          ComponentClient.getComponents(function(data) {
+            this.dispatch(constants.LOAD_COMPONENTS_SUCCESS, { components: data})
+          }.bind(this), function(error) {
+            this.dispatch(constants.LOAD_COMPONENTS_FAIL);
+          }.bind(this));
         }
+
     };
 module.exports = actions;
