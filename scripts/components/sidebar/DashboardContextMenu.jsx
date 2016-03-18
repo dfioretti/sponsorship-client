@@ -3,6 +3,10 @@ var React = require('react'),
 		FluxMixin = Fluxxor.FluxMixin(React),
 		Navigation = require('react-router').Navigation,
 		ReactBootstrap = require('react-bootstrap'),
+		Col = require('react-bootstrap').Col,
+		Row = require('react-bootstrap').Row,
+		Link = require('react-router').Link,
+		Cog = require('react-icons/lib/fa/cog'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var DashboardContextMenu = React.createClass({
@@ -38,13 +42,35 @@ var DashboardContextMenu = React.createClass({
 		this.getFlux().actions.dashboardEditLoad(null);
 		$('#dashboard-edit-modal').click();
 	},
+	editDashboard: function(e) {
+		this.getFlux().actions.dashboardEditLoad(e.target.id);
+		$('#dashboard-edit-modal').click();
+	},
   render: function() {
     if (this.getStateFromFlux().dashboardLoaded) {
       return (
         <div className="editor-menu">
-					<button style={{margin: "10px -10px 10px 10px", width: "calc(100% - 20px)", letterSpacing: "1.5px"}}onClick={this.createDashboard()} className="btn btn-primary form-control">
+					<button style={{margin: "10px -10px 10px 10px", width: "calc(100% - 20px)", letterSpacing: "1.5px"}} onClick={this.createDashboard} className="btn btn-primary form-control">
 						CREATE DASHBOARD
 					</button>
+					<ul>
+						{this.getStateFromFlux().customDashboards.map(function(d){
+							return (
+								<li key={d.id}>
+									<Row>
+										<Link style={{color: "white"}} to={'/apt/dashboard/' + d.id}>
+											<Col md={8}>
+												{d.name}
+											</Col>
+										</Link>
+										<Col id={d.id}  md={4}>
+											<Cog id={d.id} onClick={function(e) { this.editDashboard(e)}.bind(this)} className="cog-handle"/>
+										</Col>
+									</Row>
+								</li>
+							);
+						}.bind(this))}
+					</ul>
           <ReactBootstrap.NavDropdown key='nav-drop' style={{width: "100%"}}eventKey={1} title="Dashboards" id="dashbard-nav-dropdown">
            {this.getStateFromFlux().customDashboards.map(function(d) {
              return (

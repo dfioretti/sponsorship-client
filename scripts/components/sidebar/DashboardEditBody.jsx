@@ -57,11 +57,11 @@ var AddRemoveComponentButton = new React.createClass({
   render: function() {
     if (this.getStateFromFlux().selectedComponents.indexOf(this.props.component.id.toString()) != -1) {
       return (
-        <span style={{color: "#e76959", padding: "5px"}}onClick={this.handleRemoveComponent} id={this.props.component.id} className="glyphicon glyphicon-remove actionable" aria-hidden="true"></span>
+        <span style={{color: "#e76959", fontSize: "40px", padding: "5px"}}onClick={this.handleRemoveComponent} id={this.props.component.id} className="glyphicon glyphicon-remove actionable" aria-hidden="true"></span>
       );
     } else {
       return (
-        <span style={{color: "#50e3c2", padding: "5px"}} onClick={this.handleAddComponent} id={this.props.component.id} className="glyphicon glyphicon-plus actionable" aria-hidden="true"></span>
+        <span style={{color: "#50e3c2", fontSize: "40px", padding: "5px"}} onClick={this.handleAddComponent} id={this.props.component.id} className="glyphicon glyphicon-plus actionable" aria-hidden="true"></span>
       );
     }
   }
@@ -82,7 +82,7 @@ var DashboardEditComponentRow = React.createClass({
         <div className="col-md-3 small-round-images bs-col">
           {this.props.component.model.data.map(function(d) {
             return (
-              <img key={i--} src={d.metric.point_image} />
+              <img key={i--} src={"/images" + d.metric.point_image} />
             );
           })}
         </div>

@@ -24,6 +24,7 @@ var MainMenu = React.createClass({
 				<Panel collapsible expanded={this.state.open} bsClass="panel menu-panel">
 						<ul>
 							<Link to="/"><li>Dashboards</li></Link>
+							<Link to="portfolio_overview"><li>Portfolio Overview</li></Link>
 							<Link to="components_index"><li>Components</li></Link>
 							<Link to="score_index"><li>Scores</li></Link>
 							<Link to="data_index"><li>Data</li></Link>

@@ -6,7 +6,7 @@ var React = require('react'),
 		SeriesChart = require('./charts/SeriesChart.jsx'),
 		RoundChart = require('./charts/RoundChart.jsx'),
 		DataList = require('./charts/DataList.jsx'),
-		Cog = require('react-icons/lib/fa/cog');
+		Cog = require('react-icons/lib/fa/cog'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var DynamicComponent = React.createClass({
