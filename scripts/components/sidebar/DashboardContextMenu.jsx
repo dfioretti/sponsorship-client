@@ -63,36 +63,16 @@ var DashboardContextMenu = React.createClass({
 												{d.name}
 											</Col>
 										</Link>
+										<div id={d.id} onClick={function(e) { this.editDashboard(e)}.bind(this)}>
 										<Col id={d.id}  md={4}>
-											<Cog id={d.id} onClick={function(e) { this.editDashboard(e)}.bind(this)} className="cog-handle"/>
+											<Cog id={d.id} className="cog-handle"/>
 										</Col>
+										</div>
 									</Row>
 								</li>
 							);
 						}.bind(this))}
 					</ul>
-          <ReactBootstrap.NavDropdown key='nav-drop' style={{width: "100%"}}eventKey={1} title="Dashboards" id="dashbard-nav-dropdown">
-           {this.getStateFromFlux().customDashboards.map(function(d) {
-             return (
-               <div className="dropdown-item-wrapper">
-                 <ReactBootstrap.MenuItem
-                   onSelect={ function(e) { this.handleMenuSelect(e); }.bind(this) }
-                   style={{padding: "5px 0px 5px 0px"}}
-                   key={d.id}
-                 >
-                   <div key={'row-' + d.id} className="row">
-                     <div key={'view-link-' + d.id} data-action="view" id={d.id} className="col-md-9 bs-col navdrop">
-                       {d.name}
-                     </div>
-                     <div key={'edit-link' + d.id} className="col-md-1 bs-col navdrop">
-                       <span key={'icon-' + d.id} data-action="edit" id={d.id} className="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                     </div>
-                   </div>
-                 </ReactBootstrap.MenuItem>
-               </div>
-             );
-           }.bind(this))}
-         </ReactBootstrap.NavDropdown>
        </div>
       );
     } else {

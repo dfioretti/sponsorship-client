@@ -113,7 +113,7 @@ var AppSidebar = React.createClass({
     } else if (this.props.context === 'asset') {
       return (
         <div className="context-menu">
-					<AssetContextMenu />
+					<OverviewContextmenu />
         </div>
       )
     } else if (this.props.context === 'overview') {

@@ -24,6 +24,7 @@ var PortfolioOverview = require('./components/routes/PortfolioOverview.jsx');
 var EntityOverview = require('./components/routes/EntityOverview.jsx');
 var ComponentsIndex = require('./components/routes/ComponentsIndex.jsx');
 var DataIndex = require('./components/routes/DataIndex.jsx');
+var AssetDashboard = require('./components/dashboards/AssetDashboard.jsx');
 
 
 
@@ -46,6 +47,7 @@ module.exports = (
     <Route name='data_index' handler={DataIndex} path='data_index' />
 
     <Route name='portfolio_dashboard' handler={PortfolioDashboard} path='apt/portfolio/dashboard' />
+    <Route name='asset_dashboard' handler={AssetDashboard} path="apt/asset/dashboard/:id" />
     <Route name='portfolio_overview' handler={PortfolioOverview} path='portfolio_overview' />
     <Route name='asset_overview' handler={EntityOverview} path='asset_overview' />
 

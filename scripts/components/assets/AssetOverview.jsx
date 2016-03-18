@@ -1,12 +1,20 @@
 var React = require('react');
+var Fluxxor = require("fluxxor");
+var FluxMixin = Fluxxor.FluxMixin(React);
+
 
 var AssetOverview = React.createClass({
+  mixins: [FluxMixin ],
   componentDidMount: function() {
-//    $(this.refs.flipper).flip();
+    if (!this.getFlux().store("AssetsStore").getState().assetsLoaded) {
+      this.getFlux().actions.loadAssets;
+    }
   },
   componentWillReceiveProps: function(newProps) {
   },
   render: function() {
+    if (!this.getFlux().store("AssetsStore").getState().assetsLoaded)
+      return null;
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
     var asset = this.props.asset;
     var imageUrl = "/images/" + asset.id + ".jpg";

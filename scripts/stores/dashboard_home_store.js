@@ -13,6 +13,10 @@ var Fluxxor = require("fluxxor"),
             for (var s = 0; s < this.dashboards.length; s++)
                 if ("portoflio" === this.dashboards[s].kind) return this.dashboards[s]
         },
+        getAssetDashboard: function() {
+          for (var s = 0; s < this.dashboards.length; s++)
+              if ("asset" === this.dashboards[s].kind) return this.dashboards[s]
+        },
         getCustomDashboards: function() {
             this.customDashboards = [], this.dashboards.forEach(function(s) {
                 "custom" == s.kind && this.customDashboards.push(s)
