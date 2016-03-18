@@ -2,6 +2,7 @@ var React = require('react'),
 		Fluxxor = require('fluxxor'),
 		FluxMixin = Fluxxor.FluxMixin(React),
 		Input = require('react-bootstrap').Input,
+		FilterableDataList = require("../common/FilterableDataList.jsx"),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 

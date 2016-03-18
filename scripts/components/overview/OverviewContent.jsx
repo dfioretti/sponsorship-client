@@ -25,7 +25,7 @@ var OverviewContent = React.createClass({
 				statTwoHeading: "Activation Spend",
 				statTwoSub: "Month",
 				statTwoValue: "$350K",
-				statTwoValue: "$2M",
+				statTwoValue: "$900K",
 				statThreeHeading: "Remaining Budget",
 				statThreeSub: "12/31/2016",
 				statThreeValue: "$2M"

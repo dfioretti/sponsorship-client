@@ -5,7 +5,6 @@ var Fluxxor = require("fluxxor"),
 DashboardHomeStore = Fluxxor.createStore({
     initialize: function() {
         this.dashboards = [],
-        this.customDashboards = [],
         this.dashboardsLoaded = false,
         this.loading = false,
         this.currentDashboard = null,
@@ -28,10 +27,12 @@ DashboardHomeStore = Fluxxor.createStore({
       for (var s = 0; s < this.dashboards.length; s++)
           if ("asset" === this.dashboards[s].kind) return this.dashboards[s]
     },
-    setCustomDashboard: function() {
-        this.customDashboards = [], this.dashboards.forEach(function(s) {
-            "custom" == s.kind && this.customDashboards.push(s)
+    getCustomDashboards: function() {
+      var customDashboards = [];
+        this.dashboards.forEach(function(s) {
+            "custom" == s.kind && customDashboards.push(s)
         }.bind(this))
+        return customDashboards;
     },
     fetchDashboards: function() {
         DashboardClient.getDashboards(function(s) {
@@ -45,29 +46,26 @@ DashboardHomeStore = Fluxxor.createStore({
       this.dashboards = payload.dashboards;
       this.loading = false;
       this.dashboardsLoaded = true;
-      this.setCustomDashboard();
       this.emit("change");
     },
     getState: function() {
         return {
             dashboardsLoaded: this.dashboardsLoaded,
-            customDashboards: this.customDashboards,
+            customDashboards: this.getCustomDashboards(),
             loading: this.loading
         }
     },
     onDashboardCreateSuccess: function(payload) {
       this.dashboards.push(payload.dashboard);
-      this.setCustomDashboard();
       this.emit("change");
     },
     onDashboardUpdateSuccess: function(payload) {
       for (var i = 0; i < this.dashboards.length; i++) {
         if (this.dashboards[i].id == payload.dashboard.id) {
-          this.dashboards[i] = payload;
+          this.dashboards[i] = payload.dashboard;
           break;
         }
       }
-      this.setCustomDashboard();
       this.emit("change");
     }
 });

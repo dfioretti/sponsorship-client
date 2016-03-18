@@ -28,10 +28,10 @@ var ScoreCard = React.createClass({
           </div>
         </div>
         <div className="main">
-          <a href={link}>
+					<Link to={link}>
             <img style={imageSize} src={this.props.score.image} />
             <h4 style={setStyle}>{this.props.score.asset_set_name}</h4>
-          </a>
+					</Link>
         </div>
       </div>
     );

@@ -25,6 +25,7 @@ var PortfolioDashboard = React.createClass({
 		if (!this.getFlux().store("ComponentsStore").getState().componentsLoaded) {
 			this.getFlux().actions.loadComponents();
 		}
+		this.setupGrid();
 	},
 	getInitialState: function() {
 		return Immutable.Map();
@@ -56,14 +57,17 @@ var PortfolioDashboard = React.createClass({
 		return this.getFlux().store("DashboardHomeStore").getPortoflioDashboard();
 	},
 	componentWillReceiveProps: function(newProps) {
+		console.log("will rp");
 		if (this.isDashboardLoaded())
     	this.setupGrid();
   },
   componentWillUpdate: function() {
+		console.log("wil up");
 		if (this.isDashboardLoaded())
     	this.setupGrid();
   },
   componentDidUpdate: function() {
+		console.log("didup");
 		if (this.isDashboardLoaded())
     	this.setupGrid();
   },

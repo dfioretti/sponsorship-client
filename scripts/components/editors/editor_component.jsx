@@ -36,6 +36,7 @@ var EditorComponent = React.createClass({
 		if (this.getFlux().store("ComponentsStore").getState().previewLoaded === true) return;
 		if (this.props.params.id) {
 			console.log("load 2");
+			if (this.getFlux().store("ComponentEditorStore").getState().id == this.props.params.id) return;
 			var editComponent = this.getFlux().store("ComponentsStore").getComponent(this.props.params.id);
 			this.getFlux().actions.loadComponentUpdate(editComponent);
 			this.getFlux().actions.generatePreviewData();

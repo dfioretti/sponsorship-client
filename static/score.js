@@ -229,13 +229,13 @@ function initilizeScoreCanvas(savedModel) {
     if (icon.indexOf('/icon') !== -1) {
       return icon;
     }
-    return "/icons-blue/" + icon + ".png";
+    return "/images/icons-blue/" + icon + ".png";
   }
   // This converter is used by the Picture.
   function findHeadShot(key) {
     //return "";
     //if (key > 16) return ""; // There are only 16 images on the server
-    return "/cancel-button.png";
+    return "/images/cancel-button.png";
   };
 
 

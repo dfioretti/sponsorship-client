@@ -16,11 +16,27 @@ var DashboardHome = React.createClass({
 		StoreWatchMixin("ComponentsStore"),
     StoreWatchMixin("DashboardHomeStore"),
   ],
+	componentWillMount: function() {
+		this.ensureLoaded();
+	},
 	getInitialState: function() {
 		return Immutable.Map();
 	},
 	componentDidMount: function() {
-		console.log("WTF");
+		console.log("didmnt");
+		/*
+		if (!this.getFlux().store("DashboardHomeStore").getState().dashboardsLoaded
+				&& !this.getFlux().store("DashboardHomeStore").getState().loading) {
+			this.getFlux().actions.loadDashboards();
+		}
+		if (!this.getFlux().store("ComponentsStore").getState().componentsLoaded
+					&& !this.getFlux().store("ComponentsStore").getState().loading) {
+			this.getFlux().actions.loadComponents();
+		}
+		*/
+		this.setupGrid('did mt');
+	},
+	ensureLoaded: function() {
 		if (!this.getFlux().store("DashboardHomeStore").getState().dashboardsLoaded
 				&& !this.getFlux().store("DashboardHomeStore").getState().loading) {
 			this.getFlux().actions.loadDashboards();
@@ -30,7 +46,8 @@ var DashboardHome = React.createClass({
 			this.getFlux().actions.loadComponents();
 		}
 	},
-  setupGrid: function() {
+  setupGrid: function(caller) {
+		console.log("da fuck", caller);
     $('.modules-container').shapeshift({
       selector: ".dashboard-module",
       handle: ".drag-handle",
@@ -64,15 +81,15 @@ var DashboardHome = React.createClass({
 	},
   componentWillReceiveProps: function(newProps) {
 		if (this.isDashboardLoaded())
-    	this.setupGrid();
+    	this.setupGrid("will rec");
   },
   componentWillUpdate: function() {
-		if (this.isDashboardLoaded())
-    	this.setupGrid();
+		if (!this.isDashboardLoaded()) this.ensureLoaded();
+    	this.setupGrid("will up");
   },
   componentDidUpdate: function() {
 		if (this.isDashboardLoaded())
-    	this.setupGrid();
+    this.setupGrid("did up");
   },
 	areComponentsLoaded: function() {
 		return this.getFlux().store("ComponentsStore").getState().componentsLoaded;

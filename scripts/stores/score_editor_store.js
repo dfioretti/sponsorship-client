@@ -1,6 +1,7 @@
 var Fluxxor = require("fluxxor"),
     DataClient = require("../clients/data_client.js"),
-    constants = require("../constants/constants.js");
+    constants = require("../constants/constants.js"),
+    ReactRouter = require('react-router');
 
 ScoreEditorStore = Fluxxor.createStore({
         initialize: function() {

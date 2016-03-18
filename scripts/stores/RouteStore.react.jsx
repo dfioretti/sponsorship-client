@@ -17,7 +17,7 @@ var ActionTypes = SmallConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
 var RouteStore = assign({}, EventEmitter.prototype, {
-  
+
   emitChange: function() {
     this.emit(CHANGE_EVENT);
   },
@@ -46,7 +46,7 @@ RouteStore.dispatchToken = SmallAppDispatcher.register(function(payload) {
   ]);
 
   var action = payload.action;
-  
+
   switch(action.type) {
 
     case ActionTypes.REDIRECT:
@@ -57,19 +57,18 @@ RouteStore.dispatchToken = SmallAppDispatcher.register(function(payload) {
       if (SessionStore.isLoggedIn()) {
         router.transitionTo('app');
         // Dirty hack, need to figure this out
-        $(document).foundation();
+        //$(document).foundation();
       }
       break;
-    
+
     case ActionTypes.RECEIVE_CREATED_STORY:
       router.transitionTo('app');
       break;
 
     default:
   }
-  
+
   return true;
 });
 
 module.exports = RouteStore;
-
