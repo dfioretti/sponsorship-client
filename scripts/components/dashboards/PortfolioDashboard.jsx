@@ -13,6 +13,7 @@ var React = require('react'),
 		AppSidebar = require('../sidebar/app_sidebar.jsx'),
 		AssetOverview = require('../assets/AssetOverview.jsx'),
 		AssetScore = require('./modules/AssetScore.jsx'),
+		Notes = require('./modules/Notes.jsx'),
 		ConsumerSurvey = require('../assets/ConsumerSurvey.jsx'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -22,7 +23,8 @@ var PortfolioDashboard = React.createClass({
   mixins: [
     FluxMixin,
 		StoreWatchMixin("DashboardHomeStore"),
-		StoreWatchMixin("ComponentsStore")
+		StoreWatchMixin("ComponentsStore"),
+		StoreWatchMixin("AssetsStore")
   ],
 	componentDidMount: function() {
 		if (!this.getFlux().store("ComponentsStore").getState().componentsLoaded) {
@@ -35,6 +37,9 @@ var PortfolioDashboard = React.createClass({
 	},
 	isDashboardLoaded: function () {
 		return this.getFlux().store("DashboardHomeStore").getState().dashboardsLoaded;
+	},
+	areAssetsLoaded: function() {
+		return this.getFlux().store("AssetsStore").getState().assetsLoaded;
 	},
 	setupGrid: function() {
     $('.modules-container').shapeshift({
@@ -106,6 +111,9 @@ var PortfolioDashboard = React.createClass({
 				case 'consumer_survey':
 					el = <ConsumerSurvey key={name} asset={this.getFlux().store("AssetsStore").getState().assets[0]} />
 					break;
+				case 'notes':
+					el = <Notes />
+					break;
         }
     }
     return el;
@@ -122,7 +130,7 @@ var PortfolioDashboard = React.createClass({
     );
   },
 	render: function() {
-		if (!this.isDashboardLoaded() || !this.areComponentsLoaded()) {
+		if (!this.isDashboardLoaded() || !this.areComponentsLoaded() || !this.areAssetsLoaded() ) {
 			return (
 				<div className="dashboard">
 					<AppSidebar context="dashboard" />
