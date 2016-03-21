@@ -14,6 +14,7 @@ var React = require('react'),
 		AssetOverview = require('../assets/AssetOverview.jsx'),
 		AssetScore = require('./modules/AssetScore.jsx'),
 		Notes = require('./modules/Notes.jsx'),
+		SocialStats = require('../assets/SocialStats.jsx'),
 		ConsumerSurvey = require('../assets/ConsumerSurvey.jsx'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -27,13 +28,21 @@ var PortfolioDashboard = React.createClass({
 		StoreWatchMixin("AssetsStore")
   ],
 	componentDidMount: function() {
+		if (this.props.params.id) {
+			this.setState({assetId: parseInt(this.props.params.id)});
+		}
 		if (!this.getFlux().store("ComponentsStore").getState().componentsLoaded) {
 			this.getFlux().actions.loadComponents();
 		}
 		this.setupGrid();
 	},
+	componentDidUpdate: function() {
+			if (this.props.params.id) {
+				this.setState({assetId: parseInt(this.props.params.id)});
+			}
+	},
 	getInitialState: function() {
-		return Immutable.Map();
+		return Immutable.Map( { assetId: null } );
 	},
 	isDashboardLoaded: function () {
 		return this.getFlux().store("DashboardHomeStore").getState().dashboardsLoaded;
@@ -62,7 +71,11 @@ var PortfolioDashboard = React.createClass({
 		return {};
 	},
 	getDashboardFromFlux: function() {
-		return this.getFlux().store("DashboardHomeStore").getPortoflioDashboard();
+		if (this.state.assetId) {
+			return this.getFlux().store("DashboardHomeStore").getAssetDashboard();
+		} else {
+			return this.getFlux().store("DashboardHomeStore").getPortoflioDashboard();
+		}
 	},
 	componentWillReceiveProps: function(newProps) {
 		if (this.isDashboardLoaded())
@@ -102,17 +115,22 @@ var PortfolioDashboard = React.createClass({
         case 'portfolio_tree_map':
           el = <PortfolioTreemap hidden={hidden} key={name} />
           break;
+				case 'social_stats':
+					el = <SocialStats key={name} hidden={hidden} asset={this.getFlux().store("AssetsStore").getAsset(this.props.params.id)} />
+					break;
 				case 'asset_score':
 					el = <AssetScore key={name} hidden={hidden} />
 					break;
 				case 'asset_overview':
-					el = <AssetOverview key={name} asset={this.getFlux().store("AssetsStore").getState().assets[0]} />
+				console.log("wah");
+				console.log(this.state);
+					el = <AssetOverview key={name} asset={this.getFlux().store("AssetsStore").getAsset(this.props.params.id) } />
 					break;
 				case 'consumer_survey':
-					el = <ConsumerSurvey key={name} asset={this.getFlux().store("AssetsStore").getState().assets[0]} />
+					el = <ConsumerSurvey key={name} asset={this.getFlux().store("AssetsStore").getAsset(this.props.params.id) } />
 					break;
 				case 'notes':
-					el = <Notes />
+					el = <Notes key={name} />
 					break;
         }
     }

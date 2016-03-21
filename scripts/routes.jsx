@@ -48,7 +48,7 @@ module.exports = (
     <Route name='data_index' handler={DataIndex} path='data_index' />
 
     <Route name='portfolio_dashboard' handler={PortfolioDashboard} path='apt/portfolio/dashboard' />
-    <Route name='asset_dashboard' handler={AssetDashboard} path="apt/asset/dashboard/:id" />
+    <Route name='asset_dashboard' handler={PortfolioDashboard} path="apt/asset/dashboard/:id" />
     <Route name='portfolio_overview' handler={PortfolioOverview} path='portfolio_overview' />
     <Route name='asset_overview' handler={EntityOverview} path='asset_overview' />
     <Route name='workspace' handler={Workspace} path='workspace' />
