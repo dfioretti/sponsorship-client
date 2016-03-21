@@ -7,6 +7,7 @@ var React = require('react'),
 		DashboardContextMenu = require('./DashboardContextMenu.jsx'),
 		CreateDashboardModal = require('./CreateDashboardModal.jsx'),
 		OverviewContextmenu  = require('./OverviewContextmenu.jsx'),
+		ComponentContextMenu = require('./ComponentContextMenu.jsx'),
 		MainMenu = require('./MainMenu.jsx'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -122,6 +123,12 @@ var AppSidebar = React.createClass({
 					<OverviewContextmenu />
 				</div>
 			);
+		} else if (this.props.context === 'component-index') {
+			return (
+				<div className="context-menu">
+					<ComponentContextMenu />
+				</div>
+			)
 		}
     else {
       return (

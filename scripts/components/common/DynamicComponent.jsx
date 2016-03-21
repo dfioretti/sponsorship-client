@@ -37,6 +37,12 @@ var DynamicComponent = React.createClass({
     }
   },
   render: function() {
+		if (this.props.component === null) {
+			return (
+				<div className="dashboard-module">
+				</div>
+			);
+		}
     var editLink = "/apt/editor_component/" + this.props.component.id;
     //          <Link to={editLink} className="expand-handle"></Link>
 

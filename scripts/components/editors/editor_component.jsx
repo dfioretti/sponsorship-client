@@ -45,6 +45,8 @@ var EditorComponent = React.createClass({
 	loadPreview: function() {
 		if (this.props.params.id) {
 			this.getFlux().actions.generatePreviewData(this.getFlux().store("ComponentsStore").getComponent(this.props.params.id));
+		} else {
+			this.getFlux().actions.resetComponentEditor();
 		}
 	},
   render: function() {

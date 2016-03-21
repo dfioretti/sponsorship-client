@@ -225,6 +225,9 @@ var DashboardClient = require("../clients/dashboard_client.js"),
           }.bind(this), function(error) {
             this.dispatch(constants.LOAD_DASHBOARDS_FAIL);
           });
+        },
+        resetComponentEditor: function() {
+          this.dispatch(constants.RESET_COMPONENT_EDITOR);
         }
 
     };

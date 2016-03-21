@@ -2,6 +2,8 @@ var React = require('react'),
 		Fluxxor = require('fluxxor'),
 		FluxMixin = Fluxxor.FluxMixin(React),
 		ScoreClient = require('../../clients/score_client.js'),
+		ZoomIn = require('react-icons/lib/fa/search-plus'),
+		ZoomOut = require('react-icons/lib/fa/search-minus'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 
@@ -28,6 +30,13 @@ var EditorTree = React.createClass({
     zoomOut();
   },
   render: function() {
+		var style = {
+			height: "20px",
+			width: "20px",
+			color: "white",
+			cursor: "pointer",
+			margin: "2px"
+		}
     return (
       <div className="editor-score">
         <div className="score-heading">
@@ -35,9 +44,12 @@ var EditorTree = React.createClass({
         </div>
         <div className="editor-tree">
           <div className="editor-commands">
-            <span onClick={this.zoomIn} style={{fontSize: "20px"}} className="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-            <br />
-            <span onClick={this.zoomOut} style={{fontSize: "20px"}} className="glyphicon glyphicon-minus-sign" aria-hidden="true"></span>
+						<div>
+							<ZoomIn style={style} onClick={this.zoomIn} />
+						</div>
+						<div>
+							<ZoomOut style={style} onClick={this.zoomOut} />
+						</div>
           </div>
           <div id="myDiagram">
           </div>

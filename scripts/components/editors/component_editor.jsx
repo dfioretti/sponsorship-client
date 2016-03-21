@@ -18,7 +18,7 @@ var EditorPreview = React.createClass({
   },
   render: function() {
     var component = this.getStateFromFlux().component;
-		if (component === null) {
+		if (false && component === null) {
 			return (
 				<div className='editor-preview'>
 					<div className="preview-heading">

@@ -52,7 +52,8 @@ var Fluxxor = require("fluxxor"),
               constants.PREVIEW_FAIL, this.onPreviewFail,
               constants.LOAD_COMPONENT_UPDATE, this.onLoadComponentUpdate,
               constants.LOAD_ASSETS_SUCCESS, this.onLoadAssetsSucess,
-              constants.LOAD_COMPONENTS_SUCCESS, this.onLoadComponentsSuccess
+              constants.LOAD_COMPONENTS_SUCCESS, this.onLoadComponentsSuccess,
+              constants.RESET_COMPONENT_EDITOR, this.onResetComponentEditor
             )
         },
         getObject: function() {
@@ -79,6 +80,16 @@ var Fluxxor = require("fluxxor"),
             this.startList = t.assets,
             this.filterList = this.startList,
             this.emit("change")
+        },
+        onResetComponentEditor: function() {
+          this.id = null;
+          this.view = "lineChart";
+          this.title = "";
+          this.model = null;
+          this.state = null;
+          this.data = [];
+          this.interval = null;
+          this.emit("change");
         },
         onLoadComponentsSuccess: function() {
           //this.previewLoaded = true;
