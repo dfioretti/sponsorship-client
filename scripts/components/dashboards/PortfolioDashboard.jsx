@@ -3,6 +3,7 @@ var React = require('react'),
 		FluxMixin = Fluxxor.FluxMixin(React),
 		Link = require('react-router').Link,
 		Immutable = require('immutable'),
+		uuid = require('node-uuid'),
 		DashboardMixin = require('../mixins/dashboard_mixin.jsx'),
 		Immutable = require('immutable'),
 		DynamicComponent = require('../common/DynamicComponent.jsx'),
@@ -104,33 +105,33 @@ var PortfolioDashboard = React.createClass({
     else {
       switch (name) {
         case 'portfolio_map':
-        	el = <PortfolioMap hidden={hidden} key={name} />
+        	el = <PortfolioMap hidden={hidden} key={uuid.v4()} />
           break;
         case 'portfolio_summary':
-          el = <PortfolioSummary hidden={hidden} key={name} />
+          el = <PortfolioSummary hidden={hidden} key={uuid.v4()} />
           break;
         case 'score_trend':
           //el = <ScoreTrend hidden={hidden} key={name}  title="Top 5 Passion Scores"  />
           break;
         case 'portfolio_tree_map':
-          el = <PortfolioTreemap hidden={hidden} key={name} />
+          el = <PortfolioTreemap hidden={hidden} key={uuid.v4()} />
           break;
 				case 'social_stats':
-					el = <SocialStats key={name} hidden={hidden} asset={this.getFlux().store("AssetsStore").getAsset(this.props.params.id)} />
+					el = <SocialStats key={uuid.v4()} hidden={hidden} asset={this.getFlux().store("AssetsStore").getAsset(this.props.params.id)} />
 					break;
 				case 'asset_score':
-					el = <AssetScore key={name} hidden={hidden} />
+					el = <AssetScore key={uuid.v4()} hidden={hidden} />
 					break;
 				case 'asset_overview':
 				console.log("wah");
 				console.log(this.state);
-					el = <AssetOverview key={name} asset={this.getFlux().store("AssetsStore").getAsset(this.props.params.id) } />
+					el = <AssetOverview key={uuid.v4()} asset={this.getFlux().store("AssetsStore").getAsset(this.props.params.id) } />
 					break;
 				case 'consumer_survey':
-					el = <ConsumerSurvey key={name} asset={this.getFlux().store("AssetsStore").getAsset(this.props.params.id) } />
+					el = <ConsumerSurvey key={uuid.v4()} asset={this.getFlux().store("AssetsStore").getAsset(this.props.params.id) } />
 					break;
 				case 'notes':
-					el = <Notes key={name} />
+					el = <Notes key={uuid.v4()} />
 					break;
         }
     }
