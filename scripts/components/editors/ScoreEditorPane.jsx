@@ -3,6 +3,10 @@ var React = require('react'),
 		FluxMixin = Fluxxor.FluxMixin(React),
 		Input = require('react-bootstrap').Input,
 		FilterableDataList = require("../common/FilterableDataList.jsx"),
+		ReactBsTable = require('react-bootstrap-table'),
+		BootstrapTable = ReactBsTable.BootstrapTable,
+	//	DataView = require('../overview/DataView.jsx'),
+		TableHeaderColumn = ReactBsTable.TableHeaderColumn,
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 
@@ -232,12 +236,46 @@ var ScoreAssetsPane = React.createClass({
   getStateFromFlux: function() {
     return this.getFlux().store("ScoreEditorStore").getState();
   },
-
+	/*
+	<BootstrapTable
+		data={this.getFlux().store("AssetsStore").getState().assets}
+		striped={true}
+		height="400"
+		searc={true}
+	>
+		<TableHeaderColumn dataSort={true} dataField="id" isKey={true}>ID</TableHeaderColumn>
+	</BootstrapTable>
+	*/
+	onRowSelect: function(row, isSelected) {
+		console.log("SELECTED", row, isSelected);
+	},
+	onSelectAll(isSelected) {
+		console.log("ALL", isSelected);
+	},
   render: function() {
+		var colFilter = {type: "TextFilter" };
+		var data = this.getFlux().store("AssetsStore").getState().assets;
+		var selectRowProp = {
+			mode: "checkbox",
+			clickToSelect: true,
+			bgColor: "#50e3c2",
+			onSelect: this.onRowSelect,
+			onSelectAll: this.onSelectAll
+		}
     return (
-      <div>
-        Score Assets
-      </div>
+				<BootstrapTable data={data}
+												striped={true}
+												hover={true}
+												height="700"
+												selectRow={selectRowProp}
+												condensed={true}
+												search={true}
+				>
+					<TableHeaderColumn hidden={true} dataSort={true} dataField="id" isKey={true}>ID</TableHeaderColumn>
+					<TableHeaderColumn filter={colFilter} dataSort={true} dataField="name">Name</TableHeaderColumn>
+					<TableHeaderColumn filter={colFilter} dataSort={true} dataField="scope">Scope</TableHeaderColumn>
+					<TableHeaderColumn filter={colFilter} dataSort={true} dataField="category">Category</TableHeaderColumn>
+				</BootstrapTable>
     );
   }
 });
