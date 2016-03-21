@@ -230,7 +230,10 @@ var DashboardClient = require("../clients/dashboard_client.js"),
         },
         resetComponentEditor: function() {
           this.dispatch(constants.RESET_COMPONENT_EDITOR);
-        }
+        },
+        hideSnackbar: function() {
+          this.dispatch(constants.HIDE_SNACKBAR);
+        },
 
     };
 module.exports = actions;

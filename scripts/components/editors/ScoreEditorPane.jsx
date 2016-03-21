@@ -262,19 +262,37 @@ var ScoreAssetsPane = React.createClass({
 			onSelect: this.onRowSelect,
 			onSelectAll: this.onSelectAll
 		}
+		var scopeOptions = {
+			"National": "National",
+			"Regional": "Regional"
+		};
+		var categoryOptions = {
+			"Athlete": "Athlete",
+			"Musician": "Musician",
+			"Sports Team": "Sports Team"
+		};
     return (
 				<BootstrapTable data={data}
 												striped={true}
 												hover={true}
-												height="700"
+												height="650"
 												selectRow={selectRowProp}
-												condensed={true}
+												condensed={false}
 												search={true}
 				>
 					<TableHeaderColumn hidden={true} dataSort={true} dataField="id" isKey={true}>ID</TableHeaderColumn>
 					<TableHeaderColumn filter={colFilter} dataSort={true} dataField="name">Name</TableHeaderColumn>
-					<TableHeaderColumn filter={colFilter} dataSort={true} dataField="scope">Scope</TableHeaderColumn>
-					<TableHeaderColumn filter={colFilter} dataSort={true} dataField="category">Category</TableHeaderColumn>
+					<TableHeaderColumn
+						dataField="scope"
+						filter={{type: "SelectFilter", options: scopeOptions}}>
+						Scope
+					</TableHeaderColumn>
+					<TableHeaderColumn
+						filter={{type: "SelectFilter", options: categoryOptions}}
+						dataSort={true}
+						dataField="category">
+						Category
+					</TableHeaderColumn>
 				</BootstrapTable>
     );
   }

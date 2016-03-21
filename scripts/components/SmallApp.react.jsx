@@ -4,15 +4,16 @@ var Header = require('../components/Header.react.jsx');
 var SessionStore = require('../stores/SessionStore.react.jsx');
 var RouteStore = require('../stores/RouteStore.react.jsx');
 var Navigation = require('react-router').Navigation;
-//var Auth = require('j-toker');
 var Auth = require('../vendor/jtoker.js');
-
 var PubSub = require('pubsub-js');
 var Nav = require('../components/common/nav.jsx');
 var Fluxxor = require('fluxxor');
+var FluxMixin = Fluxxor.FluxMixin(React);
 var stores = require('../stores/stores.js');
 var actions = require('../actions/actions.js');
+var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 window.Auth = Auth;
+var AlertManager = require('./common/AlertManager.jsx');
 
 const LoggedOutPaths = [
   '/account_login',
@@ -35,8 +36,9 @@ const PermissionLinkMap = {
 
 var SmallApp = React.createClass({
   mixins: [ Navigation ],
+
   getInitialState: function() {
-    return { loaded: false };
+    return { loaded: false }
   },
   componentWillMount: function() {
     Auth.configure({
@@ -103,7 +105,9 @@ var SmallApp = React.createClass({
 //      var target = document.getElementById('spinner');
 //      var spinner = new Spinner(opts).spin(target);
   },
-
+  onRequestClose: function() {
+    this.setState({open: false})
+  },
   render: function() {
     //             <div id="main" style={{paddingTop: "0px"}}>
     //<Nav {...this.props} flux={flux} />
@@ -111,16 +115,17 @@ var SmallApp = React.createClass({
       //paddingTop: "0px"
     }
 
-
     var flux = new Fluxxor.Flux(stores, actions);
     window.flux = flux;
     flux.on("dispatch", function(type, payload) {
       console.log("[Dispatch]", type, payload);
     });
+
     return (
       <div id="main" style={style}>
         <Nav {...this.props} flux={flux} />
         <RouteHandler {...this.props} flux={flux} />
+        <AlertManager {...this.props} flux={flux} />
       </div>
     );
   }

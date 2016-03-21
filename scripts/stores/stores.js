@@ -6,7 +6,7 @@
  * load all of the data for each model when they are first
  * requested.  This isn't sustainabile for large data sets.
  *
- * Solution Idea: Implement the stores as an LRU cache. Only
+ * TODO: Implement the stores as an LRU cache. Only
  * load the needed objects for views, and cache for session.
  *
  */
@@ -22,6 +22,7 @@ var ComponentEditorStore = require("./component_editor_store.js"),
     ScoresStore = require("./ScoresStore.js"),
     OverviewStore = require("./OverviewStore.js");
     DataStore = require('./DataStore.js');
+    AlertStore = require('./AlertStore.js');
     stores = {
         ComponentEditorStore: new ComponentEditorStore,
         ComponentsStore: new ComponentsStore,
@@ -32,6 +33,7 @@ var ComponentEditorStore = require("./component_editor_store.js"),
         ScoresStore: new ScoresStore,
         AssetsStore: new AssetsStore,
         DataStore: new DataStore,
-        OverviewStore: new OverviewStore
+        OverviewStore: new OverviewStore,
+        AlertStore: new AlertStore
     };
 module.exports = stores;
