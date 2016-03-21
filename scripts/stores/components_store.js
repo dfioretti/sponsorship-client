@@ -26,6 +26,7 @@ ComponentsStore = Fluxxor.createStore({
     }.bind(this));
     this.componentsLoaded = true;
     this.emit("change");
+    //this.emit("change");
   },
   updateComponent: function(payload) {
     this.components[payload.component.id] = payload.component;

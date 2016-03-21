@@ -17,18 +17,14 @@ var ScoreIndex = React.createClass({
 			this.setupGrid();
 		}
 	},
+	componentDidMount: function() {
+		if (this.getStateFromFlux().scoresLoaded)
+			this.setupGrid();
+	},
   componentWillMount: function() {
 		if (!this.getStateFromFlux().scoresLoaded && !this.getStateFromFlux().loading) {
 			this.getFlux().actions.loadScores();
 		}
-		/*
-    ScoresStore.list().then(function() {
-      this.setState({ scoresLoaded: ScoresStore.getState().ready });
-      if (this.state.scoresLoaded) {
-        this.setupGrid();
-      }
-    }.bind(this));
-		*/
   },
   renderModules: function() {
 		var scores = this.getStateFromFlux().scores;
@@ -39,7 +35,7 @@ var ScoreIndex = React.createClass({
     return (
       <div className="modules-container">
         {scores.map(function(score) {
-          return <ScoreCard score={score} />
+          return <ScoreCard key={score.id} score={score} />
         })}
       </div>
     );

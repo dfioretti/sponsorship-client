@@ -18,10 +18,15 @@ var EditorPreview = React.createClass({
   },
   render: function() {
     var component = this.getStateFromFlux().component;
-    if (component == null) {
-      component = this.getFlux().store("ComponentEditorStore").getPreview();
-    }
-
+		if (component === null) {
+			return (
+				<div className='editor-preview'>
+					<div className="preview-heading">
+						Component Preview
+					</div>
+				</div>
+			);
+		}
     return (
       <div className="editor-preview">
         <div className="preview-heading">
@@ -37,7 +42,7 @@ var EditorPreview = React.createClass({
 
 
 var ComponentEditor = React.createClass({
-  mixins: [FluxMixin],
+  mixins: [FluxMixin, StoreWatchMixin("EditorPreviewStore")],
 
   getStateFromFlux: function() {
     var flux = this.getFlux();
@@ -46,7 +51,7 @@ var ComponentEditor = React.createClass({
 
   render: function() {
     /* TODO: clean up these styles */
-    var component = this.getFlux().store("ComponentEditorStore").getPreview();
+    var component = this.getFlux().store("EditorPreviewStore").getState().component;
     return (
       <div className="editor-box">
         <EditorSubNav />

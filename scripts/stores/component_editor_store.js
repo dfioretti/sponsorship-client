@@ -4,9 +4,56 @@ var Fluxxor = require("fluxxor"),
     constants = require("../constants/constants.js"),
     ComponentEditorStore = Fluxxor.createStore({
         initialize: function() {
-            this.id = null, this.title = "", this.data = [], this.previewLoaded = false, this.view = "lineChart", this.interval = "weekly", this.editorPane = "general", this.message = "", this.selectedAsset = null, this.selectedData = null, this.error = null, this.loading = !1, this.saving = !1, this.startList = [], this.dataIndex = 0, this.filteredList = [], this.dataPointList = [], DataClient.getData(function(t) {
+            this.id = null,
+            this.title = "",
+            this.data = [],
+            this.previewLoaded = false,
+            this.view = "lineChart",
+            this.interval = "weekly",
+            this.editorPane = "general",
+            this.message = "",
+            this.selectedAsset = null,
+            this.selectedData = null,
+            this.error = null,
+            this.loading = !1,
+            this.saving = !1,
+            this.startList = [],
+            this.dataIndex = 0,
+            this.filteredList = [],
+            this.dataPointList = [],
+            // this is wicked sloppy but right now i'm only touching things that don't work.
+            DataClient.getData(function(t) {
                 this.dataPointList = t
-            }.bind(this)), this.filteredDataPointList = [], this.filterText = "", this.dataFilterText = "", this.previewObject = this.getObject(), this.state = null, this.bindActions(constants.UPDATE_TYPE, this.onUpdateType, constants.ADD_DATA, this.onDataAdded, constants.UPDATE_TITLE, this.onUpdateTitle, constants.CHANGE_PANE, this.onChangePane, constants.FILTER_LIST, this.onFilterList, constants.FILTER_DATA, this.onFilterData, constants.ASSET_SELECT, this.onAssetSelected, constants.DATA_SELECT, this.onDataSelected, constants.REMOVE_DATA, this.onDataRemoved, constants.SAVE_COMPONENT, this.onSaveComponent, constants.SAVE_SUCCESS, this.onSaveSuccess, constants.SAVE_FAIL, this.onSaveFail, constants.UPDATE_COMPONENT, this.onUpdateComponent, constants.UPDATE_SUCCESS, this.onUpdateSuccess, constants.UPDATE_FAIL, this.onUpdateFail, constants.NEW_COMPONENT, this.onNewComponent, constants.PREVIEW_DATA, this.onPreviewData, constants.PREVIEW_SUCCESS, this.onPreviewSuccess, constants.PREVIEW_FAIL, this.onPreviewFail, constants.LOAD_COMPONENT_UPDATE, this.onLoadComponentUpdate, constants.LOAD_ASSETS_SUCCESS, this.onLoadAssetsSucess)
+            }.bind(this)),
+            this.filteredDataPointList = [],
+            this.filterText = "",
+            this.dataFilterText = "",
+            this.previewObject = this.getObject(),
+            this.state = null,
+            this.bindActions(
+              constants.UPDATE_TYPE, this.onUpdateType,
+              constants.ADD_DATA, this.onDataAdded,
+              constants.UPDATE_TITLE, this.onUpdateTitle,
+              constants.CHANGE_PANE, this.onChangePane,
+              constants.FILTER_LIST, this.onFilterList,
+              constants.FILTER_DATA, this.onFilterData,
+              constants.ASSET_SELECT, this.onAssetSelected,
+              constants.DATA_SELECT, this.onDataSelected,
+              constants.REMOVE_DATA, this.onDataRemoved,
+              constants.SAVE_COMPONENT, this.onSaveComponent,
+              constants.SAVE_SUCCESS, this.onSaveSuccess,
+              constants.SAVE_FAIL, this.onSaveFail,
+              constants.UPDATE_COMPONENT, this.onUpdateComponent,
+              constants.UPDATE_SUCCESS, this.onUpdateSuccess,
+              constants.UPDATE_FAIL, this.onUpdateFail,
+              constants.NEW_COMPONENT, this.onNewComponent,
+              constants.PREVIEW_DATA, this.onPreviewData,
+              constants.PREVIEW_SUCCESS, this.onPreviewSuccess,
+              constants.PREVIEW_FAIL, this.onPreviewFail,
+              constants.LOAD_COMPONENT_UPDATE, this.onLoadComponentUpdate,
+              constants.LOAD_ASSETS_SUCCESS, this.onLoadAssetsSucess,
+              constants.LOAD_COMPONENTS_SUCCESS, this.onLoadComponentsSuccess
+            )
         },
         getObject: function() {
             return {
@@ -29,9 +76,16 @@ var Fluxxor = require("fluxxor"),
             }.bind(this))
         },
         onLoadAssetsSucess: function(t) {
-            this.startList = t.assets, this.filterList = this.startList, this.emit("change")
+            this.startList = t.assets,
+            this.filterList = this.startList,
+            this.emit("change")
+        },
+        onLoadComponentsSuccess: function() {
+          //this.previewLoaded = true;
+          this.emit("change");
         },
         onLoadComponentUpdate: function(t) {
+          // kinda depricated this for now, needs some cleanup..
             this.id = t.component.id,
             this.title = t.component.name,
             this.view = t.component.view,
@@ -42,19 +96,32 @@ var Fluxxor = require("fluxxor"),
           //  this.emit("change")
         },
         onChangePane: function(t) {
-            this.editorPane = t.editorPane, this.emit("change")
+            this.editorPane = t.editorPane,
+            this.emit("change")
         },
         onUpdateType: function(t) {
-            this.view = t.view, this.previewObject = this.getObject(), this.emit("change")
+          // this is really ugly and needs to get fixed...
+            this.view = t.view;
+            this.previewObject = this.getObject();
+            this.previewObject.type = this.view;
+            this.model.type = t.view;
+            this.emit("change")
         },
         onUpdateTitle: function(t) {
-            this.title = t.title, this.previewObject = this.getObject(), this.emit("change")
+            this.title = t.title,
+            this.previewObject = this.getObject(),
+            this.emit("change")
         },
         onPreviewData: function() {
           this.previewLoaded = false;
         },
         onPreviewSuccess: function(t) {
-            this.state = t.component.state
+            this.state = t.component.state;
+            this.title = t.component.name;
+            this.view = t.component.view;
+            this.interval = t.component.interval;
+            this.model = t.component.model;
+            this.data = this.model.data;
             this.previewLoaded = true;
             this.emit("change");
         },
@@ -65,10 +132,11 @@ var Fluxxor = require("fluxxor"),
             this.saving = !0
         },
         onSaveSuccess: function(t) {
-            this.id = t.component.id,
-            this.saving = !1,
-            this.message = "Component saved!",
-            this.emit("change")
+          // don't use beautify js b/c it makes your code make no sense.
+            this.id = t.component.id;
+            this.saving = !1;
+            this.message = "Component saved!";
+            this.emit("change");
         },
         onSaveFail: function(t) {
             this.message = "Failed saving component!", this.emit("change")
@@ -77,7 +145,10 @@ var Fluxxor = require("fluxxor"),
             this.saving = !0, this.emit("change")
         },
         onUpdateSuccess: function(t) {
-            this.message = "Component saved!", this.id = t.component.id, this.saving = !1, this.emit("change")
+            this.message = "Component saved!",
+            this.id = t.component.id,
+            this.saving = !1,
+            this.emit("change")
         },
         onUpdateFail: function(t) {
             this.message = "Failed saviing component", this.emit("change")

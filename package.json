@@ -41,8 +41,11 @@
     "react-icons": "^1.0.3",
     "react-loader": "^2.2.0",
     "react-packery-component": "^1.0.2",
+    "react-select": "^1.0.0-beta11",
     "react-sidebar": "^2.1.1",
+    "react-style": "^0.5.5",
     "react-tap-event-plugin": "^0.2.2",
+    "rebass": "^0.2.4",
     "superagent": "^1.4.0",
     "underscore": "^1.8.3"
   },

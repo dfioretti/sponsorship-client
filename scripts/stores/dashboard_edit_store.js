@@ -4,7 +4,7 @@ var constants = require('../constants/constants.js');
 
 var DashboardEditStore = Fluxxor.createStore({
     initialize: function() {
-        this.availableComponents = [];
+        //this.availableComponents = [];
         this.fetchComponents();
         this.dashboardName = "";
         this.heading = "Create New Dashboard";
@@ -91,6 +91,7 @@ var DashboardEditStore = Fluxxor.createStore({
         this.emit("change");
     },
     fetchComponents: function() {
+      return null;
         ComponentClient.getComponents(function(data) {
             this.availableComponents = data;
             this.emit("change");
@@ -98,7 +99,7 @@ var DashboardEditStore = Fluxxor.createStore({
     },
     getState: function() {
         return {
-            availableComponents: this.availableComponents,
+            //availableComponents: this.availableComponents,
             dashboardName: this.dashboardName,
             selectedComponents: this.selectedComponents,
             heading: this.heading,

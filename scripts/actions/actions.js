@@ -74,8 +74,8 @@ var DashboardClient = require("../clients/dashboard_client.js"),
         newComponent: function() {
             this.dispatch(constants.NEW_COMPONENT)
         },
-        generatePreviewData: function() {
-            this.dispatch(constants.PREVIEW_DATA), ComponentClient.generatePreviewData(flux.store("ComponentEditorStore").getObject(), function(t) {
+        generatePreviewData: function(component) {
+            this.dispatch(constants.PREVIEW_DATA), ComponentClient.generatePreviewData(component, function(t) {
                 this.dispatch(constants.PREVIEW_SUCCESS, {
                     component: t
                 })

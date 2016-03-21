@@ -24,7 +24,6 @@ var Fluxxor = require("fluxxor"),
         },
         getAsset: function(aid) {
           for (var i = 0; i < this.assets.length; i++) {
-            console.log("check", aid, this.assets[i].id);
             if (this.assets[i].id == aid) {
               return this.assets[i];
             }

@@ -31,12 +31,18 @@ var DashboardEditName = React.createClass({
 var DashboardEditBody = React.createClass({
   mixins: [FluxMixin],
   getStateFromFlux: function() {
-    return this.getFlux().store("DashboardEditStore").getState();
+    return this.getFlux().store("ComponentsStore").getState();
   },
   render: function() {
+		// lazy, but whatever
+		var allComponents = this.getFlux().store("ComponentsStore").getComponents();
+		var componentsList = [];
+		for (var key in allComponents) {
+			componentsList.push(allComponents[key]);
+		}
     return (
       <div className="row dashboard-edit-body">
-        {this.getStateFromFlux().availableComponents.map(function(component) {
+        {componentsList.map(function(component) {
           return <DashboardEditComponentRow key={component.id} component={component} />;
         })}
       </div>
@@ -90,7 +96,7 @@ var DashboardEditComponentRow = React.createClass({
         <div className="col-md-3 small-round-images bs-col">
           {this.props.component.model.data.map(function(d) {
             return (
-              <img key={i--} src={"/images" + d.metric.point_image} />
+              <img key={i--} src={d.metric.point_image} />
             );
           })}
         </div>

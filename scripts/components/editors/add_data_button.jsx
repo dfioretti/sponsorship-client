@@ -11,7 +11,7 @@ var AddDataButton = React.createClass({
   },
   handleAddData: function(e) {
     this.getFlux().actions.addData();
-    this.getFlux().actions.generatePreviewData();
+    this.getFlux().actions.generatePreviewData(this.getFlux().store("ComponentEditorStore").getObject());
   },
   render: function() {
     if (this.getStateFromFlux().selectedData !== null) {

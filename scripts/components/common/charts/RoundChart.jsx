@@ -6,28 +6,29 @@ var RoundChart = React.createClass({
   getInitialState: function() {
     return { chartId: uuid.v4() };
   },
-  componentWillMount: function() {
-    this.buildDataState(this.props.component);
-  },
+	componentWillReceiveProps: function(newProps) {
+		if (this.state.chart) this.state.chart.destroy();
+		this.buildDataState(newProps);
+	},
   buildDataState: function(params) {
+		if (!params.component.state) return;
     var dataSets = [],
         i = 0;
-    params.state.data.forEach(function(d) {
+    params.component.state.data.forEach(function(d) {
       dataSets.push(this.dataSetForIndex(i, d.metric, d.value));
       i++
     }.bind(this));
-    this.setState({ dataSets: dataSets });
+		this.renderChart(dataSets);
   },
   componentDidMount: function() {
-    this.renderChart();
+		if (typeof(this.props.component) === 'undefined'
+				|| typeof(this.props.component.state) === 'undefined'
+			  || typeof(this.props.component.state.data) === 'undefined') return;
+    this.buildDataState(this.props);
   },
   componentDidUpdate: function() {
-  },
-  componentWillReceiveProps: function(newProps) {
-  },
-  componentDidUpdate: function() {
-  },
-  componentDidReceiveProps: function() {
+		if (!this.state.chart) return;
+		this.state.chart.update();
   },
   backgroundColor: [
     '#2096f3',
@@ -36,8 +37,9 @@ var RoundChart = React.createClass({
     '#f5a623',
     '#2d64a5'
   ],
-  renderChart: function() {
+  renderChart: function(dataSets) {
     var strokeWidth = 1;
+		if (typeof($("#" + this.state.chartId).get(0)) === 'undefined') return;
     var ctx = $("#" + this.state.chartId).get(0).getContext("2d");
     var chartDetail = {
       segmentStrokeWidth: strokeWidth,
@@ -53,12 +55,16 @@ var RoundChart = React.createClass({
 
     var roundChart;
     if(this.props.component.view === "doughnutChart") {
-      roundChart = new Chart(ctx).Doughnut(this.state.dataSets, chartDetail);
+      roundChart = new Chart(ctx).Doughnut(dataSets, chartDetail);
     } else {
-      roundChart = new Chart(ctx).Pie(this.state.dataSets, chartDetail);
+      roundChart = new Chart(ctx).Pie(dataSets, chartDetail);
     }
     roundChart.outerRadius -= (strokeWidth/2);
     this.chart = roundChart;
+		this.setState({
+			chart: this.chart,
+			data: dataSets
+		});
   },
   dataSetForIndex: function(index, label, value) {
     return {
@@ -81,10 +87,11 @@ var RoundChart = React.createClass({
     }.bind(this));
   },
   render: function() {
+		//style={{width: "190px", height: "190px", padding: "5px"}}
     return (
       <div style={{paddingTop: "35px", paddingLeft: "20px"}}>
         <div className="" style={{display: "inline-block", padding: "5px"}}>
-          <canvas id={this.state.chartId} width="190" height="190" style={{width: "190px", height: "190px", padding: "5px"}}></canvas>
+          <canvas id={this.state.chartId} width="190" height="190" ></canvas>
         </div>
         <ul className="chart-legend" style={{display: "inline-block", background: "#3c88d1", borderRadius: "3px", paddingRight: "5px", paddingLeft: "15px", paddingTop: "5px", paddingBottom: "15px", position: "absolute", top: "100px", left: "225px", fontSize: "12px", width: "155px", textTransform: "capitalize"}}>
           <h5>Legend</h5>

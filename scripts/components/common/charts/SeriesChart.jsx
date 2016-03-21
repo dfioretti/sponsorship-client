@@ -14,9 +14,10 @@ var SeriesChart = React.createClass({
     this.state.chart.update();
   },
   componentDidMount: function() {
-
     if (typeof(this.props.component) === 'undefined'
           || this.props.component.state === null
+					|| this.props.component.state.type === 'doughnutChart'
+					|| this.props.component.state.type === 'pieChart'
           || this.props.component.state.type === 'dataList') return;
     this.buildChart(this.props);
   },
@@ -46,10 +47,11 @@ var SeriesChart = React.createClass({
     });
   },
   renderChart: function(labels, dataSets) {
+		if (typeof(labels) === 'undefined') return;
     var self = this;
+		if (typeof($("#" + this.state.chartId).get(0)) === 'undefined') return;
     var chart = $("#" + this.state.chartId).get(0);
     if (typeof(chart) === 'undefined') { return; }
-    //if (typeof(this.state.data) === 'undefined') { return; }
     var ctx = chart.getContext("2d");
 
     var data = {

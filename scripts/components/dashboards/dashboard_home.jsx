@@ -23,7 +23,6 @@ var DashboardHome = React.createClass({
 		return Immutable.Map();
 	},
 	componentDidMount: function() {
-		console.log("didmnt");
 		/*
 		if (!this.getFlux().store("DashboardHomeStore").getState().dashboardsLoaded
 				&& !this.getFlux().store("DashboardHomeStore").getState().loading) {
@@ -47,7 +46,6 @@ var DashboardHome = React.createClass({
 		}
 	},
   setupGrid: function(caller) {
-		console.log("da fuck", caller);
     $('.modules-container').shapeshift({
       selector: ".dashboard-module",
       handle: ".drag-handle",
@@ -113,7 +111,6 @@ var DashboardHome = React.createClass({
     );
   },
   render: function() {
-		console.log("render");
 		if (!this.isDashboardLoaded() || !this.areComponentsLoaded()) {
 			return (
 				<div className="dashboard">
@@ -121,7 +118,6 @@ var DashboardHome = React.createClass({
 				</div>
 			);
 		} else {
-			console.log("IM LOSING IT");
       return (
         <div className="dashboard">
           <AppSidebar context="dashboard" />

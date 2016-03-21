@@ -3,7 +3,7 @@ var React = require('react'),
 		FluxMixin = Fluxxor.FluxMixin(React),
 		Link = require('react-router').Link,
 		AssetSearch = require('./AssetSearch.jsx'),
-		
+
 		DataListForSelected = require('./DataListForSelected.jsx'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -25,7 +25,7 @@ var DataPane = React.createClass({
       borderRadius: "50%",
       marginLeft: "0px"
     };
-    var image = "/images/" + selected.id + ".jpg";
+    var image = "/images" + selected.id + ".jpg";
 
     return (
       <div key={selected.id} className="container filter-content">

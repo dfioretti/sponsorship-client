@@ -1,8 +1,9 @@
 @import 'fonts';
 @import 'spinner';
-@import 'react-grid-layout';
+//@import 'react-grid-layout';
 @import 'node/react-big-calendar';
 @import 'node/react-bootstrap-table';
+//@import 'node/react-select';
 @import '../bower_components/foundation/scss/foundation/_functions.scss';
 @import '../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss';
 @import './import/application.scss';
@@ -21,6 +22,23 @@ $topbar-height: rem-calc(45);
 *, *:before, *:after {
   box-sizing: border-box;
   font-family: lato;
+}
+
+.drawer {
+  max-height: 500px;
+  transition-property: all;
+  position: absolute;
+  height: 500px;
+  width: 100%;
+  bottom: 0px;
+  background-color: white;
+  left: 0px;
+  transition-duration: .4s;
+  transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  box-shadow: 0 5px 6px rgba(0,0,0,0.12), 0 5px 4px rgba(0,0,0,0.12);
+}
+.drawer.closed {
+  max-height: 0;
 }
 
 #app {

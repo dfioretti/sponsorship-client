@@ -22,7 +22,7 @@ var GenericValueListItem = React.createClass({
   animate: function(newProps) {
     var itemId = "#value-list-item-" + newProps.key;
     $("#" + this.itemId).effect("highlight", {"color": "#50e3c2"}, 1500, function() {
-      this.setState({loaded: true});
+      //this.setState({loaded: true});
     }.bind(this));
   },
   shouldComponentUpdate: function(nextProps, nextState) {

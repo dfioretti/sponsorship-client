@@ -25,6 +25,7 @@ var EntityOverview = require('./components/routes/EntityOverview.jsx');
 var ComponentsIndex = require('./components/routes/ComponentsIndex.jsx');
 var DataIndex = require('./components/routes/DataIndex.jsx');
 var AssetDashboard = require('./components/dashboards/AssetDashboard.jsx');
+var Workspace = require('./components/routes/Workspace.jsx');
 
 
 
@@ -50,6 +51,7 @@ module.exports = (
     <Route name='asset_dashboard' handler={AssetDashboard} path="apt/asset/dashboard/:id" />
     <Route name='portfolio_overview' handler={PortfolioOverview} path='portfolio_overview' />
     <Route name='asset_overview' handler={EntityOverview} path='asset_overview' />
+    <Route name='workspace' handler={Workspace} path='workspace' />
 
     <Route name='fifa_dashboard' handler={Dev} path='/dev' />
     <Route name='choose_company' handler={Dev} path='/dev' />

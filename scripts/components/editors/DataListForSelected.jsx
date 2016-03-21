@@ -6,11 +6,6 @@ var React = require('react'),
 
 var DataListForSelected = React.createClass({
   mixins: [FluxMixin],
-	componentWillMount: function() {
-		//if (!this.getStateFromFlux().assetsLoaded) {
-		//	this.getFlux().actions.loadAssets();
-		//}
-	},
   getStateFromFlux: function() {
     return this.getFlux().store("ComponentEditorStore").getState();
   },

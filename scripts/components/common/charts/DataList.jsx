@@ -58,6 +58,7 @@ var DataList = React.createClass({
     return val;
   },
   renderValues: function() {
+		if (this.props.component.state.date == null) return;
     var valueList = this.props.component.state.data;
 
 

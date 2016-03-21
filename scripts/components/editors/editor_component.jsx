@@ -9,6 +9,9 @@ var ComponentEditor = require('./component_editor.jsx');
 
 var EditorComponent = React.createClass({
   mixins: [FluxMixin, StoreWatchMixin("ComponentsStore")],
+	componentWillMount: function() {
+		this.dataLoaded();
+	},
   getInitialState: function() {
     return { loaded: false };
   },
@@ -16,36 +19,38 @@ var EditorComponent = React.createClass({
 		return this.getFlux().store("ComponentsStore").getState();
 	},
   componentDidMount: function() {
-		if (!this.getFlux().store("ComponentsStore").getState().componentsLoaded
-				&& !this.getFlux().store("ComponentsStore").getState().loading) {
-			this.getFlux().actions.loadComponents();
-			return;
-		}
-		this.loadPreview();
+		if (this.dataLoaded())
+			this.loadPreview();
   },
-	componentDidUpdate: function() {
-		if (!this.getFlux().store("ComponentsStore").getState().componentsLoaded
-				&& !this.getFlux().store("ComponentsStore").getState().loading) {
-			this.getFlux().actions.loadComponents();
-			return;
+	dataLoaded: function() {
+		if (this.getFlux().store("ComponentsStore").getState().componentsLoaded) {
+			return true;
+		} else {
+			if (!this.getFlux().store("ComponentsStore").getState().loading) {
+				this.getFlux().actions.loadComponents();
+			}
 		}
-
-		this.loadPreview();
+		return false;
+		console.log(this.getFlux().store("ComponentsStore").getState());
+		if (this.getFlux().store("ComponentsStore").getState().componentsLoaded
+					&& !this.getFlux().store("ComponentsStore").getState().loading) {
+					return false;
+				}
+		return true;
+	},
+	componentDidUpdate: function() {
+		if (this.dataLoaded())
+			this.loadPreview();
 	},
 	loadPreview: function() {
-		if (this.getFlux().store("ComponentsStore").getState().previewLoaded === true) return;
 		if (this.props.params.id) {
-			console.log("load 2");
-			if (this.getFlux().store("ComponentEditorStore").getState().id == this.props.params.id) return;
-			var editComponent = this.getFlux().store("ComponentsStore").getComponent(this.props.params.id);
-			this.getFlux().actions.loadComponentUpdate(editComponent);
-			this.getFlux().actions.generatePreviewData();
+			this.getFlux().actions.generatePreviewData(this.getFlux().store("ComponentsStore").getComponent(this.props.params.id));
 		}
 	},
   render: function() {
 		if (!this.getFlux().store("ComponentsStore").getState().componentsLoaded)
 			return ( <div className="editor"><AppSidebar context="component" /></div>);
-
+		//this.loadPreview();
     return (
       <div className="editor">
         <AppSidebar context="component" />

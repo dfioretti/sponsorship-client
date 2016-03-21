@@ -105,6 +105,9 @@ var SmallApp = React.createClass({
   },
 
   render: function() {
+    //             <div id="main" style={{paddingTop: "0px"}}>
+
+
     var flux = new Fluxxor.Flux(stores, actions);
     window.flux = flux;
     flux.on("dispatch", function(type, payload) {

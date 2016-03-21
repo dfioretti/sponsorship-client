@@ -15,8 +15,6 @@ var OverviewContextMenu = React.createClass({
     return this.getFlux().store("OverviewStore").getState();
   },
 	handleOverviewContextChange: function(e) {
-		console.log("wtf");
-		console.log(e);
 		this.getFlux().actions.changeOverviewPane(e.target.id);
   },
   render: function() {

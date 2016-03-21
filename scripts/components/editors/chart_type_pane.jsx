@@ -17,7 +17,7 @@ var ChartTypePane = React.createClass({
   },
   handleChartTypeChange: function(e) {
     this.getFlux().actions.updateType(e.target.value);
-    this.getFlux().actions.generatePreviewData();
+    this.getFlux().actions.generatePreviewData(this.getFlux().store("ComponentEditorStore").getObject());
   },
 	renderChartImage: function() {
 		var style = {

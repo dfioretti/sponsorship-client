@@ -19,8 +19,6 @@ var AssetDashboard = React.createClass({
     NotesStore.setCompanyId(this.props.params.id);
 
     DashboardsStore.getAsset(this.props.params.id).then(function(){
-      console.log(DashboardsStore.getState().current);
-      console.log(DashboardsStore.getState().current.id);
       this.setState({dashboardState: DashboardsStore.getState().current, dashboardLoaded: true});
 
       if (this.state.dashboardLoaded && this.state.assetLoaded) {

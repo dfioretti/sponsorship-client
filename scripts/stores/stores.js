@@ -1,3 +1,17 @@
+/**
+ * Register all of the stores into Fluxxor.
+ *
+ *
+ * NOTE: Right now the stores are lazy - they essentialy
+ * load all of the data for each model when they are first
+ * requested.  This isn't sustainabile for large data sets.
+ *
+ * Solution Idea: Implement the stores as an LRU cache. Only
+ * load the needed objects for views, and cache for session.
+ *
+ */
+
+
 var ComponentEditorStore = require("./component_editor_store.js"),
     ComponentsStore = require("./components_store.js"),
     EditorPreviewStore = require("./editor_preview_store.js"),

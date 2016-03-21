@@ -12,19 +12,19 @@ var AddedDataRow = React.createClass({
 
   handleRemoveData: function(e) {
     this.getFlux().actions.removeData(e.target.id);
-    this.getFlux().actions.generatePreviewData();
+    this.getFlux().actions.generatePreviewData(this.getFlux().store("ComponentEditorStore").getObject());
   },
   render: function() {
     return (
       <div className="added-data-row">
         <div className="col-md-2 medium-round-images bs-col">
-          <img src={"/images/" + this.props.imageOne} />
+          <img src={"/images" + this.props.imageOne} />
         </div>
         <div className="col-md-4 bs-col">
           {this.props.labelOne}
         </div>
         <div className="col-md-2 medium-round-images bs-col">
-          <img src={"/images" + this.props.imageTwo} />
+          <img src={this.props.imageTwo} />
         </div>
         <div className="col-md-3 bs-col">
           {this.props.labelTwo}
