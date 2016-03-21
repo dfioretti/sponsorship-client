@@ -11,6 +11,9 @@ var React = require('react'),
 		ScoreTrend = require('./modules/ScoreTrend.jsx'),
 		PortfolioSummary = require('./modules/PortfolioSummary.jsx'),
 		AppSidebar = require('../sidebar/app_sidebar.jsx'),
+		AssetOverview = require('../assets/AssetOverview.jsx'),
+		AssetScore = require('./modules/AssetScore.jsx'),
+		ConsumerSurvey = require('../assets/ConsumerSurvey.jsx'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 
@@ -57,17 +60,14 @@ var PortfolioDashboard = React.createClass({
 		return this.getFlux().store("DashboardHomeStore").getPortoflioDashboard();
 	},
 	componentWillReceiveProps: function(newProps) {
-		console.log("will rp");
 		if (this.isDashboardLoaded())
     	this.setupGrid();
   },
   componentWillUpdate: function() {
-		console.log("wil up");
 		if (this.isDashboardLoaded())
     	this.setupGrid();
   },
   componentDidUpdate: function() {
-		console.log("didup");
 		if (this.isDashboardLoaded())
     	this.setupGrid();
   },
@@ -97,6 +97,15 @@ var PortfolioDashboard = React.createClass({
         case 'portfolio_tree_map':
           el = <PortfolioTreemap hidden={hidden} key={name} />
           break;
+				case 'asset_score':
+					el = <AssetScore key={name} hidden={hidden} />
+					break;
+				case 'asset_overview':
+					el = <AssetOverview key={name} asset={this.getFlux().store("AssetsStore").getState().assets[0]} />
+					break;
+				case 'consumer_survey':
+					el = <ConsumerSurvey key={name} asset={this.getFlux().store("AssetsStore").getState().assets[0]} />
+					break;
         }
     }
     return el;
@@ -113,7 +122,6 @@ var PortfolioDashboard = React.createClass({
     );
   },
 	render: function() {
-		console.log(this.state);
 		if (!this.isDashboardLoaded() || !this.areComponentsLoaded()) {
 			return (
 				<div className="dashboard">

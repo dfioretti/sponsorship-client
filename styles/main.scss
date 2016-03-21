@@ -1,6 +1,6 @@
 @import 'fonts';
 @import 'spinner';
-//@import 'react-grid-layout';
+@import 'react-grid-layout';
 @import 'node/react-big-calendar';
 @import 'node/react-bootstrap-table';
 //@import 'node/react-select';
@@ -13,6 +13,7 @@
 //pages
 @import 'pages/overview-content';
 @import 'elements/elements';
+//@import 'elements/flipper';
 
 
 

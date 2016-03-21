@@ -6,6 +6,10 @@ var GenericBarListItem = React.createClass({
   getInitialState: function() {
     return {loaded: false};
   },
+	riskColor: function(ratio) {
+		var color = '#' + this.pickHex('ff0000', 'ffd300', '97c93c', ratio);
+  	return color;
+	},
   componentDidMount: function() {
     this.animate(this.props);;
   },
@@ -71,7 +75,7 @@ var GenericBarListItem = React.createClass({
   renderProbability: function() {
     var probabilityBar;
     if (this.props.probability) {
-      var probabilityStyle = {backgroundColor: riskColor(this.props.probability)};
+      var probabilityStyle = {backgroundColor: this.riskColor(this.props.probability)};
       if (this.state.loaded) {
         //probabilityStyle.width = this.props.probability * 100;
       }
@@ -85,7 +89,8 @@ var GenericBarListItem = React.createClass({
   },
   render: function() {
     //TODO: update this with better my links
-    var link = '/ews/dashboard/' + this.props.companyId + '/detail',
+    //var link = '/ews/dashboard/' + this.props.companyId + '/detail',
+		var link = "/";
     main;
     var liStyle = this.props.styleOverride ? this.props.styleOverride : {};
 
@@ -111,6 +116,31 @@ var GenericBarListItem = React.createClass({
         {main}
       </li>
     );
-  }
+  },
+	pickHex: function(color1, color2, color3, ratio) {
+	  var newRatio;
+	  var hex = function(x) {
+	      x = x.toString(16);
+	      return (x.length == 1) ? '0' + x : x;
+	  };
+
+	  var r, g, b;
+	  if (ratio > 0.5) {
+	    newRatio = ratio - 0.5;
+	    r = Math.ceil(parseInt(color1.substring(0,2), 16) * ratio + parseInt(color2.substring(0,2), 16) * (0.5-newRatio));
+	    g = Math.ceil(parseInt(color1.substring(2,4), 16) * ratio + parseInt(color2.substring(2,4), 16) * (0.5-newRatio));
+	    b = Math.ceil(parseInt(color1.substring(4,6), 16) * ratio + parseInt(color2.substring(4,6), 16) * (0.5-newRatio));
+	  } else if (ratio == 0.5) {
+	    r = 255;
+	    g = 190;
+	    b = 0;
+	  } else {
+	    newRatio = ratio * 2;
+	    r = Math.ceil(parseInt(color2.substring(0,2), 16) * newRatio + parseInt(color3.substring(0,2), 16) * (1-newRatio));
+	    g = Math.ceil(parseInt(color2.substring(2,4), 16) * newRatio + parseInt(color3.substring(2,4), 16) * (1-newRatio));
+	    b = Math.ceil(parseInt(color2.substring(4,6), 16) * newRatio + parseInt(color3.substring(4,6), 16) * (1-newRatio));
+	  }
+	  return hex(r) + hex(g) + hex(b);
+	}
 });
 module.exports = GenericBarListItem;

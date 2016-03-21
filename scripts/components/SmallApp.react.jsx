@@ -106,6 +106,10 @@ var SmallApp = React.createClass({
 
   render: function() {
     //             <div id="main" style={{paddingTop: "0px"}}>
+    //<Nav {...this.props} flux={flux} />
+    var style = {
+      //paddingTop: "0px"
+    }
 
 
     var flux = new Fluxxor.Flux(stores, actions);
@@ -114,7 +118,7 @@ var SmallApp = React.createClass({
       console.log("[Dispatch]", type, payload);
     });
     return (
-      <div id="main">
+      <div id="main" style={style}>
         <Nav {...this.props} flux={flux} />
         <RouteHandler {...this.props} flux={flux} />
       </div>

@@ -18,7 +18,7 @@ var Workspace = React.createClass({
 	mixins: [FluxMixin],
 
 	getInitialState: function() {
-		return {open: true};
+		return {open: false};
 	},
 	toggleDrawer: function(e) {
 		this.setState({open: !this.state.open});

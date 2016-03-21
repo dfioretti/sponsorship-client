@@ -2,10 +2,13 @@
   position: relative;
   transition: height 200ms ease;
 	background: #03387a;
+  background: green;
 }
 .react-grid-item {
   transition: all 200ms ease;
 	background: #2d64a5;
+  background-color: red;
+  width: "100px";
   transition-property: left, top;
 }
 .react-grid-item.cssTransforms {
@@ -29,6 +32,7 @@
   -ms-user-select: none;
   -o-user-select: none;
   user-select: none;
+  //width: 400px;
 	border: 4px dashed #50e3c2;
 }
 

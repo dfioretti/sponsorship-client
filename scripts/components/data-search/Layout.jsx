@@ -14,7 +14,7 @@ var Layout = React.createClass({
   getDefaultProps() {
     return {
       className: "layout",
-      cols: {lg: 12, md: 10, sm: 6, xs: 4, xxs: 2},
+      cols: {lg: 4, md: 10, sm: 6, xs: 4, xxs: 2},
       rowHeight: 100
     };
   },
@@ -22,7 +22,7 @@ var Layout = React.createClass({
   getInitialState() {
     return {
       items: [0, 1, 2, 3, 4].map(function(i, key, list) {
-        return {i: i.toString(), x: i * 2, y: 0, w: 2, h: 2, add: i === (list.length - 1).toString()};
+        return {i: i.toString(), x: i * 2, y: 0, w: 1, h: 2, add: i === (list.length - 1).toString()};
       }),
       newCounter: 0
     };
@@ -40,7 +40,7 @@ var Layout = React.createClass({
       <div key={i} _grid={el}>
         {el.add ?
           <span className="add text" onClick={this.onAddItem} title="You can add an item by clicking here, too.">Add +</span>
-        : <span className="text">{i}</span>}
+        : <div style={{width: "100px"}}className="lolzies">{i}</div>}
         <span className="remove" style={removeStyle} onClick={this.onRemoveItem.bind(this, i)}>x</span>
       </div>
     );
@@ -72,7 +72,7 @@ var Layout = React.createClass({
   },
 
   onLayoutChange(layout) {
-    this.props.onLayoutChange(layout);
+    //this.props.onLayoutChange(layout);
     this.setState({layout: layout});
   },
 

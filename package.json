@@ -9,6 +9,7 @@
   "dependencies": {
     "bootstrap": "^3.3.6",
     "chart.js": "^1.0.2",
+    "flip": "^1.0.0",
     "flux": "^2.0.0",
     "fluxxor": "^1.7.3",
     "gulp-sourcemaps": "^1.6.0",

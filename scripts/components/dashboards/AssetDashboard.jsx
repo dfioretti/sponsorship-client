@@ -87,7 +87,7 @@ var AssetDashboard = React.createClass({
 
       switch (name) {
         case 'asset_overview':
-        	//el = <AssetOverview asset={this.getFlux().store("AssetsStore").getAsset(467)} hidden={hidden} key={name} />
+        	el = <AssetOverview asset={this.getFlux().store("AssetsStore").getAsset(467)} hidden={hidden} key={name} />
           break;
         case 'portfolio_summary':
           el = <PortfolioSummary hidden={hidden} key={name} />

@@ -14,7 +14,10 @@ var Fluxxor = require("fluxxor"),
             this.loading = !0
         },
         onLoadAssetsSuccess: function(s) {
-            this.assets = s.assets, this.assetsLoaded = !0, this.loading = !1, this.emit("change")
+            this.assets = s.assets,
+            this.assetsLoaded = !0,
+            this.loading = !1,
+            this.emit("change")
         },
         getOwnedAssets: function() {
             var s = [];
@@ -33,6 +36,7 @@ var Fluxxor = require("fluxxor"),
             return {
                 assets: this.assets,
                 assetsLoaded: this.assetsLoaded,
+                filteredList: this.assets,
                 loading: this.loading
             }
         }

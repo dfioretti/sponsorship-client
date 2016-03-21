@@ -48,6 +48,7 @@ var React = require('react');
 		  },
 
 		  onLayoutChange(layout, layouts) {
+        return null;
 		    //this.props.onLayoutChange(layout, layouts);
 		  },
 
