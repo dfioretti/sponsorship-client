@@ -54,7 +54,7 @@ var ComponentEditor = React.createClass({
     var component = this.getFlux().store("EditorPreviewStore").getState().component;
     return (
       <div className="editor-box">
-        <EditorSubNav />
+        <EditorSubNav {...this.props} />
         <div className="editor-container">
             <div className="row editor-2-col">
               <div className="col-md-4 editor-pane">

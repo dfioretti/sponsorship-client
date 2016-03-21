@@ -91,7 +91,7 @@ var Fluxxor = require("fluxxor"),
           this.interval = null;
           this.emit("change");
         },
-        onLoadComponentsSuccess: function() {
+        onLoadComponentsSuccess: function(payload) {
           //this.previewLoaded = true;
           this.emit("change");
         },

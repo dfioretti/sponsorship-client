@@ -71,7 +71,7 @@ var PortfolioDashboard = React.createClass({
 		return {};
 	},
 	getDashboardFromFlux: function() {
-		if (this.state.assetId) {
+		if (this.props.params.id) {
 			return this.getFlux().store("DashboardHomeStore").getAssetDashboard();
 		} else {
 			return this.getFlux().store("DashboardHomeStore").getPortoflioDashboard();

@@ -19,18 +19,21 @@ var EditorSubNav = React.createClass({
     this.getFlux().actions.newComponent();
   },
   handleSaveClick: function() {
+		console.log(this.props);
     if (this.props != null && this.props.handleSave != null) {
       this.props.handleSave();
       return;
     }
-    if (this.getStateFromFlux().id !== null) {
-      this.getFlux().actions.updateComponent();
+    if (this.props.params.id !== null) {
+			console.log("id?");
+      this.getFlux().actions.updateComponent(this.props.params.id);
     }
     else {
       this.getFlux().actions.saveComponent();
     }
   },
   handleBackClick: function() {
+		this.getFlux().actions.resetComponentEditor();
     this.goBack();
     //ReactRouter.HashLocation.pop();
   },

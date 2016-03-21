@@ -8,7 +8,7 @@ var AppSidebar = require('../sidebar/app_sidebar.jsx');
 var ComponentEditor = require('./component_editor.jsx');
 
 var EditorComponent = React.createClass({
-  mixins: [FluxMixin, StoreWatchMixin("ComponentsStore")],
+  mixins: [FluxMixin, StoreWatchMixin("EditorPreviewStore")],
 	componentWillMount: function() {
 		this.dataLoaded();
 	},
@@ -16,7 +16,7 @@ var EditorComponent = React.createClass({
     return { loaded: false };
   },
 	getStateFromFlux: function() {
-		return this.getFlux().store("ComponentsStore").getState();
+		return this.getFlux().store("EditorPreviewStore").getState();
 	},
   componentDidMount: function() {
 		if (this.dataLoaded())
@@ -44,7 +44,9 @@ var EditorComponent = React.createClass({
 	},
 	loadPreview: function() {
 		if (this.props.params.id) {
-			this.getFlux().actions.generatePreviewData(this.getFlux().store("ComponentsStore").getComponent(this.props.params.id));
+			if (this.state.component === null) {
+				this.getFlux().actions.generatePreviewData(this.getFlux().store("ComponentsStore").getComponent(this.props.params.id));
+			}
 		} else {
 			this.getFlux().actions.resetComponentEditor();
 		}
@@ -56,7 +58,7 @@ var EditorComponent = React.createClass({
     return (
       <div className="editor">
         <AppSidebar context="component" />
-        <ComponentEditor />
+        <ComponentEditor {...this.props} />
       </div>
     );
   }

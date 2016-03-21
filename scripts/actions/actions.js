@@ -57,8 +57,10 @@ var DashboardClient = require("../clients/dashboard_client.js"),
                 this.dispatch(constants.SAVE_FAIL)
             }.bind(this))
         },
-        updateComponent: function() {
-            this.dispatch(constants.UPDATE_COMPONENT), ComponentClient.updateComponent(flux.store("ComponentEditorStore").getObject(), function(t) {
+        updateComponent: function(cid) {
+          var object = flux.store("ComponentEditorStore").getObject();
+          object.id = cid;
+            this.dispatch(constants.UPDATE_COMPONENT), ComponentClient.updateComponent(object, function(t) {
                 this.dispatch(constants.UPDATE_SUCCESS, {
                     component: t
                 })

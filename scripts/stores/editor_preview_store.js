@@ -10,13 +10,21 @@ EditorPreviewStore = Fluxxor.createStore({
         constants.UPDATE_TITLE, this.onUpdateTitle,
         constants.UPDATE_TYPE, this.onUpdateType,
         constants.PREVIEW_SUCCESS, this.onPreviewSuccess,
-        constants.UPDATE_TYPE, this.onUpdateType
+        constants.UPDATE_TYPE, this.onUpdateType,
+        constants.RESET_COMPONENT_EDITOR, this.onResetComponentEditor,
+        constants.LOAD_COMPONENTS_SUCCESS, this.onLoadComponentsSuccess
       )
   },
   onPreviewSuccess: function(e) {
     this.previewLoaded = true;
     this.previewComponent = e.component;
     this.emit("change")
+  },
+  onLoadComponentsSuccess: function(payload) {
+    //this.emit("change");
+  },
+  onResetComponentEditor: function(payload) {
+    this.previewComponent = null;
   },
   onUpdateType: function(e) {
     null !== this.previewComponent &&
