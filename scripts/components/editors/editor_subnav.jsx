@@ -2,9 +2,11 @@ var React = require('react'),
 		Fluxxor = require('fluxxor'),
 		FluxMixin = Fluxxor.FluxMixin(React),
 		Link = require('react-router').Link,
+		ReactRouter = require('react-router'),
 		Navigation = require('react-router').Navigation,
 		StoreWatchMixin = Fluxxor.StoreWatchMixin
 
+window.ReactRouter = ReactRouter;
 var EditorSubNav = React.createClass({
   mixins: [FluxMixin, Navigation, StoreWatchMixin("ComponentEditorStore")],
 
@@ -19,14 +21,12 @@ var EditorSubNav = React.createClass({
     this.getFlux().actions.newComponent();
   },
   handleSaveClick: function() {
-		console.log(this.props);
     if (this.props != null && this.props.handleSave != null) {
       this.props.handleSave();
       return;
     }
-    if (this.props.params.id !== null) {
-			console.log("id?");
-      this.getFlux().actions.updateComponent(this.props.params.id);
+    if (this.state.id !== null) {
+      this.getFlux().actions.updateComponent(this.state.id);
     }
     else {
       this.getFlux().actions.saveComponent();
@@ -44,6 +44,12 @@ var EditorSubNav = React.createClass({
     } else {
       message = this.props.message;
     }
+	/*
+	old message alerts before i implemented snackbar
+		<div style={{cursor: "pointer", float: "right", height: "70px", opacity: "1"}} className="col-md-3">
+			{message}
+		</div>
+	*/
     return (
       <div className="subnav">
         <div className="filter-row">
@@ -61,9 +67,7 @@ var EditorSubNav = React.createClass({
           </div>
           <div className="col-md-5">
           </div>
-          <div style={{cursor: "pointer", float: "right", height: "70px", opacity: "1"}} className="col-md-3">
-            {message}
-          </div>
+
         </div>
       </div>
     );

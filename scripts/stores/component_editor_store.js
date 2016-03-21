@@ -1,5 +1,6 @@
 var Fluxxor = require("fluxxor"),
     DataClient = require("../clients/data_client.js"),
+    ReactRouter = require('react-router'),
     AssetClient = require("../clients/asset_client.js"),
     constants = require("../constants/constants.js"),
     ComponentEditorStore = Fluxxor.createStore({
@@ -147,6 +148,7 @@ var Fluxxor = require("fluxxor"),
             this.id = t.component.id;
             this.saving = !1;
             this.message = "Component saved!";
+            ReactRouter.HistoryLocation.push('/apt/editor_component/' + t.component.id);
             this.emit("change");
         },
         onSaveFail: function(t) {

@@ -7,6 +7,8 @@ var RoundChart = React.createClass({
     return { chartId: uuid.v4() };
   },
 	componentWillReceiveProps: function(newProps) {
+		if (newProps.component.state == this.props.component.state) return;
+		console.log("sup?");
 		if (this.state.chart) this.state.chart.destroy();
 		this.buildDataState(newProps);
 	},
@@ -20,6 +22,13 @@ var RoundChart = React.createClass({
     }.bind(this));
 		this.renderChart(dataSets);
   },
+	shouldComponentUpdate: function(newProps) {
+		console.log(this.props.component.state == newProps.component.state);
+		console.log("SHOULDP");
+		console.log(this.props.component);
+		console.log(newProps.component);
+		return this.props.component.state != newProps.component.state;
+	},
   componentDidMount: function() {
 		if (typeof(this.props.component) === 'undefined'
 				|| typeof(this.props.component.state) === 'undefined'
@@ -27,6 +36,7 @@ var RoundChart = React.createClass({
     this.buildDataState(this.props);
   },
   componentDidUpdate: function() {
+		console.log("holla back", this.props, this.state);
 		if (!this.state.chart) return;
 		this.state.chart.update();
   },

@@ -8,8 +8,26 @@ var AlertStore = Fluxxor.createStore({
 		this.bindActions(
 			constants.SAVE_SUCCESS, this.onSaveSuccess,
 			constants.UPDATE_SUCCESS, this.onSaveSuccess,
-			constants.HIDE_SNACKBAR, this.onHideSnackbar
+			constants.HIDE_SNACKBAR, this.onHideSnackbar,
+			constants.DASHBOARD_CREATE_SUCCESS, this.onDashboardCreateSuccess,
+			constants.SAVE_SCORE_SUCCESS, this.onSaveScoreSuccess,
+			constants.DASHBOARD_UPDATE_SUCCESS, this.onDashboardUpdateSuccess
 		)
+	},
+	onDashboardUpdateSuccess: function() {
+		this.open = true;
+		this.message = "Dashboard Updated";
+		this.emit("change");
+	},
+	onSaveScoreSuccess: function() {
+		this.open = true;
+		this.message = "Score Saved!";
+		this.emit("change");
+	},
+	onDashboardCreateSuccess: function() {
+		this.open = true;
+		this.message = "Dashboard Created!";
+		this.emit("change");
 	},
 	onHideSnackbar: function() {
 		this.open = false;

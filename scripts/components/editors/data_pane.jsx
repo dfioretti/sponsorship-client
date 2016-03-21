@@ -25,7 +25,7 @@ var DataPane = React.createClass({
       borderRadius: "50%",
       marginLeft: "0px"
     };
-    var image = "/images" + selected.id + ".jpg";
+    var image = "/images/images/" + selected.id + ".jpg";
 
     return (
       <div key={selected.id} className="container filter-content">

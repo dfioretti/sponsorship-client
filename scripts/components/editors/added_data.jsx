@@ -14,6 +14,7 @@ var AddedData = React.createClass({
   },
   render: function() {
     var i = 0;
+		if (this.getStateFromFlux().data === null) return null;
     return (
       <div className="row filter-row editor-data-table">
         {this.getStateFromFlux().data.map(function(item) {

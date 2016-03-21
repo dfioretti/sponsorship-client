@@ -131,12 +131,13 @@ var AppSidebar = React.createClass({
 			)
 		}
     else {
+			//{this.renderContextListItem('chartType')}
+
       return (
         <div className="context-menu">
           <div className="editor-menu">
             <ul onClick={this.handleContextChange}>
               {this.renderContextListItem('general')}
-              {this.renderContextListItem('chartType')}
               {this.renderContextListItem('data')}
               {this.renderContextListItem('appearance')}
               {this.renderContextListItem('configuration')}

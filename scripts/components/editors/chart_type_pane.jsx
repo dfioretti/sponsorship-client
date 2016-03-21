@@ -60,21 +60,14 @@ var ChartTypePane = React.createClass({
 			chartImage = BarIcon;
     }
     return (
-      <div className="editor-pane">
-        <div className="input-heading">
-          Chart Type
-        </div>
         <div className="form-content">
-          <div className="form-group">
             <label>Chart Type &nbsp;&nbsp;&nbsp;</label>
             <select onChange={this.handleChartTypeChange} value={this.getStateFromFlux().view}>
               {typeList}
             </select>
-          </div>
           <div className="form-group">
 						{this.renderChartImage()}
           </div>
-        </div>
       </div>
     );
   }

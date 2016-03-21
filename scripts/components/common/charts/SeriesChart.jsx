@@ -13,6 +13,9 @@ var SeriesChart = React.createClass({
     if(!this.state.chart) return;
     this.state.chart.update();
   },
+	shouldComponentUpdate: function(newProps) {
+		return this.props.component.state != newProps.component.state;
+	},
   componentDidMount: function() {
     if (typeof(this.props.component) === 'undefined'
           || this.props.component.state === null
@@ -22,6 +25,7 @@ var SeriesChart = React.createClass({
     this.buildChart(this.props);
   },
   componentWillReceiveProps: function(newProps) {
+		if (newProps.component.state == this.props.component.state) return;
     if (this.state.chart) this.state.chart.destroy();
     this.buildChart(newProps)
   },

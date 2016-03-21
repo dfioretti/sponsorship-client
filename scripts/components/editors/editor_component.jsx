@@ -48,7 +48,7 @@ var EditorComponent = React.createClass({
 				this.getFlux().actions.generatePreviewData(this.getFlux().store("ComponentsStore").getComponent(this.props.params.id));
 			}
 		} else {
-			this.getFlux().actions.resetComponentEditor();
+			//this.getFlux().actions.resetComponentEditor();
 		}
 	},
   render: function() {

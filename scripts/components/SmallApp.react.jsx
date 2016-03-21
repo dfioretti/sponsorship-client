@@ -117,9 +117,11 @@ var SmallApp = React.createClass({
 
     var flux = new Fluxxor.Flux(stores, actions);
     window.flux = flux;
+    /*
     flux.on("dispatch", function(type, payload) {
       console.log("[Dispatch]", type, payload);
     });
+    */
 
     return (
       <div id="main" style={style}>

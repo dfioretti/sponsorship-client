@@ -27,7 +27,7 @@ var AssetSearch = React.createClass({
       marginLeft: "0px"
     };
     this.getStateFromFlux().filteredList.map(function(item) {
-      var image = "/images/" + item.id + ".jpg";
+      var image = "/images/images/" + item.id + ".jpg";
       list.push(
         <div key={item.id} className="container filter-content">
           <div id={item.id} className="row filter-row">

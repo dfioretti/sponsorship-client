@@ -21,7 +21,7 @@ EditorPreviewStore = Fluxxor.createStore({
     this.emit("change")
   },
   onLoadComponentsSuccess: function(payload) {
-    //this.emit("change");
+    this.emit("change");
   },
   onResetComponentEditor: function(payload) {
     this.previewComponent = null;
