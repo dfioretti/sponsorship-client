@@ -8,7 +8,6 @@ var DashboardEditFooter = React.createClass({
     return this.getFlux().store("DashboardEditStore").getState();
   },
   handleCreateDashboard: function() {
-    console.log(this.getStateFromFlux());
     if (this.getStateFromFlux().id !== null) {
       this.getFlux().actions.dashboardUpdate();
     } else {

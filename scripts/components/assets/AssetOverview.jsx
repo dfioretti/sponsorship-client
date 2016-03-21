@@ -10,7 +10,6 @@ var AssetOverview = React.createClass({
     $(this.refs.flipper).flip();
   },
   render: function() {
-    console.log("render it");
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
     var asset = this.props.asset;
     var imageUrl = "/images/images/" + asset.id + ".jpg";

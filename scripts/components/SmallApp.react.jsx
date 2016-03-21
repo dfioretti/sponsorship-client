@@ -73,7 +73,6 @@ var SmallApp = React.createClass({
           this.setState({loaded: true});
         }.bind(this))
         .fail(function(resp) {
-          console.log("WTF");
           this.setState({loaded: true});
           if (LoggedOutPaths.indexOf(window.location.pathname) == -1) {
             this.transitionTo('/account_login');

@@ -60,8 +60,6 @@ var AssetDashboard = React.createClass({
     var company = CompaniesStore.getState().current;
     var asset = AssetsStore.getState().current;
 
-    console.log("Name: " + name);
-
     if (name.indexOf('custom_component') > -1 ) {
       el = <CustomComponent hidden={hidden} componentType={componentType} componentTitle={componentTitle} componentId={componentId} />
     } else {
@@ -70,7 +68,6 @@ var AssetDashboard = React.createClass({
           el = <PassionScore hidden={hidden} />
           break;
         case 'asset_overview':
-          console.log("asset overview?");
           el = <AssetOverview asset={asset} hidden={hidden} key={name}/>
           break;
         case 'notes':

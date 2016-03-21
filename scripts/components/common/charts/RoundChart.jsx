@@ -8,7 +8,6 @@ var RoundChart = React.createClass({
   },
 	componentWillReceiveProps: function(newProps) {
 		if (newProps.component.state == this.props.component.state) return;
-		console.log("sup?");
 		if (this.state.chart) this.state.chart.destroy();
 		this.buildDataState(newProps);
 	},
@@ -23,10 +22,6 @@ var RoundChart = React.createClass({
 		this.renderChart(dataSets);
   },
 	shouldComponentUpdate: function(newProps) {
-		console.log(this.props.component.state == newProps.component.state);
-		console.log("SHOULDP");
-		console.log(this.props.component);
-		console.log(newProps.component);
 		return this.props.component.state != newProps.component.state;
 	},
   componentDidMount: function() {
