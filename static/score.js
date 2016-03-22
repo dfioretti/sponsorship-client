@@ -236,7 +236,7 @@ function initilizeScoreCanvas(savedModel) {
   function findHeadShot(key) {
     //return "";
     //if (key > 16) return ""; // There are only 16 images on the server
-    return "/images/cancel-button.png";
+    return "/images/icons/cancel-button.png";
   };
 
 
@@ -327,7 +327,7 @@ function initilizeScoreCanvas(savedModel) {
         }, {
           position: new go.Point(175, 5),
           desiredSize: new go.Size(16, 16),
-          source: '/cancel-button.png'
+          source: '/images/cancel-button.png'
         }), // end picture
         _$(go.TextBlock, textStyle(), {
             position: new go.Point(10, 10),
