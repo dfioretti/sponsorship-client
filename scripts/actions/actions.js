@@ -234,6 +234,10 @@ var DashboardClient = require("../clients/dashboard_client.js"),
         hideSnackbar: function() {
           this.dispatch(constants.HIDE_SNACKBAR);
         },
+        configureComponentEditor: function(component) {
+          console.log("WTF ");
+          this.dispatch(constants.CONFIGURE_COMPONENT_EDITOR, { component: component });
+        }
 
     };
 module.exports = actions;

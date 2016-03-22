@@ -85,6 +85,7 @@ var DashboardEditComponentRow = React.createClass({
   mixins: [FluxMixin],
   render: function () {
     var i = 1000;
+		if (this.props.component.model.data === null) { return null; }
     return (
       <div className="dash-edit-component-row">
         <div className="col-md-5 bs-col">

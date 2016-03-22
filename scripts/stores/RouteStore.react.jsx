@@ -4,13 +4,18 @@ var SessionStore = require('../stores/SessionStore.react.jsx');
 var StoryStore = require('../stores/StoryStore.react.jsx');
 var EventEmitter = require('events').EventEmitter;
 var assign = require('object-assign');
+var createBrowserHistory = require('history/lib/createHistory');
 
 var Router = require('react-router');
 var routes = require('../routes.jsx');
 
 var router = Router.create({
   routes: routes,
-  location: null // Router.HistoryLocation
+  location: null
+//  location: Router.HistoryLocation,
+//  history: Router.HistoryLocation//Router.createBrowserHistory
+
+  //location: null // Router.HistoryLocation
 });
 
 var ActionTypes = SmallConstants.ActionTypes;

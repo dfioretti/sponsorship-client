@@ -6,6 +6,7 @@ var React = require('react'),
 		SeriesChart = require('./charts/SeriesChart.jsx'),
 		RoundChart = require('./charts/RoundChart.jsx'),
 		DataList = require('./charts/DataList.jsx'),
+		Navigation = require('react-router').Navigation,
 		Cog = require('react-icons/lib/fa/cog'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -13,6 +14,7 @@ var DynamicComponent = React.createClass({
   mixins: [
     FluxMixin,
     ChartTooltipHandler,
+		Navigation,
     StoreWatchMixin("EditorPreviewStore")
   ],
 
@@ -36,6 +38,11 @@ var DynamicComponent = React.createClass({
         break;
     }
   },
+	handleComponentEdit: function(e) {
+		console.log("fuck you");
+		this.getFlux().actions.configureComponentEditor(this.props.component);
+		this.transitionTo('/apt/editor_component/' + this.props.component.id);
+	},
   render: function() {
 		if (this.props.component === null) {
 			return (
@@ -51,12 +58,12 @@ var DynamicComponent = React.createClass({
           this.props.component.view === 'barChart') {
       componentStyle="chart-view";
     }
+		//						<Cog id={this.props.component.id} className="cog-handle" />
+
     return (
       <div id={componentStyle} className="dashboard-module">
         <div className="top">
-					<Link to={editLink}>
-						<Cog className="cog-handle" />
-					</Link>
+						<Cog id={this.props.component.id} className="cog-handle" onClick={this.handleComponentEdit} />
           <div className="drag-handle"></div>
           <div className="top-title">{this.props.component.name}</div>
         </div>

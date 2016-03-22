@@ -44,15 +44,17 @@ var DashboardContextMenu = React.createClass({
 		//this.getFlux().actions.dashboardEditLoad(null);
 		//$('#dashboard-edit-modal').click();
 	},
+	createComponent: function() {
+		this.getFlux().actions.resetComponentEditor();
+		this.transitionTo('/apt/editor_component');
+	},
   render: function() {
     if (this.getStateFromFlux().dashboardsLoaded) {
       return (
         <div className="editor-menu">
-					<Link to={"/apt/editor_component"}>
 					<button style={{margin: "10px -10px 10px 10px", width: "calc(100% - 20px)", letterSpacing: "1.5px"}} onClick={this.createComponent} className="btn btn-primary form-control">
 						CREATE COMPONENT
 					</button>
-				</Link>
        </div>
       );
     } else {

@@ -32,17 +32,17 @@ var Workspace = require('./components/routes/Workspace.jsx');
 
 module.exports = (
   <Route handler={SmallApp}>
-    <Route name='account_login' handler={AccountLogin} path='/account_login' />
-    <Route name='create_account' handler={CreateAccount} path='/create_account' />
-    <Route name='password_recovery' handler={PasswordRecovery} path='/password_recovery' />
-    <Route name='reset_password' handler={ResetPassword} path='/reset_password' />
+    <Route name='account_login' handler={AccountLogin} path='account_login' />
+    <Route name='create_account' handler={CreateAccount} path='create_account' />
+    <Route name='password_recovery' handler={PasswordRecovery} path='password_recovery' />
+    <Route name='reset_password' handler={ResetPassword} path='reset_password' />
     <Route name='dev' handler={Dev} path='/dev' />
-    <Route name='editor_component' handler={EditorComponent} path='/apt/editor_component' />
-    <Route name='editor_component_update' handler={EditorComponent} path='/apt/editor_component/:id' />
-    <Route name='dashboard_home' handler={DashboardHome} path='/apt/dashboard/:id' />
+    <Route name='editor_component' handler={EditorComponent} path='apt/editor_component' />
+    <Route name='editor_component_update' handler={EditorComponent} path='apt/editor_component/:id' />
+    <Route name='dashboard_home' handler={DashboardHome} path='apt/dashboard/:id' />
     <Route name='users' handler={UsersIndex} path='admin/users'/>
-    <Route name='editor_score' handler={EditorScore} path='/apt/editor_score' />
-    <Route name='editor_score_update' handler={EditorScore} path='/apt/editor_score/:id' />
+    <Route name='editor_score' handler={EditorScore} path='apt/editor_score' />
+    <Route name='editor_score_update' handler={EditorScore} path='apt/editor_score/:id' />
     <Route name='score_index' handler={ScoreIndex} path='apt/scores/score_index' />
     <Route name='components_index' handler={ComponentsIndex} path="components_index" />
     <Route name='data_index' handler={DataIndex} path='data_index' />
@@ -53,14 +53,14 @@ module.exports = (
     <Route name='asset_overview' handler={EntityOverview} path='asset_overview' />
     <Route name='workspace' handler={Workspace} path='workspace' />
 
-    <Route name='fifa_dashboard' handler={Dev} path='/dev' />
-    <Route name='choose_company' handler={Dev} path='/dev' />
+    <Route name='fifa_dashboard' handler={Dev} path='dev' />
+    <Route name='choose_company' handler={Dev} path='dev' />
 
-    <Route name="login" path="/login" handler={AccountLogin} />
-    <Route name="signup" path="/signup" handler={SignupPage} />
-    <Route name="stories" path="/stories" handler={StoriesPage}/>
-    <Route name="story" path="/stories/:storyId" handler={StoryPage} />
-    <Route name="new-story" path="/story/new" handler={StoryNew}/>
+    <Route name="login" path="login" handler={AccountLogin} />
+    <Route name="signup" path="signup" handler={SignupPage} />
+    <Route name="stories" path="stories" handler={StoriesPage}/>
+    <Route name="story" path="stories/:storyId" handler={StoryPage} />
+    <Route name="new-story" path="story/new" handler={StoryNew}/>
     <DefaultRoute handler={PortfolioDashboard} />
   </Route>
 );

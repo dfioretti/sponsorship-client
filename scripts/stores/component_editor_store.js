@@ -51,10 +51,11 @@ var Fluxxor = require("fluxxor"),
               constants.PREVIEW_DATA, this.onPreviewData,
               constants.PREVIEW_SUCCESS, this.onPreviewSuccess,
               constants.PREVIEW_FAIL, this.onPreviewFail,
-              constants.LOAD_COMPONENT_UPDATE, this.onLoadComponentUpdate,
+              //constants.LOAD_COMPONENT_UPDATE, this.onLoadComponentUpdate,
               constants.LOAD_ASSETS_SUCCESS, this.onLoadAssetsSucess,
               constants.LOAD_COMPONENTS_SUCCESS, this.onLoadComponentsSuccess,
-              constants.RESET_COMPONENT_EDITOR, this.onResetComponentEditor
+              constants.RESET_COMPONENT_EDITOR, this.onResetComponentEditor,
+              constants.CONFIGURE_COMPONENT_EDITOR, this.onConfigureComponentEditor
             )
         },
         getObject: function() {
@@ -96,16 +97,16 @@ var Fluxxor = require("fluxxor"),
           //this.previewLoaded = true;
           this.emit("change");
         },
-        onLoadComponentUpdate: function(t) {
-          // kinda depricated this for now, needs some cleanup..
-            this.id = t.component.id,
-            this.title = t.component.name,
-            this.view = t.component.view,
-            this.interval = t.component.interval,
-            this.model = t.component.model,
-            this.state = t.component.state,
-            this.data = this.model.data
-          //  this.emit("change")
+        onConfigureComponentEditor: function(payload) {
+          console.log(('da fuq'));
+          this.id = payload.component.id;
+          this.title = payload.component.name;
+          this.view = payload.component.view;
+          this.interval = payload.component.interval;
+          this.model = payload.component.model;
+          this.state = payload.component.state;
+          this.data = payload.component.model.data;
+          this.emit("change");
         },
         onChangePane: function(t) {
             this.editorPane = t.editorPane,
@@ -143,12 +144,14 @@ var Fluxxor = require("fluxxor"),
         onSaveComponent: function() {
             this.saving = !0
         },
-        onSaveSuccess: function(t) {
+        onSaveSuccess: function(payload) {
           // don't use beautify js b/c it makes your code make no sense.
-            this.id = t.component.id;
+            this.id = payload.component.id;
             this.saving = !1;
             this.message = "Component saved!";
-            ReactRouter.HistoryLocation.push('/apt/editor_component/' + t.component.id);
+            //ReactRouter.transitionTo('/apt/editor_component/' + payload.component.id);
+            //ReactRouter.Navigation.transitionTo('/apt/editor_component' + payload.component.id);
+            //ReactRouter.HistoryLocation.push('/apt/editor_component/' + t.component.id);
             this.emit("change");
         },
         onSaveFail: function(t) {
