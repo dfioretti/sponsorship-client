@@ -5,27 +5,68 @@ var Fluxxor = require("fluxxor"),
 
 ScoreEditorStore = Fluxxor.createStore({
         initialize: function() {
-            this.id = null, this.selectedPane = "General", this.scoreTitle = "", this.message = "", this.score = null, this.selectedNode = null, this.menuItems = ["General", "Assets", "Configure"], this.parentOperations = [{
+            this.id = null;
+            this.selectedPane = "General",
+            this.scoreTitle = "",
+            this.message = "",
+            this.score = null,
+            this.selectedNode = null,
+            this.menuItems = ["General", "Assets", "Configure"],
+            this.parentOperations = [
+              {
                 value: 0,
                 name: "SUM"
-            }, {
+              },
+              {
                 value: 1,
                 name: "DIFFERENCE"
-            }, {
+              },
+              {
                 value: 2,
                 name: "DIVIDE"
-            }, {
+              },
+              {
                 value: 3,
                 name: "MULTIPLY"
-            }], this.dataPointList = [], DataClient.getData(function(e) {
+              }],
+              this.dataPointList = [],
+              DataClient.getData(function(e) {
                 this.dataPointList = e
-            }.bind(this)), this.bindActions(constants.SCORE_NODE_CHANGED, this.onScoreNodeChanged, constants.SCORE_PANE_CHANGED, this.onScorePaneChanged, constants.UPDATE_SCORE_TITLE, this.onUpdateScoreTitle, constants.UPDATE_NODE_NAME, this.onUpdateNodeName, constants.UPDATE_NODE_WEIGHT, this.onUpdateNodeWeight, constants.UPDATE_NODE_MODE, this.onUpdateNodeMode, constants.UPDATE_NODE_OPERATION, this.onUpdateNodeOperation, constants.UPDATE_NODE_DATA, this.onUpdateNodeData, constants.SAVE_SCORE, this.onSaveScore, constants.SAVE_SCORE_SUCCESS, this.onSaveScoreSuccess, constants.SAVE_SCORE_FAIL, this.onSaveScoreFail)
+              }.bind(this)),
+              this.bindActions(
+                constants.SCORE_NODE_CHANGED, this.onScoreNodeChanged,
+                constants.SCORE_PANE_CHANGED, this.onScorePaneChanged,
+                constants.UPDATE_SCORE_TITLE, this.onUpdateScoreTitle,
+                constants.UPDATE_NODE_NAME, this.onUpdateNodeName,
+                constants.UPDATE_NODE_WEIGHT, this.onUpdateNodeWeight,
+                constants.UPDATE_NODE_MODE, this.onUpdateNodeMode,
+                constants.UPDATE_NODE_OPERATION, this.onUpdateNodeOperation,
+                constants.UPDATE_NODE_DATA, this.onUpdateNodeData,
+                constants.SAVE_SCORE, this.onSaveScore,
+                constants.SAVE_SCORE_SUCCESS, this.onSaveScoreSuccess,
+                constants.SAVE_SCORE_FAIL, this.onSaveScoreFail,
+                constants.RESET_SCORE_EDITOR, this.onResetScoreEditor
+              )
+        },
+        onResetScoreEditor: function() {
+          this.score = null;
+          this.selectedNode = null;
+          this.scoreTitle = "";
+          this.id = null;
+          this.emit("change");
         },
         loadSavedScore: function(e) {
-            this.scoreTitle = e.name, this.score = e, this.id = e.id, myDiagram && load(e.score), this.emit("change")
+            this.scoreTitle = e.name,
+            this.score = e,
+            this.id = e.id,
+            myDiagram && load(e.score),
+            this.emit("change")
         },
         onSaveScoreSuccess: function(e) {
-            this.score = e.score, this.message = "Score Saved!", ReactRouter.HistoryLocation.push("/apt/editor_score/" + e.score.id), this.emit("change")
+            this.score = e.score,
+            this.message = "Score Saved!",
+          //  ReactRouter.HistoryLocation.push("/apt/editor_score/" + e.score.id),
+            this.emit("change")
         },
         onSaveScoreFail: function() {},
         onSaveScore: function(e) {},

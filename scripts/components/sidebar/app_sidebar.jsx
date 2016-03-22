@@ -99,6 +99,7 @@ var AppSidebar = React.createClass({
     }
   },
   renderContent: function() {
+		console.log("context: ", this.props.context);
     if (this.props.context === "dashboard") {
       return (
         <div className="context-menu">
@@ -108,7 +109,7 @@ var AppSidebar = React.createClass({
     } else if (this.props.context === "score") {
       return (
         <div className="context-menu">
-          <ScoreEditContextMenu />
+          <ScoreEditContextMenu mode="edit" />
         </div>
       );
     } else if (this.props.context === 'asset') {
@@ -127,6 +128,12 @@ var AppSidebar = React.createClass({
 			return (
 				<div className="context-menu">
 					<ComponentContextMenu />
+				</div>
+			)
+		} else if (this.props.context === 'score-index') {
+			return (
+				<div className="context-menu">
+					<ScoreEditContextMenu mode="index" />
 				</div>
 			)
 		}

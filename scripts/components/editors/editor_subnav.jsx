@@ -35,9 +35,9 @@ var EditorSubNav = React.createClass({
     }
   },
   handleBackClick: function() {
-		this.getFlux().actions.resetComponentEditor();
-    this.goBack();
-    //ReactRouter.HashLocation.pop();
+		if (this.goBack()) {
+			this.getFlux().actions.resetComponentEditor();
+		}
   },
   render: function() {
     var message = ""

@@ -102,11 +102,15 @@ var Fluxxor = require("fluxxor"),
           this.title = payload.component.name;
           this.view = payload.component.view;
           this.interval = payload.component.interval;
-          this.model = payload.component.model;
           this.state = payload.component.state;
           this.data = payload.component.model.data;
           if (this.data === null) {
             this.data = [];
+          }
+          this.model = {
+            title: this.title,
+            type: this.view,
+            interval: this.interval
           }
           this.emit("change");
         },
@@ -172,6 +176,7 @@ var Fluxxor = require("fluxxor"),
             this.message = "Failed saviing component", this.emit("change")
         },
         onDataAdded: function(t) {
+          if (this.data === null) this.data = [];
             this.data.push({
                 entity: {
                     type: "asset",
@@ -192,14 +197,25 @@ var Fluxxor = require("fluxxor"),
             this.data.splice(t.index, 1), this.emit("change")
         },
         onAssetSelected: function(t) {
+            if (!(t.selectedAsset === null || t.selectedAsset.length < 1)) {
+              for (var i = 0; i < this.startList.length; i++) {
+                if (this.startList[i].id == t.selectedAsset) {
+                  this.selectedAsset = this.startList[i];
+                  break;
+                }
+              }
+            }
+            this.filteredDataPointList = this.dataPointList;
+            this.emit("change");
+          /*
             if (console.log("log", t), console.log(t.selectedAsset), !(null === t.selectedAsset || t.selectedAsset.length < 1)) {
                 for (var e = 0; e < this.startList.length; e++)
-                    if (console.log("test", this.startList[e].id, t.selectedAsset), this.startList[e].id == t.selectedAsset) {
-                        console.log("found"), this.selectedAsset = this.startList[e], console.log(this.selectedAsset);
+                    if (this.startList[e].id == t.selectedAsset) {
+                        this.selectedAsset = this.startList[e];
                         break
                     }
                 this.filteredDataPointList = this.dataPointList, this.emit("change")
-            }
+            }*/
         },
         onNewComponent: function() {
             this.id = null, this.title = "", this.chartType = "lineChart", this.data = [], this.interval = "weekly", this.message = "New Component", this.emit("change")

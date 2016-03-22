@@ -45,7 +45,7 @@ var ScoreIndex = React.createClass({
     if (this.state.scoresLoaded) {
       return (
         <div className="dashboard">
-          <AppSidebar {...this.props} view="score" />
+          <AppSidebar {...this.props} context="score-index" />
           <div className="modules-box">
             {this.renderModules()}
           </div>

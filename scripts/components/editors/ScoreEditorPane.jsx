@@ -220,7 +220,7 @@ var ScoreGeneralPane = React.createClass({
           </div>
           <div className="form-group">
             <button onClick={this.resetLayout} className="btn btn-info form-control">
-              Reset layout
+              Reset Layout
             </button>
           </div>
         </div>
