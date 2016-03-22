@@ -174,8 +174,9 @@ function initilizeScoreCanvas(savedModel) {
       var newemp = {
         key: nextkey,
         title: "",
-        mode: "",
+        mode: "parent",
         icon: "new",
+        weight: 100,
         parent: thisemp.key
       };
       myDiagram.model.addNodeData(newemp);

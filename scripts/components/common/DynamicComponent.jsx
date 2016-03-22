@@ -39,6 +39,7 @@ var DynamicComponent = React.createClass({
     }
   },
 	handleComponentEdit: function(e) {
+		console.log("id", this.props.component.id);
 		this.getFlux().actions.configureComponentEditor(this.props.component);
 		this.transitionTo('/apt/editor_component/' + this.props.component.id);
 	},

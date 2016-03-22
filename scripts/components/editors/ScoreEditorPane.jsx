@@ -5,6 +5,10 @@ var React = require('react'),
 		FilterableDataList = require("../common/FilterableDataList.jsx"),
 		ReactBsTable = require('react-bootstrap-table'),
 		BootstrapTable = ReactBsTable.BootstrapTable,
+		RadioButton = require('material-ui').RadioButton,
+		RadioButtonGroup = require('material-ui').RadioButtonGroup,
+		AutoComplete = require('material-ui').AutoComplete,
+		MenuItem = require('material-ui').MenuItem,
 	//	DataView = require('../overview/DataView.jsx'),
 		TableHeaderColumn = ReactBsTable.TableHeaderColumn,
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -96,7 +100,8 @@ var ScoreConfigurePane = React.createClass({
     this.getFlux().actions.updateNodeMode(e.target.id);
   },
   configureKnob: function() {
-    var val = this.getStateFromFlux().selectedNode.weight;
+		var val = this.state.selectedNode ? this.state.selectedNode.weight : 100;
+    //var val = this.getStateFromFlux().selectedNode.weight;
     if (!val) { val = 100; }
     $('.dial').val(val).trigger('change');
     $('.dial').knob({
@@ -109,6 +114,16 @@ var ScoreConfigurePane = React.createClass({
     this.configureKnob();
   },
   renderPaneContent: function() {
+		var radioStyle = {
+			display: "inline-block",
+			width: "50%",
+			textTransform: "uppercase",
+			letterSpacing: '1.5px',
+			color: "#4a4a4a",
+			fontFamily: "Avenir-Medium",
+			marginTop: "10px"
+		};
+		var dataSource = this.getDataSource();
     if (this.getStateFromFlux().selectedNode == null) {
       return (
         <div className="form-content">
@@ -118,6 +133,9 @@ var ScoreConfigurePane = React.createClass({
         </div>
       );
     } else {
+//								menuStyle={{textTransform: "capitalize", maxHeight: "300px", overflowY: "auto"}}
+				var defaultSelected = this.state.selectedNode ? this.state.selectedNode.mode : 'value';
+
         return (
           <div className="form-content">
             <div className="form-group">
@@ -130,28 +148,16 @@ var ScoreConfigurePane = React.createClass({
             </div>
             <div className="form-group">
               <label>Element Type</label>
-              <div>
-                <Input
-                  type='radio'
-                  label='Parent'
-                  wrapperClassName='col-md-6'
-                  checked={this.getStateFromFlux().selectedNode.mode === 'parent'}
-                  id='parent'
-                  onChange={this.handleModeChange}
-                />
-              <Input
-                  type='radio'
-                  label='Data'
-                  id='value'
-                  checked={this.getStateFromFlux().selectedNode.mode === 'value'}
-                  wrapperClassName='col-md-6'
-                  onChange={this.handleModeChange}
-                />
-            </div>
+								<div className="form-group">
+									<RadioButtonGroup onChange={this.handleRadioChange} name="nodeType" defaultSelected={defaultSelected}>
+										<RadioButton style={radioStyle} value="parent" label="Parent" />
+										<RadioButton style={radioStyle} value="value" label="Data" />
+									</RadioButtonGroup>
+								</div>
             </div>
             <div className="form-group">
               <label>Weight</label>
-              <div className='dial-container'>
+              <div style={{marginLeft: "25%", marginRight: "25%"}}className='dial-container'>
                 <input type='text'
                   value={this.getStateFromFlux().selectedNode.weight}
                   className='dial'
@@ -159,7 +165,7 @@ var ScoreConfigurePane = React.createClass({
                   data-width='100px'
                   data-height='100px'
                   data-thickness='0.2'
-                  data-fgcolor='#EBA068'
+                  data-fgcolor='#00BCD4'
                 />
               </div>
             </div>
@@ -168,6 +174,39 @@ var ScoreConfigurePane = React.createClass({
         );
     }
   },
+	handleItemClick: function(e) {
+		/*
+		console.log('item clic', e);
+		<div className="form-group">
+			<AutoComplete
+				hintText="Score Metric"
+				filter={AutoComplete.caseInsensitiveFilter}
+				dataSource={dataSource}
+				onUpdateInput={this.handleMenuUpdate}
+				/>
+		</div>*/
+	},
+	getDataSource: function() {
+		var list = [];
+		var imgStyle = {
+			height: "35px",
+			width: "35px",
+			borderRadius: "50%"
+		}
+		for (var i = 0; i < this.state.dataPointList.length; i++) {
+			var item = this.state.dataPointList[i];
+			list.push(
+				{
+					text: item.point.split("_").join(" "),
+					value: <MenuItem onChange={this.handleItemClick} id={item.id} primaryText={item.point.split("_").join(" ")} leftIcon={<img style={imgStyle} src={item.icon}/>}/>
+				}
+			)
+		}
+		return list;
+	},
+	handleRadioChange: function(e) {
+		this.getFlux().actions.updateNodeMode(e.target.value);
+	},
   render: function() {
     return (
       <div className="editor-pane">

@@ -119,7 +119,7 @@ var SmallApp = React.createClass({
     flux.on("dispatch", function(type, payload) {
       console.log("[Dispatch]", type, payload);
     });
-
+    flux.actions.loadScores();
     return (
       <div id="main" style={style}>
         <Nav {...this.props} flux={flux} />

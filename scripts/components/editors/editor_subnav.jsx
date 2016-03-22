@@ -26,17 +26,15 @@ var EditorSubNav = React.createClass({
       return;
     }
     if (this.state.id !== null) {
-			console.log("ID CHECK");
       this.getFlux().actions.updateComponent(this.state.id);
     }
     else {
-			console.log("SAVE CHECK");
       this.getFlux().actions.saveComponent();
     }
   },
   handleBackClick: function() {
 		if (this.goBack()) {
-			this.getFlux().actions.resetComponentEditor();
+			//this.getFlux().actions.resetComponentEditor();
 		}
   },
   render: function() {

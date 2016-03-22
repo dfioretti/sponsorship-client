@@ -108,6 +108,14 @@ ScoreEditorStore = Fluxxor.createStore({
         onScoreNodeChanged: function(e) {
             null === e.node ? (this.selectedNode = null, this.selectedPane = "General") : (this.selectedNode = e.node.data, this.selectedPane = "Configure"), this.emit("change")
         },
+        createDataPointList: function() {
+          var list = [];
+          for (var i = 0; i < this.dataPointList.length; i++) {
+            var item = this.dataPointList[i];
+            list.push(item.point.split("_").join(" "))
+          }
+          return list;
+        },
         getState: function() {
             return {
                 selectedPane: this.selectedPane,
@@ -116,6 +124,7 @@ ScoreEditorStore = Fluxxor.createStore({
                 scoreTitle: this.scoreTitle,
                 parentOperations: this.parentOperations,
                 dataPointList: this.dataPointList,
+                dataPointNames: this.createDataPointList(),
                 message: this.message,
                 score: this.score,
                 id: this.id
