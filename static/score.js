@@ -236,7 +236,7 @@ function initilizeScoreCanvas(savedModel) {
   function findHeadShot(key) {
     //return "";
     //if (key > 16) return ""; // There are only 16 images on the server
-    return "/imags/cancel-button.png";
+    return "/images/cancel-button.png";
   };
 
 

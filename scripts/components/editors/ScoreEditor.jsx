@@ -32,9 +32,11 @@ var ScoreEditor = React.createClass({
     // update existing, create new
     if (score.id) {
       this.getFlux().actions.updateScore(score);
+
     } else {
       this.getFlux().actions.saveScore(score);
     }
+		this.getFlux().actions.loadScores();
   },
   render: function() {
     return (
