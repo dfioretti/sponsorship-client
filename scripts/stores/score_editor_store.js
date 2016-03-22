@@ -15,18 +15,22 @@ ScoreEditorStore = Fluxxor.createStore({
             this.parentOperations = [
               {
                 value: 0,
-                name: "SUM"
+                name: ""
               },
               {
                 value: 1,
-                name: "DIFFERENCE"
+                name: "SUM"
               },
               {
                 value: 2,
-                name: "DIVIDE"
+                name: "DIFFERENCE"
               },
               {
                 value: 3,
+                name: "DIVIDE"
+              },
+              {
+                value: 4,
                 name: "MULTIPLY"
               }],
               this.dataPointList = [],

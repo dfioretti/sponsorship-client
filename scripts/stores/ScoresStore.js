@@ -25,6 +25,14 @@ var Fluxxor = require("fluxxor"),
                 scoresLoaded: this.scoresLoaded,
                 loading: this.loading
             }
+        },
+        getScore: function(sid) {
+          for (var i = 0; i < this.scores.length; i++) {
+            if (this.scores[i].id == sid) {
+              return this.scores[i];
+            }
+          }
+          return null;
         }
     });
 module.exports = ScoresStore;

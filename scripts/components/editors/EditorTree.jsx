@@ -4,6 +4,7 @@ var React = require('react'),
 		ScoreClient = require('../../clients/score_client.js'),
 		ZoomIn = require('react-icons/lib/fa/search-plus'),
 		ZoomOut = require('react-icons/lib/fa/search-minus'),
+		ScoresStore = require('../../stores/ScoresStore.js'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 
@@ -12,11 +13,15 @@ var EditorTree = React.createClass({
   componentDidMount: function() {
     var score = null;
     if (this.props.params.id) {
-      ScoreClient.viewScore(this.props.params.id, function(data) {
+			var score = this.getFlux().store("ScoresStore").getScore(this.props.params.id);
+			this.getFlux().store("ScoreEditorStore").loadSavedScore(score);
+			score = score.score;
+      /*ScoreClient.viewScore(this.props.params.id, function(data) {
         // lazy - should use action
         this.getFlux().store("ScoreEditorStore").loadSavedScore(data);
         score = data.score
       }.bind(this));
+			*/
     }
     initilizeScoreCanvas(score);
   },
