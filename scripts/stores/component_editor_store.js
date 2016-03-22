@@ -98,7 +98,6 @@ var Fluxxor = require("fluxxor"),
           this.emit("change");
         },
         onConfigureComponentEditor: function(payload) {
-          console.log(('da fuq'));
           this.id = payload.component.id;
           this.title = payload.component.name;
           this.view = payload.component.view;
@@ -106,6 +105,9 @@ var Fluxxor = require("fluxxor"),
           this.model = payload.component.model;
           this.state = payload.component.state;
           this.data = payload.component.model.data;
+          if (this.data === null) {
+            this.data = [];
+          }
           this.emit("change");
         },
         onChangePane: function(t) {

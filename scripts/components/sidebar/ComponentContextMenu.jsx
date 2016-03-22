@@ -31,8 +31,6 @@ var DashboardContextMenu = React.createClass({
    * @param {e} item click event
    */
   handleMenuSelect: function(e) {
-		console.log("hee");
-		console.log(e.target);
     if (e.target.dataset.action === 'view') {
       this.transitionTo('/apt/dashboard/' + e.target.id);
     } else if (e.target.dataset.action === 'edit'){
