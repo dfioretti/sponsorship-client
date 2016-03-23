@@ -12,11 +12,11 @@ var DataList = React.createClass({
       this.setState({scrollLoaded: true});
     }
   },
+	componentDidUpdate: function() {
+	},
   componentWillMount: function() {
     this.setState({ viewData: this.props.state });
     this.setState({ dataLoaded: true});
-  },
-  componentDidRecieveProps: function() {
   },
   componentWillReceiveProps: function(newProps) {
     /*
@@ -58,42 +58,23 @@ var DataList = React.createClass({
     return val;
   },
   renderValues: function() {
-		if (this.props.component.state.date == null) return;
-    var valueList = this.props.component.state.data;
+		//  if (this.props.component.state.date == null) return;
+  	//  var valueList = this.props.component.state.data;
 
-
-      /*
-
-    listData.sort(function(i1, i2){
-      var order;
-      var field1 = i1['metric']
-      var field2 = i2['metric']
-      order = field1 < field2 ? 1 : -1
-      return order;
-    }.bind(this));
-    */
-/*
-    var list = $.map(listData, function(item, i) {
-      var assetLink = "/apt/asset/dashboard/" + item.asset_id;
-      return <GenericValueListItem key={i} trend={item.trend} link={assetLink} statImage={item.image} statHeader={item.name} statMetric={item.metric} />
-    }.bind(this));
-*/
-    // was social-stats-list in a div
-    // <ul className="trend-list light global-issues-list probability-list risk-indicator-list">
-    // deleted probabilyt list..
     var i = 0;
     var link = "/apt/asset/dashboard/1114";
     return (
         <ul className="generic-list">
           {this.props.component.state.data.map(function(d){
             return (
-              <GenericValueListItem key={i++} link={link} statImage={d.entity_icon} statHeader={d.metric} statMetric={d.value} />
+              <GenericValueListItem key={i++} link={link} statImage={d.metric_icon} statHeader={d.metric} statMetric={d.value} />
             );
           })}
         </ul>
     );
   },
   renderList: function() {
+		if (this.props.type === "dataList") return this.renderValues();
       if(this.props.type === "bar") return this.renderBars();
       else return this.renderValues();
   },

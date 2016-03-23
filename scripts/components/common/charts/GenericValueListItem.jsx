@@ -55,12 +55,17 @@ var GenericValueListItem = React.createClass({
       {this.props.statMetric}
     </ReactBootstrap.Badge>
     */
-
+		var stupidPaths = "";
+		if (this.props.statImage.indexOf('/images') > -1) {
+			stupidPaths = this.props.statImage;
+		} else {
+			stupidPaths = "/images" + this.props.statImage;
+		}
     return (
       <li style={liStyle} onMouseOver={this.showTooltip} onMouseLeave={this.hideToolip}>
         <Link to={this.props.link} >
           <div className="stat-image">
-            <img src={"/images" + this.props.statImage} />
+            <img src={stupidPaths} />
           </div>
           <div className="stat-header">{this.props.statHeader.split("_").join(" ")}</div>
           <div id="iconOverride" className={this.getTrendIconClass()}></div>

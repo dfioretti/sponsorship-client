@@ -99,7 +99,6 @@ var AppSidebar = React.createClass({
     }
   },
   renderContent: function() {
-		console.log("context: ", this.props.context);
     if (this.props.context === "dashboard") {
       return (
         <div className="context-menu">

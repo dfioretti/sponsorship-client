@@ -129,7 +129,7 @@ var Fluxxor = require("fluxxor"),
             this.view = t.view;
             this.previewObject = this.getObject();
             this.previewObject.type = this.view;
-            this.model.type = t.view;
+          //  this.model.type = t.view;
             this.emit("change")
         },
         onUpdateTitle: function(t) {

@@ -123,7 +123,7 @@ var PortfolioMap = React.createClass({
         </div>
         <div style={{paddingLeft: "0px", paddingRight: "0px", paddingBottom: "0px"}}className="main">
           <div className="legend">
-            <div className="legend-item"><div className="legend-point legend-color-6"></div>City Population</div>
+            <div className="legend-item"><div className="legend-point legend-color-6"></div>Fan Avidity</div>
           </div>
           <div style={{height: "230px", width: "400px", marginTop: "0px"}} id="map">
             {this.renderChart()}
