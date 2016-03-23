@@ -16,6 +16,7 @@ var DashboardEditStore = Fluxxor.createStore({
             constants.DASHBOARD_ITEM_ADDED, this.onItemAdded,
             constants.DASHBOARD_ITEM_REMOVED, this.onItemRemoved,
             constants.DASHBOARD_CREATE, this.onDashboardCreate,
+            constants.DASHBOARD_UPDATE, this.onDashboardUpdate,
             constants.DASHBOARD_CREATE_FAIL, this.onDashboardCreateFail,
             constants.DASHBOARD_CREATE_SUCCESS, this.onDashboardCreateSuccess,
             constants.LOAD_EDITOR_DASHBOARD, this.onLoadEditorDashboard
@@ -53,6 +54,7 @@ var DashboardEditStore = Fluxxor.createStore({
         this.emit("change");
     },
     onDashboardCreate: function() {},
+    onDashboardUpdate: function() {},
     onDashboardCreateSuccess: function() {
         this.dashboardName = "";
         this.selectedComponents = [];

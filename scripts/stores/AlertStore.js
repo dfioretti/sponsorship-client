@@ -11,8 +11,14 @@ var AlertStore = Fluxxor.createStore({
 			constants.HIDE_SNACKBAR, this.onHideSnackbar,
 			constants.DASHBOARD_CREATE_SUCCESS, this.onDashboardCreateSuccess,
 			constants.SAVE_SCORE_SUCCESS, this.onSaveScoreSuccess,
-			constants.DASHBOARD_UPDATE_SUCCESS, this.onDashboardUpdateSuccess
+			constants.DASHBOARD_UPDATE_SUCCESS, this.onDashboardUpdateSuccess,
+			constants.ADD_COMPONENT_TO_DASHBOARD_SUCCESS, this.onAddComponentToDashboardSuccess
 		)
+	},
+	onAddComponentToDashboardSuccess: function (payload) {
+		this.open = true;
+		this.message = "Added to " + payload.dashboard.name + "!";
+		this.emit("change");
 	},
 	onDashboardUpdateSuccess: function() {
 		this.open = true;

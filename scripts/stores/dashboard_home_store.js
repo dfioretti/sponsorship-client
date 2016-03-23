@@ -12,7 +12,8 @@ DashboardHomeStore = Fluxxor.createStore({
           constants.DASHBOARD_CREATE_SUCCESS, this.onDashboardCreateSuccess,
           constants.LOAD_DASHBOARDS, this.onLoadDashboards,
           constants.LOAD_DASHBOARDS_SUCCESS, this.onLoadDashboardsSuccess,
-          constants.DASHBOARD_UPDATE_SUCCESS, this.onDashboardUpdateSuccess
+          constants.DASHBOARD_UPDATE_SUCCESS, this.onDashboardUpdateSuccess,
+          constants.ADD_COMPONENT_TO_DASHBOARD_SUCCESS, this.onDashboardUpdateSuccess
         )
     },
     getDashboard: function(s) {

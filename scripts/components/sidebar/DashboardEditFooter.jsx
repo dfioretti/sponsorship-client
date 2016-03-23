@@ -9,8 +9,10 @@ var DashboardEditFooter = React.createClass({
   },
   handleCreateDashboard: function() {
     if (this.getStateFromFlux().id !== null) {
+			console.log("DOING UPDATE");
       this.getFlux().actions.dashboardUpdate();
     } else {
+			console.log("DOING CREATE");
       this.getFlux().actions.dashboardCreate();
     }
     this.props.modal.close();
