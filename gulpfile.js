@@ -33,10 +33,10 @@ var gulp = require('gulp'),
       font: 'fonts/**/*',
       bundle: 'app.js',
       images: 'images/**/*',
-      distJs: 'dist/js',
-      distCss: 'dist/css',
-      distFont: 'dist/fonts',
-      distImages: 'dist/images/*'
+      distJs: 'public/dist/js',
+      distCss: 'public/dist/css',
+      distFont: 'public/dist/fonts',
+      distImages: 'public/dist/images/*'
     };
 
 gulp.task('clean', function(cb) {
@@ -156,7 +156,7 @@ gulp.task('watchTask', function() {
 });
 
 gulp.task('watch', ['clean'], function() {
-  gulp.start(['libs', 'browserSync', 'watchTask', 'watchify', 'styles', 'images']);
+  gulp.start(['libs', 'browserSync', 'watchTask', 'watchify', 'styles']);
 });
 
 gulp.task('build', ['clean'], function() {

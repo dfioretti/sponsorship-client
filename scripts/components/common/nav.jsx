@@ -99,7 +99,7 @@ var Nav = React.createClass({
     if (this.state.filteredList === null) return [];
     var list = [];
     this.state.filteredList.map(function(item) {
-      var image = "/images/images/" + item.id + ".jpg";
+      //var image = "/images/images/" + item.id + ".jpg";
       var link = '/apt/asset/dashboard/'+ item.id;
       var imgStyle = {
         height: "50px",
@@ -111,7 +111,7 @@ var Nav = React.createClass({
           <Link className="asset-link" to={link}>
             <ul>
               <li className="thumb">
-                <img style={imgStyle} src={image} />
+                <img style={imgStyle} src={item.image} />
               </li>
               <li className="asset-name">
                 {item.name}

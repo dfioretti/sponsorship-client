@@ -92,13 +92,13 @@ var PortfolioSummary = React.createClass({
       }.bind(this));
     }
     var list = $.map(listAssets, function(asset, i) {
-      var imageLink = "/images/" + asset.id + ".jpg";
+      //var imageLink = "/images/" + asset.id + ".jpg";
       var assetLink = "/apt/asset/dashboard/" + asset.id;
       var styleOverride = {
         height: "70px",
         paddingTop: "20px"
       };
-      return <GenericValueListItem key={i} reAnimate={false} link={assetLink} statImage={imageLink} value={asset.id} statHeader={asset.name} styleOverride={styleOverride} statMetric={asset.renewal} />
+      return <GenericValueListItem key={i} reAnimate={false} link={assetLink} statImage={asset.image} value={asset.id} statHeader={asset.name} styleOverride={styleOverride} statMetric={asset.renewal} />
     }.bind(this));
     return (
       <div id="port-scroll" className="risk-indicator-list-container">

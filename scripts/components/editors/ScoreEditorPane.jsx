@@ -288,7 +288,7 @@ var ScoreAssetsPane = React.createClass({
 	onRowSelect: function(row, isSelected) {
 		console.log("SELECTED", row, isSelected);
 	},
-	onSelectAll(isSelected) {
+	onSelectAll: function(isSelected) {
 		console.log("ALL", isSelected);
 	},
   render: function() {

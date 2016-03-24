@@ -3,6 +3,7 @@ var RouteHandler = require('react-router').RouteHandler;
 var Header = require('../components/Header.react.jsx');
 var SessionStore = require('../stores/SessionStore.react.jsx');
 var RouteStore = require('../stores/RouteStore.react.jsx');
+var API_ROOT = require("../constants/environment.js").API_ROOT;
 var Navigation = require('react-router').Navigation;
 var Auth = require('../vendor/jtoker.js');
 var PubSub = require('pubsub-js');
@@ -42,7 +43,7 @@ var SmallApp = React.createClass({
   },
   componentWillMount: function() {
     Auth.configure({
-      apiUrl: 'http://localhost:4000/api/v1',
+      apiUrl: API_ROOT + "api/v1",
       passwordResetSuccessUrl: function() {
         return "http://" + "<%=j ENV['DEFAULT_HOST'] %>" + "/reset_password";
       }

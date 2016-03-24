@@ -25,13 +25,13 @@ var DataPane = React.createClass({
       borderRadius: "50%",
       marginLeft: "0px"
     };
-    var image = "/images/images/" + selected.id + ".jpg";
+  //  var image = "/images/images/" + selected.id + ".jpg";
 
     return (
       <div key={selected.id} className="container filter-content">
         <div style={{marginBottom: "10px", borderRadius: "3px", color: "white", background: "#3c88d1"}}id={selected.id} className="row filter-row">
           <div id={selected.id} style={{padding: "10px"}} className="col-md-3 filter-row">
-            <img style={imgStyle} src={image} />
+            <img style={imgStyle} src={selected.image} />
           </div>
           <div id={selected.id} style={{height: "50px", paddingTop: "20px"}} className="col-md-5 filter-row">
             {selected.name}

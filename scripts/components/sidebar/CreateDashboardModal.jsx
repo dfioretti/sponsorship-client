@@ -15,19 +15,19 @@ var CreateDashboardModal = React.createClass({
   getStateFromFlux: function() {
     return this.getFlux().store("DashboardEditStore").getState();
   },
-  getInitialState() {
+  getInitialState: function() {
     return { showModal: false };
   },
 
-  close(e) {
+  close: function(e) {
     // clean up on close
     this.setState({ showModal: false });
     this.getFlux().actions.dashboardEditLoad(null);
   },
-  open() {
+  open: function() {
     this.setState({showModal: true});
   },
-  render() {
+  render: function() {
     //let popover = <ReactBootstrap.Popover title="popover">very popover. such engagement</ReactBootstrap.Popover>;
     //let tooltip = <ReactBootstrap.Tooltip>wow.</ReactBootstrap.Tooltip>;
     return (

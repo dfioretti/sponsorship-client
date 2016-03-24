@@ -1,5 +1,6 @@
+var API_ROOT = require("../constants/environment.js").API_ROOT;
 var url = {
-        COMPONENT_URL: "http://localhost:4000/api/v1/apt/components/"
+        COMPONENT_URL: API_ROOT + "api/v1/apt/components/"
     },
     ComponentClient = {
         getComponents: function(o) {

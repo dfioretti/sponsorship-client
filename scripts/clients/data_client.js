@@ -1,5 +1,6 @@
+var API_ROOT = require("../constants/environment.js").API_ROOT;
 var data_url = {
-        DATA_URL: "http://localhost:4000/api/v1/apt/data/"
+        DATA_URL: API_ROOT + "api/v1/apt/data/"
     },
     DataClient = {
         getData: function(t) {

@@ -12,7 +12,7 @@
     .image-top {
       height: 175px;
       margin-bottom: 20px;
-      background-image: url("../images/login/HeroImage-LoginModal@2x.png");
+      background-image: url("/images/login/HeroImage-LoginModal@2x.png");
       background-size: contain;
     }
 
@@ -50,11 +50,11 @@
           background-position: center center;
 
           &.email {
-            background-image: url("../images/login/icon-user.svg");
+            background-image: url("/images/login/icon-user.svg");
           }
 
           &.password {
-            background-image: url("../images/login/icon-password.svg");
+            background-image: url("/images/login/icon-password.svg");
           }
         }
 

@@ -1,5 +1,6 @@
+var API_ROOT = require("../constants/environment.js").API_ROOT;
 var score_url = {
-        SCORE_URL: "http://localhost:4000/api/v1/apt/scores/"
+        SCORE_URL: API_ROOT + "api/v1/apt/scores/"
     },
     ScoreClient = {
         getScores: function(o) {

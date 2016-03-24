@@ -12,7 +12,7 @@ var Select = require('react-select');
 var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React)
 var DataContainer = require('../data-search/DataContainer.jsx');
-var Layout = require('../data-search/Layout.jsx');
+//var Layout = require('../data-search/Layout.jsx');
 
 var Workspace = React.createClass({
 	mixins: [FluxMixin],
@@ -43,7 +43,6 @@ var Workspace = React.createClass({
 			<div>
 				<AppBar />
 				<Button onClick={this.toggleDrawer} />
-				<Layout />
 				<DataDrawer open={this.state.open}>
 					<DataContainer />
 				</DataDrawer>

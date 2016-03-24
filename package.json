@@ -9,6 +9,8 @@
   "dependencies": {
     "bootstrap": "^3.3.6",
     "chart.js": "^1.0.2",
+    "ejs": "^2.4.1",
+    "express": "^4.13.4",
     "flip": "^1.0.0",
     "flux": "^2.0.0",
     "fluxxor": "^1.7.3",
