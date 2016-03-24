@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "postinstall": "gulp build"
+    "postinstall": "bower install && gulp build"
   },
   "license": "MIT",
   "dependencies": {
