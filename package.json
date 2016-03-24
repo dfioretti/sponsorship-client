@@ -1,9 +1,9 @@
 {
-  "name": "small-frontend",
-  "version": "0.0.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/FancyPixel/small-frontend.git"
+  "name": "teneo-sponsorship",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "postinstall": "gulp build"
   },
   "license": "MIT",
   "dependencies": {
