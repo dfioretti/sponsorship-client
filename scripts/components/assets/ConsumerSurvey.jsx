@@ -1,5 +1,6 @@
 var React = require('react');
 var GenericBarListItem = require('../common/charts/GenericBarListItem.jsx');
+var API_ROOT = require("../../constants/environment.js").API_ROOT;
 
 
 /*
@@ -28,7 +29,7 @@ var ConsumerSurvey = React.createClass({
     $.ajax({
       type: "GET",
       contentType: "application/json",
-      url: "http://localhost:4000/api/v1/apt/asset/mock_data",
+      url: API_ROOT + "api/v1/apt/asset/mock_data",
       data: {"type":"survey", "id":this.props.asset.id},
       success: function(data, status, xhr) {
         this.setState({consumerSurvey: data.survey}, function() {

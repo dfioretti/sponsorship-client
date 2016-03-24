@@ -18,7 +18,7 @@ var AddedData = React.createClass({
     return (
       <div className="row filter-row editor-data-table">
         {this.getStateFromFlux().data.map(function(item) {
-          var entityImage = '/images/' + item.entity.entity_id + '.jpg';
+          var entityImage = item.entity.entity_image
           return (
             <AddedDataRow key={i} id={i++} imageOne={entityImage}
               imageTwo={item.metric.point_image}

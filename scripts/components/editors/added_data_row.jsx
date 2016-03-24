@@ -18,7 +18,7 @@ var AddedDataRow = React.createClass({
     return (
       <div className="added-data-row">
         <div className="col-md-2 medium-round-images bs-col">
-          <img src={"/images" + this.props.imageOne} />
+          <img src={this.props.imageOne} />
         </div>
         <div className="col-md-4 bs-col">
           {this.props.labelOne}

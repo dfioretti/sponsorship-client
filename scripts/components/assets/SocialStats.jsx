@@ -1,5 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
+var API_ROOT = require("../../constants/environment.js").API_ROOT;
 
 
 var SocialStats = React.createClass({
@@ -31,7 +32,7 @@ var SocialStats = React.createClass({
     $.ajax({
       type: "GET",
       contentType: "application/json",
-      url: "http://localhost:4000/api/v1/apt/asset/mock_data",
+      url: API_ROOT + "api/v1/apt/asset/mock_data",
       data: {"type":"social", "id": this.props.asset.id},
       success: function(data, status, xhr) {
         this.setState({socialStats: data.stats});
