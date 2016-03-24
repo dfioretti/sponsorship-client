@@ -13,6 +13,15 @@ bower install
 gulp watch
 ```
 
+##Production Deploy
+To deploy to production, build the 
+
+
+```
+gulp build
+git push heroku mater
+```
+
 #MIT License
 
 	Copyright (c) 2015 Fancy Pixel. All rights reserved.
