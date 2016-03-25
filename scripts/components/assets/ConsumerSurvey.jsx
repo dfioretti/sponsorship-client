@@ -25,7 +25,7 @@ var ConsumerSurvey = React.createClass({
     }
   },
   loadData: function() {
-    // this is going to trigger the render of componenets
+    // this is going to trigger the render of componenets   
     $.ajax({
       type: "GET",
       contentType: "application/json",
