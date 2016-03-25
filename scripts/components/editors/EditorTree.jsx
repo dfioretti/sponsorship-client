@@ -11,8 +11,15 @@ var React = require('react'),
 var EditorTree = React.createClass({
   mixins: [FluxMixin, StoreWatchMixin("ScoreEditorStore")],
   componentDidMount: function() {
-    var score = null;
-    if (this.props.params.id) {
+		if (this.props.params.id) {
+			var score = this.getFlux().store("ScoresStore").getScore(this.props.params.id);
+			initilizeScoreCanvas(score.score);
+			//initilizeScoreCanvas()
+		}
+  //  var score = null;
+	//	if (this.state.score === null) {
+	//	}
+    /*if (this.props.params.id) {
 			var score = this.getFlux().store("ScoresStore").getScore(this.props.params.id);
 			this.getFlux().store("ScoreEditorStore").loadSavedScore(score);
 			score = score.score;
@@ -22,9 +29,12 @@ var EditorTree = React.createClass({
         score = data.score
       }.bind(this));
 			*/
-    }
-    initilizeScoreCanvas(score);
+    //}*/
+  //  initilizeScoreCanvas(this.state.score);
   },
+	componentDidUpdate: function() {
+	//	initilizeScoreCanvas(this.state.score);
+	},
   getStateFromFlux: function() {
     return this.getFlux().store("ScoreEditorStore").getState();
   },

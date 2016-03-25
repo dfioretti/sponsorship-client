@@ -206,6 +206,9 @@ actions = {
           pane: t
       })
   },
+  loadSavedScore: function(score) {
+    this.dispatch(constants.LOAD_SAVED_SCORE, {score: score});
+  },
   loadData: function() {
     this.dispatch(constants.LOAD_DATA);
     DataClient.getData(function(data) {

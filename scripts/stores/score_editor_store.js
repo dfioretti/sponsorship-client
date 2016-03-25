@@ -49,7 +49,8 @@ ScoreEditorStore = Fluxxor.createStore({
                 constants.SAVE_SCORE, this.onSaveScore,
                 constants.SAVE_SCORE_SUCCESS, this.onSaveScoreSuccess,
                 constants.SAVE_SCORE_FAIL, this.onSaveScoreFail,
-                constants.RESET_SCORE_EDITOR, this.onResetScoreEditor
+                constants.RESET_SCORE_EDITOR, this.onResetScoreEditor,
+                constants.LOAD_SAVED_SCORE, this.onLoadSavedScore
               )
         },
         onResetScoreEditor: function() {
@@ -59,11 +60,11 @@ ScoreEditorStore = Fluxxor.createStore({
           this.id = null;
           this.emit("change");
         },
-        loadSavedScore: function(e) {
-            this.scoreTitle = e.name,
-            this.score = e,
-            this.id = e.id,
-            myDiagram && load(e.score),
+        onLoadSavedScore: function(payload) {
+            this.scoreTitle = payload.score.name,
+            this.score = payload.score,
+            this.id = payload.score.id,
+            //myDiagram && load(e.score),
             this.emit("change")
         },
         onSaveScoreSuccess: function(e) {

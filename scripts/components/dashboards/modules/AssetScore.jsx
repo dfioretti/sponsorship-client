@@ -1,7 +1,10 @@
 var React = require('react');
-var Link = require('react-router').Link;
+var Navigation = require('react-router').Navigation;
+var Fluxxor = require('fluxxor');
+var FluxMixin = Fluxxor.FluxMixin(React);
 
 var AssetScore = React.createClass({
+  mixins: [Navigation, FluxMixin],
   componentDidMount: function() {
     var pos = (292 * 0.8 / 1) - 8;
     $('.slider-button').animate({left: pos}, 1000);
@@ -16,6 +19,11 @@ var AssetScore = React.createClass({
   hideTooltip: function(e) {
     $('#risk-assessment-tooltip').hide();
   },
+  handleScoreClick: function() {
+    var score = this.getFlux().store("ScoresStore").getScore(25);
+    this.getFlux().actions.loadSavedScore(score);
+    this.transitionTo('/apt/editor_score/25');
+  },
   render: function() {
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
     var left = 0.8 * 300 - 30;
@@ -26,7 +34,7 @@ var AssetScore = React.createClass({
     return (
       <div id="risk_assessment" className="dashboard-module" style={hiddenStyle}>
         <div className="top">
-          <Link to="/apt/editor_score/25" className="expand-handle" />
+          <div onClick={this.handleScoreClick} className="expand-handle" />
           <div className="drag-handle"></div>
           <div className="top-title">Passion Score</div>
         </div>
