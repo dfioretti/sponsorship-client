@@ -1,7 +1,7 @@
 #Teneo Sponsorship Client
 Prototype build of Teneo Sponsorship frontend App.
 
-App is a standalone front end built with React, intended to connect to the teneo-sponsorship-api backend.
+App is a standalone front end built with React, intended to connect to the teneo-sponsorship-api backend.  
  
 
 ##Dev Setup
