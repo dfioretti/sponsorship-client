@@ -66,10 +66,16 @@ var DataList = React.createClass({
     return (
         <ul className="generic-list">
           {this.props.component.state.data.map(function(d){
+						var defaultImage = d.metric_icon;
+						var defaultText = d.metric;
+						if (this.props.component.data !== null && this.props.component.data.view === 'entity') {
+							defaultImage = d.entity_icon;
+							defaultText = d.entity;
+						}
             return (
-              <GenericValueListItem key={i++} link={link} statImage={d.metric_icon} statHeader={d.metric} statMetric={d.value} />
+              <GenericValueListItem key={i++} link={link} statImage={defaultImage} statHeader={defaultText} statMetric={d.value} />
             );
-          })}
+          }.bind(this))}
         </ul>
     );
   },

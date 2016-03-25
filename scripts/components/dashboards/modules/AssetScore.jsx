@@ -26,7 +26,7 @@ var AssetScore = React.createClass({
     return (
       <div id="risk_assessment" className="dashboard-module" style={hiddenStyle}>
         <div className="top">
-          <Link to="/apt/scores/score_editor/3" className="expand-handle" />
+          <Link to="/apt/editor_score/25" className="expand-handle" />
           <div className="drag-handle"></div>
           <div className="top-title">Passion Score</div>
         </div>

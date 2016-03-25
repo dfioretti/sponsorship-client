@@ -49,18 +49,7 @@ var GenericValueListItem = React.createClass({
   },
   render: function() {
     var liStyle = this.props.styleOverride ? this.props.styleOverride : {};
-    //<div id={this.itemId} className="stat-metric">{this.props.statMetric}</div>
-    /*
-    <ReactBootstrap.Badge>
-      {this.props.statMetric}
-    </ReactBootstrap.Badge>
-    */
-		var stupidPaths = "";
-		if (this.props.statImage.indexOf('/images') > -1) {
-			stupidPaths = this.props.statImage;
-		} else {
-			stupidPaths = "/images" + this.props.statImage;
-		}
+		
     return (
       <li style={liStyle} onMouseOver={this.showTooltip} onMouseLeave={this.hideToolip}>
         <Link to={this.props.link} >
