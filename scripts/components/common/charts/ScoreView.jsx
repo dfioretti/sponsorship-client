@@ -1,8 +1,13 @@
 var React = require('react');
 var uuid = require('node-uuid');
 var ComponentOverlay = require('./ComponentOverlay.jsx');
+var Navigation = require('react-router').Navigation;
+var Fluxxor = require('fluxxor');
+var FluxMixin = Fluxxor.FluxMixin(React);
 
 var ScoreView = React.createClass({
+	mixins: [Navigation, FluxMixin],
+
 	getInitialState: function() {
 		return { scoreId: uuid.v4(), sliderId: uuid.v4() };
 	},
@@ -29,6 +34,16 @@ var ScoreView = React.createClass({
 	},
 	hideTooltip: function(e) {
 		$('#' + this.state.scoreId).hide();
+	},
+	handleComponentEdit: function() {
+		this.getFlux().actions.configureComponentEditor(this.props.component);
+		this.transitionTo('/apt/editor_component/' + this.props.component.id);
+	},
+	handleScoreView: function() {
+		var score_id = this.props.component.state.data[0].score_id
+		var score = this.getFlux().store("ScoresStore").getScore(score_id);
+	  this.getFlux().actions.loadSavedScore(score);
+	  this.transitionTo('/apt/editor_score/' + score_id);
 	},
 	render: function() {
 		var left = 0.8 * 300 - 30;
