@@ -15,6 +15,8 @@ var React = require('react'),
 		TableHeaderColumn = ReactBsTable.TableHeaderColumn,
 		AddToDashboardList = require('../common/AddToDashboardList.jsx'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
+		ScoreView = require('./charts/ScoreView.jsx'),
+		AssetScore = require('../dashboards/modules/AssetScore.jsx');
 
 var DynamicComponent = React.createClass({
   mixins: [
@@ -42,6 +44,9 @@ var DynamicComponent = React.createClass({
       case 'barList':
         return <DataList {...this.props} />
         break;
+			case 'scoreView':
+				return <ScoreView {...this.props} />
+				break;
     }
   },
 	handleComponentEdit: function(e) {
@@ -93,6 +98,9 @@ var DynamicComponent = React.createClass({
 		</BootstrapTable>
 		<br />
 		*/
+		if (this.props.component.view === 'scoreView')
+			return <ScoreView {...this.props} />
+
     return (
       <div id={componentStyle} className="dashboard-module">
         <div className="top">

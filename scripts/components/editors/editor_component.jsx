@@ -31,7 +31,6 @@ var EditorComponent = React.createClass({
 			}
 		}
 		return false;
-		console.log(this.getFlux().store("ComponentsStore").getState());
 		if (this.getFlux().store("ComponentsStore").getState().componentsLoaded
 					&& !this.getFlux().store("ComponentsStore").getState().loading) {
 					return false;

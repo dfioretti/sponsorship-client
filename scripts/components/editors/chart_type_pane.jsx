@@ -7,6 +7,7 @@ var React = require('react'),
 		PieIcon = require('react-icons/lib/fa/pie-chart');
 		DIcon = require('react-icons/lib/fa/circle-o-notch');
 		ListIcon = require('react-icons/lib/fa/list-ul');
+		ScoreIcon = require('react-icons/lib/fa/calculator');
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var ChartTypePane = React.createClass({
@@ -42,14 +43,18 @@ var ChartTypePane = React.createClass({
 			case 'dataList':
 				return <ListIcon style={style}/>
 				break;
-		}
+			case 'scoreView':
+				return <ScoreIcon style={style} />
+				break;
+			}
 	},
   render: function() {
-    var chartTypes = [{id: 'lineChart', name: 'Line Chart'},
-                      {id: 'barChart', name: "Bar Chart"},
-                      {id: 'pieChart', name: "Pie Chart"},
-                      {id: 'doughnutChart', name: "Doughnut Chart"},
-                      {id: 'dataList', name: "Data List"},
+    var chartTypes = [{ id: 'lineChart', name: 'Line Chart' },
+                      { id: 'barChart', name: "Bar Chart" },
+                      { id: 'pieChart', name: "Pie Chart" },
+                      { id: 'doughnutChart', name: "Doughnut Chart" },
+                      { id: 'dataList', name: "Data List" },
+											{ id: 'scoreView', name: "Score View" },
                     ];
     var typeList = [];
     chartTypes.map(function(item) {

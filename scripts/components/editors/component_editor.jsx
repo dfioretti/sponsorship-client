@@ -17,7 +17,7 @@ var EditorPreview = React.createClass({
     return this.getFlux().store("EditorPreviewStore").getState();
   },
   render: function() {
-    var component = this.getStateFromFlux().component;
+    var component = this.state.component;
 		if (false && component === null) {
 			return (
 				<div className='editor-preview'>
