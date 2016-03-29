@@ -88,13 +88,13 @@ var DashboardEditComponentRow = React.createClass({
 		if (this.props.component.model.data === null) { return null; }
     return (
       <div className="dash-edit-component-row">
-        <div className="col-md-5 bs-col">
-          {this.props.component.name}
+        <div className="col-md-4 bs-col">
+          {this.props.component.name.substring(0, 18) + "..." }
         </div>
         <div className="col-md-3 bs-col">
           {this.props.component.view.split(/(?=[A-Z])/).join(" ")}
         </div>
-        <div className="col-md-3 small-round-images bs-col">
+        <div className="col-md-4 small-round-images bs-col">
           {this.props.component.model.data.map(function(d) {
             return (
               <img key={i--} src={d.metric.point_image} />

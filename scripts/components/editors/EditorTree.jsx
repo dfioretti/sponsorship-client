@@ -15,22 +15,9 @@ var EditorTree = React.createClass({
 			var score = this.getFlux().store("ScoresStore").getScore(this.props.params.id);
 			initilizeScoreCanvas(score.score);
 			//initilizeScoreCanvas()
+		} else {
+			initilizeScoreCanvas(null);
 		}
-  //  var score = null;
-	//	if (this.state.score === null) {
-	//	}
-    /*if (this.props.params.id) {
-			var score = this.getFlux().store("ScoresStore").getScore(this.props.params.id);
-			this.getFlux().store("ScoreEditorStore").loadSavedScore(score);
-			score = score.score;
-      /*ScoreClient.viewScore(this.props.params.id, function(data) {
-        // lazy - should use action
-        this.getFlux().store("ScoreEditorStore").loadSavedScore(data);
-        score = data.score
-      }.bind(this));
-			*/
-    //}*/
-  //  initilizeScoreCanvas(this.state.score);
   },
 	componentDidUpdate: function() {
 	//	initilizeScoreCanvas(this.state.score);
