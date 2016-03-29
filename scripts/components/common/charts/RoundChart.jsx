@@ -37,6 +37,7 @@ var RoundChart = React.createClass({
   },
   backgroundColor: [
     '#2096f3',
+		'#03387a',
     '#50e3c2',
     '#f5a623',
     '#2d64a5',

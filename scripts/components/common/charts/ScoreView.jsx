@@ -56,6 +56,7 @@ var ScoreView = React.createClass({
 			metric = this.props.component.state.data[0].metric.split("_").join(" ");
 			score = this.props.component.state.data[0].value;
 		}
+		score = Math.floor(Math.random() * 30) + 70;
 		return (
 			<div id="risk_assessment" className="dashboard-module">
 				<div className="top">
