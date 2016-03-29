@@ -10,6 +10,16 @@ var ComponentOverlay = React.createClass({
 		if (this.props.handleSecondaryClick !== null) {
 			secondaryStyle = { display: "none" };
 		}
+		var dashStyle = {
+			textTransform: "uppercase",
+			letterSpacing: "1.5px",
+			width: "100%",
+			fontSize: "11px",
+			color: "#03387a",
+			textAlign: "center",
+			paddingTop: "9px",
+			borderTop: "1px solid #3c88d1"
+		};
 		return (
 			<OverlayTrigger
 				trigger="click"
@@ -33,6 +43,8 @@ var ComponentOverlay = React.createClass({
 								>
 								{this.props.secondaryAction}
 							</button>
+							<h5 style={dashStyle}>Add to Dashboard</h5>
+							<AddToDashboardList component={this.props.component} dashboards={this.props.dashboards} />
 						</div>
 					</Popover>
 				}>

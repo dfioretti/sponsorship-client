@@ -64,6 +64,8 @@ var ScoreView = React.createClass({
 						primaryAction={"EDIT COMPONENT"}
 						handleSecondaryClick={this.handleScoreView}
 						secondaryAction={"VIEW SCORE"}
+						component={this.props.component}
+						dashboards={this.getFlux().store("DashboardHomeStore").getCustomDashboards()}
 						/>
 					<div className="drag-handle" />
 					<div className="top-title">{this.props.component.name}</div>
