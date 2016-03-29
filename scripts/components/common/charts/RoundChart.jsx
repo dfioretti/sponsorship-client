@@ -37,10 +37,10 @@ var RoundChart = React.createClass({
   },
   backgroundColor: [
     '#2096f3',
-    '#e76959',
     '#50e3c2',
     '#f5a623',
-    '#2d64a5'
+    '#2d64a5',
+		'#e76959'
   ],
   renderChart: function(dataSets) {
     var strokeWidth = 1;
