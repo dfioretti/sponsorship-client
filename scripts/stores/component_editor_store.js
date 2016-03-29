@@ -55,7 +55,8 @@ var Fluxxor = require("fluxxor"),
               constants.LOAD_ASSETS_SUCCESS, this.onLoadAssetsSucess,
               constants.LOAD_COMPONENTS_SUCCESS, this.onLoadComponentsSuccess,
               constants.RESET_COMPONENT_EDITOR, this.onResetComponentEditor,
-              constants.CONFIGURE_COMPONENT_EDITOR, this.onConfigureComponentEditor
+              constants.CONFIGURE_COMPONENT_EDITOR, this.onConfigureComponentEditor,
+              constants.SAVE_SCORE_SUCCESS, this.onSaveScoreSuccess
             )
         },
         getObject: function() {
@@ -82,6 +83,16 @@ var Fluxxor = require("fluxxor"),
             this.startList = t.assets,
             this.filterList = this.startList,
             this.emit("change")
+        },
+        /**
+         * this is kinda hacky, when i save a score
+         * reload data point list so i can offer the new
+         * score as an option
+         */
+        onSaveScoreSuccess: function(payload) {
+          DataClient.getData(function(t) {
+              this.dataPointList = t
+          }.bind(this))
         },
         onResetComponentEditor: function() {
           this.id = null;
