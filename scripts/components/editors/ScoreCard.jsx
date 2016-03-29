@@ -1,7 +1,15 @@
 var React = require('react'),
-		Link = require('react-router').Link;
+		Fluxxor = require('fluxxor'),
+		FluxMixin = Fluxxor.FluxMixin(React),
+		Navigation = require('react-router').Navigation;
 
 var ScoreCard = React.createClass({
+	mixins: [FluxMixin, Navigation],
+
+	handleScoreClick: function(e) {
+		this.getFlux().actions.loadSavedScore(this.props.score);
+		this.transitionTo('/apt/editor_score/' + this.props.score.id);
+	},
   render: function() {
     var id = "asset_card_" + this.props.score.id;
     var imageSize = {
@@ -27,11 +35,9 @@ var ScoreCard = React.createClass({
             {this.props.score.name}
           </div>
         </div>
-        <div className="main">
-					<Link to={link}>
-            <img style={imageSize} src={this.props.score.image} />
-            <h4 style={setStyle}>{this.props.score.asset_set_name}</h4>
-					</Link>
+        <div onClick={this.handleScoreClick} className="main">
+          <img style={imageSize} src={this.props.score.image} />
+          <h4 style={setStyle}>{this.props.score.asset_set_name}</h4>
         </div>
       </div>
     );

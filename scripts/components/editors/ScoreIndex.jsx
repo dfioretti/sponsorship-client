@@ -41,7 +41,6 @@ var ScoreIndex = React.createClass({
     );
   },
   render: function() {
-    console.log(this.state);
     if (this.state.scoresLoaded) {
       return (
         <div className="dashboard">
