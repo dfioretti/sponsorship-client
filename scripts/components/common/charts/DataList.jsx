@@ -62,12 +62,12 @@ var DataList = React.createClass({
   	//  var valueList = this.props.component.state.data;
 
     var i = 0;
-    var link = "/apt/asset/dashboard/1114";
     return (
         <ul className="generic-list">
           {this.props.component.state.data.map(function(d){
 						var defaultImage = d.metric_icon;
 						var defaultText = d.metric;
+						var link = "/apt/asset/dashboard/" + d.entity_id;
 						if (this.props.component.data !== null && this.props.component.data.view === 'entity') {
 							defaultImage = d.entity_icon;
 							defaultText = d.entity;
