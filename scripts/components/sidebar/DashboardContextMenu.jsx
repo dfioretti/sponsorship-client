@@ -49,9 +49,6 @@ var DashboardContextMenu = React.createClass({
     if (this.getStateFromFlux().dashboardsLoaded) {
       return (
         <div className="editor-menu">
-					<button style={{margin: "10px -10px 10px 10px", width: "calc(100% - 20px)", letterSpacing: "1.5px"}} onClick={this.createDashboard} className="btn btn-primary form-control">
-						CREATE DASHBOARD
-					</button>
 					<ul>
 						{this.getStateFromFlux().customDashboards.map(function(d){
 							return (

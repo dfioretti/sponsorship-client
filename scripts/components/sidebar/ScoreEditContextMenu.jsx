@@ -25,13 +25,6 @@ var ScoreEditContextMenu = React.createClass({
 			return (
 				<div className="context-menu">
 					<div className="editor-menu">
-						<button
-							style={{margin: "10px -10px 10px 10px", width: "calc(100% - 20px)", letterSpacing: "1.5px"}}
-							onClick={this.handleCreateClick}
-							className="btn btn-primary form-control"
-							>
-							CREATE SCORE
-						</button>
 					</div>
 				</div>
 			)

@@ -9,6 +9,7 @@ var React = require('react'),
 		RadioButtonGroup = require('material-ui').RadioButtonGroup,
 		AutoComplete = require('material-ui').AutoComplete,
 		MenuItem = require('material-ui').MenuItem,
+		MetricDataTable = require('../common/MetricDataTable.jsx'),
 	//	DataView = require('../overview/DataView.jsx'),
 		TableHeaderColumn = ReactBsTable.TableHeaderColumn,
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -72,6 +73,9 @@ var ScoreEditorModeGroup = React.createClass({
       )
 
     } else if (this.getStateFromFlux().selectedNode.mode === 'value') {
+			return (
+				<MetricDataTable data={this.state.dataPointList} handleSelect={this.handleDataSelect}/>
+			);
       return (
         <FilterableDataList dataList={this.getStateFromFlux().dataPointList}
                             handleSelect={this.handleDataSelect} />
