@@ -2,6 +2,9 @@ var React = require('react'),
 		Tabs = require('material-ui').Tabs,
 		Tab = require('material-ui').Tab,
 		FontIcon = require('material-ui').FontIcon,
+		Social = require('react-icons/lib/fa/comment-o'),
+		Dollar = require('react-icons/lib/fa/dollar'),
+		Dash = require('react-icons/lib/fa/dashboard'),
 		GenericValueListItem = require('./charts/GenericValueListItem.jsx');
 
 
@@ -36,7 +39,7 @@ var TallTabbedModule = React.createClass({
 						}}
 						>
 						<Tab
-							label="Social"
+							icon={<Social />}
 							value="a"
 							>
 							<div className="global-issues-list-container-tall">
@@ -56,13 +59,13 @@ var TallTabbedModule = React.createClass({
 							</div>
 						</Tab>
 						<Tab
-							label="Team"
+							icon={<Dollar />}
 							value="b"
 							>
 							<h1>yo?</h1>
 						</Tab>
 						<Tab
-							label="MVP Index"
+							icon={<Dash />}
 							value="c"
 							>
 							<h1>hola</h1>
