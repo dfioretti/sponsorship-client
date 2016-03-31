@@ -17,6 +17,7 @@ var React = require('react'),
 		Notes = require('./modules/Notes.jsx'),
 		SocialStats = require('../assets/SocialStats.jsx'),
 		ConsumerSurvey = require('../assets/ConsumerSurvey.jsx'),
+		TallTabbedModule = require('../common/TallTabbedModule.jsx'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 
@@ -123,12 +124,11 @@ var PortfolioDashboard = React.createClass({
 					el = <AssetScore key={uuid.v4()} hidden={hidden} />
 					break;
 				case 'asset_overview':
-				console.log("wah");
-				console.log(this.state);
 					el = <AssetOverview key={uuid.v4()} asset={this.getFlux().store("AssetsStore").getAsset(this.props.params.id) } />
 					break;
 				case 'consumer_survey':
-					el = <ConsumerSurvey key={uuid.v4()} asset={this.getFlux().store("AssetsStore").getAsset(this.props.params.id) } />
+					el = <TallTabbedModule key={uuid.v4()} asset={this.getFlux().store("AssetsStore").getAsset(this.props.params.id) }/>
+					//el = <ConsumerSurvey key={uuid.v4()} asset={this.getFlux().store("AssetsStore").getAsset(this.props.params.id) } />
 					break;
 				case 'notes':
 					el = <Notes key={uuid.v4()} />

@@ -13,8 +13,11 @@ var FluxMixin = Fluxxor.FluxMixin(React);
 var stores = require('../stores/stores.js');
 var actions = require('../actions/actions.js');
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
+var injectTapEventPlugin = require('react-tap-event-plugin');
 window.Auth = Auth;
 var AlertManager = require('./common/AlertManager.jsx');
+
+injectTapEventPlugin();
 
 const LoggedOutPaths = [
   '/account_login',

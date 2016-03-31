@@ -310,6 +310,7 @@
 
 ul.generic-list {
   list-style: none;
+  overflow-y: scroll;
   li {
     height: 70px;
     margin-left: -30px;
