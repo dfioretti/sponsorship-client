@@ -2,6 +2,8 @@ var React = require('react');
 var Navigation = require('react-router').Navigation;
 var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
+var DataFormatter = require('../../../utils/DataFormatter.js');
+
 
 var AssetScore = React.createClass({
   mixins: [Navigation, FluxMixin],
@@ -39,12 +41,12 @@ var AssetScore = React.createClass({
           <div className="top-title">Passion Score</div>
         </div>
         <div className="main">
-          <div className="risk">{score}</div>
+          <div className="risk">{Math.round(DataFormatter(this.props.score.value) * 10 ) / 10}</div>
           <div className="subheader">Portfolio Passion Score</div>
           <div className="slider-bar" onMouseOver={this.showTooltip} onMouseLeave={this.hideTooltip}>
             <div className="slider-button"></div>
             <div id="risk-assessment-tooltip" className="custom-tooltip" style={tooltipStyle}>
-              <span className="risk-label">{score}/80</span>
+              <span className="risk-label">{Math.round(DataFormatter(this.props.score.value))}/100</span>
               <div className="custom-tooltip-arrow" style={arrowStyle}></div>
             </div>
           </div>

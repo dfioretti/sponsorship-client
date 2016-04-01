@@ -104,8 +104,17 @@ var PortfolioDashboard = React.createClass({
     }
     else {
       switch (name) {
+				case 'asset_score':
+					var asset = this.getFlux().store("AssetsStore").getAsset(this.props.params.id);
+					var score = null;
+					asset.metrics.forEach(function(metric) {
+						if (metric.metric === 'passion_score') {
+							score = metric;
+						}
+					});
+					el = <AssetScore score={score} asset={asset} />
+					break;
         case 'portfolio_map':
-					//el = <TwitterFeed />
         	el = <PortfolioMap hidden={hidden} key={uuid.v4()} />
           break;
         case 'portfolio_summary':

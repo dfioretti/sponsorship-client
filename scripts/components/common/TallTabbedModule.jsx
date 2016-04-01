@@ -3,7 +3,7 @@ var React = require('react'),
 		Tab = require('material-ui').Tab,
 		FontIcon = require('material-ui').FontIcon,
 		Social = require('react-icons/lib/fa/comment-o'),
-		Dollar = require('react-icons/lib/fa/dollar'),
+		Dollar = require('react-icons/lib/fa/group'),
 		Dash = require('react-icons/lib/fa/dashboard'),
 		ImageHelper = require('../../utils/ImageHelper.js'),
 		DataFormatter = require('../../utils/DataFormatter.js'),
@@ -25,6 +25,7 @@ var TallTabbedModule = React.createClass({
 		this.props.asset.metrics.map(function(metric) {
 			switch (metric.source) {
 				case 'team':
+				case 'scarborough':
 					team.push(metric);
 					break;
 				case 'facebook':
@@ -34,6 +35,7 @@ var TallTabbedModule = React.createClass({
 					social.push(metric);
 					break;
 				case 'espn':
+				case 'forbes':
 				case 'mvp_index':
 					money.push(metric);
 					break;
@@ -42,9 +44,10 @@ var TallTabbedModule = React.createClass({
 		team 	 = _.sortBy(team, "source");
 		social = _.sortBy(social, "source");
 		money  = _.sortBy(money, "source");
+		social.push({source: "klout", metric: "klout_score", icon: "/metrics/klout.png", value: this.props.asset.klout_score})
 
 		return (
-			<div id="top_global_issues" className="dashboard-module">
+			<div id="top_global_issues" className="dashboard-module tall">
 				<div className="top">
 					<div className="drag-handle"></div>
 					<div className="top-title">Asset Data</div>
@@ -68,7 +71,7 @@ var TallTabbedModule = React.createClass({
 							icon={<Social />}
 							value="a"
 							>
-							<div className="global-issues-list-container-short">
+							<div className="global-issues-list-container-tall">
 								<ul className="generic-list">
 									{social.map(function(metric) {
 										return (
@@ -88,7 +91,7 @@ var TallTabbedModule = React.createClass({
 							icon={<Dollar />}
 							value="b"
 							>
-							<div className="global-issues-list-container-short">
+							<div className="global-issues-list-container-tall">
 								<ul className="generic-list">
 									{money.map(function(metric) {
 										return (
@@ -108,7 +111,7 @@ var TallTabbedModule = React.createClass({
 							icon={<Dash />}
 							value="c"
 							>
-							<div className="global-issues-list-container-short">
+							<div className="global-issues-list-container-tall">
 								<ul className="generic-list">
 									{team.map(function(metric) {
 										return (
