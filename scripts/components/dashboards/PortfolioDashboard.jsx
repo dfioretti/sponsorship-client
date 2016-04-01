@@ -18,9 +18,8 @@ var React = require('react'),
 		SocialStats = require('../assets/SocialStats.jsx'),
 		ConsumerSurvey = require('../assets/ConsumerSurvey.jsx'),
 		TallTabbedModule = require('../common/TallTabbedModule.jsx'),
+		TwitterFeed = require('../common/TwitterFeed.jsx'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
-
-
 
 var PortfolioDashboard = React.createClass({
   mixins: [
@@ -106,6 +105,7 @@ var PortfolioDashboard = React.createClass({
     else {
       switch (name) {
         case 'portfolio_map':
+					//el = <TwitterFeed />
         	el = <PortfolioMap hidden={hidden} key={uuid.v4()} />
           break;
         case 'portfolio_summary':
@@ -127,11 +127,17 @@ var PortfolioDashboard = React.createClass({
 					el = <AssetOverview key={uuid.v4()} asset={this.getFlux().store("AssetsStore").getAsset(this.props.params.id) } />
 					break;
 				case 'consumer_survey':
-					el = <TallTabbedModule key={uuid.v4()} asset={this.getFlux().store("AssetsStore").getAsset(this.props.params.id) }/>
-					//el = <ConsumerSurvey key={uuid.v4()} asset={this.getFlux().store("AssetsStore").getAsset(this.props.params.id) } />
+					//el = <TallTabbedModule key={uuid.v4()} asset={this.getFlux().store("AssetsStore").getAsset(this.props.params.id) }/>
+					el = <ConsumerSurvey key={uuid.v4()} asset={this.getFlux().store("AssetsStore").getAsset(this.props.params.id) } />
+					break;
+				case 'twitter_feed':
+					el = <TwitterFeed key={uuid.v4()} screen_name={this.getFlux().store("AssetsStore").getAsset(this.props.params.id).twitter_handle } />
 					break;
 				case 'notes':
 					el = <Notes key={uuid.v4()} />
+					break;
+				case 'asset_data':
+					el = <TallTabbedModule key={uuid.v4()} asset={this.getFlux().store("AssetsStore").getAsset(this.props.params.id) }/>
 					break;
         }
     }

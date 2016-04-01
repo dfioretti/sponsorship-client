@@ -5,6 +5,9 @@ var React = require('react'),
 		Social = require('react-icons/lib/fa/comment-o'),
 		Dollar = require('react-icons/lib/fa/dollar'),
 		Dash = require('react-icons/lib/fa/dashboard'),
+		ImageHelper = require('../../utils/ImageHelper.js'),
+		DataFormatter = require('../../utils/DataFormatter.js'),
+		_ = require('lodash'),
 		GenericValueListItem = require('./charts/GenericValueListItem.jsx');
 
 
@@ -13,12 +16,35 @@ var TallTabbedModule = React.createClass({
 		return { value: 'a' }
 	},
 	handleTabChange: function(value) {
-		console.log("handle", value);
 		this.setState({value: value});
 	},
 	render: function() {
+		var social = [];
+		var team = [];
+		var money = [];
+		this.props.asset.metrics.map(function(metric) {
+			switch (metric.source) {
+				case 'team':
+					team.push(metric);
+					break;
+				case 'facebook':
+				case 'twitter':
+				case 'google':
+				case 'instagram':
+					social.push(metric);
+					break;
+				case 'espn':
+				case 'mvp_index':
+					money.push(metric);
+					break;
+			}
+		});
+		team 	 = _.sortBy(team, "source");
+		social = _.sortBy(social, "source");
+		money  = _.sortBy(money, "source");
+
 		return (
-			<div id="top_global_issues" className="dashboard-module tall">
+			<div id="top_global_issues" className="dashboard-module">
 				<div className="top">
 					<div className="drag-handle"></div>
 					<div className="top-title">Asset Data</div>
@@ -42,16 +68,16 @@ var TallTabbedModule = React.createClass({
 							icon={<Social />}
 							value="a"
 							>
-							<div className="global-issues-list-container-tall">
+							<div className="global-issues-list-container-short">
 								<ul className="generic-list">
-									{this.props.asset.metrics.map(function(metric) {
+									{social.map(function(metric) {
 										return (
 											<GenericValueListItem
 												key={metric.id}
-												statImage={metric.icon}
+												statImage={ImageHelper(metric.source, metric.icon)}
 												statHeader={metric.metric}
 												link={"/"}
-												statMetric={metric.value}
+												statMetric={DataFormatter(metric.value)}
 												/>
 										);
 									})}
@@ -62,13 +88,41 @@ var TallTabbedModule = React.createClass({
 							icon={<Dollar />}
 							value="b"
 							>
-							<h1>yo?</h1>
+							<div className="global-issues-list-container-short">
+								<ul className="generic-list">
+									{money.map(function(metric) {
+										return (
+											<GenericValueListItem
+												key={metric.id}
+												statImage={ImageHelper(metric.source, metric.icon)}
+												statHeader={metric.metric}
+												link={"/"}
+												statMetric={DataFormatter(metric.value)}
+												/>
+										);
+									})}
+								</ul>
+							</div>
 						</Tab>
 						<Tab
 							icon={<Dash />}
 							value="c"
 							>
-							<h1>hola</h1>
+							<div className="global-issues-list-container-short">
+								<ul className="generic-list">
+									{team.map(function(metric) {
+										return (
+											<GenericValueListItem
+												key={metric.id}
+												statImage={ImageHelper(metric.source, metric.icon)}
+												statHeader={metric.metric}
+												link={"/"}
+												statMetric={DataFormatter(metric.value)}
+												/>
+										);
+									})}
+								</ul>
+							</div>
 						</Tab>
 						</Tabs>
 				</div>
