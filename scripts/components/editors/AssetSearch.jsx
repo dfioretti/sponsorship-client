@@ -9,9 +9,6 @@ var AssetSearch = React.createClass({
   componentWillMount: function() {
     this.getFlux().actions.loadAssets();
   },
-  getState: function() {
-    return {};
-  },
   getStateFromFlux: function() {
     return this.getFlux().store("ComponentEditorStore").getState();
   },

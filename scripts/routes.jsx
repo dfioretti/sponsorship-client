@@ -27,6 +27,7 @@ var DataIndex = require('./components/routes/DataIndex.jsx');
 var AssetDashboard = require('./components/dashboards/AssetDashboard.jsx');
 var Workspace = require('./components/routes/Workspace.jsx');
 
+var LoginPage = require('./components/routes/LoginPage.jsx');
 
 
 

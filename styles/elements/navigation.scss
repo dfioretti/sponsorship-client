@@ -1,0 +1,45 @@
+.brand-image {
+	width: 80px;
+	background-color: black;
+	height: 80px;
+	margin-left: 88px;
+	margin-top: 20px;
+}
+
+.brand-title {
+	text-transform: uppercase;
+	letter-spacing: 3px;
+	text-align: center;
+	font-size: 22px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+
+.brand-name {
+	text-transform: uppercase;
+	letter-spacing: 3px;
+	text-align: center;
+	margin-top: 8px;
+	font-size: 15px;
+	color: white;
+	background-color: black;
+	padding-bottom: 8px;
+}
+
+.nav-search {
+	//width: 200px;
+	//margin-left: 20px;
+	//margin: 5px;
+	input {
+		color: white;
+	}
+}
+.sidenav-top {
+	padding-bottom: 10px;
+	background-color: $black;
+}
+
+.sidenav-main {
+	background-color: $dark-grey;
+	height: 100%;
+}

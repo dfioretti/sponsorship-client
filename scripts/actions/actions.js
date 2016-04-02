@@ -247,13 +247,10 @@ actions = {
   },
   addComponentToDashboard: function(dashboard, component_id) {
     var max = -1;
-    console.log("dash", dashboard.state);
     for (var key in dashboard.state) {
-      console.log("key", dashboard.state[key]);
       if (dashboard.state[key]['index'] > max) max = dashboard.state[key]['index'];
     }
     dashboard.state['custom_component_' + component_id] = { index: max + 1, toggle: "on" };
-    console.log("UPDASH: ", dashboard);
     this.dispatch(constants.ADD_COMPONENT_TO_DASHBOARD,
       DashboardClient.updateDashboard(dashboard, function(data) {
         this.dispatch(
@@ -263,6 +260,9 @@ actions = {
         this.dispatch(constants.ADD_COMPONENT_TO_DASHBOARD_FAIL);
       }.bind(this))
     );
+  },
+  setBreadcrumb: function(breadcrumb) {
+    this.dispatch(constants.SET_BREADCRUMB, { breadcrumb: breadcrumb });
   }
 };
 module.exports = actions;

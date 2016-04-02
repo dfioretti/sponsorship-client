@@ -70,6 +70,7 @@
     "react-highcharts": "^8.0.2",
     "react-icons": "^1.0.3",
     "react-loader": "^2.2.0",
+    "react-materialize": "^0.14.3",
     "react-packery-component": "^1.0.2",
     "react-router": "^0.13.3",
     "react-select": "^1.0.0-beta11",

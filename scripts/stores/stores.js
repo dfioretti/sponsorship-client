@@ -23,6 +23,7 @@ var ComponentEditorStore = require("./component_editor_store.js"),
     OverviewStore = require("./OverviewStore.js");
     DataStore = require('./DataStore.js');
     AlertStore = require('./AlertStore.js');
+    NavigationStore = require('./NavigationStore.js');
     stores = {
         ComponentEditorStore: new ComponentEditorStore,
         ComponentsStore: new ComponentsStore,
@@ -34,6 +35,7 @@ var ComponentEditorStore = require("./component_editor_store.js"),
         AssetsStore: new AssetsStore,
         DataStore: new DataStore,
         OverviewStore: new OverviewStore,
+        NavigationStore: new NavigationStore,
         AlertStore: new AlertStore
     };
 module.exports = stores;
