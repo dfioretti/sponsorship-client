@@ -7,6 +7,12 @@ var React = require('react'),
 		PieIcon = require('react-icons/lib/fa/pie-chart');
 		DIcon = require('react-icons/lib/fa/circle-o-notch');
 		ListIcon = require('react-icons/lib/fa/list-ul');
+		MuiThemeProvider = require('material-ui').MuiThemeProvider;
+		//cyan500 = require('material-ui/lib/styles/colors').cyan500;
+		getMuiTheme = require('material-ui/lib/styles').getMuiTheme;
+		//require('material-ui').getMuiTheme;
+		SelectField = require('material-ui').SelectField;
+		MenuItem = require('material-ui').MenuItem;
 		ScoreIcon = require('react-icons/lib/fa/calculator');
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -16,8 +22,10 @@ var ChartTypePane = React.createClass({
   getStateFromFlux: function() {
     return this.getFlux().store("ComponentEditorStore").getState();
   },
-  handleChartTypeChange: function(e) {
-    this.getFlux().actions.updateType(e.target.value);
+  handleChartTypeChange: function(e, i, v) {
+		console.log(e);
+    //this.getFlux().actions.updateType(e.target.value);
+		this.getFlux().actions.updateType(v);
     this.getFlux().actions.generatePreviewData(this.getFlux().store("ComponentEditorStore").getObject());
   },
 	renderChartImage: function() {
@@ -64,12 +72,37 @@ var ChartTypePane = React.createClass({
     if (this.getStateFromFlux().view === 'barChart') {
 			chartImage = BarIcon;
     }
+		/*
+		            <select onChange={this.handleChartTypeChange} value={this.getStateFromFlux().view}>
+		              {typeList}
+		            </select>*/
+		var muiTheme = getMuiTheme({
+			palette: {
+				textColor: 'blue'
+			}
+		});
+
     return (
-        <div className="form-content">
+
+        <div className="">
+					<br /><br />
             <label>Chart Type &nbsp;&nbsp;&nbsp;</label>
-            <select onChange={this.handleChartTypeChange} value={this.getStateFromFlux().view}>
-              {typeList}
-            </select>
+						<br />
+						<SelectField
+							value={this.state.view}
+							style={{color: "green"}}
+							selectFieldRoot={{selectedMenuItemStyle: {color: "green"}}}
+							onChange={this.handleChartTypeChange}
+							>
+							<MenuItem  value={'lineChart'} id={'lineChart'} primaryText={"Line Chart"} />
+							<MenuItem value={'barChart'} id={'barChart'} primaryText={"Bar Chart"} />
+							<MenuItem value={'pieChart'} id={'pieChart'} primaryText={"Pie Chart"} />
+							<MenuItem value={'doughnutChart'} id={'doughnutChart'} primaryText={"Doughnut Chart"} />
+							<MenuItem value={'dataList'} id={'dataList'} primaryText={"Data List"} />
+							<MenuItem value={'scoreView'} id={'scoreView'} primaryText={"Score View"} />
+						</SelectField>
+
+
           <div className="form-group">
 						{this.renderChartImage()}
           </div>

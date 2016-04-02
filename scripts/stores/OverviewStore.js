@@ -16,7 +16,7 @@ OverviewStore = Fluxxor.createStore({
 	},
 	getState: function() {
 		return {
-			menuItems: ["Overview", "Calendar", "Financials", "Data"],
+			menuItems: ["Overview", "Calendar",  "Data"],
 			selectedPane: this.selectedPane
 		};
 	}

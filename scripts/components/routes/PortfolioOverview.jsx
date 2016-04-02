@@ -11,9 +11,9 @@ var PortfolioOverview = React.createClass({
 		return this.getFlux().store("OverviewStore").getState();
 	},
 	render: function () {
+		if (this.getStateFromFlux().selectedPane === 'Overview') return null;
 		return (
 			<div className="overview">
-				<AppSidebar context="overview" />
 				<OverviewContent entity="portfolio" view={this.getStateFromFlux().selectedPane} />
 			</div>
 		)

@@ -1,5 +1,6 @@
 var React = require('react');
 var Card = require('material-ui').Card;
+var AppBar = require('material-ui').AppBar;
 var CardMedia = require('material-ui').CardMedia;
 var CardTitle = require('material-ui').CardTitle;
 var CardText = require('material-ui').CardText;
@@ -8,12 +9,14 @@ var GridList = require('material-ui').GridList;
 var GridTile = require('material-ui').GridTile;
 var Paper = require('material-ui').Paper;
 var FlatButton = require('material-ui').FlatButton;
+var Navigation = require('react-router').Navigation;
+var RaisedButton = require('material-ui').RaisedButton;
 
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var HomePage = React.createClass({
-	mixins: [FluxMixin, StoreWatchMixin("AssetsStore")],
+	mixins: [FluxMixin, Navigation, StoreWatchMixin("AssetsStore")],
 
 	componentWillMount: function() {
 		if (!this.state.assetsLoaded && !this.state.loading) {
@@ -33,12 +36,17 @@ var HomePage = React.createClass({
 			list.push(
 				<GridTile
 					key={asset.id}
+					style={{margin: 5, height: 75, width: 75}}
 					>
-					<img style={{height: 75, width: 75, borderRadius: "50%"}} src={asset.image} />
+					<img style={{height: 70, width: 70, borderRadius: "50%"}} src={asset.image} />
 				</GridTile>
 			)
 		});
 		return list;
+	},
+	handleLogin: function(e) {
+		console.log("ev", e);
+		this.transitionTo('/account_login');
 	},
 	render: function() {
 		var style = {
@@ -50,14 +58,29 @@ var HomePage = React.createClass({
 		};
 		return (
 			<Card>
+					<AppBar
+						title={<span style={{color: '#4a4a4a', textTransform: 'uppercase', letterSpacing: '3px' }}>Teneo</span>}
+						style={{ backgroundColor: "white" }}
+						showMenuIconButton={false}
+						iconElementRight={<RaisedButton labelColor={'white'} backgroundColor={'#03387a'} label="Login"  />}
+						/>
 					<CardMedia
 						>
 						<img src={"/images/login/login-edit.jpg"} />
 					</CardMedia>
 					<CardText>
 						<div style={{display: 'flex', justifyContent: 'center' }}>
-							<FlatButton primary={true} label="LOGIN" />
-							<FlatButton label="LEARN MORE" />
+							<RaisedButton
+								labelColor={'white'}
+								backgroundColor={'#03387a'}
+								onMouseUp={this.handleLogin}
+								label="LOGIN" />
+							&nbsp;&nbsp;&nbsp;
+							<RaisedButton
+								label="LEARN MORE"
+								linkButton={true}
+								href="http://teneoholdings.com"
+								/>
 						</div>
 					</CardText>
 					<CardText style={{backgroundColor: '#03387a'}}>
@@ -79,9 +102,9 @@ var HomePage = React.createClass({
 
 					<CardText>
 						<GridList
-							cols={20}
-							cellHeight={75}
-							style={{width: '100%', height: 400, overflowY: 'auto'}}
+							cols={18}
+							cellHeight={80}
+							style={{width: '100%', height: 520, overflowY: 'auto'}}
 							>
 							{this.getGridIcons()}
 						</GridList>

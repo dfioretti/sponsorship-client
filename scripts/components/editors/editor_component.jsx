@@ -13,8 +13,10 @@ var EditorComponent = React.createClass({
 		var title = this.getFlux().store("ComponentEditorStore").getState().title;
 		if (title.length > 1) {
 			this.getFlux().actions.setBreadcrumb("modules > " + title);
+			this.getFlux().actions.setCurrentNav("component_editor", this.getFlux().store("ComponentEditorStore").getState().id);
 		} else {
 			this.getFlux().actions.setBreadcrumb("modules > create");
+			this.getFlux().actions.setCurrentNav("component_editor", null);
 		}
 		this.dataLoaded();
 	},

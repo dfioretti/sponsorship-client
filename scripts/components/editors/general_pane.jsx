@@ -2,6 +2,7 @@ var React = require('react'),
 		Fluxxor = require('fluxxor'),
 		FluxMixin = Fluxxor.FluxMixin(React),
 		Link = require('react-router').Link,
+		TextField = require('material-ui').TextField,
 		ChartTypePane = require('./chart_type_pane.jsx'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -26,13 +27,10 @@ var GeneralPane = React.createClass({
           General
         </div>
         <div className="form-content">
-          <div className="form-group">
             <label>Component Title</label>
-            <input type="text" value={this.getStateFromFlux().title} onChange={this.handleTitleChange} className="form-control" placeholder="Enter Title" />
-          </div>
-					<div className="form-group">
+						<br />
+						<TextField value={this.getStateFromFlux().title} onChange={this.handleTitleChange} hintText="Enter Title" />
 						<ChartTypePane />
-					</div>
         </div>
       </div>
     );

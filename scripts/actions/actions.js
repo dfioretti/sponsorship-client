@@ -263,6 +263,10 @@ actions = {
   },
   setBreadcrumb: function(breadcrumb) {
     this.dispatch(constants.SET_BREADCRUMB, { breadcrumb: breadcrumb });
+  },
+  setCurrentNav: function(view, id) {
+    this.dispatch(constants.SET_CURRENT_NAV, { view: view, id: id });
   }
+
 };
 module.exports = actions;

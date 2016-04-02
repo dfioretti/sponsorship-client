@@ -2,6 +2,7 @@ var React = require('react'),
 		Fluxxor = require('fluxxor'),
 		AppSidebar = require('../sidebar/app_sidebar.jsx'),
 		ScoreEditor = require('./ScoreEditor.jsx'),
+		EditorToolbar = require('../sidebar/EditorToolbar.jsx'),
 		FluxMixin = Fluxxor.FluxMixin(React),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin,
 		ScoreEditorPane = require('./ScoreEditorPane.jsx'),
@@ -19,12 +20,14 @@ var ScoreEditor = React.createClass({
 	componentWillMount: function() {
 		if (this.state.scoreTitle.length > 1) {
 			this.getFlux().actions.setBreadcrumb("scores > " + this.state.scoreTitle);
+			this.getFlux().actions.setCurrentNav("score_editor", this.state.id);
 		} else {
 			this.getFlux().actions.setBreadcrumb("scores > create");
+			this.getFlux().actions.setCurrentNav("score_editor", null);
 		}
 	},
   handleNew: function() {
-    console.log("TODO HANDLE NEW!");
+		this.getFlux().actions.resetScoreEditor();
   },
   handleSave: function() {
     // editing or new
@@ -48,10 +51,7 @@ var ScoreEditor = React.createClass({
   render: function() {
     return (
         <div className="editor-box">
-          <EditorSubNav handleSave={this.handleSave}
-                        handleNew={this.handleNew}
-                        message={this.getStateFromFlux().message}
-          />
+					<EditorToolbar handleSaveClick={this.handleSave} handleNewClick={this.handleNewClick} />
           <div className="editor-container">
             <div className="row editor-2-col">
               <div className="col-md-4 editor-pane">

@@ -4,6 +4,9 @@ var React = require('react'),
 		Link = require('react-router').Link,
 		Immutable = require('immutable'),
 		uuid = require('node-uuid'),
+		MultiThemeProvider = require('material-ui').MultiThemeProvider,
+		cyan500 = require('material-ui').cyan500,
+		getMultiTheme = require('material-ui').getMultiTheme,
 		DashboardMixin = require('../mixins/dashboard_mixin.jsx'),
 		Immutable = require('immutable'),
 		DynamicComponent = require('../common/DynamicComponent.jsx'),
@@ -31,9 +34,11 @@ var PortfolioDashboard = React.createClass({
 	componentDidMount: function() {
 		if (this.props.params.id) {
 			this.getFlux().actions.setBreadcrumb(this.getFlux().store("AssetsStore").getAsset(this.props.params.id));
+			this.getFlux().actions.setCurrentNav("asset", this.props.params.id);
 			this.setState({assetId: parseInt(this.props.params.id)});
 		} else {
-			this.getFlux().actions.setBreadcrumb("Portfolio Dashboard");
+			this.getFlux().actions.setBreadcrumb("My Portfolio");
+			this.getFlux().actions.setCurrentNav("portfolio", null);
 		}
 		if (!this.getFlux().store("ComponentsStore").getState().componentsLoaded) {
 			this.getFlux().actions.loadComponents();

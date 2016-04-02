@@ -41,7 +41,7 @@ var EditorTree = React.createClass({
 		}
     return (
       <div className="editor-score">
-        <div className="score-heading">
+        <div style={{borderBottom: "1px solid white"}}className="preview-heading">
           {this.getStateFromFlux().scoreTitle}
         </div>
         <div className="editor-tree">

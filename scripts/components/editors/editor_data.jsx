@@ -14,8 +14,8 @@ var EditorData = React.createClass({
   },
   render: function() {
     return (
-      <div className="editor-data">
-        <div className="input-heading">
+      <div style={{paddingTop: 0}} className="editor-data">
+        <div className="preview-heading">
           Selected Data
         </div>
         <AddedData />
