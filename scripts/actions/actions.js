@@ -266,6 +266,9 @@ actions = {
   },
   setCurrentNav: function(view, id) {
     this.dispatch(constants.SET_CURRENT_NAV, { view: view, id: id });
+  },
+  toggleModal: function() {
+    this.dispatch(constants.TOGGLE_MODAL);
   }
 
 };

@@ -231,6 +231,9 @@ function initilizeScoreCanvas(savedModel) {
     if (icon.toString().indexOf('/icon') !== -1) {
       return icon;
     }
+    if (icon.toString().indexOf('metric') !== -1) {
+      return '/images/' + icon;
+    }
     return "/images/icons-blue/" + icon + ".png";
   }
   // This converter is used by the Picture.

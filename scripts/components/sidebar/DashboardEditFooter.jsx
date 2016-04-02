@@ -7,20 +7,26 @@ var DashboardEditFooter = React.createClass({
   getStateFromFlux: function() {
     return this.getFlux().store("DashboardEditStore").getState();
   },
-  handleCreateDashboard: function() {
+  handleCreateDashboard: function(e) {
     if (this.getStateFromFlux().id !== null) {
-			console.log("DOING UPDATE");
       this.getFlux().actions.dashboardUpdate();
     } else {
-			console.log("DOING CREATE");
       this.getFlux().actions.dashboardCreate();
     }
-    this.props.modal.close();
+		this.getFlux().actions.toggleModal();
   },
+	handleDashboardClose: function() {
+		this.getFlux().actions.dashboardEditLoad(null);
+		this.getFlux().actions.toggleModal();
+	},
   render: function() {
     return (
-      <div className="dashboard-edit-footer">
+      <div style={{float: "right", width: "100%", paddingTop: 0}} className="dashboard-edit-footer">
+				<hr />
+				<div style={{float: "right"}}>
+				<button style={{marginRight: 10}} onClick={this.handleDashboardClose} className="btn dashboard-create">Close</button>
         <button onClick={this.handleCreateDashboard} className="btn btn-primary dashboard-create">Save</button>
+				</div>
       </div>
     )
   }

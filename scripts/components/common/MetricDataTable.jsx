@@ -3,6 +3,7 @@ var React = require('react'),
 		TableHeaderColumn = ReactBsTable.TableHeaderColumn,
 		_ = require('underscore'),
 		Fluxxor = require('fluxxor'),
+		ImageHelper = require('../../utils/ImageHelper.js'),
 		FluxMixin = Fluxxor.FluxMixin(React),
 		BootstrapTable = ReactBsTable.BootstrapTable;
 
@@ -30,7 +31,6 @@ var MetricDataTable = React.createClass({
 		return sources;
 	},
 	formatIcon: function(cell, row) {
-		console.log("format", cell, row);
 		var iconStyle = {
 			height: "20px",
 			width: "20px"
@@ -43,7 +43,7 @@ var MetricDataTable = React.createClass({
 			width: "20px",
 			margin: "0px 5px 0px 0px"
 		}
-		return <div><img style={iconStyle} src={row.icon} /> {cell} </div>;
+		return <div><img style={iconStyle} src={ImageHelper("", row.icon)} /> {cell} </div>;
 	},
  	render: function() {
 		var selectRowProps = {
@@ -56,6 +56,10 @@ var MetricDataTable = React.createClass({
 			<BootstrapTable
 				data={this.props.data}
 				height={"400"}
+				bordered={false}
+				hover={true}
+				condensed={false}
+				striped={true}
 				search={true}
 				selectRow={selectRowProps}
 				>
@@ -77,6 +81,7 @@ var MetricDataTable = React.createClass({
 				<TableHeaderColumn
 					dataField="point"
 					dataSort={true}
+					filter={{type: "TextFilter"}}
 					dataFormat={this.formatMetrics}
 					>
 					Metric

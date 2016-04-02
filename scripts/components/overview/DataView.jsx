@@ -36,8 +36,6 @@ var DataHeading = React.createClass({
 var DataView = React.createClass({
 	mixins: [FluxMixin],
 	tableForEntity: function() {
-		console.log(this.props);
-		console.log(this.props);
 		if (this.props.data.length == 0) return null;
 		var colFilter = {type: "TextFilter" };
 		if (this.props.entity === 'portfolio') {
@@ -60,7 +58,6 @@ var DataView = React.createClass({
 
 			);
 		} else if (this.props.entity === 'entity') {
-			console.log(this.props.data);
 			return (
 				<BootstrapTable data={this.props.data}
 												striped={true}
@@ -79,12 +76,22 @@ var DataView = React.createClass({
 		}
 	},
 	render: function() {
+//		<DataHeading {...this.props} />
+
 		return (
 			<div className="overview-container overview-data">
 				<Grid>
-					<DataHeading {...this.props} />
+					<Row>
+						<Col md={12}>
+							<Panel bsClass="panel stat-panel">
+								<div className="stat-title">
+									Data
+								</div>
+							</Panel>
+						</Col>
+					</Row>
 					{this.tableForEntity()}
-			</Grid>
+				</Grid>
 			</div>
 		);
 	}

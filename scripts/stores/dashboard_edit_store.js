@@ -10,6 +10,7 @@ var DashboardEditStore = Fluxxor.createStore({
         this.heading = "Create New Dashboard";
         this.selectedComponents = [];
         this.dashboard = null;
+        this.showModal = false;
         this.id = null;
         this.bindActions(
             constants.UPDATE_DASHBOARD_NAME, this.onUpdateName,
@@ -19,10 +20,14 @@ var DashboardEditStore = Fluxxor.createStore({
             constants.DASHBOARD_UPDATE, this.onDashboardUpdate,
             constants.DASHBOARD_CREATE_FAIL, this.onDashboardCreateFail,
             constants.DASHBOARD_CREATE_SUCCESS, this.onDashboardCreateSuccess,
-            constants.LOAD_EDITOR_DASHBOARD, this.onLoadEditorDashboard
+            constants.LOAD_EDITOR_DASHBOARD, this.onLoadEditorDashboard,
+            constants.TOGGLE_MODAL, this.onToggleModal
         );
     },
-
+    onToggleModal: function(payload) {
+      this.showModal = !this.showModal;
+      this.emit("change");
+    },
     onLoadEditorDashboard: function(payload) {
         this.selectedComponents = [];
         if (payload.dashboard_id === null) {
@@ -105,6 +110,7 @@ var DashboardEditStore = Fluxxor.createStore({
             dashboardName: this.dashboardName,
             selectedComponents: this.selectedComponents,
             heading: this.heading,
+            showModal: this.showModal,
             id: this.id
         };
     }

@@ -4,6 +4,7 @@ var React = require('react'),
 		Divider = require('material-ui').Divider,
 		OverviewContextMenu = require('./OverviewContextMenu.jsx'),
 		Fluxxor = require('fluxxor'),
+		DashboardContextMenu = require('./DashboardContextMenu.jsx'),
 		FluxMixin = Fluxxor.FluxMixin(React),
 		TM = require('react-icons/lib/fa/trademark'),
 		ScoreEditContextMenu = require('./ScoreEditContextMenu.jsx'),
@@ -35,8 +36,12 @@ var SideNavigation = React.createClass({
 	},
 	renderContext: function() {
 		var navState = this.getFlux().store("NavigationStore").getState();
+		if (navState.currentView == 'dashboard') {
+			return (
+				<DashboardContextMenu {...this.props} />
+			);
+		}
 		if (navState.currentView !== 'portfolio' && navState.currentView !== 'asset') {
-			return null;
 		}
 		return (
 			<OverviewContextMenu {...this.props} />

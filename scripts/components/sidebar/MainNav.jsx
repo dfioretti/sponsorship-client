@@ -15,12 +15,12 @@ var MainNav = React.createClass({
 	mixins: [Navigation, FluxMixin],
 
 	handleDashboardCreate: function(e) {
-		this.getFlux().actions.dashboardEditLoad(null);
-		$('#dashboard-edit-modal').click();
+		//this.getFlux().actions.dashboardEditLoad(null);
+		this.getFlux().actions.toggleModal();
+		//$('#dashboard-edit-modal').click();
 	},
 	handleDashboardHome: function(e) {
-		console.log("change", e);
-
+		this.transitionTo('dashboard_index');
 	},
 	handleScoreCreate: function(e) {
 		this.getFlux().actions.resetScoreEditor();
@@ -66,7 +66,7 @@ var MainNav = React.createClass({
 						leftIcon={<HomeIcon style={iconStyle} />}
 						primaryText={<div style={textStyle}>Home</div>}
 						style={itemStyle}
-						onTouchTap={this.handlDashboardHome}
+						onTouchTap={this.handleDashboardHome}
 
 						/>,
 					<ListItem

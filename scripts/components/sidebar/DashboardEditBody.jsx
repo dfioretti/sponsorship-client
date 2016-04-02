@@ -22,7 +22,10 @@ var DashboardEditName = React.createClass({
         <div className="form-group">
           <label>Dashboard Name</label>
           <input type="text" value={this.getStateFromFlux().dashboardName} onChange={this.handleNameChange} className="form-control" placeholder="Enter Name" />
+						<hr />
+						<label>Add Views</label>
         </div>
+
       </div>
     );
   }

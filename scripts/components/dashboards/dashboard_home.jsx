@@ -23,6 +23,13 @@ var DashboardHome = React.createClass({
 		return Immutable.Map();
 	},
 	componentDidMount: function() {
+		this.getFlux().actions.setCurrentNav("dashboard", this.props.params.id);
+		if (this.isDashboardLoaded()) {
+			var dash = this.getDashboardFromFlux();
+			console.log('dash', dash);
+			console.log('stat', this.state);
+			this.getFlux().actions.setBreadcrumb("Dashboards > " + dash.name);
+		}
 		/*
 		if (!this.getFlux().store("DashboardHomeStore").getState().dashboardsLoaded
 				&& !this.getFlux().store("DashboardHomeStore").getState().loading) {

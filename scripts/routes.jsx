@@ -18,6 +18,7 @@ var DashboardHome = require('./components/dashboards/dashboard_home.jsx');
 var UsersIndex = require('./components/session/UsersIndex.jsx');
 var EditorScore = require('./components/editors/EditorScore.jsx');
 var ScoreIndex = require('./components/editors/ScoreIndex.jsx');
+var DashboardIndex = require('./components/routes/DashboardIndex.jsx');
 var PortfolioDashboard = require('./components/dashboards/PortfolioDashboard.jsx');
 var Dev = require('./components/Dev.jsx');
 var PortfolioOverview = require('./components/routes/PortfolioOverview.jsx');
@@ -35,6 +36,7 @@ var LoginPage = require('./components/routes/LoginPage.jsx');
 module.exports = (
   <Route handler={SmallApp}>
     <Route name='home' handler={HomePage} path='home' />
+    <Route name='dashboard_index' handler={DashboardIndex} path="dashboard_index" />
     <Route name='account_login' handler={AccountLogin} path='account_login' />
     <Route name='create_account' handler={CreateAccount} path='create_account' />
     <Route name='password_recovery' handler={PasswordRecovery} path='password_recovery' />

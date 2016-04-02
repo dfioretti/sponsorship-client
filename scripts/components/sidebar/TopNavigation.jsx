@@ -6,6 +6,7 @@ var React = require('react'),
 		IconButton = require('material-ui').IconButton,
 		AccountIcon = require('react-icons/lib/md/account-circle'),
 		MenuItem = require('material-ui').MenuItem,
+		Link = require('react-router').Link,
 //		Navigation = require('react-router').Navigation,
 //		Link = require(react-router).Link,
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
@@ -18,9 +19,23 @@ var TopNavigation = React.createClass({
 	},
 
 	render: function() {
+		var link = '/';
+		switch (this.state.currentView) {
+			case 'dashboard':
+				link = 'dashboard_index';
+				break;
+			case 'score':
+			case 'score_editor':
+				link = 'score_index';
+				break;
+			case 'component_editor':
+			case 'component':
+				link = 'components_index';
+				break;
+		}
 		return (
 			<AppBar
-				title={<span style={{color: '#4a4a4a', textTransform: 'uppercase', letterSpacing: '3px' }}>{this.state.title}</span>}
+				title={<span style={{color: '#4a4a4a', textTransform: 'uppercase', letterSpacing: '3px' }}><Link style={{textDecoration: 'none', color: '#4a4a4a'}} to={link}>{this.state.title}</Link></span>}
 				showMenuIconButton={false}
 				style={{ backgroundColor: "white", marginLeft: 256, width: "calc(100% - 256px)"}}
 				iconElementRight={

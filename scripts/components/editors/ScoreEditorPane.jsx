@@ -77,6 +77,7 @@ var ScoreEditorModeGroup = React.createClass({
   render: function() {
     if (this.getStateFromFlux().selectedNode.mode === 'parent') {
       return (
+				<div className="form-content">
         <div className="form-group">
           <label>Operation</label>
           <select value={this.getStateFromFlux().selectedNode.operationValue}
@@ -97,6 +98,7 @@ var ScoreEditorModeGroup = React.createClass({
           }.bind(this))}
           </select>
         </div>
+			</div>
       )
 
     } else if (this.getStateFromFlux().selectedNode.mode === 'value') {
@@ -168,6 +170,7 @@ var ScoreConfigurePane = React.createClass({
 				var defaultSelected = this.state.selectedNode ? this.state.selectedNode.mode : 'value';
 
         return (
+				<div>
           <div className="form-content">
             <div className="form-group">
               <label>Name</label>
@@ -200,8 +203,11 @@ var ScoreConfigurePane = React.createClass({
                 />
               </div>
             </div>
+					</div>
+					<div>
             <ScoreEditorModeGroup />
           </div>
+				</div>
         );
     }
   },
@@ -346,6 +352,7 @@ var ScoreAssetsPane = React.createClass({
 												striped={true}
 												hover={true}
 												height="650"
+												bordered={false}
 												selectRow={selectRowProp}
 												condensed={false}
 												search={true}
