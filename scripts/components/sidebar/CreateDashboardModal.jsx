@@ -1,6 +1,7 @@
 var React = require('react'),
 		Fluxxor = require('fluxxor'),
 		FluxMixin = Fluxxor.FluxMixin(React),
+		Dialog = require('material-ui').Dialog,
 		ReactBootstrap = require('react-bootstrap'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin,
 		DashboardEditName = require('./DashboardEditName.jsx'),
@@ -25,11 +26,25 @@ var CreateDashboardModal = React.createClass({
     this.getFlux().actions.dashboardEditLoad(null);
   },
   open: function() {
+		console.log("hmm");
     this.setState({showModal: true});
   },
   render: function() {
+		return (
+			<Dialog
+				title={this.getStateFromFlux().heading}
+				open={this.state.showModal}
+				modal={true}
+				>
+				<div id='dashboard-edit-modal' onClick={this.open} />
+				<DashboardEditName mode={this.props.mode} dashboardId={this.props.dashboardId} />
+				<DashboardEditBody mode={this.props.mode} dashboardId={this.props.dashboardId} />
+				<DashboardEditFooter modal={this} />
+			</Dialog>
+		)
     //let popover = <ReactBootstrap.Popover title="popover">very popover. such engagement</ReactBootstrap.Popover>;
     //let tooltip = <ReactBootstrap.Tooltip>wow.</ReactBootstrap.Tooltip>;
+		/*
     return (
       <div>
         <div>
@@ -53,6 +68,7 @@ var CreateDashboardModal = React.createClass({
         </ReactBootstrap.Modal>
       </div>
     );
+		*/
   }
 });
 module.exports = CreateDashboardModal;

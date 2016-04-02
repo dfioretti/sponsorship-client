@@ -15,7 +15,8 @@ var MainNav = React.createClass({
 	mixins: [Navigation, FluxMixin],
 
 	handleDashboardCreate: function(e) {
-		console.log("change", e);
+		this.getFlux().actions.dashboardEditLoad(null);
+		$('#dashboard-edit-modal').click();
 	},
 	handleDashboardHome: function(e) {
 		console.log("change", e);

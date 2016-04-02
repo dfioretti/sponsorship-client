@@ -19,11 +19,9 @@ var EditorPane = React.createClass({
   mixins: [FluxMixin, StoreWatchMixin("ComponentEditorStore")],
 
 	handleChange: function(value) {
-		console.log("wtf", value);
+		// this is really dumb and it gets triggered by onChange by any watched store 
 		if (value == 'a') this.getFlux().actions.changePane(value);
 		if (value == 'b') this.getFlux().actions.changePane(value);
-		//console.log("wtf", value);
-		//this.getFlux().actions.changePane(value);
 	},
   getStateFromFlux: function() {
     var flux = this.getFlux();
@@ -58,7 +56,7 @@ var EditorPane = React.createClass({
 				value={this.getStateFromFlux().editorPane}
 				onChange={this.handleChange}
 				tabItemContainerStyle={{
-					backgroundColor: "#2d64a5",
+					backgroundColor: "#3c88d1",
 				}}
 				inkBarStyle={{
 					backgroundColor: "rgb(0, 188, 212)",

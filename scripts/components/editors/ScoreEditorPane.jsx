@@ -5,10 +5,16 @@ var React = require('react'),
 		FilterableDataList = require("../common/FilterableDataList.jsx"),
 		ReactBsTable = require('react-bootstrap-table'),
 		BootstrapTable = ReactBsTable.BootstrapTable,
+		Tabs = require('material-ui').Tabs,
+		Tab = require('material-ui').Tab,
+		StyleIcon = require('react-icons/lib/md/style'),
+		TypeIcon = require('react-icons/lib/md/collections'),
+		DataIcon = require('react-icons/lib/fa/database'),
 		RadioButton = require('material-ui').RadioButton,
 		RadioButtonGroup = require('material-ui').RadioButtonGroup,
 		AutoComplete = require('material-ui').AutoComplete,
 		MenuItem = require('material-ui').MenuItem,
+		SetIcon = require('react-icons/lib/md/perm-data-setting'),
 		MetricDataTable = require('../common/MetricDataTable.jsx'),
 	//	DataView = require('../overview/DataView.jsx'),
 		TableHeaderColumn = ReactBsTable.TableHeaderColumn,
@@ -21,18 +27,39 @@ var ScoreEditorPane = React.createClass({
   getStateFromFlux: function() {
     return this.getFlux().store("ScoreEditorStore").getState();
   },
+	handleChange: function(value) {
+		// this is really dumb and it gets triggered by onChange by any watched store
+		if (value == 'General') this.getFlux().actions.changeScorePane(value);
+		if (value == 'Assets') this.getFlux().actions.changeScorePane(value);
+		if (value == 'Configure') this.getFlux().actions.changeScorePane(value);
+
+	},
   render: function() {
-    switch(this.getStateFromFlux().selectedPane) {
-      case 'General':
-        return <ScoreGeneralPane />;
-        break;
-      case 'Assets':
-        return <ScoreAssetsPane />;
-        break;
-      case 'Configure':
-        return <ScoreConfigurePane />;
-        break;
-    }
+		return (
+			<Tabs
+				value={this.getStateFromFlux().selectedPane}
+				onChange={this.handleChange}
+				tabItemContainerStyle={{
+					backgroundColor: "#3c88d1",
+				}}
+				inkBarStyle={{
+					backgroundColor: "rgb(0, 188, 212)",
+				}}
+				>
+				<Tab
+					value="General"
+					icon={<TypeIcon />}
+					>
+					<ScoreGeneralPane />
+				</Tab>
+				<Tab value="Assets" icon={<SetIcon />}>
+					<ScoreAssetsPane />
+				</Tab>
+				<Tab value="Configure" icon={<DataIcon />}>
+					<ScoreConfigurePane />
+				</Tab>
+			</Tabs>
+		);
   }
 });
 
@@ -301,7 +328,7 @@ var ScoreAssetsPane = React.createClass({
 		var selectRowProp = {
 			mode: "checkbox",
 			clickToSelect: true,
-			bgColor: "#50e3c2",
+			bgColor: "rgb(0, 188, 212)",
 			onSelect: this.onRowSelect,
 			onSelectAll: this.onSelectAll
 		}

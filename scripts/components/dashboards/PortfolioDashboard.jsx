@@ -30,7 +30,10 @@ var PortfolioDashboard = React.createClass({
   ],
 	componentDidMount: function() {
 		if (this.props.params.id) {
+			this.getFlux().actions.setBreadcrumb(this.getFlux().store("AssetsStore").getAsset(this.props.params.id));
 			this.setState({assetId: parseInt(this.props.params.id)});
+		} else {
+			this.getFlux().actions.setBreadcrumb("Portfolio Dashboard");
 		}
 		if (!this.getFlux().store("ComponentsStore").getState().componentsLoaded) {
 			this.getFlux().actions.loadComponents();

@@ -25,6 +25,7 @@ var EntityOverview = require('./components/routes/EntityOverview.jsx');
 var ComponentsIndex = require('./components/routes/ComponentsIndex.jsx');
 var DataIndex = require('./components/routes/DataIndex.jsx');
 var AssetDashboard = require('./components/dashboards/AssetDashboard.jsx');
+var HomePage = require('./components/routes/HomePage.jsx');
 var Workspace = require('./components/routes/Workspace.jsx');
 
 var LoginPage = require('./components/routes/LoginPage.jsx');
@@ -33,6 +34,7 @@ var LoginPage = require('./components/routes/LoginPage.jsx');
 
 module.exports = (
   <Route handler={SmallApp}>
+    <Route name='home' handler={HomePage} path='home' />
     <Route name='account_login' handler={AccountLogin} path='account_login' />
     <Route name='create_account' handler={CreateAccount} path='create_account' />
     <Route name='password_recovery' handler={PasswordRecovery} path='password_recovery' />
