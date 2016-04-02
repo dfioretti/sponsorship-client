@@ -3,7 +3,8 @@ var Fluxxor = require('fluxxor'),
 
 NavigationStore = Fluxxor.createStore({
 	initialize: function() {
-		this.title = "My Portfolio";
+		//this.title = "My Portfolio";
+		this.title = "";
 		this.bindActions(
 			constants.SET_BREADCRUMB, this.onSetBreadcrumb
 		)

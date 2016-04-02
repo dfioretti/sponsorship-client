@@ -16,6 +16,13 @@ var ScoreEditor = React.createClass({
   getStateFromFlux: function() {
     return this.getFlux().store("ScoreEditorStore").getState();
   },
+	componentWillMount: function() {
+		if (this.state.scoreTitle.length > 1) {
+			this.getFlux().actions.setBreadcrumb("scores > " + this.state.scoreTitle);
+		} else {
+			this.getFlux().actions.setBreadcrumb("scores > create");
+		}
+	},
   handleNew: function() {
     console.log("TODO HANDLE NEW!");
   },

@@ -62,7 +62,7 @@ var TallTabbedModule = React.createClass({
 							bottom: "0px"
 						}}
 						inkBarStyle={{
-							backgroundColor: "#50e3c2",
+							backgroundColor: "rgb(0, 188, 212)",
 							position: "absolute",
 							bottom: "50px"
 						}}

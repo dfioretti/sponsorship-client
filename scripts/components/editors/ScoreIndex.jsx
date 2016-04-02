@@ -22,6 +22,7 @@ var ScoreIndex = React.createClass({
 			this.setupGrid();
 	},
   componentWillMount: function() {
+		this.getFlux().actions.setBreadcrumb("scores")
 		if (!this.getStateFromFlux().scoresLoaded && !this.getStateFromFlux().loading) {
 			this.getFlux().actions.loadScores();
 		}

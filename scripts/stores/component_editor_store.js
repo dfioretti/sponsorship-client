@@ -11,7 +11,7 @@ var Fluxxor = require("fluxxor"),
             this.previewLoaded = false,
             this.view = "lineChart",
             this.interval = "weekly",
-            this.editorPane = "general",
+            this.editorPane = "a",
             this.message = "",
             this.selectedAsset = null,
             this.selectedData = null,
@@ -132,8 +132,8 @@ var Fluxxor = require("fluxxor"),
           this.emit("change");
         },
         onChangePane: function(t) {
-            this.editorPane = t.editorPane,
-            this.emit("change")
+            this.editorPane = t.editorPane;
+            this.emit("change");
         },
         onUpdateType: function(t) {
           // this is really ugly and needs to get fixed...

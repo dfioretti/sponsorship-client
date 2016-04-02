@@ -19,6 +19,7 @@ var ComponentsIndex = React.createClass({
   ],
 	componentWillMount: function() {
 		this.ensureLoaded();
+		this.getFlux().actions.setBreadcrumb("modules")
 	},
 	getInitialState: function() {
 		return Immutable.Map();

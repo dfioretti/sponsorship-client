@@ -23,23 +23,36 @@
 	font-size: 15px;
 	color: white;
 	background-color: black;
-	padding-bottom: 8px;
+	padding-bottom: 10px;
+	//padding-bottom: 8px;
+
+}
+.no-margin {
+	margin-left: 0px;
+	margin-right: 0px;
+	margin-bottom: 10px;
+	background-color: white;
 }
 
-.nav-search {
-	//width: 200px;
-	//margin-left: 20px;
-	//margin: 5px;
-	input {
-		color: white;
-	}
-}
 .sidenav-top {
-	padding-bottom: 10px;
+	//padding-bottom: 10px;
 	background-color: $black;
+	overflow-y: hidden;
+}
+
+.sidenav-search {
+	margin-top: 5;
+	margin-bottom: 5;
+	//padding-left: 5;
+	//padding-right: 5;
+	background-color: $dark-grey;
 }
 
 .sidenav-main {
 	background-color: $dark-grey;
-	height: 100%;
+	height: calc(100% - 197px);
+	overflow-y: hidden;
+	//position: relative;
+	//height: calc(100% - 180px);
+	//position: relative;
 }

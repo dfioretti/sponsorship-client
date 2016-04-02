@@ -48,11 +48,12 @@ var AssetSearch = React.createClass({
 
 		return (
 			<div className="nav-search">
-				<Row>
-					<Col md={2}>
-						<SearchIcon style={{color: 'white', marginLeft: 10, height: 25, width: 25, marginTop: 15}}/>
+				<Paper zDepth={3} rounded={false}>
+				<Row style={{marginLeft: 0, marginRight: 0}}>
+					<Col md={1}>
+						<SearchIcon style={{ marginRight: 8, marginLeft: 3, height: 25, width: 25, marginTop: 12}}/>
 					</Col>
-					<Col md={9}>
+					<Col md={10}>
 						<AutoComplete
 							hintText="Find Property"
 							style={{fontFamily: 'Avenir-Book', color: 'white'}}
@@ -65,6 +66,7 @@ var AssetSearch = React.createClass({
 							/>
 					</Col>
 				</Row>
+				</Paper>
 			</div>
 		)
 	}

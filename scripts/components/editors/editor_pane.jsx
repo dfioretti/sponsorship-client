@@ -2,6 +2,11 @@ var React = require('react'),
 		Fluxxor = require('fluxxor'),
 		FluxMixin = Fluxxor.FluxMixin(React),
 		Link = require('react-router').Link,
+		Tabs = require('material-ui').Tabs,
+		Tab = require('material-ui').Tab,
+		StyleIcon = require('react-icons/lib/md/style'),
+		TypeIcon = require('react-icons/lib/md/collections'),
+		DataIcon = require('react-icons/lib/fa/database'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var GeneralPane = require('./general_pane.jsx');
@@ -13,6 +18,13 @@ var ConfigurationPane = require('./configuration_pane.jsx');
 var EditorPane = React.createClass({
   mixins: [FluxMixin, StoreWatchMixin("ComponentEditorStore")],
 
+	handleChange: function(value) {
+		console.log("wtf", value);
+		if (value == 'a') this.getFlux().actions.changePane(value);
+		if (value == 'b') this.getFlux().actions.changePane(value);
+		//console.log("wtf", value);
+		//this.getFlux().actions.changePane(value);
+	},
   getStateFromFlux: function() {
     var flux = this.getFlux();
     return flux.store("ComponentEditorStore").getState();
@@ -36,10 +48,33 @@ var EditorPane = React.createClass({
     }
   },
   render: function() {
+		/*
+		<div>
+			{this.renderPaneForState()}
+		</div>
+		*/
     return (
-      <div>
-        {this.renderPaneForState()}
-      </div>
+			<Tabs
+				value={this.getStateFromFlux().editorPane}
+				onChange={this.handleChange}
+				tabItemContainerStyle={{
+					backgroundColor: "#2d64a5",
+				}}
+				inkBarStyle={{
+					backgroundColor: "rgb(0, 188, 212)",
+				}}
+				>
+				<Tab
+					value="a"
+					icon={<TypeIcon />}
+					>
+					<GeneralPane />
+				</Tab>
+				<Tab value="b" icon={<DataIcon />}>
+					<DataPane />
+				</Tab>
+			</Tabs>
+
     );
   },
 });

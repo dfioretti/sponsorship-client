@@ -26,12 +26,10 @@ var TopNavigation = React.createClass({
 				iconElementRight={
 					<IconMenu
 						iconButtonElement={
-							<span>Sponsorship Demo
 							<IconButton style={{marginRight: 20}}> <AccountIcon style={{color: "#33363b",  marginTop: -10,  height: 50, width: 50}}/> </IconButton>
-							</span>
 						}
-						targetOrigin={{horizontal: 'right', vertical: 'bottom'}}
-						anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+						targetOrigin={{horizontal: 'right', vertical: 'top'}}
+						anchorOrigin={{horizontal: 'right', vertical: 'top'}}
 					>
 						<MenuItem primaryText="Sign Out" />
 					</IconMenu>

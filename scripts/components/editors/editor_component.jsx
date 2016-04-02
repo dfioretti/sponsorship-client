@@ -10,6 +10,12 @@ var ComponentEditor = require('./component_editor.jsx');
 var EditorComponent = React.createClass({
   mixins: [FluxMixin, StoreWatchMixin("EditorPreviewStore")],
 	componentWillMount: function() {
+		var title = this.getFlux().store("ComponentEditorStore").getState().title;
+		if (title.length > 1) {
+			this.getFlux().actions.setBreadcrumb("modules > " + title);
+		} else {
+			this.getFlux().actions.setBreadcrumb("modules > create");
+		}
 		this.dataLoaded();
 	},
   getInitialState: function() {
@@ -51,12 +57,15 @@ var EditorComponent = React.createClass({
 		}
 	},
   render: function() {
+		/*
 		if (!this.getFlux().store("ComponentsStore").getState().componentsLoaded)
 			return ( <div className="editor"><AppSidebar context="component" /></div>);
 		//this.loadPreview();
+		//        <AppSidebar context="component" />
+		*/
+
     return (
       <div className="editor">
-        <AppSidebar context="component" />
         <ComponentEditor {...this.props} />
       </div>
     );
