@@ -30,9 +30,12 @@ var ChartTypePane = React.createClass({
   },
 	renderChartImage: function() {
 		var style = {
-			height: "300px",
-			width: "300px",
-			paddingLeft: "80px",
+			fontSize: 300,
+			display: 'flex',
+			margin: 0,
+			padding: 0,
+			justifyContent: 'center',
+			paddingLeft: "75px",
 			color: "#03387a"
 		}
 		switch (this.getStateFromFlux().view) {
@@ -86,11 +89,12 @@ var ChartTypePane = React.createClass({
 
         <div className="">
 					<br /><br />
-            <label>Chart Type &nbsp;&nbsp;&nbsp;</label>
+						<label style={{textTransform: 'uppercase', letterSpacing: '1.5px', fontSize: 16}}>Chart Type</label>
 						<br />
 						<SelectField
 							value={this.state.view}
 							style={{color: "green"}}
+							fullWidth={true}
 							selectFieldRoot={{selectedMenuItemStyle: {color: "green"}}}
 							onChange={this.handleChartTypeChange}
 							>
@@ -101,11 +105,7 @@ var ChartTypePane = React.createClass({
 							<MenuItem value={'dataList'} id={'dataList'} primaryText={"Data List"} />
 							<MenuItem value={'scoreView'} id={'scoreView'} primaryText={"Score View"} />
 						</SelectField>
-
-
-          <div className="form-group">
 						{this.renderChartImage()}
-          </div>
       </div>
     );
   }

@@ -2,6 +2,7 @@ var React = require('react'),
 		Fluxxor = require('fluxxor'),
 		FluxMixin = Fluxxor.FluxMixin(React),
 		Link = require('react-router').Link,
+		ImageHelper = require('../../utils/ImageHelper.js'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var AddedDataRow = require('./added_data_row.jsx');
@@ -21,7 +22,7 @@ var AddedData = React.createClass({
           var entityImage = item.entity.entity_image
           return (
             <AddedDataRow key={i} id={i++} imageOne={entityImage}
-              imageTwo={item.metric.point_image}
+              imageTwo={ImageHelper("",item.metric.point_image)}
               labelOne={item.entity.name}
               labelTwo={item.metric.point.split("_").pop()}
             />

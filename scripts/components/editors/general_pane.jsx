@@ -27,9 +27,9 @@ var GeneralPane = React.createClass({
           General
         </div>
         <div className="form-content">
-            <label>Component Title</label>
+            <label style={{textTransform: 'uppercase', letterSpacing: '1.5px', fontSize: 16}}>Component Title</label>
 						<br />
-						<TextField value={this.getStateFromFlux().title} onChange={this.handleTitleChange} hintText="Enter Title" />
+						<TextField fullWidth={true} value={this.getStateFromFlux().title} onChange={this.handleTitleChange} hintText="Enter Title" />
 						<ChartTypePane />
         </div>
       </div>

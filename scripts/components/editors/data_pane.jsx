@@ -3,7 +3,7 @@ var React = require('react'),
 		FluxMixin = Fluxxor.FluxMixin(React),
 		Link = require('react-router').Link,
 		AssetSearch = require('./AssetSearch.jsx'),
-
+		ImageHelper = require('../../utils/ImageHelper.js'),
 		DataListForSelected = require('./DataListForSelected.jsx'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
@@ -43,7 +43,7 @@ var DataPane = React.createClass({
   renderSelectedData: function() {
     var selected = this.getStateFromFlux().selectedData;
     if (selected === null) return null;
-    var image = selected.icon;
+    var image = ImageHelper("", selected.icon);
     var name = selected.point.split("_").join(" ");
 
     var imgStyle = {

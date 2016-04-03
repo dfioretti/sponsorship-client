@@ -19,7 +19,7 @@ var EditorPane = React.createClass({
   mixins: [FluxMixin, StoreWatchMixin("ComponentEditorStore")],
 
 	handleChange: function(value) {
-		// this is really dumb and it gets triggered by onChange by any watched store 
+		// this is really dumb and it gets triggered by onChange by any watched store
 		if (value == 'a') this.getFlux().actions.changePane(value);
 		if (value == 'b') this.getFlux().actions.changePane(value);
 	},
@@ -40,6 +40,7 @@ var EditorPane = React.createClass({
         break;
       case 'data':
         return <DataPane />;
+				break;
       case 'configuration':
         return <ConfigurationPane />;
         break;

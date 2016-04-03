@@ -1,6 +1,7 @@
 var React = require('react'),
 		Fluxxor = require('fluxxor'),
 		FluxMixin = Fluxxor.FluxMixin(React),
+		ImageHelper = require('../../utils/ImageHelper.js'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin
 
 
@@ -23,7 +24,7 @@ var DataListForSelected = React.createClass({
       marginLeft: "0px"
     };
     this.getStateFromFlux().filteredDataPointList.map(function(item) {
-      var image = item.icon;
+      var image = ImageHelper("", item.icon);
       var name = this.formatData(item.point);
       list.push(
         <div key={item.id} className="container filter-content">
