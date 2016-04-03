@@ -101,7 +101,7 @@ var DynamicComponent = React.createClass({
 		if (this.props.component.view === 'scoreView')
 			return <ScoreView {...this.props} />
 
-    return (
+		return (
       <div id={componentStyle} className="dashboard-module">
         <div className="top">
 					<OverlayTrigger

@@ -3,6 +3,7 @@ var API_ROOT = require("../../constants/environment.js").API_ROOT;
 var Avatar = require('material-ui').Avatar;
 var List = require('material-ui').List;
 var Divider = require('material-ui').Divider;
+var CircularProgress = require('material-ui').CircularProgress;
 var ListItem = require('material-ui').ListItem;
 
 
@@ -33,6 +34,13 @@ var TwitterFeed = React.createClass({
 		});
 	},
 	renderContent: function() {
+		if (this.state.tweets.length == 0) {
+			return (
+				<div style={{marginTop: 50, display: 'flex', justifyContent: 'center'}}>
+					<CircularProgress size={2} />
+				</div>
+			)
+		}
 		return (
 			<List style={{height: "270px", color: "#50e3c2", overflowY: "scroll", backgroundColor: "#2d64a5"}}>
 				{this.state.tweets.map(function(tweet) {

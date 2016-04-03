@@ -15,6 +15,7 @@ var ScoreCard = React.createClass({
     var imageSize = {
       height: "220px",
       width: "290px",
+			cursor: 'pointer',
       marginLeft: "55px",
       marginTop: "5px"
     };

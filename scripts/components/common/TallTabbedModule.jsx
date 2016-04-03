@@ -10,7 +10,6 @@ var React = require('react'),
 		_ = require('lodash'),
 		GenericValueListItem = require('./charts/GenericValueListItem.jsx');
 
-
 var TallTabbedModule = React.createClass({
 	getInitialState: function() {
 		return { value: 'a' }
@@ -56,6 +55,7 @@ var TallTabbedModule = React.createClass({
 					<Tabs
 						value={this.state.value}
 						onChange={this.handleTabChange}
+						key={500}
 						tabItemContainerStyle={{
 							backgroundColor: "#2d64a5",
 							position: "absolute",
@@ -70,6 +70,7 @@ var TallTabbedModule = React.createClass({
 						<Tab
 							icon={<Social />}
 							value="a"
+							key={1}
 							>
 							<div className="global-issues-list-container-tall">
 								<ul className="generic-list">
@@ -90,6 +91,7 @@ var TallTabbedModule = React.createClass({
 						<Tab
 							icon={<Dollar />}
 							value="b"
+							key={2}
 							>
 							<div className="global-issues-list-container-tall">
 								<ul className="generic-list">
@@ -110,6 +112,7 @@ var TallTabbedModule = React.createClass({
 						<Tab
 							icon={<Dash />}
 							value="c"
+							key={3}
 							>
 							<div className="global-issues-list-container-tall">
 								<ul className="generic-list">
@@ -127,7 +130,7 @@ var TallTabbedModule = React.createClass({
 								</ul>
 							</div>
 						</Tab>
-						</Tabs>
+					</Tabs>
 				</div>
 			</div>
 		);

@@ -16,15 +16,12 @@ var React = require('react'),
 
 
 var SideNavigation = React.createClass({
-	mixins: [FluxMixin, Navigation, StoreWatchMixin("AssetsStore")],
+	mixins: [FluxMixin, Navigation, StoreWatchMixin("AssetsStore", "NavigationStore")],
 
 	componentWillMount: function() {
 		if (!this.state.assetsLoaded && !this.state.loading) {
 			this.getFlux().actions.loadAssets();
 		}
-	},
-	getInitialState: function() {
-	//	return { assets: [], assetsLoaded: false, loading: false }
 	},
 	getStateFromFlux: function() {
 		return this.getFlux().store("AssetsStore").getState();
@@ -51,19 +48,14 @@ var SideNavigation = React.createClass({
 	render: function() {
 		var navState = this.getFlux().store("NavigationStore").getState();
 
-		console.log("navState", navState);
-		if (this.getFlux().store("NavigationStore").getState().currentView === 'home')
-			return null;
-		//<div className="brand-title">Teneo</div>
-//	<Divider style={{marginLeft: "10px", marginRight: "10px"}}/>
-
-		//					<Divider style={{marginLeft: "10px", marginRight: "10px"}}/>
-/*
-
-*/
-		//console.log("path", this.context.router.getCurrentPathName());
+		//if (this.getFlux().store("NavigationStore").getState().currentView === 'home')
+		//	return null;
+		var open = true;
+		if (window.location.href.indexOf('home') > 0 || window.location.href.indexOf('account_login') > 0) {
+			open = false;
+		}
 		return (
-			<LeftNav className="sidenav-top" open={true}>
+			<LeftNav className="sidenav-top" open={open}>
 				<div className='sidenav-top'>
 					<CreateDashboardModal id="create-dashboard-modal" flux={this.getFlux()} />
 					<img onClick={this.handleHomeClick} style={{cursor: 'pointer'}} className="brand-image" src="/images/login/logo-white.png" />

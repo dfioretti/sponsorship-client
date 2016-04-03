@@ -6,6 +6,8 @@ var React = require('react'),
 		IconButton = require('material-ui').IconButton,
 		AccountIcon = require('react-icons/lib/md/account-circle'),
 		MenuItem = require('material-ui').MenuItem,
+		Auth = require('../../vendor/jtoker.js'),
+		PubSub = require('pubsub-js'),
 		Link = require('react-router').Link,
 //		Navigation = require('react-router').Navigation,
 //		Link = require(react-router).Link,
@@ -13,7 +15,39 @@ var React = require('react'),
 
 var TopNavigation = React.createClass({
 	mixins: [FluxMixin, StoreWatchMixin("NavigationStore")],
+	componentWillMount: function() {
+		if (!this.getStateFromFlux().assetsLoaded && !this.getStateFromFlux().loading) {
+			this.getFlux().actions.loadAssets();
+		}
+		var st = PubSub.subscribe('auth.validation.success', function(ev, user) {
+			this.setState({name: user.name, image: user.image, permissions: user.permissions});
+		}.bind(this));
+		var rt = PubSub.subscribe('auth.emailRegistration.success', function(ev, user) {
+			var user = user.data;
+			this.setState({name: user.name, image: user.image, permissions: user.permissions});
+		}.bind(this));
+		var ut = PubSub.subscribe('auth.signOut.success', function(ev, user) {
+			this.setState({name: null, image: null});
+		}.bind(this));
+		this.setState({st: st, ut: ut, rt: rt});
 
+		if (window.location.href.indexOf('home') > 0 || window.location.href.indexOf('account_login') > 0) {
+			this.getFlux().actions.setBreadcrumb("teneo");
+		}
+	},
+	componentWillUnmount: function() {
+		PubSub.unsubscribe(this.state.st);
+		PubSub.unsubscribe(this.state.ut);
+		PubSub.unsubscribe(this.state.rt);
+	},
+	signOut: function() {
+		Auth.signOut();
+	},
+	componentWillReceiveProps: function(nextProps) {
+		if (window.location.href.indexOf('home') > 0 || window.location.href.indexOf('account_login') > 0) {
+			this.getFlux().actions.setBreadcrumb("teneo");
+		}
+	},
 	getStateFromFlux: function() {
 		return this.getFlux().store("NavigationStore").getState();
 	},
@@ -33,18 +67,35 @@ var TopNavigation = React.createClass({
 				link = 'components_index';
 				break;
 		}
+		console.log("TOPNAV:", this.state);
 		var navState = this.getFlux().store("NavigationStore").getState();
+		console.log("NAVSTATE", navState);
 		var marginLeft = 256;
-		if (this.getFlux().store("NavigationStore").getState().currentView === 'home') {
-			this.getFlux().actions.setBreadcrumb("teneo");
-			//marginLeft = 0;
+		var barStyle = {
+			backgroundColor: "white",
+			marginLeft: 256,
+			width: "calc(100% - 256px)"
 		}
+		if (window.location.href.indexOf('home') > 0 || window.location.href.indexOf('account_login') > 0) {
+			barStyle = {
+			backgroundColor: "white",
+			marginLeft: 0,
+			width: "100%"
+			}
+		}
+
+		//style={{ backgroundColor: "white", marginLeft: 256, width: "calc(100% - 256px)"}}
+
+		//if (this.getFlux().store("NavigationStore").getState().currentView === 'home') {
+		//	this.getFlux().actions.setBreadcrumb("teneo");
+			//marginLeft = 0;
+		//}
 			//return <div style={{height: 80, width: "100%", backgroundColor: "green"}}></div>
 		return (
 			<AppBar
 				title={<span style={{color: '#4a4a4a', textTransform: 'uppercase', letterSpacing: '3px' }}><Link style={{textDecoration: 'none', color: '#4a4a4a'}} to={link}>{this.state.title}</Link></span>}
 				showMenuIconButton={false}
-				style={{ backgroundColor: "white", marginLeft: 256, width: "calc(100% - 256)"}}
+				style={barStyle}
 				iconElementRight={
 					<IconMenu
 						iconButtonElement={
@@ -53,7 +104,9 @@ var TopNavigation = React.createClass({
 						targetOrigin={{horizontal: 'right', vertical: 'top'}}
 						anchorOrigin={{horizontal: 'right', vertical: 'top'}}
 					>
-						<MenuItem primaryText="Sign Out" />
+						<MenuItem
+							onTouchTap={this.signOut}
+							primaryText="Sign Out" />
 					</IconMenu>
 				}
 				/>

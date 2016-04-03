@@ -41,7 +41,7 @@ var EditorPreview = React.createClass({
         <div className="preview-heading">
           Component Preview
         </div>
-        <div className="preview-component">
+        <div style={{display: 'flex', justifyContent: 'center' }} className="preview-component">
 					<DynamicComponent component={component}  />
         </div>
       </div>
@@ -80,10 +80,10 @@ var ComponentEditor = React.createClass({
 				<EditorToolbar handleNewClick={this.handleNewClick} handleSaveClick={this.handleSaveClick} />
         <div className="editor-container">
             <div className="row editor-2-col">
-              <div className="col-md-5 editor-pane">
+              <div className="col-md-4 editor-pane">
                 <EditorPane />
               </div>
-              <div className="col-md-5 editor-views">
+              <div className="col-md-6 editor-views">
                 <EditorPreview component={component} />
                 <EditorData />
               </div>

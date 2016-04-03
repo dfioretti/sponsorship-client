@@ -22,6 +22,7 @@ var React = require('react'),
 		ConsumerSurvey = require('../assets/ConsumerSurvey.jsx'),
 		TallTabbedModule = require('../common/TallTabbedModule.jsx'),
 		TwitterFeed = require('../common/TwitterFeed.jsx'),
+		AssetClient = require('../../clients/asset_client.js'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var PortfolioDashboard = React.createClass({
@@ -32,39 +33,49 @@ var PortfolioDashboard = React.createClass({
 		StoreWatchMixin("AssetsStore")
   ],
 	componentWillMount: function() {
+		if (this.props.params.id) {
+			AssetClient.getAssets(this.props.params.id, function(data) {
+				this.setState({ viewAsset: data });
+			})
+		}
 		this.ensureLoaded();
+		this.synNav(this.props)
+	},
+	getInitialState: function() {
+		return { viewAsset: null }
+	},
+	componentWillReceiveProps: function(newProps) {
+		this.syncNav(newProps);
 	},
 	ensureLoaded: function() {
 		if (!this.getFlux().store("DashboardHomeStore").getState().dashboardsLoaded
 				&& !this.getFlux().store("DashboardHomeStore").getState().loading) {
 			this.getFlux().actions.loadDashboards();
+			return false;
 		}
 		if (!this.getFlux().store("ComponentsStore").getState().componentsLoaded
 					&& !this.getFlux().store("ComponentsStore").getState().loading) {
 			this.getFlux().actions.loadComponents();
+			return false;
 		}
+		return true;
 	},
-	componentDidMount: function() {
-		if (this.props.params.id) {
-			this.getFlux().actions.setBreadcrumb(this.getFlux().store("AssetsStore").getAsset(this.props.params.id));
-			this.getFlux().actions.setCurrentNav("asset", this.props.params.id);
-			this.setState({assetId: parseInt(this.props.params.id)});
+	synNav: function(props) {
+		if (props.params.id) {
+			this.getFlux().actions.setBreadcrumb(this.getFlux().store("AssetsStore").getAsset(props.params.id));
+			this.getFlux().actions.setCurrentNav("asset", props.params.id);
 		} else {
 			this.getFlux().actions.setBreadcrumb("My Portfolio");
 			this.getFlux().actions.setCurrentNav("portfolio", null);
 		}
-		if (!this.getFlux().store("ComponentsStore").getState().componentsLoaded) {
-			this.getFlux().actions.loadComponents();
+	},
+	componentDidMount: function() {
+		if (this.ensureLoaded()) {
+			this.setupGrid();
 		}
-		this.setupGrid();
 	},
 	componentDidUpdate: function() {
-			if (this.props.params.id) {
-				this.setState({assetId: parseInt(this.props.params.id)});
-			}
-	},
-	getInitialState: function() {
-		return Immutable.Map( { assetId: null } );
+		this.synNav(this.props)
 	},
 	isDashboardLoaded: function () {
 		return this.getFlux().store("DashboardHomeStore").getState().dashboardsLoaded;
@@ -133,7 +144,7 @@ var PortfolioDashboard = React.createClass({
 							score = metric;
 						}
 					});
-					el = <AssetScore score={score} asset={asset} />
+					el = <AssetScore key={uuid.v4()} score={score} asset={asset} />
 					break;
         case 'portfolio_map':
         	el = <PortfolioMap hidden={hidden} key={uuid.v4()} />

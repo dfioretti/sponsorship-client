@@ -19,7 +19,7 @@ var HomePage = React.createClass({
 	mixins: [FluxMixin, Navigation, StoreWatchMixin("AssetsStore")],
 
 	componentWillMount: function() {
-		this.getFlux().actions.setCurrentNav("home", null);
+	//	this.getFlux().actions.setCurrentNav("home", null);
 		if (!this.state.assetsLoaded && !this.state.loading) {
 			this.getFlux().actions.loadAssets();
 		}

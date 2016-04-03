@@ -15,6 +15,20 @@ var asset_url = {
                     console.log(t), console.log(e)
                 }
             })
+        },
+        getAsset: function(asset_id, callback) {
+          $.ajax({
+            type: "GET",
+            contentType: "application/json",
+            url: asset_url.ASSET_URL + asset_id,
+            succcess: function(data) {
+              callback(data);
+            },
+            error: function(o, c, n) {
+              console.log(c);
+              console.log(n);
+            }
+          });
         }
     };
 module.exports = AssetClient;

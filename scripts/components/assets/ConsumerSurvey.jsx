@@ -1,6 +1,7 @@
 var React = require('react');
 var GenericBarListItem = require('../common/charts/GenericBarListItem.jsx');
 var API_ROOT = require("../../constants/environment.js").API_ROOT;
+var CircularProgress = require('material-ui').CircularProgress;
 
 
 /*
@@ -14,7 +15,7 @@ var API_ROOT = require("../../constants/environment.js").API_ROOT;
 
 var ConsumerSurvey = React.createClass({
   getInitialState: function() {
-    return {consumerSurvey: {}};
+    return { consumerSurvey: null };
   },
   componentDidMount: function() {
     this.loadData();
@@ -25,7 +26,7 @@ var ConsumerSurvey = React.createClass({
     }
   },
   loadData: function() {
-    // this is going to trigger the render of componenets   
+    // this is going to trigger the render of componenets
     $.ajax({
       type: "GET",
       contentType: "application/json",
@@ -39,13 +40,19 @@ var ConsumerSurvey = React.createClass({
         }.bind(this));
       }.bind(this),
       error: function(xhr, status, error) {
-        console.log("ERROR");
         console.log(status);
         console.log(error);
       }
     });
   },
   renderList: function() {
+    if (this.state.consumerSurvey == null) {
+      return (
+        <div style={{marginTop: 50, display: 'flex', justifyContent: 'center'}}>
+          <CircularProgress size={2} />
+        </div>
+      )
+    }
     var overrideMargin = {
         marginLeft: "-20px"
     };
