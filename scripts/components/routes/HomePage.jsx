@@ -19,6 +19,7 @@ var HomePage = React.createClass({
 	mixins: [FluxMixin, Navigation, StoreWatchMixin("AssetsStore")],
 
 	componentWillMount: function() {
+		this.getFlux().actions.setCurrentNav("home", null);
 		if (!this.state.assetsLoaded && !this.state.loading) {
 			this.getFlux().actions.loadAssets();
 		}
@@ -56,14 +57,17 @@ var HomePage = React.createClass({
 		  textAlign: 'center',
 		  display: 'inline-block',
 		};
+		/*
+		<AppBar
+			title={<span style={{color: '#4a4a4a', textTransform: 'uppercase', letterSpacing: '3px' }}>Teneo</span>}
+			style={{ backgroundColor: "white" }}
+			showMenuIconButton={false}
+			iconElementRight={<RaisedButton labelColor={'white'} backgroundColor={'#03387a'} label="Login"  />}
+			/>
+		*/
 		return (
 			<Card>
-					<AppBar
-						title={<span style={{color: '#4a4a4a', textTransform: 'uppercase', letterSpacing: '3px' }}>Teneo</span>}
-						style={{ backgroundColor: "white" }}
-						showMenuIconButton={false}
-						iconElementRight={<RaisedButton labelColor={'white'} backgroundColor={'#03387a'} label="Login"  />}
-						/>
+
 					<CardMedia
 						>
 						<img src={"/images/login/login-edit.jpg"} />

@@ -23,6 +23,7 @@ var ScoreIndex = React.createClass({
 	},
   componentWillMount: function() {
 		this.getFlux().actions.setBreadcrumb("scores")
+		this.getFlux().actions.setCurrentNav("score", null);
 		if (!this.getStateFromFlux().scoresLoaded && !this.getStateFromFlux().loading) {
 			this.getFlux().actions.loadScores();
 		}
@@ -45,7 +46,6 @@ var ScoreIndex = React.createClass({
     if (this.state.scoresLoaded) {
       return (
         <div className="dashboard">
-          <AppSidebar {...this.props} context="score-index" />
           <div className="modules-box">
             {this.renderModules()}
           </div>

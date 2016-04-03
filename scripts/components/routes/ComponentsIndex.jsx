@@ -20,6 +20,7 @@ var ComponentsIndex = React.createClass({
 	componentWillMount: function() {
 		this.ensureLoaded();
 		this.getFlux().actions.setBreadcrumb("modules")
+		this.getFlux().actions.setCurrentNav("components", null);
 	},
 	getInitialState: function() {
 		return Immutable.Map();

@@ -33,11 +33,18 @@ var TopNavigation = React.createClass({
 				link = 'components_index';
 				break;
 		}
+		var navState = this.getFlux().store("NavigationStore").getState();
+		var marginLeft = 256;
+		if (this.getFlux().store("NavigationStore").getState().currentView === 'home') {
+			this.getFlux().actions.setBreadcrumb("teneo");
+			//marginLeft = 0;
+		}
+			//return <div style={{height: 80, width: "100%", backgroundColor: "green"}}></div>
 		return (
 			<AppBar
 				title={<span style={{color: '#4a4a4a', textTransform: 'uppercase', letterSpacing: '3px' }}><Link style={{textDecoration: 'none', color: '#4a4a4a'}} to={link}>{this.state.title}</Link></span>}
 				showMenuIconButton={false}
-				style={{ backgroundColor: "white", marginLeft: 256, width: "calc(100% - 256px)"}}
+				style={{ backgroundColor: "white", marginLeft: 256, width: "calc(100% - 256)"}}
 				iconElementRight={
 					<IconMenu
 						iconButtonElement={

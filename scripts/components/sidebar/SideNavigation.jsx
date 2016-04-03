@@ -42,12 +42,18 @@ var SideNavigation = React.createClass({
 			);
 		}
 		if (navState.currentView !== 'portfolio' && navState.currentView !== 'asset') {
+			return null;
 		}
 		return (
 			<OverviewContextMenu {...this.props} />
 		)
 	},
 	render: function() {
+		var navState = this.getFlux().store("NavigationStore").getState();
+
+		console.log("navState", navState);
+		if (this.getFlux().store("NavigationStore").getState().currentView === 'home')
+			return null;
 		//<div className="brand-title">Teneo</div>
 //	<Divider style={{marginLeft: "10px", marginRight: "10px"}}/>
 

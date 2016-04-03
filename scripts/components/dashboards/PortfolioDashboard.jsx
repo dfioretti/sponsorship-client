@@ -31,6 +31,19 @@ var PortfolioDashboard = React.createClass({
 		StoreWatchMixin("ComponentsStore"),
 		StoreWatchMixin("AssetsStore")
   ],
+	componentWillMount: function() {
+		this.ensureLoaded();
+	},
+	ensureLoaded: function() {
+		if (!this.getFlux().store("DashboardHomeStore").getState().dashboardsLoaded
+				&& !this.getFlux().store("DashboardHomeStore").getState().loading) {
+			this.getFlux().actions.loadDashboards();
+		}
+		if (!this.getFlux().store("ComponentsStore").getState().componentsLoaded
+					&& !this.getFlux().store("ComponentsStore").getState().loading) {
+			this.getFlux().actions.loadComponents();
+		}
+	},
 	componentDidMount: function() {
 		if (this.props.params.id) {
 			this.getFlux().actions.setBreadcrumb(this.getFlux().store("AssetsStore").getAsset(this.props.params.id));
@@ -175,13 +188,11 @@ var PortfolioDashboard = React.createClass({
 		if (!this.isDashboardLoaded() || !this.areComponentsLoaded() || !this.areAssetsLoaded() ) {
 			return (
 				<div className="dashboard">
-					<AppSidebar context="dashboard" />
 				</div>
 			);
 		} else {
 			return (
 				<div className="dashboard">
-					<AppSidebar context="dashboard" />
 					<div className="modules-box">
 						{this.renderModules(this.getDashboardFromFlux().state)}
 					</div>
