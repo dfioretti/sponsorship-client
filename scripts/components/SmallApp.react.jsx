@@ -122,9 +122,11 @@ var SmallApp = React.createClass({
 
     var flux = new Fluxxor.Flux(stores, actions);
     window.flux = flux;
-    flux.on("dispatch", function(type, payload) {
-      console.log("[Dispatch]", type, payload);
-    });
+      if (location.href.indexOf('localhost') > -1) {
+      flux.on("dispatch", function(type, payload) {
+        console.log("[Dispatch]", type, payload);
+      });
+    }
     //        <Nav {...this.props} flux={flux} />
 //
 

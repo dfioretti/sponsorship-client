@@ -144,6 +144,8 @@ function initilizeScoreCanvas(savedModel) {
     }
   });
 
+  var currentScale = myDiagram.scale;
+  myDiagram.scale = (currentScale - 0.1);
   // override TreeLayout.commitNodes to also modify the background brush based on the tree depth level
   myDiagram.layout.commitNodes = function() {
     go.TreeLayout.prototype.commitNodes.call(myDiagram.layout); // do the standard behavior
