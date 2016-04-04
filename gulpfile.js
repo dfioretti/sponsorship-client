@@ -164,6 +164,12 @@ gulp.task('build', ['clean'], function() {
   gulp.start(['libs', 'browserify', 'styles']);
 });
 
+// do libs locally
+gulp.task('deploy', function() {
+  process.env.NODE_ENV = 'production';
+  gulp.start([ 'browserify', 'styles' ]);
+});
+
 gulp.task('default', function() {
   console.log('Run "gulp watch or gulp build"');
 });
