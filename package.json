@@ -4,7 +4,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "build": "gulp build"
+    "postinstall": "gulp build"
   },
   "dependencies": {
     "bootstrap": "^3.3.6",
