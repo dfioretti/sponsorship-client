@@ -193,7 +193,7 @@ var PortfolioDashboard = React.createClass({
 			}
 			if (this.state.asset == null || this.state.tweets == null) {
 				return (
-					<div className='modules-container'>
+					<div className=''>
 						<div style={{marginTop: "20%", display: 'flex', justifyContent: 'center'}}>
 							<Spinner style={{height: 200, width: 200}} overrideSpinnerClassName={'loader'} spinnerName='circle' noFadeIn />
 						</div>

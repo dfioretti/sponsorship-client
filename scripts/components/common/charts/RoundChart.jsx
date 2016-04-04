@@ -43,7 +43,7 @@ var RoundChart = React.createClass({
 		'#e76959'
   ],
   renderChart: function(dataSets) {
-    var strokeWidth = 1;
+    var strokeWidth = 1.3;
 		if (typeof($("#" + this.state.chartId).get(0)) === 'undefined') return;
     var ctx = $("#" + this.state.chartId).get(0).getContext("2d");
     var chartDetail = {
@@ -64,7 +64,7 @@ var RoundChart = React.createClass({
     } else {
       roundChart = new Chart(ctx).Pie(dataSets, chartDetail);
     }
-    roundChart.outerRadius -= (strokeWidth/2);
+    roundChart.outerRadius -= (strokeWidth/1);
     this.chart = roundChart;
 		this.setState({
 			chart: this.chart,
@@ -95,8 +95,8 @@ var RoundChart = React.createClass({
 		//style={{width: "190px", height: "190px", padding: "5px"}}
     return (
       <div style={{paddingTop: "35px", paddingLeft: "20px"}}>
-        <div className="" style={{display: "inline-block", padding: "5px"}}>
-          <canvas id={this.state.chartId} width="190" height="190" ></canvas>
+        <div className="" style={{display: "inline-block", padding: "0px"}}>
+          <canvas style={{padding: -5}} id={this.state.chartId} width="190" height="190" ></canvas>
         </div>
         <ul className="chart-legend" style={{display: "inline-block", background: "#3c88d1", borderRadius: "3px", paddingRight: "5px", paddingLeft: "15px", paddingTop: "5px", paddingBottom: "15px", position: "absolute", top: "100px", left: "225px", fontSize: "12px", width: "155px", textTransform: "capitalize"}}>
           <h5>Legend</h5>
