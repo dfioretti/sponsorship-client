@@ -1,7 +1,6 @@
 $(document).ready(function() {
   // fire setup only if on editor page
   if ( $('#myDiagram').length ) {
-      console.log("score editor view");
   }
 
 });
@@ -229,7 +228,6 @@ function initilizeScoreCanvas(savedModel) {
   }
 
   function findIcon(icon) {
-    console.log("icon", icon);
     if (icon.toString().indexOf('/icon') !== -1) {
       return icon;
     }
@@ -383,7 +381,6 @@ function initilizeScoreCanvas(savedModel) {
 function onSelectionChanged(e) {
   flux.actions.scoreNodeChanged(e.diagram.selection.first());
   return;
-  console.log("selection changed");
   var node = e.diagram.selection.first();
   if (node instanceof go.Node) {
     $('#score-data').hide();

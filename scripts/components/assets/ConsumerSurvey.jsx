@@ -4,13 +4,6 @@ var API_ROOT = require("../../constants/environment.js").API_ROOT;
 var CircularProgress = require('material-ui').CircularProgress;
 
 
-/*
- *  ConsumerSurvey is meant to contain data from
- *  Simmons/MRI/Scarborough type feeds the
- *  bar color could be the "index" for
- *  fan avidity
- *
- */
 
 
 var ConsumerSurvey = React.createClass({
@@ -28,28 +21,9 @@ var ConsumerSurvey = React.createClass({
     //  this.loadData();
     //}
   },
-  loadData: function() {
-    // this is going to trigger the render of componenets
-    $.ajax({
-      type: "GET",
-      contentType: "application/json",
-      url: API_ROOT + "api/v1/apt/asset/mock_data",
-      data: {"type":"survey", "id":this.props.asset.id},
-      success: function(data, status, xhr) {
-        this.setState({consumerSurvey: data.survey}, function() {
-          // i don't really use this state - i'm lazy
-          // need to fix the animation for when changing assets?
-          //this.setState({wait: false});
-        }.bind(this));
-      }.bind(this),
-      error: function(xhr, status, error) {
-        console.log(status);
-        console.log(error);
-      }
-    });
-  },
+
   renderList: function() {
-    if (this.props.consumerSurvey == null || this.props.asset == null) {
+    if (this.props.asset == null) {
       return (
         <div style={{marginTop: 50, display: 'flex', justifyContent: 'center'}}>
           <CircularProgress size={2} />

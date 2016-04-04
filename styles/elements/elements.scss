@@ -13,6 +13,16 @@ $row-height: 800px;
 		//width: 100%;
 	}
 }
+
+.loader {
+	height: 350px;
+	width: 350px;
+	.circle::before {
+		height: 35px;
+		width: 35px;
+		background-color: rgb(0, 188, 212);
+	}
+}
 .stat-panel {
 	padding: 1%;
 	border-radius: 3px;

@@ -308,6 +308,9 @@ actions = {
         console.log(error);
       }
     });
+  },
+  queueLoadTweets: function() {
+    this.dispatch(constants.DISPATCH_TWITTER_LOAD);
   }
 
 };

@@ -9,6 +9,7 @@ var React = require('react'),
 		ImageHelper = require('../../utils/ImageHelper.js'),
 		DataFormatter = require('../../utils/DataFormatter.js'),
 		_ = require('lodash'),
+		GenericBarListItem = require('./charts/GenericBarListItem.jsx');
 		GenericValueListItem = require('./charts/GenericValueListItem.jsx');
 
 var TallTabbedModule = React.createClass({
@@ -24,7 +25,7 @@ var TallTabbedModule = React.createClass({
 				<div id="top_global_issues" className="dashboard-module tall">
 					<div className="top">
 						<div className="drag-handle"></div>
-						<div className="top-title">Asset Data</div>
+						<div className="top-title">{this.props.title}</div>
 					</div>
 					<div className="main">
 						<div style={{marginTop: 50, display: 'flex', justifyContent: 'center'}}>
@@ -59,13 +60,16 @@ var TallTabbedModule = React.createClass({
 		team 	 = _.sortBy(team, "source");
 		social = _.sortBy(social, "source");
 		money  = _.sortBy(money, "source");
-		social.push({source: "klout", metric: "klout_score", icon: "/metrics/klout.png", value: this.props.asset.klout_score})
+		var bar = this.props.bar;
+		var listClass = (bar) ? "probability-list" : "generic-list";
+		if (!bar)
+			social.push({source: "klout", metric: "klout_score", icon: "/metrics/klout.png", value: this.props.asset.klout_score})
 
 		return (
 			<div id="top_global_issues" className="dashboard-module tall">
 				<div className="top">
 					<div className="drag-handle"></div>
-					<div className="top-title">Asset Data</div>
+					<div className="top-title">{this.props.title}</div>
 				</div>
 				<div className="main">
 					<Tabs
@@ -89,8 +93,21 @@ var TallTabbedModule = React.createClass({
 							key={1}
 							>
 							<div className="global-issues-list-container-tall">
-								<ul className="generic-list">
+								<ul className={listClass} >
 									{social.map(function(metric) {
+										if (bar) {
+											return (
+												<GenericBarListItem
+													key={metric.id}
+													id={metric.id}
+													link={false}
+													statImage={ImageHelper(metric.source, metric.icon)}
+													rightText={Math.round(DataFormatter(metric.rank))}
+													probability={metric.rank}
+													title={metric.metric.split("_").join(" ")}
+													/>
+											)
+										}
 										return (
 											<GenericValueListItem
 												key={metric.id}
@@ -110,8 +127,21 @@ var TallTabbedModule = React.createClass({
 							key={2}
 							>
 							<div className="global-issues-list-container-tall">
-								<ul className="generic-list">
+								<ul className={listClass}>
 									{money.map(function(metric) {
+										if (bar) {
+											return (
+												<GenericBarListItem
+													key={metric.id}
+													id={metric.id}
+													link={false}
+													statImage={ImageHelper(metric.source, metric.icon)}
+													rightText={Math.round(DataFormatter(metric.rank))}
+													probability={metric.rank}
+													title={metric.metric.split("_").join(" ")}
+													/>
+											)
+										}
 										return (
 											<GenericValueListItem
 												key={metric.id}
@@ -131,8 +161,21 @@ var TallTabbedModule = React.createClass({
 							key={3}
 							>
 							<div className="global-issues-list-container-tall">
-								<ul className="generic-list">
+								<ul className={listClass}>
 									{team.map(function(metric) {
+										if (bar) {
+											return (
+												<GenericBarListItem
+													key={metric.id}
+													id={metric.id}
+													link={false}
+													statImage={ImageHelper(metric.source, metric.icon)}
+													rightText={Math.round(DataFormatter(metric.rank))}
+													probability={metric.rank}
+													title={metric.metric.split("_").join(" ")}
+													/>
+											)
+										}
 										return (
 											<GenericValueListItem
 												key={metric.id}

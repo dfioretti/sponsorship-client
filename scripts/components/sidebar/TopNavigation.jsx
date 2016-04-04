@@ -17,7 +17,7 @@ var TopNavigation = React.createClass({
 	mixins: [FluxMixin, StoreWatchMixin("NavigationStore")],
 	componentWillMount: function() {
 		if (!this.getStateFromFlux().assetsLoaded && !this.getStateFromFlux().loading) {
-			this.getFlux().actions.loadAssets();
+			//this.getFlux().actions.loadAssets();
 		}
 		var st = PubSub.subscribe('auth.validation.success', function(ev, user) {
 			this.setState({name: user.name, image: user.image, permissions: user.permissions});

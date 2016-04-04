@@ -105,6 +105,9 @@ var GenericBarListItem = React.createClass({
     } else {
       main = (
         <div>
+					<div className="stat-image">
+						<img style={{marginLeft: -60, marginTop: -5}} src={this.props.statImage} />
+					</div>
           {this.renderProbability()}
           {this.renderRightText()}
           <div style={liStyle} className="li-title">{this.props.title}</div>

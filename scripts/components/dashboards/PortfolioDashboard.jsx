@@ -17,6 +17,9 @@ var React = require('react'),
 		TallTabbedModule = require('../common/TallTabbedModule.jsx'),
 		TwitterFeed = require('../common/TwitterFeed.jsx'),
 		AssetClient = require('../../clients/asset_client.js'),
+		CircularProgress = require('material-ui').CircularProgress,
+		RefreshIndicator = require('material-ui').RefreshIndicator,
+		Spinner = require('react-spinkit'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var PortfolioDashboard = React.createClass({
@@ -64,8 +67,6 @@ var PortfolioDashboard = React.createClass({
 			this.getFlux().actions.setEntityDashboardMode('asset');
 			this.getFlux().actions.loadDashboard('asset');
 			this.getFlux().actions.loadAsset(this.props.params.id);
-			this.getFlux().actions.setCurrentNav("asset", this.props.params.id);
-			this.getFlux().actions.setBreadcrumb(this.getFlux().store("AssetsStore").getAsset(this.props.params.id));
 		} else {
 			this.getFlux().actions.setEntityDashboardMode('portfolio');
 			this.getFlux().actions.loadDashboard('portfolio');
@@ -77,24 +78,40 @@ var PortfolioDashboard = React.createClass({
 		this.setupGrid();
 	},
 	componentDidUpdate: function() {
-		if (this.state.asset && !this.state.tweets && !this.state.loadingTwitter)
-			this.getFlux().actions.loadTweets(this.state.asset.twitter_handle);
 		this.setupGrid();
 	},
-	getInitialState: function() {
-		return { consumerSurvey: null }
-	},
-	componentWillReceiveProps: function(newProps) {
-		if (newProps.params.id) {
-			if (this.state.consumerSurvey == null) {
-			//	this.loadSurvey();
+	/*
+	shouldComponentUpdate: function(newProps, newState) {
+		if (this.state.mode == 'asset') {
+			if (this.state.asset) {
+				if (this.state.tweets != newState.tweets) {
+					//return false;
+					//return true;
+				}
+				console.log("WTF", this.state.asset, newState.asset);
+				if (this.state.asset.id == newState.asset.id) {
+					return false;
+				}
+				//if (this.state.asset.id == newState.asset.id) {
+				//	return false;
+				//}
+			} else {
+				console.log("will not");
+				return true;
 			}
-			this.getFlux().actions.resetDashboardAsset(null);
+		}
+		console.log('will');
+		return true;
+	},*/
+	componentWillReceiveProps: function(newProps) {
+		console.log("will prop", this.state, this.props, newProps);
+		if (newProps.params.id) {
 			if (this.state.mode != 'asset') {
 				this.getFlux().actions.setEntityDashboardMode('asset');
 				this.getFlux().actions.loadDashboard('asset');
 			}
-			this.getFlux().actions.loadAsset(newProps.params.id);
+			if (this.state.asset == null || this.state.asset.id != newProps.params.id)
+				this.getFlux().actions.loadAsset(newProps.params.id);
 		} else {
 			if (this.state.mode != 'portfolio') {
 				this.getFlux().actions.setEntityDashboardMode('portfolio');
@@ -164,6 +181,35 @@ var PortfolioDashboard = React.createClass({
     return el;
   },
   renderModules: function(dashboardState) {
+		if (this.state.mode == 'asset') {
+			var asset = this.state.asset;
+			var score = null;
+			if (asset != null) {
+				asset.metrics.forEach(function(metric) {
+					if (metric.metric === 'passion_score') {
+						score = metric;
+					}
+				});
+			}
+			if (this.state.asset == null || this.state.tweets == null) {
+				return (
+					<div className='modules-container'>
+						<div style={{marginTop: "20%", display: 'flex', justifyContent: 'center'}}>
+							<Spinner style={{height: 200, width: 200}} overrideSpinnerClassName={'loader'} spinnerName='circle' noFadeIn />
+						</div>
+					</div>
+				);
+			}
+			return (
+				<div className="modules-container">
+					<AssetOverview key={uuid.v4()} asset={asset} />
+					<AssetScore key={uuid.v4()} score={score} asset={asset} />
+					<TallTabbedModule title={"Asset Data"} bar={false} key={uuid.v4()} asset={asset} />
+					<TallTabbedModule title={"Data Ranking"} bar={true} key={uuid.v4()} asset={asset} />
+					<TwitterFeed key={uuid.v4()} tweets={this.state.tweets} />
+				</div>
+			)
+		}
     var modules = $.map(dashboardState, function(v, k){
       return this.mapModule(k, v.toggle);
     }.bind(this));

@@ -3,6 +3,7 @@ var React = require('react'),
 		FluxMixin = Fluxxor.FluxMixin(React),
 		CloseIcon = require('react-icons/lib/fa/close'),
 		AddIcon = require('react-icons/lib/fa/plus'),
+		ImageHelper = require('../../utils/ImageHelper.js'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var DashboardEditName = React.createClass({
@@ -100,7 +101,7 @@ var DashboardEditComponentRow = React.createClass({
         <div className="col-md-4 small-round-images bs-col">
           {this.props.component.model.data.map(function(d) {
             return (
-              <img key={i--} src={d.metric.point_image} />
+              <img key={i--} src={ImageHelper('', d.metric.point_image)}/>
             );
           })}
         </div>

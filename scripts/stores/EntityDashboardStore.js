@@ -1,5 +1,7 @@
 var Fluxxor = require('fluxxor'),
-		constants = require('../constants/constants.js');
+		constants = require('../constants/constants.js'),
+		API_ROOT = require("../constants/environment.js").API_ROOT;
+
 
 
 EntityDashboardStore = Fluxxor.createStore({
@@ -18,8 +20,8 @@ EntityDashboardStore = Fluxxor.createStore({
 			constants.RESET_DASHBOARD_ASSET, this.onResetDashboardAsset,
 			constants.ASSET_LOAD, this.onAssetLoad,
 			constants.LOAD_DASHBOARD, this.onLoadDashboard,
-			constants.TWITTER_LOAD_SUCCESS, this.onTwitterLoadSuccess,
-			constants.TWITTER_LOAD, this.onTwitterLoad
+			constants.TWITTER_LOAD_SUCCESS, this.onTwitterLoadSuccess
+			//constants.TWITTER_LOAD, this.onTwitterLoad
 		)
 	},
 	onTwitterLoad: function(payload) {
@@ -30,7 +32,9 @@ EntityDashboardStore = Fluxxor.createStore({
 		// flux
 	},
 	onAssetLoad: function(payload) {
-		// appease flux
+		this.tweets = null;
+		this.asset = null;
+		this.emit("change");
 	},
 	onTwitterLoadSuccess: function(payload) {
 		this.tweets = payload.tweets;
@@ -42,6 +46,20 @@ EntityDashboardStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 	onAssetLoadSuccess: function(payload) {
+		$.ajax({
+			type: "GET",
+			contentType: 'application/json',
+			url: API_ROOT + 'api/v1/twitter',
+			data: { "screen_name" : payload.asset.twitter_handle },
+			success: function(data, status, xhr) {
+				this.tweets = data;
+				this.emit("change");
+			}.bind(this),
+			error: function(xhr, status, error) {
+				console.log(status);
+				console.log(error);
+			}
+		});
 		this.asset = payload.asset;
 		this.emit("change");
 	},

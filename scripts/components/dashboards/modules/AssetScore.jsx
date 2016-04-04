@@ -9,11 +9,16 @@ var DataFormatter = require('../../../utils/DataFormatter.js');
 var AssetScore = React.createClass({
   mixins: [Navigation, FluxMixin],
   componentDidMount: function() {
-    var pos = (292 * 0.8 / 1) - 8;
+    if (this.props.score == null) return;
+    var pos = (292 * this.props.score.value / 1) - 8;
     $('.slider-button').animate({left: pos}, 1000);
   },
+  componentDidUpdate: function() {
+    console.log("DID UP");
+  },
   componentWillReceiveProps: function(newProps) {
-    var pos = (292 * 0.8 / 1) - 8;
+    if (newProps.score == null) return;
+    var pos = (292 * newProps.score.value / 1) - 8;
     $('.slider-button').animate({left: pos}, 1000);
   },
   showTooltip: function(e) {
@@ -26,6 +31,10 @@ var AssetScore = React.createClass({
     var score = this.getFlux().store("ScoresStore").getScore(25);
     this.getFlux().actions.loadSavedScore(score);
     this.transitionTo('/apt/editor_score/25');
+  },
+  shouldComponentUpdate: function(nextProps, nextState) {
+    console.log("SCORE", this.props, nextProps);
+    return (this.props.asset.id !== nextProps.asset.id);
   },
   render: function() {
     if (this.props.asset == null || this.props.score == null) {

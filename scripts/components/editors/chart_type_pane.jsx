@@ -36,7 +36,7 @@ var ChartTypePane = React.createClass({
 			padding: 0,
 			justifyContent: 'center',
 			paddingLeft: "75px",
-			color: "#03387a"
+			color: "#00BCD4"
 		}
 		switch (this.getStateFromFlux().view) {
 			case 'barChart':

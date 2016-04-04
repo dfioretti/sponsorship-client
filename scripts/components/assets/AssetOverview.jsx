@@ -2,6 +2,7 @@ var React = require('react');
 var Fluxxor = require("fluxxor");
 var FluxMixin = Fluxxor.FluxMixin(React);
 var CircularProgress = require('material-ui').CircularProgress;
+var DashboardSpinner = require('../common/DashboardSpinner.jsx');
 require('../../vendor/flip.js');
 
 
@@ -47,6 +48,9 @@ var AssetOverview = React.createClass({
     );
   },
   render: function() {
+    if (this.props.asset == null) {
+      return <DashboardSpinner title={"Asset Overview"} />
+    }
     var title = (this.props.asset) ? this.props.asset.name : "";
     return (
       <div id="asset_overview" className="dashboard-module">
