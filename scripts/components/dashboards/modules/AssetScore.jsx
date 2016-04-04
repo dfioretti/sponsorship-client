@@ -38,10 +38,10 @@ var AssetScore = React.createClass({
   },
   render: function() {
     if (this.props.asset == null || this.props.score == null) {
-      return <DashboardSpinner title={"Passion Score"} />
+      return <DashboardSpinner title={this.props.title} />
     }
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
-    var left = 0.8 * 300 - 30;
+    var left = this.props.score.value * 300 - 30;
     var tooltipStyle = {left: left, top: -66, backgroundColor: "#97c93c"};
     var arrowStyle = {borderTop: "20px solid " + "#97c93c"};
     var score = Math.floor(Math.random() * 45) + 55;
@@ -51,7 +51,7 @@ var AssetScore = React.createClass({
         <div className="top">
           <div onClick={this.handleScoreClick} className="expand-handle" />
           <div className="drag-handle"></div>
-          <div className="top-title">Passion Score</div>
+          <div className="top-title">{this.props.title}</div>
         </div>
         <div className="main">
           <div className="risk">{Math.round(DataFormatter(this.props.score.value) * 10 ) / 10}</div>

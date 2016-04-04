@@ -11,6 +11,7 @@ var React = require('react'),
 		PortfolioSummary = require('./modules/PortfolioSummary.jsx'),
 		AssetOverview = require('../assets/AssetOverview.jsx'),
 		AssetScore = require('./modules/AssetScore.jsx'),
+		Valuation = require('./modules/Valuation.jsx'),
 		Notes = require('./modules/Notes.jsx'),
 		SocialStats = require('../assets/SocialStats.jsx'),
 		ConsumerSurvey = require('../assets/ConsumerSurvey.jsx'),
@@ -27,28 +28,6 @@ var PortfolioDashboard = React.createClass({
     FluxMixin,
 		StoreWatchMixin("EntityDashboardStore"),
   ],
-	loadSurvey: function() {
-		console.log('call load', this.state.asset);
-		if (this.state.asset == null) return;
-		$.ajax({
-			type: "GET",
-			contentType: "application/json",
-			url: API_ROOT + "api/v1/apt/asset/mock_data",
-			data: {"type":"survey", "id":this.state.asset.id},
-			success: function(data, status, xhr) {
-				this.setState({consumerSurvey: data.survey}, function() {
-					console.log("sup?");
-					// i don't really use this state - i'm lazy
-					// need to fix the animation for when changing assets?
-					this.setState({wait: false});
-				}.bind(this));
-			}.bind(this),
-			error: function(xhr, status, error) {
-				console.log(status);
-				console.log(error);
-			}
-		});
-	},
 	setupGrid: function() {
     $('.modules-container').shapeshift({
       selector: ".dashboard-module",
@@ -80,31 +59,7 @@ var PortfolioDashboard = React.createClass({
 	componentDidUpdate: function() {
 		this.setupGrid();
 	},
-	/*
-	shouldComponentUpdate: function(newProps, newState) {
-		if (this.state.mode == 'asset') {
-			if (this.state.asset) {
-				if (this.state.tweets != newState.tweets) {
-					//return false;
-					//return true;
-				}
-				console.log("WTF", this.state.asset, newState.asset);
-				if (this.state.asset.id == newState.asset.id) {
-					return false;
-				}
-				//if (this.state.asset.id == newState.asset.id) {
-				//	return false;
-				//}
-			} else {
-				console.log("will not");
-				return true;
-			}
-		}
-		console.log('will');
-		return true;
-	},*/
 	componentWillReceiveProps: function(newProps) {
-		console.log("will prop", this.state, this.props, newProps);
 		if (newProps.params.id) {
 			if (this.state.mode != 'asset') {
 				this.getFlux().actions.setEntityDashboardMode('asset');
@@ -184,10 +139,14 @@ var PortfolioDashboard = React.createClass({
 		if (this.state.mode == 'asset') {
 			var asset = this.state.asset;
 			var score = null;
+			var perfScore = null;
 			if (asset != null) {
 				asset.metrics.forEach(function(metric) {
 					if (metric.metric === 'passion_score') {
 						score = metric;
+					}
+					if (metric.metric === 'performance_score') {
+						perfScore = metric;
 					}
 				});
 			}
@@ -203,13 +162,35 @@ var PortfolioDashboard = React.createClass({
 			return (
 				<div className="modules-container">
 					<AssetOverview key={uuid.v4()} asset={asset} />
-					<AssetScore key={uuid.v4()} score={score} asset={asset} />
+					<AssetScore key={uuid.v4()} title="Passion Score" score={score} asset={asset} />
+					<AssetScore key={uuid.v4()} title="Performance Score" score={perfScore} asset={{}} />
 					<TallTabbedModule title={"Asset Data"} bar={false} key={uuid.v4()} asset={asset} />
 					<TallTabbedModule title={"Data Ranking"} bar={true} key={uuid.v4()} asset={asset} />
 					<TwitterFeed key={uuid.v4()} tweets={this.state.tweets} />
+					<Valuation key={uuid.v4()} title={"Forbes Valuation"} asset={asset} />
 				</div>
 			)
 		}
+		var score = null;
+		var perfScore = null;
+		if (this.state.dashboard != null) {
+			this.state.dashboard.metrics.forEach(function(metric) {
+				if (metric.metric === 'portfolio_passion_score') {
+					score = metric;
+				}
+				if (metric.metric === 'portfolio_performance_score') {
+					perfScore = metric;
+				}
+			});
+		}
+		return (
+			<div className="modules-container">
+				<PortfolioMap />
+				<AssetScore key={uuid.v4()} title="Portfolio Passion Score" score={score} asset={{}} />
+				<PortfolioTreemap />
+				<PortfolioSummary />
+			</div>
+		)
     var modules = $.map(dashboardState, function(v, k){
       return this.mapModule(k, v.toggle);
     }.bind(this));
