@@ -1,5 +1,6 @@
 var React = require('react');
 var TextListItem = require('../../common/charts/TextListItem.jsx');
+var NotableForm = require('./NotableForm.jsx');
 
 
 var Notes = React.createClass({
@@ -79,6 +80,7 @@ var Notes = React.createClass({
         </div>
         <div className="main">
           {this.renderNotesList()}
+          <NotableForm company_id={this.props.dashboard.id} saveHandler={this.createNote} validateBody={true} />
         </div>
       </div>
     );

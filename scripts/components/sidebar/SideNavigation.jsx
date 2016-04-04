@@ -29,6 +29,7 @@ var SideNavigation = React.createClass({
 	handleHomeClick: function() {
 		this.getFlux().actions.changeOverviewPane("Overview");
 		this.getFlux().actions.setCurrentNav("portfolio", null);
+		this.getFlux().actions.setBreadcrumb("My Portfolio");
 		this.transitionTo('/');
 	},
 	renderContext: function() {

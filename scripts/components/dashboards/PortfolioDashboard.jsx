@@ -188,6 +188,7 @@ var PortfolioDashboard = React.createClass({
 				<PortfolioMap />
 				<AssetScore key={uuid.v4()} title="Portfolio Passion Score" score={score} asset={{}} />
 				<PortfolioTreemap />
+				<Notes dashboard={this.state.dashboard} key={uuid.v4()} />
 				<PortfolioSummary />
 			</div>
 		)
