@@ -167,7 +167,7 @@ gulp.task('build', ['clean'], function() {
 // do libs locally
 gulp.task('deploy', function() {
   process.env.NODE_ENV = 'production';
-  gulp.start([ 'browserify', 'styles' ]);
+  gulp.start([ 'browserify' ]);
 });
 
 gulp.task('default', function() {
