@@ -67,9 +67,7 @@ var TopNavigation = React.createClass({
 				link = 'components_index';
 				break;
 		}
-		console.log("TOPNAV:", this.state);
 		var navState = this.getFlux().store("NavigationStore").getState();
-		console.log("NAVSTATE", navState);
 		var marginLeft = 256;
 		var barStyle = {
 			backgroundColor: "white",

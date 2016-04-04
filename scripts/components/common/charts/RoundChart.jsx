@@ -31,7 +31,6 @@ var RoundChart = React.createClass({
     this.buildDataState(this.props);
   },
   componentDidUpdate: function() {
-		console.log("holla back", this.props, this.state);
 		if (!this.state.chart) return;
 		this.state.chart.update();
   },

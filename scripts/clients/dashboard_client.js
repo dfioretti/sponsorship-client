@@ -16,6 +16,20 @@ var dashboard_url = {
                 }
             })
         },
+        getDashboard: function(kind, callback) {
+            $.ajax({
+              type: "GET",
+              contentType: "application/json",
+              url: dashboard_url.DASH_URL + '?kind=' + kind,
+              success: function(data) {
+                callback(data);
+              },
+              error: function(o, a, n) {
+                console.log(o);
+                console.log(n);
+              }
+            })
+        },
         createDashboard: function(o, a) {
             $.ajax({
                 type: "POST",

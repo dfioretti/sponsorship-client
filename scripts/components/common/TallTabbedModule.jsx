@@ -2,6 +2,7 @@ var React = require('react'),
 		Tabs = require('material-ui').Tabs,
 		Tab = require('material-ui').Tab,
 		FontIcon = require('material-ui').FontIcon,
+		CircularProgress = require('material-ui').CircularProgress,
 		Social = require('react-icons/lib/fa/comment-o'),
 		Dollar = require('react-icons/lib/fa/group'),
 		Dash = require('react-icons/lib/fa/dashboard'),
@@ -18,6 +19,21 @@ var TallTabbedModule = React.createClass({
 		this.setState({value: value});
 	},
 	render: function() {
+		if (this.props.asset == null) {
+			return (
+				<div id="top_global_issues" className="dashboard-module tall">
+					<div className="top">
+						<div className="drag-handle"></div>
+						<div className="top-title">Asset Data</div>
+					</div>
+					<div className="main">
+						<div style={{marginTop: 50, display: 'flex', justifyContent: 'center'}}>
+							<CircularProgress size={2} />
+						</div>
+					</div>
+				</div>
+			);
+		}
 		var social = [];
 		var team = [];
 		var money = [];

@@ -12,10 +12,10 @@ var TwitterFeed = React.createClass({
 		return { tweets: [] }
 	},
 	componentWillMount: function() {
-		this.loadData(this.props);
+		//this.loadData(this.props);
 	},
 	componentWillReceiveProps: function(newProps) {
-		this.loadData(newProps);
+		//this.loadData(newProps);
 	},
 	loadData: function(props) {
 		var screen_name = props.screen_name;
@@ -34,7 +34,7 @@ var TwitterFeed = React.createClass({
 		});
 	},
 	renderContent: function() {
-		if (this.state.tweets.length == 0) {
+		if (this.props.tweets == null) {
 			return (
 				<div style={{marginTop: 50, display: 'flex', justifyContent: 'center'}}>
 					<CircularProgress size={2} />
@@ -43,7 +43,7 @@ var TwitterFeed = React.createClass({
 		}
 		return (
 			<List style={{height: "270px", color: "#50e3c2", overflowY: "scroll", backgroundColor: "#2d64a5"}}>
-				{this.state.tweets.map(function(tweet) {
+				{this.props.tweets.map(function(tweet) {
 					return (
 						<ListItem
 							disabled={true}

@@ -15,20 +15,18 @@ var DashboardIndex = React.createClass({
 	getStateFromFlux: function() {
 		return this.getFlux().store("DashboardHomeStore").getState();
 	},
-	componentWillMount: function() {
+	componentDidMount: function() {
 		this.getFlux().actions.setCurrentNav("dashboard", null);
 		this.getFlux().actions.setBreadcrumb("Dashboards");
 		if (!this.state.dashboardsLoaded && !this.state.loading) {
 			this.getFlux().actions.loadDashboards();
 		}
-	},
-	componentDidUpdate: function() {
-		this.getFlux().actions.setCurrentNav("dashboard", null);
-		this.getFlux().actions.setBreadcrumb("Dashboards");
 		if (this.state.dashboardsLoaded)
 			this.setupGrid();
 	},
-	componentDidMount: function() {
+	componentDidUpdate: function() {
+		//this.getFlux().actions.setCurrentNav("dashboard", null);
+		//this.getFlux().actions.setBreadcrumb("Dashboards");
 		if (this.state.dashboardsLoaded)
 			this.setupGrid();
 	},

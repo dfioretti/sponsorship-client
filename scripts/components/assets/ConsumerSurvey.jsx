@@ -15,15 +15,18 @@ var CircularProgress = require('material-ui').CircularProgress;
 
 var ConsumerSurvey = React.createClass({
   getInitialState: function() {
-    return { consumerSurvey: null };
+    return {}
+    //return { consumerSurvey: null };
   },
   componentDidMount: function() {
-    this.loadData();
+    //if (this.props.asset != null && this.isMounted())
+    //  this.loadData();
   },
   componentWillReceiveProps: function(newProps) {
-    if (newProps.asset.id != this.props.asset.id) {
-      this.loadData();
-    }
+    console.log("p", this.props, newProps);
+    //if (newProps.asset.id != this.props.asset.id) {
+    //  this.loadData();
+    //}
   },
   loadData: function() {
     // this is going to trigger the render of componenets
@@ -36,7 +39,7 @@ var ConsumerSurvey = React.createClass({
         this.setState({consumerSurvey: data.survey}, function() {
           // i don't really use this state - i'm lazy
           // need to fix the animation for when changing assets?
-          this.setState({wait: false});
+          //this.setState({wait: false});
         }.bind(this));
       }.bind(this),
       error: function(xhr, status, error) {
@@ -46,7 +49,7 @@ var ConsumerSurvey = React.createClass({
     });
   },
   renderList: function() {
-    if (this.state.consumerSurvey == null) {
+    if (this.props.consumerSurvey == null || this.props.asset == null) {
       return (
         <div style={{marginTop: 50, display: 'flex', justifyContent: 'center'}}>
           <CircularProgress size={2} />
@@ -60,7 +63,7 @@ var ConsumerSurvey = React.createClass({
       paddingTop: "20px",
       paddingBottom: "15px"
     };
-    var consumerSurvey = this.state.consumerSurvey
+    var consumerSurvey = this.props.consumerSurvey
     var list = $.map(consumerSurvey, function(item, i) {
       var dataType = item['data_type_display_name'];
       var probability = item['importance'];
@@ -77,9 +80,10 @@ var ConsumerSurvey = React.createClass({
     );
   },
   render: function() {
-    var survey = this.state.consumerSurvey;
+    var survey = this.props.consumerSurvey;
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
     var asset = this.props.asset;
+    console.log("HUH", survey, asset);
 
     return (
       <div id="consumer_survey" className="dashboard-module tall" style={hiddenStyle}>

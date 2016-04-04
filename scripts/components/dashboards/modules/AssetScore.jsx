@@ -2,6 +2,7 @@ var React = require('react');
 var Navigation = require('react-router').Navigation;
 var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
+var DashboardSpinner = require('../../common/DashboardSpinner.jsx');
 var DataFormatter = require('../../../utils/DataFormatter.js');
 
 
@@ -27,6 +28,9 @@ var AssetScore = React.createClass({
     this.transitionTo('/apt/editor_score/25');
   },
   render: function() {
+    if (this.props.asset == null || this.props.score == null) {
+      return <DashboardSpinner title={"Passion Score"} />
+    }
     var hiddenStyle = this.props.hidden ? {display: 'none'} : {};
     var left = 0.8 * 300 - 30;
     var tooltipStyle = {left: left, top: -66, backgroundColor: "#97c93c"};

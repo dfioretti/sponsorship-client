@@ -198,6 +198,7 @@ var Fluxxor = require("fluxxor"),
                 entity: {
                     type: "asset",
                     entity_id: this.selectedAsset.id,
+                    entity_key: this.selectedAsset.entity_key,
                     entity_image: this.selectedAsset.image,
                     name: this.selectedAsset.name
                 },

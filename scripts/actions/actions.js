@@ -1,6 +1,7 @@
 var DashboardClient = require("../clients/dashboard_client.js"),
     ComponentClient = require("../clients/component_client.js"),
     DataClient = require("../clients/data_client.js"),
+    API_ROOT = require("../constants/environment.js").API_ROOT,
     ScoreClient = require("../clients/score_client.js"),
     AssetClient = require("../clients/asset_client.js"),
     constants = require("../constants/constants.js"),
@@ -269,6 +270,44 @@ actions = {
   },
   toggleModal: function() {
     this.dispatch(constants.TOGGLE_MODAL);
+  },
+  loadAsset: function(asset_id) {
+    this.dispatch(constants.ASSET_LOAD);
+    AssetClient.getAsset(asset_id, function(data) {
+      this.dispatch(constants.ASSET_LOAD_SUCCESS, { asset: data })
+    }.bind(this), function(error) {
+      this.dispatch(constants.ASSET_LOAD_FAIL);
+    });
+  },
+  setEntityDashboardMode: function(mode) {
+    this.dispatch(constants.SET_ENTITY_DASHBOARD_MODE, { mode: mode });
+  },
+  loadDashboard: function(kind) {
+    this.dispatch(constants.LOAD_DASHBOARD);
+    DashboardClient.getDashboard(kind, function(data) {
+      this.dispatch(constants.DASHBOARD_LOAD_SUCCESS, { dashboard: data })
+    }.bind(this), function(error) {
+      this.dispatch(constants.LOAD_DASHBOARDS_FAIL);
+    });
+  },
+  resetDashboardAsset: function(asset) {
+    this.dispatch(constants.RESET_DASHBOARD_ASSET, { asset: asset });
+  },
+  loadTweets: function(screen_name) {
+    this.dispatch(constants.TWITTER_LOAD);
+    $.ajax({
+      type: "GET",
+      contentType: "application/json",
+      url: API_ROOT + "api/v1/twitter",
+      data: { "screen_name": screen_name },
+      success: function(data, status, xhr) {
+        this.dispatch(constants.TWITTER_LOAD_SUCCESS, { tweets: data });
+      }.bind(this),
+      error: function(xhr, status, error) {
+        console.log(status);
+        console.log(error);
+      }
+    });
   }
 
 };

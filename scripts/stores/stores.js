@@ -20,9 +20,10 @@ var ComponentEditorStore = require("./component_editor_store.js"),
     ScoreEditorStore = require("./score_editor_store.js"),
     AssetsStore = require("./AssetsStore.js"),
     ScoresStore = require("./ScoresStore.js"),
-    OverviewStore = require("./OverviewStore.js");
-    DataStore = require('./DataStore.js');
-    AlertStore = require('./AlertStore.js');
+    OverviewStore = require("./OverviewStore.js"),
+    DataStore = require('./DataStore.js'),
+    AlertStore = require('./AlertStore.js'),
+    EntityDashboardStore = require('./EntityDashboardStore.js'),
     NavigationStore = require('./NavigationStore.js');
     stores = {
         ComponentEditorStore: new ComponentEditorStore,
@@ -36,6 +37,7 @@ var ComponentEditorStore = require("./component_editor_store.js"),
         DataStore: new DataStore,
         OverviewStore: new OverviewStore,
         NavigationStore: new NavigationStore,
+        EntityDashboardStore: new EntityDashboardStore,
         AlertStore: new AlertStore
     };
 module.exports = stores;

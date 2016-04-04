@@ -53,7 +53,9 @@ DashboardHomeStore = Fluxxor.createStore({
         return {
             dashboardsLoaded: this.dashboardsLoaded,
             customDashboards: this.getCustomDashboards(),
-            loading: this.loading
+            loading: this.loading,
+            assetDashboard: this.getAssetDashboard(),
+            portoflioDashboard: this.getPortoflioDashboard()
         }
     },
     onDashboardCreateSuccess: function(payload) {
