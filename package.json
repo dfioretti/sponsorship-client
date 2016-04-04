@@ -3,9 +3,6 @@
   "version": "0.0.1",
   "private": true,
   "license": "MIT",
-  "scripts": {
-    "postinstall": "gulp deploy"
-  },
   "dependencies": {
     "bootstrap": "^3.3.6",
     "browser-sync": "~2.9.6",
