@@ -4,9 +4,12 @@ var Link = require('react-router').Link;
 var Auth = require('../../vendor/jtoker.js');
 var ReactDOM = require('react-dom');
 var PubSub = require('pubsub-js');
+var Fluxxor = require('fluxxor');
+var FluxMixin = Fluxxor.FluxMixin(React);
 
 
 var AccountLogin = React.createClass({
+  mixins: [FluxMixin],
   componentWillMount: function() {
     //this.props.setTitle('Account Login');
   },
@@ -22,10 +25,9 @@ var AccountLogin = React.createClass({
     Auth.emailSignIn(params)
       .then(function(user) {
         console.log("success");
-        console.log(user);
-        // console.log(user);
       }.bind(this))
       .fail(function(resp) {
+        this.getFlux().actions.showAlert("Login Failed: Invalid Credentials!");
         console.log(resp);
         var message = resp.data.errors.join(', ');
         PubSub.publish('alert.update', {message: message, alertType: "danger"});
@@ -33,7 +35,7 @@ var AccountLogin = React.createClass({
   },
   render: function() {
     return (
-      <div className="centered">
+      <div style={{paddingTop: 100}} className="centered">
         <div className="form-container">
           <div className="image-top">
           </div>

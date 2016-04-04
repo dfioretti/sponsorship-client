@@ -98,7 +98,7 @@ var RoundChart = React.createClass({
         <div className="" style={{display: "inline-block", padding: "0px"}}>
           <canvas style={{padding: -5}} id={this.state.chartId} width="190" height="190" ></canvas>
         </div>
-        <ul className="chart-legend" style={{display: "inline-block", background: "#3c88d1", borderRadius: "3px", paddingRight: "5px", paddingLeft: "15px", paddingTop: "5px", paddingBottom: "15px", position: "absolute", top: "100px", left: "225px", fontSize: "12px", width: "155px", textTransform: "capitalize"}}>
+        <ul className="chart-legend-round" style={{display: "inline-block", background: "#3c88d1", borderRadius: "3px", paddingRight: "5px", paddingLeft: "15px", paddingTop: "5px", paddingBottom: "15px", position: "absolute", top: "100px", left: "225px", fontSize: "12px", width: "155px", textTransform: "capitalize"}}>
           <h5>Legend</h5>
           {this.renderLegend()}
         </ul>

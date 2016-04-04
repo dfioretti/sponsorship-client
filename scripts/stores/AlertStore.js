@@ -12,8 +12,14 @@ var AlertStore = Fluxxor.createStore({
 			constants.DASHBOARD_CREATE_SUCCESS, this.onDashboardCreateSuccess,
 			constants.SAVE_SCORE_SUCCESS, this.onSaveScoreSuccess,
 			constants.DASHBOARD_UPDATE_SUCCESS, this.onDashboardUpdateSuccess,
-			constants.ADD_COMPONENT_TO_DASHBOARD_SUCCESS, this.onAddComponentToDashboardSuccess
+			constants.ADD_COMPONENT_TO_DASHBOARD_SUCCESS, this.onAddComponentToDashboardSuccess,
+			constants.SHOW_ALERT, this.onShowAlert
 		)
+	},
+	onShowAlert: function(payload) {
+		this.open = true;
+		this.message = payload.message;
+		this.emit("change");
 	},
 	onAddComponentToDashboardSuccess: function (payload) {
 		this.open = true;

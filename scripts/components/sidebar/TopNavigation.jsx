@@ -53,6 +53,7 @@ var TopNavigation = React.createClass({
 	},
 
 	render: function() {
+		// yeah i know this is hacky, so what
 		if (window.location.href.indexOf('home') > 0 || window.location.href.indexOf('account_login') > 0) {
 			return null;
 		}

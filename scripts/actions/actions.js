@@ -311,6 +311,9 @@ actions = {
   },
   queueLoadTweets: function() {
     this.dispatch(constants.DISPATCH_TWITTER_LOAD);
+  },
+  showAlert: function(message) {
+    this.dispatch(constants.SHOW_ALERT, { message: message });
   }
 
 };

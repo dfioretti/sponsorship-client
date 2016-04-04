@@ -42,7 +42,14 @@ var ConsumerSurvey = React.createClass({
       var dataType = item['data_type_display_name'];
       var probability = item['importance'];
       var value = item['value']
-      return <GenericBarListItem key={i} id={this.props.asset.id} link={true} rightText={value} title={dataType} probability={probability} companyId={70} />
+      return <GenericBarListItem
+        key={i}
+        id={this.props.asset.id}
+        link={true}
+        rightText={value}
+        title={dataType}
+        probability={probability}
+        companyId={70} />
     }.bind(this));
 
     return (
