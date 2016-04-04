@@ -12,7 +12,12 @@ flux.on("dispatch", function(type, payload) {
   console.log("[Dispatch]", type, payload);
 });
 */
-
-router.run(function (Handler, state) {
-  React.render(<Handler />, document.getElementById('app'));
-});
+if (location.href.indexOf('localhost') > -1) {
+  router.run(function (Handler, state) {
+    React.render(<Handler />, document.getElementById('app'));
+  });
+} else {
+  router.run(function (Handler, state) {
+    React.render(<Handler />, document.getElementById('app'))
+  });
+}

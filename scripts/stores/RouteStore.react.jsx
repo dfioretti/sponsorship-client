@@ -9,13 +9,10 @@ var createBrowserHistory = require('history/lib/createHistory');
 var Router = require('react-router');
 var routes = require('../routes.jsx');
 
+// hack for hash loc
 var router = Router.create({
   routes: routes,
-  location: null
-//  location: Router.HistoryLocation,
-//  history: Router.HistoryLocation//Router.createBrowserHistory
-
-  //location: null // Router.HistoryLocation
+  location: (location.href.indexOf('localhost') > -1) ? null : Router.HistoryLocation
 });
 
 var ActionTypes = SmallConstants.ActionTypes;
