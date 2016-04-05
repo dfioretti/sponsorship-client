@@ -1,6 +1,7 @@
 var React = require('react'),
 		GenericBarListItem = require('./GenericBarListItem.jsx'),
 		GenericValueListItem = require('./GenericValueListItem.jsx'),
+		DataFormatter = require('../../../utils/DataFormatter.js'),
 		uuid = require('node-uuid');
 
 var DataList = React.createClass({
@@ -73,7 +74,7 @@ var DataList = React.createClass({
 							defaultText = d.entity;
 						}
             return (
-              <GenericValueListItem key={i++} link={link} statImage={defaultImage} statHeader={defaultText} statMetric={d.value} />
+              <GenericValueListItem key={i++} link={link} statImage={defaultImage} statHeader={defaultText} statMetric={DataFormatter(d.value)} />
             );
           }.bind(this))}
         </ul>

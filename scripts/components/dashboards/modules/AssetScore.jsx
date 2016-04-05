@@ -4,14 +4,18 @@ var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
 var DashboardSpinner = require('../../common/DashboardSpinner.jsx');
 var DataFormatter = require('../../../utils/DataFormatter.js');
+var uuid = require('node-uuid');
 
 
 var AssetScore = React.createClass({
   mixins: [Navigation, FluxMixin],
+  getInitialState: function() {
+    return { sliderId: uuid.v4(), tipId: uuid.v4() }
+  },
   componentDidMount: function() {
     if (this.props.score == null) return;
     var pos = (292 * this.props.score.value / 1) - 8;
-    $('.slider-button').animate({left: pos}, 1000);
+    $('#' + this.state.sliderId).animate({left: pos}, 1000);
   },
   componentDidUpdate: function() {
     console.log("DID UP");
@@ -19,13 +23,13 @@ var AssetScore = React.createClass({
   componentWillReceiveProps: function(newProps) {
     if (newProps.score == null) return;
     var pos = (292 * newProps.score.value / 1) - 8;
-    $('.slider-button').animate({left: pos}, 1000);
+    $('#' + this.state.sliderId).animate({left: pos}, 1000);
   },
   showTooltip: function(e) {
-    $('#risk-assessment-tooltip').show();
+    $('#' + this.state.tipId).show();
   },
   hideTooltip: function(e) {
-    $('#risk-assessment-tooltip').hide();
+    $('#' + this.state.tipId).hide();
   },
   handleScoreClick: function() {
     var score = this.getFlux().store("ScoresStore").getScore(25);
@@ -57,8 +61,8 @@ var AssetScore = React.createClass({
           <div className="risk">{Math.round(DataFormatter(this.props.score.value) * 10 ) / 10}</div>
           <div className="subheader">Portfolio Passion Score</div>
           <div className="slider-bar" onMouseOver={this.showTooltip} onMouseLeave={this.hideTooltip}>
-            <div className="slider-button"></div>
-            <div id="risk-assessment-tooltip" className="custom-tooltip" style={tooltipStyle}>
+            <div id={this.state.sliderId} className="slider-button"></div>
+            <div id={this.state.tipId} className="custom-tooltip" style={tooltipStyle}>
               <span className="risk-label">{Math.round(DataFormatter(this.props.score.value))}/100</span>
               <div className="custom-tooltip-arrow" style={arrowStyle}></div>
             </div>
