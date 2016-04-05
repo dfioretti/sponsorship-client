@@ -52,6 +52,7 @@ var MainNav = React.createClass({
 		var textStyle = {
 			//marginTop: -8
 		}
+		// maybe mix in an iterator one time lazy fuck
 		return (
 		<List>
 			<ListItem
