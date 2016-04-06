@@ -209,7 +209,9 @@ var Fluxxor = require("fluxxor"),
                     point_id: this.selectedData.id,
                     point_image: this.selectedData.icon
                 }
-            }), this.selectedData = null, this.emit("change")
+            }),
+            //this.selectedData = null; 
+            this.emit("change");
         },
         onDataRemoved: function(t) {
             this.data.splice(t.index, 1), this.emit("change")

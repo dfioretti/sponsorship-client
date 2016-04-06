@@ -29,16 +29,15 @@ var AddedDataRow = React.createClass({
         <div className="col-md-3 bs-col">
           {this.props.labelTwo}
         </div>
-        <div className="col-md-1 bs-col">
+        <div style={{cursor: "pointer"}} onClick={this.handleRemoveData} id={this.props.id} className="col-md-1 bs-col">
 					<CloseIcon id={this.props.id}
 	          style={{
 	            color: "#e76959",
 							height: "20px",
 							width: "20px",
-							cursor: "pointer"
+							cursor: "pointer",
+							pointerEvents: "none"
 	          }}
-            onClick={this.handleRemoveData}
-            id={this.props.id}
              />
         </div>
       </div>
