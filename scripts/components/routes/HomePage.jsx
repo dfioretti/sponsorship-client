@@ -167,35 +167,9 @@ var HomePage = React.createClass({
 							</Col>
 						</Row>
 					</CardText>
-					<CardText>
-						<Row>
-							<Col md={12}>
-								<h4 style={whiteHeading}>Powered by exclusive insights and data</h4>
-							</Col>
-						</Row>
-						<Row style={{marginTop: 50}}>
-							<Col style={{display: 'flex', justifyContent: 'center'}} md={6}>
-									<img style={{ height: 125 }}src={"/images/login/teneo-intel.png"} />
-							</Col>
-							<Col style={{display: 'flex', justifyContent: 'center'}} md={6}>
-									<img style={{ height: 90, marginTop: 17 }}src={"/images/login/first-data.png"} />
-							</Col>
-						</Row>
-						<Row>
-							<Col style={{ display: 'flex', justifyContent: 'center'}} md={6}>
-								<h4 style={subWhite}>Leverage the power of teneo intelligence's expertise.
-									Teneo intelligence monitors the global market of political risk, business markets,
-									economic indicators and corporate risk.</h4>
-							</Col>
-							<Col style={{display: 'flex', justifyContent: 'center'}} md={6}>
-								<h4 style={subWhite}>Integrate First Data's national spend data set which
-									covers over 800 million card holders to identify and target
-									your brand's customers.</h4>
-							</Col>
-						</Row>
-					</CardText>
-					<CardText style={{paddingBottom: 25, backgroundColor: "#03387a"}}>
-						<h4 style={headingText}>Build your marketing portfolio and track prospective opportunities</h4>
+
+					<CardText style={{paddingBottom: 25 }} >
+						<h4 style={whiteHeading}>Build your marketing portfolio and track prospective opportunities</h4>
 					</CardText>
 					<CardText>
 						<GridList
@@ -211,5 +185,35 @@ var HomePage = React.createClass({
 	}
 
 });
+
+/*
+<CardText>
+	<Row>
+		<Col md={12}>
+			<h4 style={whiteHeading}>Powered by exclusive insights and data</h4>
+		</Col>
+	</Row>
+	<Row style={{marginTop: 50}}>
+		<Col style={{display: 'flex', justifyContent: 'center'}} md={6}>
+				<img style={{ height: 125 }}src={"/images/login/teneo-intel.png"} />
+		</Col>
+		<Col style={{display: 'flex', justifyContent: 'center'}} md={6}>
+				<img style={{ height: 90, marginTop: 17 }}src={"/images/login/first-data.png"} />
+		</Col>
+	</Row>
+	<Row>
+		<Col style={{ display: 'flex', justifyContent: 'center'}} md={6}>
+			<h4 style={subWhite}>Leverage the power of teneo intelligence's expertise.
+				Teneo intelligence monitors the global market of political risk, business markets,
+				economic indicators and corporate risk.</h4>
+		</Col>
+		<Col style={{display: 'flex', justifyContent: 'center'}} md={6}>
+			<h4 style={subWhite}>Integrate First Data's national spend data set which
+				covers over 800 million card holders to identify and target
+				your brand's customers.</h4>
+		</Col>
+	</Row>
+</CardText>
+*/
 
 module.exports = HomePage;
