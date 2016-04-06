@@ -25,7 +25,8 @@ const LoggedOutPaths = [
   '/account_login',
   '/create_account',
   '/reset_password',
-  '/password_recovery'
+  '/password_recovery',
+  '/home'
 ]
 
 const PermissionTypes = [
@@ -72,7 +73,8 @@ var SmallApp = React.createClass({
             if (window.location.pathname.indexOf(p) == 1) {
               if (user.permissions.indexOf(p) == -1) {
                 PubSub.publish('alert.update', {message: "You don't have access to this page", alertType: "danger"});
-                this.transitionTo('/account_login');
+                this.transitionTo('/home');
+                //this.transitionTo('/account_login');
               }
             }
           }.bind(this));
@@ -81,7 +83,8 @@ var SmallApp = React.createClass({
         .fail(function(resp) {
           this.setState({loaded: true});
           if (LoggedOutPaths.indexOf(window.location.pathname) == -1) {
-            this.transitionTo('/account_login');
+            //this.transitionTo('/account_login');
+            this.transitionTo('/home')
           }
         }.bind(this));
 
