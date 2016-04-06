@@ -277,6 +277,28 @@
       }
     }
   }
+
+  //<ul className="chart-legend-round" style={{display: "inline-block", background: "#3c88d1", borderRadius: "3px", paddingRight: "5px", paddingLeft: "15px", paddingTop: "5px", paddingBottom: "15px", position: "absolute", top: "100px", left: "225px", fontSize: "12px", width: "155px", textTransform: "capitalize"}}>
+
+  .chart-legend-round {
+    //right: 85px;
+    left: 20px;
+    top: -80px;
+    //top: 80px;
+    display: inline-block;
+    background: "#3c88d1";
+    border-radius: 3px;
+    padding-right: 15px;
+    padding-left: 15px;
+    font-size: 12px;
+    padding-bottom: 15px;
+    width: 180px;
+    padding-top: 5px;
+    text-transform: capitalize;
+    position: relative;
+    list-style: none;
+
+  }
 }
 
 /*
@@ -292,6 +314,7 @@
   top: 90px;
 }
 
+/*
 .preview-component {
   .chart-legend-round {
     color: white;
@@ -299,11 +322,13 @@
     list-style: none;
     margin: 0;
     padding: 0;
-    position: relative;
-    margin-left: 155px;
+    display: inline-block;
+    position: relative;;;
+    //margin-left: 10%;
     margin-top: 90px;
   }
 }
+*/
 
 .modules-container {
   .chart-legend {
