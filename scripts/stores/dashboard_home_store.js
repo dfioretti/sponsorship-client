@@ -37,8 +37,7 @@ DashboardHomeStore = Fluxxor.createStore({
     },
     fetchDashboards: function() {
         DashboardClient.getDashboards(function(s) {
-            this.dashboards = s, this.getCustomDashboards(), this.loaded = !0, this.emit("change")
-        }.bind(this))
+            this.dashboards = s, this.getCustomDashboards(), this.loaded = !0, this.emit("change") }.bind(this))
     },
     onLoadDashboards: function() {
         this.loading = true;
@@ -54,6 +53,7 @@ DashboardHomeStore = Fluxxor.createStore({
             dashboardsLoaded: this.dashboardsLoaded,
             customDashboards: this.getCustomDashboards(),
             loading: this.loading,
+            dashboards: this.dashboards,
             assetDashboard: this.getAssetDashboard(),
             portoflioDashboard: this.getPortoflioDashboard()
         }

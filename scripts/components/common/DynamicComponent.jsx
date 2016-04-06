@@ -119,7 +119,7 @@ var DynamicComponent = React.createClass({
 										EDIT COMPONENT
 									</button>
 									<h5 style={linkStyle}>Add to Dashboard</h5>
-									<AddToDashboardList component={this.props.component} dashboards={this.getFlux().store("DashboardHomeStore").getCustomDashboards()} />
+									<AddToDashboardList component={this.props.component} dashboards={this.getFlux().store("DashboardHomeStore").getState().dashboards } />
 								</div>
 							</Popover>
 							}>

@@ -42,6 +42,11 @@ var PortfolioDashboard = React.createClass({
     });
 	},
   componentWillMount: function() {
+		if (!this.getFlux().store("ComponentsStore").getState().componentsLoaded
+				&& !this.getFlux().store("ComponentsStore").getState().loading) {
+					this.getFlux().actions.loadComponents();
+		}
+
 		if (this.props.params.id) {
 			this.getFlux().actions.setEntityDashboardMode('asset');
 			this.getFlux().actions.loadDashboard('asset');
@@ -135,6 +140,9 @@ var PortfolioDashboard = React.createClass({
     }
     return el;
   },
+	getComponentFromFlux: function(cid) {
+		return this.getFlux().store("ComponentsStore").getComponent(cid);
+	},
   renderModules: function(dashboardState) {
 		if (this.state.mode == 'asset') {
 			var asset = this.state.asset;
@@ -183,8 +191,21 @@ var PortfolioDashboard = React.createClass({
 				}
 			});
 		}
-		//<PortfolioTreemap />
-
+		var extras = [];
+		var el = null;
+		$.map(dashboardState, (function(value, key) {
+			if (key.indexOf('custom_component') > -1) {
+				var component = this.getComponentFromFlux(parseInt(key.split("_").pop(-1)));
+				extras.push(<DynamicComponent key={component.id} component={component} />)
+			}
+		}.bind(this)));
+		/*
+		if (dashboardState.map(function(name.indexOf('custom_component') > -1) {
+			var component = this.getComponentFromFlux(parseInt(name.split("_").pop(-1)));
+			if (typeof(component) == 'undefined') return;
+			extras.push(<DynamicComponent key={component.id} component={component} />)
+		}
+		*/
 		return (
 			<div className="modules-container">
 				<PortfolioMap />
@@ -192,6 +213,7 @@ var PortfolioDashboard = React.createClass({
 				<AssetScore key={uuid.v4()} title="Portfolio Performance Score" score={perfScore} asset={{}} />
 				<Notes dashboard={this.state.dashboard} key={uuid.v4()} />
 				<PortfolioSummary />
+				{extras}
 			</div>
 		)
     var modules = $.map(dashboardState, function(v, k){
