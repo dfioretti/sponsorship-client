@@ -211,9 +211,9 @@ var PortfolioDashboard = React.createClass({
 				<PortfolioMap />
 				<AssetScore key={uuid.v4()} title="Portfolio Passion Score" score={score} asset={{}} />
 				<AssetScore key={uuid.v4()} title="Portfolio Performance Score" score={perfScore} asset={{}} />
-				<Notes dashboard={this.state.dashboard} key={uuid.v4()} />
 				<PortfolioSummary />
 				{extras}
+				<Notes dashboard={this.state.dashboard} key={uuid.v4()} />
 			</div>
 		)
     var modules = $.map(dashboardState, function(v, k){

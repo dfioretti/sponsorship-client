@@ -1,4 +1,5 @@
 var _ = require('underscore');
+var DataFormatter = require('../../utils/DataFormatter.js');
 
 var ChartTooltipHandler = {
   isTooltip: function (tooltip) {
@@ -29,7 +30,7 @@ var ChartTooltipHandler = {
       innerHtml += [
         '<div class="chartjs-tooltip-section">',
         ' <span class="chartjs-tooltip-key" style="background-color:' + dataset.strokeColor + '"></span>',
-        ' <span class="chartjs-tooltip-value">' + dataset.label + ': ' + tooltip.labels[i] + '</span>',
+        ' <span class="chartjs-tooltip-value">' + dataset.label + ': ' + DataFormatter(tooltip.labels[i]) + '</span>',
         '<div class="arrow-down"></div>',
         '</div>'
       ].join('');

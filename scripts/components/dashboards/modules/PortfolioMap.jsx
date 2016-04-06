@@ -2,10 +2,13 @@ var React = require('react');
 var Highcharts = require('highcharts/highmaps');
 var ChartTooltipHandler = require('../../mixins/ChartTooltipHandler.jsx');
 var mapData = require('../../../vendor/us-all.js');
+var Fluxxor = require('fluxxor');
+var FluxMixin = Fluxxor.FluxMixin(React);
 
 var PortfolioMap = React.createClass({
   mixins: [
-    ChartTooltipHandler
+    ChartTooltipHandler,
+    FluxMixin
   ],
   getInitialState: function () {
     return {};
@@ -17,12 +20,27 @@ var PortfolioMap = React.createClass({
     this.renderChart();
   },
   renderChart: function () {
+    var assets = this.getFlux().store("AssetsStore").getOwnedAssets();
+
     $.getJSON('https://www.highcharts.com/samples/data/jsonp.php?filename=us-capitals.json&callback=?', function (json) {
       var data = [];
-      $.each(json, function () {
-          this.z = this.population;
-          data.push(this);
-    });
+      //$.each(json, function () {
+          //this.z = this.population;
+        //  data.push(this);
+    //var data = [];
+    for (var i = 0; i < assets.length; i++) {
+      var a = assets[i];
+      data.push(
+        {
+          "abbrev": a.subcategory,
+          "parentState": "",
+          "capital": a.name,
+          "lat": a.latitude,
+          "lon": a.longitude,
+          "population": (a.facebook_fans + a.twitter_followers )
+        }
+      );
+    }
 
     var H = Highcharts,
           map = mapData,//H.maps['countries/us/us-all'],
@@ -59,7 +77,7 @@ var PortfolioMap = React.createClass({
                 pointFormat: '{point.capital}, {point.parentState}<br>' +
                     'Lat: {point.lat}<br>' +
                     'Lon: {point.lon}<br>' +
-                    'Population: {point.population}'
+                    'Social Reach: {point.population}'
             },
 
             xAxis: {
@@ -101,7 +119,7 @@ var PortfolioMap = React.createClass({
                     enabled: true,
                     format: '{point.capital}'
                 },
-                name: 'Cities',
+                name: 'Owned',
                 data: data,
                 maxSize: '12%',
                 color: "#50e3c2"//H.getOptions().colors[0]
@@ -123,7 +141,7 @@ var PortfolioMap = React.createClass({
         </div>
         <div style={{paddingLeft: "0px", paddingRight: "0px", paddingBottom: "0px"}}className="main">
           <div className="legend">
-            <div className="legend-item"><div className="legend-point legend-color-6"></div>Fan Avidity</div>
+            <div className="legend-item"><div className="legend-point legend-color-6"></div>Portfolio Reach</div>
           </div>
           <div style={{height: "230px", width: "400px", marginTop: "0px"}} id="map">
             {this.renderChart()}
