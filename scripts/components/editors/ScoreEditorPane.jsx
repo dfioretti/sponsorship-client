@@ -4,6 +4,7 @@ var React = require('react'),
 		Input = require('react-bootstrap').Input,
 		FilterableDataList = require("../common/FilterableDataList.jsx"),
 		ReactBsTable = require('react-bootstrap-table'),
+		TextField = require('material-ui').TextField,
 		BootstrapTable = ReactBsTable.BootstrapTable,
 		Tabs = require('material-ui').Tabs,
 		Tab = require('material-ui').Tab,
@@ -14,6 +15,7 @@ var React = require('react'),
 		RadioButtonGroup = require('material-ui').RadioButtonGroup,
 		AutoComplete = require('material-ui').AutoComplete,
 		MenuItem = require('material-ui').MenuItem,
+		SelectField = require('material-ui').SelectField,
 		SetIcon = require('react-icons/lib/md/perm-data-setting'),
 		MetricDataTable = require('../common/MetricDataTable.jsx'),
 	//	DataView = require('../overview/DataView.jsx'),
@@ -62,41 +64,61 @@ var ScoreEditorPane = React.createClass({
 		);
   }
 });
+/*
+<select value={this.getStateFromFlux().selectedNode.operationValue}
+				className="form-control"
+				onChange={this.handleOperationChange}
+>
 
+{this.getStateFromFlux().parentOperations.map(function(o) {
+	return (
+		<option
+			key={o.value}
+			value={o.value}
+			id={o.value}
+		>
+			{o.name}
+		</option>
+	);
+}.bind(this))}
+</select>
+*/
 var ScoreEditorModeGroup = React.createClass({
   mixins: [FluxMixin, StoreWatchMixin("ScoreEditorStore")],
   getStateFromFlux: function() {
     return this.getFlux().store("ScoreEditorStore").getState();
   },
-  handleOperationChange: function(e) {
-    this.getFlux().actions.updateNodeOperation(e.target.selectedOptions[0].id);
+  handleOperationChange: function(e, i, v) {
+    this.getFlux().actions.updateNodeOperation(v);
   },
   handleDataSelect: function (e) {
     this.getFlux().actions.updateNodeData(e.target.id);
   },
   render: function() {
+		console.log("valu?", this.getStateFromFlux().selectedNode.operation);
     if (this.getStateFromFlux().selectedNode.mode === 'parent') {
       return (
 				<div className="form-content">
         <div className="form-group">
-          <label>Operation</label>
-          <select value={this.getStateFromFlux().selectedNode.operationValue}
-                  className="form-control"
-                  onChange={this.handleOperationChange}
-          >
+          <label style={{textTransform: 'uppercase', letterSpacing: '1.5px', fontSize: 16}}>Operation</label>
+					<br />
+					<SelectField
+						value={this.getStateFromFlux().selectedNode.operation}
+						fullWidth={true}
+						onChange={this.handleOperationChange}
+						>
+						{this.getStateFromFlux().parentOperations.map(function(o) {
+							return (
+								<MenuItem
+									primaryText={o.name}
+									value={o.value}
+									id={o.value}
+									/>
+							)
+						})}
+					</SelectField>
 
-          {this.getStateFromFlux().parentOperations.map(function(o) {
-            return (
-              <option
-                key={o.value}
-                value={o.value}
-                id={o.value}
-              >
-                {o.name}
-              </option>
-            );
-          }.bind(this))}
-          </select>
+
         </div>
 			</div>
       )
@@ -161,36 +183,63 @@ var ScoreConfigurePane = React.createClass({
       return (
         <div className="form-content">
           <div className="form-group">
-            <h4>Please select an element</h4>
+						<label style={{textTransform: 'uppercase', letterSpacing: '1.5px', fontSize: 16}}>Please select an element.</label>
           </div>
         </div>
       );
     } else {
 //								menuStyle={{textTransform: "capitalize", maxHeight: "300px", overflowY: "auto"}}
 				var defaultSelected = this.state.selectedNode ? this.state.selectedNode.mode : 'value';
+				if (this.state.selectedNode.mode == null) {
+					defaultSelected = 'parent';
+				} else {
+					defaultSelected = this.state.selectedNode.mode;
+				}
+				//console.log("NODE", this.state.selectedNode);
+				//console.log("def", defaultSelected);
+				var parentChecked = false;
+				var valueChecked = false;
+				var valueSelected = "";
+				if (this.state.selectedNode) {
+					if (this.state.selectedNode.mode) {
+						if (this.state.selectedNode.mode == 'value') {
+							valueSelected = 'value';
+						} else {
+							valueSelected = 'parent';
+						}
+					}
+				}
+				/*
 
+				              <input type="text"
+				                className="form-control"
+				                value={this.getStateFromFlux().selectedNode.component}
+				                onChange={this.handleUpdateName}
+				              />
+
+											*/
         return (
 				<div>
           <div className="form-content">
             <div className="form-group">
-              <label>Name</label>
-              <input type="text"
-                className="form-control"
-                value={this.getStateFromFlux().selectedNode.component}
-                onChange={this.handleUpdateName}
-              />
+							<label style={{textTransform: 'uppercase', letterSpacing: '1.5px', fontSize: 16}}>Name</label>
+							<br />
+							<TextField fullWidth={true} value={this.getStateFromFlux().selectedNode.component} onChange={this.handleUpdateName} hintText="Enter Name" />
+
             </div>
             <div className="form-group">
-              <label>Element Type</label>
+							<label style={{textTransform: 'uppercase', letterSpacing: '1.5px', fontSize: 16}}>Element Type</label>
+							<br />
 								<div className="form-group">
-									<RadioButtonGroup onChange={this.handleRadioChange} name="nodeType" defaultSelected={defaultSelected}>
+									<RadioButtonGroup onChange={this.handleRadioChange} valueSelected={valueSelected} name="nodeType" >
 										<RadioButton style={radioStyle} value="parent" label="Parent" />
 										<RadioButton style={radioStyle} value="value" label="Data" />
 									</RadioButtonGroup>
 								</div>
             </div>
             <div className="form-group">
-              <label>Weight</label>
+							<label style={{textTransform: 'uppercase', letterSpacing: '1.5px', fontSize: 16}}>Weight</label>
+							<br />
               <div style={{marginLeft: "25%", marginRight: "25%"}}className='dial-container'>
                 <input type='text'
                   value={this.getStateFromFlux().selectedNode.weight}
@@ -204,6 +253,7 @@ var ScoreConfigurePane = React.createClass({
               </div>
             </div>
 					</div>
+					<br />
 					<div>
             <ScoreEditorModeGroup />
           </div>
@@ -281,7 +331,7 @@ var ScoreGeneralPane = React.createClass({
         </div>
         <div className="form-content">
           <div className="form-group">
-            <label>Score Name</label>
+						<label style={{textTransform: 'uppercase', letterSpacing: '1.5px', fontSize: 16}}>Score Name</label>
             <input type="text"
               value={this.getStateFromFlux().scoreTitle}
               onChange={this.handleTitleChange}

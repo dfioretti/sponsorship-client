@@ -18,19 +18,19 @@ ScoreEditorStore = Fluxxor.createStore({
                 name: ""
               },
               {
-                value: 1,
+                value: "SUM",
                 name: "SUM"
               },
               {
-                value: 2,
+                value: "DIFFERENCE",
                 name: "DIFFERENCE"
               },
               {
-                value: 3,
+                value: "DIVIDE",
                 name: "DIVIDE"
               },
               {
-                value: 4,
+                value: "MULTIPLY",
                 name: "MULTIPLY"
               }],
               this.dataPointList = [],
@@ -86,7 +86,13 @@ ScoreEditorStore = Fluxxor.createStore({
         },
         onUpdateNodeOperation: function(e) {
             var t = myDiagram.model;
-            t.startTransaction("update operation"), t.setDataProperty(this.selectedNode, "operation", parseInt(e.operation)), t.setDataProperty(this.selectedNode, "name", this.parentOperations[parseInt(e.operation)].name), t.commitTransaction("update operation"), save(), this.emit("change")
+            t.startTransaction("update operation"),
+            t.setDataProperty(this.selectedNode, "operation", e.operation);//parseInt(e.operation)),
+            t.setDataProperty(this.selectedNode, "name", e.operation);
+          //  t.setDataProperty(this.selectedNode, "name", this.parentOperations[parseInt(e.operation)].name),
+            t.commitTransaction("update operation"),
+            save(),
+            this.emit("change")
         },
         onUpdateNodeMode: function(e) {
             var t = myDiagram.model;
