@@ -6,6 +6,7 @@ var DashboardSpinner = require('../../common/DashboardSpinner.jsx');
 var DataFormatter = require('../../../utils/DataFormatter.js');
 var uuid = require('node-uuid');
 
+//<div onClick={this.handleScoreClick} className="expand-handle" />
 
 var AssetScore = React.createClass({
   mixins: [Navigation, FluxMixin],
@@ -53,13 +54,12 @@ var AssetScore = React.createClass({
     return (
       <div id="risk_assessment" className="dashboard-module" style={hiddenStyle}>
         <div className="top">
-          <div onClick={this.handleScoreClick} className="expand-handle" />
           <div className="drag-handle"></div>
           <div className="top-title">{this.props.title}</div>
         </div>
         <div className="main">
           <div className="risk">{Math.round(DataFormatter(this.props.score.value) * 10 ) / 10}</div>
-          <div className="subheader">Portfolio Passion Score</div>
+          <div className="subheader">{this.props.title}</div>
           <div className="slider-bar" onMouseOver={this.showTooltip} onMouseLeave={this.hideTooltip}>
             <div id={this.state.sliderId} className="slider-button"></div>
             <div id={this.state.tipId} className="custom-tooltip" style={tooltipStyle}>

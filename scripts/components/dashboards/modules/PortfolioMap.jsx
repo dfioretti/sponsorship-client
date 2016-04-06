@@ -4,6 +4,7 @@ var ChartTooltipHandler = require('../../mixins/ChartTooltipHandler.jsx');
 var mapData = require('../../../vendor/us-all.js');
 var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
+var DataFormatter = require('../../../utils/DataFormatter.js');
 
 var PortfolioMap = React.createClass({
   mixins: [
@@ -37,7 +38,7 @@ var PortfolioMap = React.createClass({
           "capital": a.name,
           "lat": a.latitude,
           "lon": a.longitude,
-          "population": (a.facebook_fans + a.twitter_followers )
+          "population": DataFormatter((a.facebook_fans + a.twitter_followers ))
         }
       );
     }

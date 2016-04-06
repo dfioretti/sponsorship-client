@@ -80,9 +80,14 @@ var RoundChart = React.createClass({
   },
   renderLegend: function() {
     var data = this.props.component.state.data;
+
     return $.map(data, function(pt, i) {
       var backgroundColor = this.backgroundColor[i];
-      var label = pt.metric.split("_").join(" ");
+			var label = pt.metric.split("_").join(" ");
+			if (this.props.component.data !== null &&
+				this.props.component.data.view === 'entity') {
+					label = pt.entity;
+			}
       return (
         <li key={i}>
           <span className="legend-droplet" style={{borderColor: backgroundColor}}></span>
@@ -98,7 +103,7 @@ var RoundChart = React.createClass({
         <div className="" style={{display: "inline-block", padding: "0px"}}>
           <canvas style={{padding: -5}} id={this.state.chartId} width="190" height="190" ></canvas>
         </div>
-        <ul className="chart-legend-round"> 
+        <ul className="chart-legend-round">
           <h5>Legend</h5>
           {this.renderLegend()}
         </ul>
