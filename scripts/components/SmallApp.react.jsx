@@ -131,8 +131,8 @@ var SmallApp = React.createClass({
       });
     }
     //flux.actions.loadDashboard();
-    flux.actions.loadComponents();
-    flux.actions.loadScores();
+    //flux.actions.loadComponents();
+    //flux.actions.loadScores();
     //        <Nav {...this.props} flux={flux} />
 //
 
