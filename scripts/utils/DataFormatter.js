@@ -6,6 +6,7 @@ var DataFormatter = function(val) {
   while (/(\d+)(\d{3})/.test(val.toString())){
     val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
   }
+	if (val === 1) return 100;
   return val;
 }
 
