@@ -8,7 +8,7 @@ var DataClient = {
         $.ajax({
             type: "GET",
             contentType: "application/json",
-            //beforeSend: Auth.appendAuthHeaders,
+            beforeSend: Auth.appendAuthHeaders,
             url: data_url.DATA_URL,
             success: function(data) {
                 callback(data);

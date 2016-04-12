@@ -17,16 +17,11 @@ var injectTapEventPlugin = require('react-tap-event-plugin');
 var SideNavigation = require('./sidebar/SideNavigation.jsx');
 var TopNavigation = require('./sidebar/TopNavigation.jsx');
 var $ = require('jquery');
-window.Auth = Auth;
 var AlertManager = require('./common/AlertManager.jsx');
 
 injectTapEventPlugin();
 Auth.configure({
     apiUrl: API_ROOT + "api/v1",
-    handleTokenValidationResponse: function(resp) {
-        PubSub.publish("auth.validation.success", resp.data)
-        return resp.data
-    },
     passwordResetSuccessUrl: function() {
         return "http://" + "<%=j ENV['DEFAULT_HOST'] %>" + "/reset_password";
     }
@@ -63,8 +58,8 @@ var SmallApp = React.createClass({
   },
   componentWillMount: function() {
     //Auth.configure({
-        $.ajaxSetup( { beforeSend: $.auth.appendAuthHeaders } );
-    $(document).ajaxComplete( $.auth.updateAuthCredentials )
+        ///$.ajaxSetup( { beforeSend: $.auth.appendAuthHeaders } );
+    //$(document).ajaxComplete( $.auth.updateAuthCredentials )
   //},
   //componentWillMount: function() {
       PubSub.subscribe('auth.signIn.success', function(ev, user) {

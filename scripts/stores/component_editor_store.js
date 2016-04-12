@@ -88,9 +88,11 @@ var ComponentEditorStore = Fluxxor.createStore({
      * score as an option
      */
     onSaveScoreSuccess: function(payload) {
+        /*
         DataClient.getData(function(t) {
             this.dataPointList = t
         }.bind(this))
+        */
     },
     onResetComponentEditor: function() {
         this.id = null;
