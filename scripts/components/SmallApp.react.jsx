@@ -16,6 +16,7 @@ var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 var injectTapEventPlugin = require('react-tap-event-plugin');
 var SideNavigation = require('./sidebar/SideNavigation.jsx');
 var TopNavigation = require('./sidebar/TopNavigation.jsx');
+var $ = require('jquery');
 window.Auth = Auth;
 var AlertManager = require('./common/AlertManager.jsx');
 
@@ -41,6 +42,8 @@ const PermissionLinkMap = {
   ews: 'choose_company'
 }
 
+
+
 var SmallApp = React.createClass({
   mixins: [ Navigation ],
 
@@ -48,12 +51,19 @@ var SmallApp = React.createClass({
     return { loaded: false }
   },
   componentWillMount: function() {
-    Auth.configure({
+    //Auth.configure({
+    $.auth.configure({
       apiUrl: API_ROOT + "api/v1",
+      handleTokenValidationResponse: function(resp) {
+        PubSub.publish("auth.validation.success", resp.data)
+        return resp.data
+      },
       passwordResetSuccessUrl: function() {
         return "http://" + "<%=j ENV['DEFAULT_HOST'] %>" + "/reset_password";
       }
     });
+    $.ajaxSetup( { beforeSend: $.auth.appendAuthHeaders } );
+    $(document).ajaxComplete( $.auth.updateAuthCredentials )
   //},
   //componentWillMount: function() {
       PubSub.subscribe('auth.signIn.success', function(ev, user) {

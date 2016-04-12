@@ -1,5 +1,7 @@
 var API_ROOT = require("../constants/environment.js").API_ROOT;
 var asset_url = { ASSET_URL: API_ROOT + "api/v1/assets/" };
+var Auth = require('../vendor/jtoker.js');
+
 
 AssetClient = {
   getAssets: function(callback) {
@@ -7,6 +9,7 @@ AssetClient = {
       type: "GET",
       contentType: "application/json",
       url: asset_url.ASSET_URL,
+      beforeSend: Auth.appendAuthHeaders,
       success: function(data) {
         callback(data)
       },
@@ -20,6 +23,7 @@ AssetClient = {
     $.ajax({
       type: "GET",
       contentType: "application/json",
+      beforeSend: Auth.appendAuthHeaders,
       url: asset_url.ASSET_URL + asset_id,
       success: function(data) {
         callback(data);
