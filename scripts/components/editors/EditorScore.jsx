@@ -6,6 +6,9 @@ var React = require('react'),
 
 var EditorScore = React.createClass({
   mixins: [FluxMixin],
+  componentWillMount: function() {
+    this.getFlux().actions.loadData();
+  },
   getInitialState: function() {
     return {};
   },

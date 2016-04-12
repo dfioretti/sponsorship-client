@@ -6,58 +6,55 @@ var Fluxxor = require("fluxxor"),
 
 var ComponentEditorStore = Fluxxor.createStore({
     initialize: function() {
-        this.id = null,
-        this.title = "",
-        this.data = [],
-        this.previewLoaded = false,
-        this.view = "lineChart",
-        this.interval = "weekly",
-        this.editorPane = "a",
-        this.message = "",
-        this.selectedAsset = null,
-        this.selectedData = null,
-        this.error = null,
-        this.loading = !1,
-        this.saving = !1,
-        this.startList = [],
-        this.dataIndex = 0,
-        this.filteredList = [],
-        this.dataPointList = [],
-        // this is wicked sloppy but right now i'm only touching things that don't work.
-        DataClient.getData(function(t) {
-            this.dataPointList = t
-        }.bind(this)),
-        this.filteredDataPointList = [],
-        this.filterText = "",
-        this.dataFilterText = "",
-        this.previewObject = this.getObject(),
-        this.state = null,
+        this.id = null;
+        this.title = "";
+        this.data = [];
+        this.previewLoaded = false;
+        this.view = "lineChart";
+        this.interval = "weekly";
+        this.editorPane = "a";
+        this.message = "";
+        this.selectedAsset = null;
+        this.selectedData = null;
+        this.error = null;
+        this.loading = !1;
+        this.saving = !1;
+        this.startList = [];
+        this.dataIndex = 0;
+        this.filteredList = [];
+        this.dataPointList = [];
+        this.filteredDataPointList = [];
+        this.filterText = "";
+        this.dataFilterText = "";
+        this.previewObject = this.getObject();
+        this.state = null;
         this.bindActions(
-          constants.UPDATE_TYPE, this.onUpdateType,
-          constants.ADD_DATA, this.onDataAdded,
-          constants.UPDATE_TITLE, this.onUpdateTitle,
-          constants.CHANGE_PANE, this.onChangePane,
-          constants.FILTER_LIST, this.onFilterList,
-          constants.FILTER_DATA, this.onFilterData,
-          constants.ASSET_SELECT, this.onAssetSelected,
-          constants.DATA_SELECT, this.onDataSelected,
-          constants.REMOVE_DATA, this.onDataRemoved,
-          constants.SAVE_COMPONENT, this.onSaveComponent,
-          constants.SAVE_SUCCESS, this.onSaveSuccess,
-          constants.SAVE_FAIL, this.onSaveFail,
-          constants.UPDATE_COMPONENT, this.onUpdateComponent,
-          constants.UPDATE_SUCCESS, this.onUpdateSuccess,
-          constants.UPDATE_FAIL, this.onUpdateFail,
-          constants.NEW_COMPONENT, this.onNewComponent,
-          constants.PREVIEW_DATA, this.onPreviewData,
-          constants.PREVIEW_SUCCESS, this.onPreviewSuccess,
-          constants.PREVIEW_FAIL, this.onPreviewFail,
-          //constants.LOAD_COMPONENT_UPDATE, this.onLoadComponentUpdate,
-          constants.LOAD_ASSETS_SUCCESS, this.onLoadAssetsSucess,
-          constants.LOAD_COMPONENTS_SUCCESS, this.onLoadComponentsSuccess,
-          constants.RESET_COMPONENT_EDITOR, this.onResetComponentEditor,
-          constants.CONFIGURE_COMPONENT_EDITOR, this.onConfigureComponentEditor,
-          constants.SAVE_SCORE_SUCCESS, this.onSaveScoreSuccess
+            constants.UPDATE_TYPE, this.onUpdateType,
+            constants.ADD_DATA, this.onDataAdded,
+            constants.UPDATE_TITLE, this.onUpdateTitle,
+            constants.CHANGE_PANE, this.onChangePane,
+            constants.FILTER_LIST, this.onFilterList,
+            constants.FILTER_DATA, this.onFilterData,
+            constants.ASSET_SELECT, this.onAssetSelected,
+            constants.DATA_SELECT, this.onDataSelected,
+            constants.REMOVE_DATA, this.onDataRemoved,
+            constants.SAVE_COMPONENT, this.onSaveComponent,
+            constants.SAVE_SUCCESS, this.onSaveSuccess,
+            constants.SAVE_FAIL, this.onSaveFail,
+            constants.UPDATE_COMPONENT, this.onUpdateComponent,
+            constants.UPDATE_SUCCESS, this.onUpdateSuccess,
+            constants.UPDATE_FAIL, this.onUpdateFail,
+            constants.NEW_COMPONENT, this.onNewComponent,
+            constants.PREVIEW_DATA, this.onPreviewData,
+            constants.PREVIEW_SUCCESS, this.onPreviewSuccess,
+            constants.PREVIEW_FAIL, this.onPreviewFail,
+            constants.LOAD_DATA_SUCCESS, this.onLoadDataSuccess,
+            //constants.LOAD_COMPONENT_UPDATE, this.onLoadComponentUpdate,
+            constants.LOAD_ASSETS_SUCCESS, this.onLoadAssetsSucess,
+            constants.LOAD_COMPONENTS_SUCCESS, this.onLoadComponentsSuccess,
+            constants.RESET_COMPONENT_EDITOR, this.onResetComponentEditor,
+            constants.CONFIGURE_COMPONENT_EDITOR, this.onConfigureComponentEditor,
+            constants.SAVE_SCORE_SUCCESS, this.onSaveScoreSuccess
         )
     },
     getObject: function() {
@@ -82,8 +79,8 @@ var ComponentEditorStore = Fluxxor.createStore({
     },
     onLoadAssetsSucess: function(t) {
         this.startList = t.assets,
-        this.filterList = this.startList,
-        this.emit("change")
+            this.filterList = this.startList,
+                this.emit("change")
     },
     /**
      * this is kinda hacky, when i save a score
@@ -91,66 +88,70 @@ var ComponentEditorStore = Fluxxor.createStore({
      * score as an option
      */
     onSaveScoreSuccess: function(payload) {
-      DataClient.getData(function(t) {
-          this.dataPointList = t
-      }.bind(this))
+        DataClient.getData(function(t) {
+            this.dataPointList = t
+        }.bind(this))
     },
     onResetComponentEditor: function() {
-      this.id = null;
-      this.view = "lineChart";
-      this.title = "";
-      this.filterText = "";
-      this.dataFilterText = "";
-      this.filteredList = this.startList;
-      this.filteredDataPointList = this.dataPointList;
-      this.selectedAsset = null;
-      this.selectedData = null;
-      this.model = null;
-      this.state = null;
-      this.data = [];
-      this.interval = null;
-      this.emit("change");
+        this.id = null;
+        this.view = "lineChart";
+        this.title = "";
+        this.filterText = "";
+        this.dataFilterText = "";
+        this.filteredList = this.startList;
+        this.filteredDataPointList = this.dataPointList;
+        this.selectedAsset = null;
+        this.selectedData = null;
+        this.model = null;
+        this.state = null;
+        this.data = [];
+        this.interval = null;
+        this.emit("change");
+    },
+    onLoadDataSuccess: function(payload) {
+        this.dataPointList = payload.data;
+        this.emit("change");
     },
     onLoadComponentsSuccess: function(payload) {
-      //this.previewLoaded = true;
-      this.emit("change");
+        //this.previewLoaded = true;
+        this.emit("change");
     },
     onConfigureComponentEditor: function(payload) {
-      this.id = payload.component.id;
-      this.title = payload.component.name;
-      this.view = payload.component.view;
-      this.interval = payload.component.interval;
-      this.state = payload.component.state;
-      this.data = payload.component.model.data;
-      if (this.data === null) {
-        this.data = [];
-      }
-      this.model = {
-        title: this.title,
-        type: this.view,
-        interval: this.interval
-      }
-      this.emit("change");
+        this.id = payload.component.id;
+        this.title = payload.component.name;
+        this.view = payload.component.view;
+        this.interval = payload.component.interval;
+        this.state = payload.component.state;
+        this.data = payload.component.model.data;
+        if (this.data === null) {
+            this.data = [];
+        }
+        this.model = {
+            title: this.title,
+            type: this.view,
+            interval: this.interval
+        }
+        this.emit("change");
     },
     onChangePane: function(t) {
         this.editorPane = t.editorPane;
         this.emit("change");
     },
     onUpdateType: function(t) {
-      // this is really ugly and needs to get fixed...
+        // this is really ugly and needs to get fixed...
         this.view = t.view;
         this.previewObject = this.getObject();
         this.previewObject.type = this.view;
-      //  this.model.type = t.view;
+        //  this.model.type = t.view;
         this.emit("change")
     },
     onUpdateTitle: function(t) {
-        this.title = t.title,
-        this.previewObject = this.getObject(),
-        this.emit("change")
+        this.title = t.title;
+        this.previewObject = this.getObject();
+        this.emit("change");
     },
     onPreviewData: function() {
-      this.previewLoaded = false;
+        this.previewLoaded = false;
     },
     onPreviewSuccess: function(t) {
         this.state = t.component.state;
@@ -169,32 +170,31 @@ var ComponentEditorStore = Fluxxor.createStore({
         this.saving = !0
     },
     onSaveSuccess: function(payload) {
-      // don't use beautify js b/c it makes your code make no sense.
         this.id = payload.component.id;
         this.saving = !1;
         this.message = "Component saved!";
-        //ReactRouter.transitionTo('/apt/editor_component/' + payload.component.id);
-        //ReactRouter.Navigation.transitionTo('/apt/editor_component' + payload.component.id);
-        //ReactRouter.HistoryLocation.push('/apt/editor_component/' + t.component.id);
         this.emit("change");
     },
     onSaveFail: function(t) {
-        this.message = "Failed saving component!", this.emit("change")
+        this.message = "Failed saving component!";
+        this.emit("change");
     },
     onUpdateComponent: function() {
-        this.saving = !0, this.emit("change")
+        this.saving = !0;
+        this.emit("change");
     },
     onUpdateSuccess: function(t) {
-        this.message = "Component saved!",
-        this.id = t.component.id,
-        this.saving = !1,
-        this.emit("change")
+        this.message = "Component saved!";
+        this.id = t.component.id;
+        this.saving = !1;
+        this.emit("change");
     },
     onUpdateFail: function(t) {
-        this.message = "Failed saviing component", this.emit("change")
+        this.message = "Failed saviing component";
+        this.emit("change");
     },
     onDataAdded: function(t) {
-      if (this.data === null) this.data = [];
+        if (this.data === null) this.data = [];
         this.data.push({
             entity: {
                 type: "asset",
@@ -211,35 +211,32 @@ var ComponentEditorStore = Fluxxor.createStore({
                 point_image: this.selectedData.icon
             }
         }),
-        //this.selectedData = null;
         this.emit("change");
     },
     onDataRemoved: function(t) {
-        this.data.splice(t.index, 1), this.emit("change")
+        this.data.splice(t.index, 1);
+        this.emit("change");
     },
     onAssetSelected: function(t) {
         if (!(t.selectedAsset === null || t.selectedAsset.length < 1)) {
-          for (var i = 0; i < this.startList.length; i++) {
-            if (this.startList[i].id == t.selectedAsset) {
-              this.selectedAsset = this.startList[i];
-              break;
+            for (var i = 0; i < this.startList.length; i++) {
+                if (this.startList[i].id == t.selectedAsset) {
+                    this.selectedAsset = this.startList[i];
+                    break;
+                }
             }
-          }
         }
         this.filteredDataPointList = this.dataPointList;
         this.emit("change");
-      /*
-        if (console.log("log", t), console.log(t.selectedAsset), !(null === t.selectedAsset || t.selectedAsset.length < 1)) {
-            for (var e = 0; e < this.startList.length; e++)
-                if (this.startList[e].id == t.selectedAsset) {
-                    this.selectedAsset = this.startList[e];
-                    break
-                }
-            this.filteredDataPointList = this.dataPointList, this.emit("change")
-        }*/
     },
     onNewComponent: function() {
-        this.id = null, this.title = "", this.chartType = "lineChart", this.data = [], this.interval = "weekly", this.message = "New Component", this.emit("change")
+        this.id = null;
+        this.title = "";
+        this.chartType = "lineChart";
+        this.data = [];
+        this.interval = "weekly";
+        this.message = "New Component";
+        this.emit("change");
     },
     findSelectedData: function(t) {
         for (var e = 0; e < this.dataPointList.length; e++)
@@ -253,14 +250,18 @@ var ComponentEditorStore = Fluxxor.createStore({
         var e = [];
         this.dataPointList.forEach(function(t) {
             -1 !== t.point.split("_").join(" ").indexOf(this.dataFilterText) && e.push(t)
-        }.bind(this)), this.filteredDataPointList = e, this.emit("change")
+        }.bind(this));
+        this.filteredDataPointList = e;
+        this.emit("change");
     },
     onFilterList: function(t) {
         this.filterText = t.filterText;
         var e = [];
         this.startList.forEach(function(t) {
             -1 !== t.name.toLowerCase().indexOf(this.filterText) && e.push(t)
-        }.bind(this)), this.filteredList = e, this.emit("change")
+        }.bind(this));
+        this.filteredList = e;
+        this.emit("change");
     },
     getPreview: function() {
         return this.getObject()
