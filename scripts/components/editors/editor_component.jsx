@@ -22,6 +22,9 @@ var EditorComponent = React.createClass({
     getInitialState: function() {
         return { loaded: false };
     },
+    componentWillMount: function() {
+        this.getFlux().actions.loadData();
+    },
     getStateFromFlux: function() {
         return this.getFlux().store("EditorPreviewStore").getState();
     },
