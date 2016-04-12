@@ -21,6 +21,17 @@ window.Auth = Auth;
 var AlertManager = require('./common/AlertManager.jsx');
 
 injectTapEventPlugin();
+Auth.configure({
+    apiUrl: API_ROOT + "api/v1",
+    handleTokenValidationResponse: function(resp) {
+        PubSub.publish("auth.validation.success", resp.data)
+        return resp.data
+    },
+    passwordResetSuccessUrl: function() {
+        return "http://" + "<%=j ENV['DEFAULT_HOST'] %>" + "/reset_password";
+    }
+});
+
 
 const LoggedOutPaths = [
   '/account_login',
@@ -52,17 +63,7 @@ var SmallApp = React.createClass({
   },
   componentWillMount: function() {
     //Auth.configure({
-    $.auth.configure({
-      apiUrl: API_ROOT + "api/v1",
-      handleTokenValidationResponse: function(resp) {
-        PubSub.publish("auth.validation.success", resp.data)
-        return resp.data
-      },
-      passwordResetSuccessUrl: function() {
-        return "http://" + "<%=j ENV['DEFAULT_HOST'] %>" + "/reset_password";
-      }
-    });
-    $.ajaxSetup( { beforeSend: $.auth.appendAuthHeaders } );
+        $.ajaxSetup( { beforeSend: $.auth.appendAuthHeaders } );
     $(document).ajaxComplete( $.auth.updateAuthCredentials )
   //},
   //componentWillMount: function() {
@@ -140,13 +141,7 @@ var SmallApp = React.createClass({
         console.log("[Dispatch]", type, payload);
       });
     }
-    //flux.actions.loadDashboard();
-    //flux.actions.loadComponents();
-    //flux.actions.loadScores();
-    //        <Nav {...this.props} flux={flux} />
-//
 
-    //
     return (
       <div id="main" style={style}>
         <SideNavigation {...this.props} flux={flux} />
