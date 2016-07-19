@@ -8,7 +8,7 @@ getApiRoot = function() {
         console.log("wtf2");
         //url = location.href.split('.');
         url = location.hostname;
-        return "http://" + url;
+        return "http://" + url + '/';
         //return "" + url[0] + "teneosponsorship.herokuapp.com/";
     }
 }
