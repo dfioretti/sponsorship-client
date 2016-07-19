@@ -6,8 +6,10 @@ getApiRoot = function() {
         return "" + url[0] + ":" + url[1] + ":4000/";
     } else {
         console.log("wtf2");
-        url = location.href.split('.');
-        return "" + url[0] + "teneosponsorship.herokuapp.com/";
+        //url = location.href.split('.');
+        url = location.hostname;
+        return "http://" + url;
+        //return "" + url[0] + "teneosponsorship.herokuapp.com/";
     }
 }
 
