@@ -3,7 +3,9 @@ getApiRoot = function() {
     // dev
     if (url.length == 3) {
         console.log("wtf");
-        return "" + url[0] + ":" + url[1] + ":4000/";
+        url = location.hostname;
+        return "http://" + url + ":4000/";
+        //return "" + url[0] + ":" + url[1] + ":4000/";
     } else {
         console.log("wtf2");
         //url = location.href.split('.');

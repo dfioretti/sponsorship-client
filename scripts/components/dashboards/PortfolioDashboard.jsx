@@ -4,6 +4,7 @@ var React = require('react'),
 		API_ROOT = require("../../constants/environment.js").API_ROOT,
 		Link = require('react-router').Link,
 		uuid = require('node-uuid'),
+        LineChart = require('react-chartjs').Line,
 		DynamicComponent = require('../common/DynamicComponent.jsx'),
 		PortfolioMap = require('./modules/PortfolioMap.jsx'),
 		PortfolioTreemap = require('./modules/PortfolioTreemap.jsx'),
@@ -17,10 +18,16 @@ var React = require('react'),
 		ConsumerSurvey = require('../assets/ConsumerSurvey.jsx'),
 		TallTabbedModule = require('../common/TallTabbedModule.jsx'),
 		TwitterFeed = require('../common/TwitterFeed.jsx'),
+        numberFormat = require('underscore.string/numberFormat'),
+        ScoreRadar = require('../common/ScoreRadar.jsx'),
+        DynamicChart = require('../common/DynamicChart.jsx'),
 		AssetClient = require('../../clients/asset_client.js'),
+        _ = require('underscore'),
+        Chart = require('../elements/Chart.jsx'),
 		CircularProgress = require('material-ui').CircularProgress,
 		RefreshIndicator = require('material-ui').RefreshIndicator,
 		Spinner = require('react-spinkit'),
+        titleize = require('underscore.string/titleize'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 var PortfolioDashboard = React.createClass({
@@ -117,25 +124,28 @@ var PortfolioDashboard = React.createClass({
         case 'portfolio_tree_map':
           //el = <PortfolioTreemap hidden={hidden} key={uuid.v4()} />
           break;
-				case 'social_stats':
-					el = <SocialStats key={uuid.v4()} hidden={hidden} asset={asset} />
-					break;
-				case 'asset_overview':
-					el = <AssetOverview key={uuid.v4()} asset={asset} />
-					break;
-				case 'consumer_survey':
-					//el = <TallTabbedModule key={uuid.v4()} asset={this.getFlux().store("AssetsStore").getAsset(this.props.params.id) }/>
-					//	el = <ConsumerSurvey key={uuid.v4()} consumerSurvey={this.state.consumerSurvey} asset={asset} />
-					break;
-				case 'twitter_feed':
-					el = <TwitterFeed key={uuid.v4()} tweets={this.state.tweets} />
-					break;
-				case 'notes':
-					el = <Notes key={uuid.v4()} />
-					break;
-				case 'asset_data':
-					el = <TallTabbedModule key={uuid.v4()} asset={asset} />
-					break;
+        case 'social_stats':
+            el = <SocialStats key={uuid.v4()} hidden={hidden} asset={asset} />
+            break;
+        case 'asset_overview':
+            el = <AssetOverview key={uuid.v4()} asset={asset} />
+            break;
+        case 'consumer_survey':
+            //el = <TallTabbedModule key={uuid.v4()} asset={this.getFlux().store("AssetsStore").getAsset(this.props.params.id) }/>
+            //	el = <ConsumerSurvey key={uuid.v4()} consumerSurvey={this.state.consumerSurvey} asset={asset} />
+            break;
+        case 'twitter_feed':
+            el = <TwitterFeed key={uuid.v4()} tweets={this.state.tweets} />
+            break;
+        case 'score_radar':
+            el = <ScoreRadar key={uuid.v4()} asset={asset} />
+            break;
+        case 'notes':
+            el = <Notes key={uuid.v4()} />
+            break;
+        case 'asset_data':
+            el = <TallTabbedModule key={uuid.v4()} asset={asset} />
+            break;
         }
     }
     return el;
@@ -167,14 +177,63 @@ var PortfolioDashboard = React.createClass({
 					</div>
 				);
 			}
+			//<AssetScore key={uuid.v4()} title="Passion Score" score={score} asset={asset} />
+			//<AssetScore key={uuid.v4()} title="Performance Score" score={perfScore} asset={{}} />
+            var chartSettings = {
+                scaleFontColor: "#fff",
+                /*
+                animation: true,
+                tooltipFontSize: 11,
+                tooltipFillColor: 'rgba(255,255,255,0.6)',
+                tooltipFontStyle: 'Avenir-Book',
+                tooltipFontColor: '#333',
+                tooltipTitleFontFamily: 'Avenir-Book',
+                tooltipTitleFontColor: '#738694',
+                tooltipTitleFontSize: 11,
+                tooltipTitleFontStyle: 'normal',
+                scaleFontColor: "#fff",
+                scaleLineColor: "rgba(255,255,255,0.3)",
+                scaleGridLineColor: "rga(255,255,255,0.3)",
+                scaleLabel: "<%= ' ' + value%>",
+                scaleFontSize: 11,
+                scaleShowVerticalLines: false,
+                scaleOverride : false,
+                pointDotRadius : 3,*/
+            };
+            var index = 4;
+            var keys = _.keys(asset.historicals[index].data);
+            var values = _.values(asset.historicals[index].data);
+            var title = titleize(asset.historicals[index].metric);
+            var chartData = {
+                labels: keys,
+                datasets: [
+                    {
+                        fillColor: "rgba(172, 194, 132, 0.0)",
+                        strokeColor: "#ACC26D",
+                        pointColor: "#fff",
+                        pointStrokeColor: "#9DB86D",
+                        data: values
+                    }
+                ]
+            }
+             /*  <div className="dashboard-module">
+                        <div className="top">
+                            <div className="drag-handle"></div>
+                            <div className="top-title">{title} Trend</div>
+                        </div>
+                        <div className="main" style={{display: 'flex', justifyContent: 'center'}}>
+                            <LineChart data={chartData} width="350" height="225" style={{marginTop: "15px"}} options={chartSettings} />
+                        </div>
+                    </div>
+            */
 			return (
 				<div className="modules-container">
 					<AssetOverview key={uuid.v4()} asset={asset} />
-					<AssetScore key={uuid.v4()} title="Passion Score" score={score} asset={asset} />
-					<AssetScore key={uuid.v4()} title="Performance Score" score={perfScore} asset={{}} />
+                    <ScoreRadar key={uuid.v4()} asset={asset} />
 					<TallTabbedModule title={"Asset Data"} bar={false} key={uuid.v4()} asset={asset} />
 					<TallTabbedModule title={"Data Ranking"} bar={true} key={uuid.v4()} asset={asset} />
-					<TwitterFeed key={uuid.v4()} tweets={this.state.tweets} />
+                    <DynamicChart asset={asset} />
+                 	<TwitterFeed key={uuid.v4()} tweets={this.state.tweets} />
 					<Valuation key={uuid.v4()} title={"Forbes Valuation"} asset={asset} />
 				</div>
 			)
