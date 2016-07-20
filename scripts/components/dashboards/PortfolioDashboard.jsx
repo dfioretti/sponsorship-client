@@ -201,6 +201,7 @@ var PortfolioDashboard = React.createClass({
                 pointDotRadius : 3,*/
             };
             var index = 4;
+            /*
             var keys = _.keys(asset.historicals[index].data);
             var values = _.values(asset.historicals[index].data);
             var title = titleize(asset.historicals[index].metric);

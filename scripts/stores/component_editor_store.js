@@ -8,6 +8,8 @@ var Fluxxor = require("fluxxor"),
             this.id = null,
             this.title = "",
             this.data = [],
+            this.label = 'metric',
+            this.icon = 'metric',
             this.previewLoaded = false,
             this.view = "lineChart",
             this.interval = "weekly",
@@ -33,6 +35,8 @@ var Fluxxor = require("fluxxor"),
             this.state = null,
             this.bindActions(
               constants.UPDATE_TYPE, this.onUpdateType,
+              constants.UPDATE_DISPLAY_ICON, this.onUpdateDisplayIcon,
+              constants.UPDATE_DISPLAY_LABEL, this.onUpdateDisplayLabel,
               constants.ADD_DATA, this.onDataAdded,
               constants.UPDATE_TITLE, this.onUpdateTitle,
               constants.CHANGE_PANE, this.onChangePane,
@@ -65,6 +69,8 @@ var Fluxxor = require("fluxxor"),
                 name: this.title,
                 view: this.view,
                 interval: this.interval,
+                icon: this.icon,
+                label: this.label,
                 model: {
                     title: this.title,
                     type: this.view,
@@ -100,6 +106,8 @@ var Fluxxor = require("fluxxor"),
           this.title = "";
           this.filterText = "";
           this.dataFilterText = "";
+          this.icon = 'metric';
+          this.label = 'metric';
           this.filteredList = this.startList;
           this.filteredDataPointList = this.dataPointList;
           this.selectedAsset = null;
@@ -118,6 +126,8 @@ var Fluxxor = require("fluxxor"),
           this.id = payload.component.id;
           this.title = payload.component.name;
           this.view = payload.component.view;
+          this.icon = payload.component.icon;
+          this.label = payload.component.label;
           this.interval = payload.component.interval;
           this.state = payload.component.state;
           this.data = payload.component.model.data;
@@ -134,6 +144,14 @@ var Fluxxor = require("fluxxor"),
         onChangePane: function(t) {
             this.editorPane = t.editorPane;
             this.emit("change");
+        },
+        onUpdateDisplayIcon: function(payload) {
+            this.icon = payload.icon;
+            this.emit("change");
+        },
+        onUpdateDisplayLabel: function(payload) {
+             this.label = payload.label;
+             this.emit("change");
         },
         onUpdateType: function(t) {
           // this is really ugly and needs to get fixed...
@@ -155,6 +173,8 @@ var Fluxxor = require("fluxxor"),
             this.state = t.component.state;
             this.title = t.component.name;
             this.view = t.component.view;
+            this.icon = t.component.icon;
+            this.label = t.component.label;
             this.interval = t.component.interval;
             this.model = t.component.model;
             this.data = this.model.data;
@@ -210,7 +230,7 @@ var Fluxxor = require("fluxxor"),
                     point_image: this.selectedData.icon
                 }
             }),
-            //this.selectedData = null; 
+            //this.selectedData = null;
             this.emit("change");
         },
         onDataRemoved: function(t) {
@@ -238,7 +258,7 @@ var Fluxxor = require("fluxxor"),
             }*/
         },
         onNewComponent: function() {
-            this.id = null, this.title = "", this.chartType = "lineChart", this.data = [], this.interval = "weekly", this.message = "New Component", this.emit("change")
+            this.id = null, this.icon = "metric", this.label = "metric", this.title = "", this.chartType = "lineChart", this.data = [], this.interval = "weekly", this.message = "New Component", this.emit("change")
         },
         findSelectedData: function(t) {
             for (var e = 0; e < this.dataPointList.length; e++)
@@ -271,6 +291,8 @@ var Fluxxor = require("fluxxor"),
                 view: this.view,
                 editorPane: this.editorPane,
                 filterText: this.filterText,
+                icon: this.icon,
+                label: this.label,
                 filteredList: this.filteredList,
                 selectedAsset: this.selectedAsset,
                 selectedData: this.selectedData,

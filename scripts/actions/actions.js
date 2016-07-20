@@ -8,6 +8,16 @@ var DashboardClient = require("../clients/dashboard_client.js"),
 
 
 actions = {
+    updateDisplayIcon: function(icon) {
+        this.dispatch(constants.UPDATE_DISPLAY_ICON, {
+            icon: icon
+        });
+    },
+    updateDisplayLabel: function(label) {
+        this.dispatch(constants.UPDATE_DISPLAY_LABEL, {
+            label: label
+        });
+    },
   updateTitle: function(title) {
     this.dispatch(constants.UPDATE_TITLE, {
       title: title

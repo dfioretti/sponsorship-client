@@ -20,7 +20,7 @@ var EditorSubNav = require('./editor_subnav.jsx');
 var EditorData = require('./editor_data.jsx');
 
 var EditorPreview = React.createClass({
-  mixins: [FluxMixin, StoreWatchMixin("EditorPreviewStore")],
+  mixins: [FluxMixin, StoreWatchMixin("EditorPreviewStore", "ComponentEditorStore")],
 
   getStateFromFlux: function() {
     return this.getFlux().store("EditorPreviewStore").getState();

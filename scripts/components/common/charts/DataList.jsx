@@ -70,10 +70,16 @@ var DataList = React.createClass({
 						var defaultImage = d.metric_icon;
 						var defaultText = d.metric;
 						var link = "/apt/asset/dashboard/" + d.entity_id;
-						if (this.props.component.data !== null && this.props.component.data.view === 'entity') {
-							defaultImage = d.entity_icon;
-							defaultText = d.entity;
-						}
+						//if (this.props.component.data !== null && this.props.component.data.view === 'entity') {
+						//	defaultImage = d.entity_icon;
+						//	defaultText = d.entity;
+						//}
+                        if (this.props.component.icon == 'entity') {
+                             defaultImage = d.entity_icon;
+                        }
+                        if (this.props.component.label == 'entity') {
+                            defaultText = d.entity;
+                        }
             return (
               <GenericValueListItem key={i++} link={link} statImage={ImageHelper("asset", defaultImage)} statHeader={defaultText} statMetric={DataFormatter(d.value)} />
             );

@@ -14,11 +14,13 @@ var DynamicChart = React.createClass({
         var series = [];
         var dataSets = [];
         var labels = [];
-        _.each(this.props.asset.historicals, function(h) {
-            series.push(titleize(h.metric.split("_").join(" ")));
-            labels.push(_.keys(h.data));
-            dataSets.push(_.values(h.data));
-        });
+        if (this.props.asset.historicals !== 'undefined') {
+            _.each(this.props.asset.historicals, function(h) {
+                series.push(titleize(h.metric.split("_").join(" ")));
+                labels.push(_.keys(h.data));
+                dataSets.push(_.values(h.data));
+            });
+        }
         return { dataSets: dataSets, labels: labels, series: series, index: 0 }
     },
     handleChartChange: function(e, i, v) {
@@ -29,6 +31,20 @@ var DynamicChart = React.createClass({
         return numberFormat(number, 0);
     },
     render: function() {
+        if (this.state.series.length == 0) {
+            return (
+                <div className="dashboard-module">
+                    <div className="top">
+                        <div className="drag-handle"></div>
+                        <div className="top-title"></div>
+                    </div>
+                    <div className="main">
+                        <h1>lol</h1>
+                    </div>
+                </div>
+
+            )
+        }
         var chartData = {
             labels: this.state.labels[this.state.index],
             datasets: [
