@@ -44,7 +44,14 @@ var DynamicChart = React.createClass({
         var chartSettings = {
             scaleFontColor: "#fff",
             scaleLabel: function(valuePayload) {
-                 return numberFormat(parseInt(valuePayload.value), 0);
+                var val = parseFloat(valuePayload.value);
+                if (val < 1000) {
+                    if (val < 1)
+                        return numberFormat(val, 3);
+                    return numberFormat(val, 2);
+                } else {
+                    return numberFormat(val, 0);
+                }
             }
         }
         var i = 0;
