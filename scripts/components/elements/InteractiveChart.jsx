@@ -75,9 +75,9 @@ var InteractiveChart = React.createClass({
             <Row style={{height: "50px", paddingLeft: "40px" }}>
                 {assets.map(function(a) {
                     return (
-                        <Col md={2} style={{paddingTop: "13px", marginLeft: "-30px", marginRight: "-65px"}}>
+                        <Col key={uuid.v4()} md={2} style={{paddingTop: "13px", marginLeft: "-30px", marginRight: "-65px"}}>
                         <Checkbox
-                            key={a}
+                            key={uuid.v4()}
                             label=""
                             id={a}
                             labelStyle={{color: "white", marginLeft: "-10px"}}
@@ -86,7 +86,7 @@ var InteractiveChart = React.createClass({
                             onCheck={this.toggleCheck}
                         >
                         </Checkbox>
-                        <Avatar src={this.state.assetMap[a].image_url} style={{position: "relative", top: "-30px", left: "40px", size: 20}}/>
+                        <Avatar key={uuid.v4()} src={this.state.assetMap[a].image_url} style={{position: "relative", top: "-30px", left: "40px", size: 20}}/>
                         </Col>
                     )
                 }.bind(this))}

@@ -285,6 +285,7 @@ var PortfolioDashboard = React.createClass({
         if (location.hostname.indexOf('mcd') > -1) {
             return (
                 <div className="modules-container">
+                <ScoreRadar key={uuid.v4()} asset={null} />
 				{extras}
                 <InteractiveChart key={uuid.v4()} />
                 </div>
