@@ -4,6 +4,7 @@ var RadarChart = require('react-chartjs').Radar;
 var CircularProgress = require('material-ui').CircularProgress;
 var _ = require('underscore');
 var titleize = require('underscore.string/titleize');
+var numberFormat = require('underscore.string/numberFormat');
 
 
 var ScoreRadar = React.createClass({
@@ -11,9 +12,9 @@ var ScoreRadar = React.createClass({
         var names = [];
         var points = [];
         _.each(this.props.asset.metrics, function(m) {
-            if (m.source == 'score') {
+            if (m.source == 'score' && m.metric != 'team_score') {
                 names.push(titleize(m.metric.split('_').join(' ')));
-                points.push(m.value * 100);
+                points.push(numberFormat((m.value * 100), 2));
             }
         });
         var radarData = {

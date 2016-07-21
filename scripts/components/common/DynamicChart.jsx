@@ -39,7 +39,7 @@ var DynamicChart = React.createClass({
                         <div className="top-title"></div>
                     </div>
                     <div className="main">
-                        <h1>lol</h1>
+                    <h1>lol</h1>
                     </div>
                 </div>
 

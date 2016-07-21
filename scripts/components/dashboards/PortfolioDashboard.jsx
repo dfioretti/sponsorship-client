@@ -8,6 +8,7 @@ var React = require('react'),
 		DynamicComponent = require('../common/DynamicComponent.jsx'),
 		PortfolioMap = require('./modules/PortfolioMap.jsx'),
 		PortfolioTreemap = require('./modules/PortfolioTreemap.jsx'),
+        InteractiveChart = require('../elements/InteractiveChart.jsx'),
 		ScoreTrend = require('./modules/ScoreTrend.jsx'),
 		PortfolioSummary = require('./modules/PortfolioSummary.jsx'),
 		AssetOverview = require('../assets/AssetOverview.jsx'),
@@ -160,7 +161,7 @@ var PortfolioDashboard = React.createClass({
 			var perfScore = null;
 			if (asset != null) {
 				asset.metrics.forEach(function(metric) {
-					if (metric.metric === 'passion_score') {
+					if (metric.metric === 'team_score') {
 						score = metric;
 					}
 					if (metric.metric === 'performance_score') {
@@ -229,8 +230,10 @@ var PortfolioDashboard = React.createClass({
             */
 			return (
 				<div className="modules-container">
+                    <InteractiveChart key={uuid.v4()} />
 					<AssetOverview key={uuid.v4()} asset={asset} />
                     <ScoreRadar key={uuid.v4()} asset={asset} />
+			        <AssetScore key={uuid.v4()} title="Team Score" score={score} asset={asset} />
 					<TallTabbedModule title={"Asset Data"} bar={false} key={uuid.v4()} asset={asset} />
 					<TallTabbedModule title={"Data Ranking"} bar={true} key={uuid.v4()} asset={asset} />
                     <DynamicChart asset={asset} />
