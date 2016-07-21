@@ -72,43 +72,25 @@ var InteractiveChart = React.createClass({
 
         var assets = _.keys(this.state.data[this.state.value]);
         return (
-            <Row style={{height: "50px" }}>
-                <Col style={{textTransform: "uppercase", marginTop: "-2px", marginRight: "0px", marginLeft: "-30px"}}md={2}>
-                    <DropDownMenu
-                        onChange={this.handleDataChange}
-                        value={this.state.value}
-                        labelStyle={{color: "white"}}
-                        underlineStyle={{display: "none"}}
+            <Row style={{height: "50px", paddingLeft: "40px" }}>
+                {assets.map(function(a) {
+                    return (
+                        <Col md={2} style={{paddingTop: "13px", marginLeft: "-30px", marginRight: "-65px"}}>
+                        <Checkbox
+                            key={a}
+                            label=""
+                            id={a}
+                            labelStyle={{color: "white", marginLeft: "-10px"}}
+                            inputStyle={{marginRight: "20px"}}
+                            defaultChecked={this.isChecked(a)}
+                            onCheck={this.toggleCheck}
                         >
-                        {this.state.metrics.map(function(m) {
-                            return (
-                                <MenuItem
-                                    value={m}
-                                    primaryText={m}
-                                    key={uuid.v4()}
-                                    />
-                            )
-                        })}
-                    </DropDownMenu>
-                    </Col>
-                                {assets.map(function(a) {
-                                    return (
-                                        <Col md={2} style={{paddingTop: "13px", marginLeft: "-30px", marginRight: "-40px"}}>
-                                        <Checkbox
-                                            key={a}
-                                            label=""
-                                            id={a}
-                                            labelStyle={{color: "white", marginLeft: "-10px"}}
-                                            inputStyle={{marginRight: "20px"}}
-                                            defaultChecked={this.isChecked(a)}
-                                            onCheck={this.toggleCheck}
-                                        >
-                                        </Checkbox>
-                                        <Avatar src={this.state.assetMap[a].image_url} style={{position: "relative", top: "-30px", left: "40px", size: 20}}/>
-                                        </Col>
-                                    )
-                                }.bind(this))}
-                    </Row>
+                        </Checkbox>
+                        <Avatar src={this.state.assetMap[a].image_url} style={{position: "relative", top: "-30px", left: "40px", size: 20}}/>
+                        </Col>
+                    )
+                }.bind(this))}
+            </Row>
         )
     },
     handleTouchTap: function(event) {
@@ -200,13 +182,33 @@ var InteractiveChart = React.createClass({
             </div>
         )
     },
+//                            style={{marginLeft: '1000px', paddingTop: "-100px", marginTop: "-170px", paddingBottom: "300px"}}
     render: function() {
         console.log("render");
         return (
             <div data-ss-colspan='3' className="dashboard-module wide">
                 <div className="top">
                     <div className="drag-handle"></div>
-                    <div className="top-title">Interactive Data</div>
+                    <div className="top-title" style={{marginTop: "-20px"}}>Interactive Data
+                        <DropDownMenu
+                            onChange={this.handleDataChange}
+                            value={this.state.value}
+                            style={{position: "relative", left: "900px", top: "0px"}}
+                            labelStyle={{color: "white", textTransform: "uppercase"}}
+                            underlineStyle={{display: "none"}}
+                            >
+                            {this.state.metrics.map(function(m) {
+                                return (
+                                    <MenuItem
+                                        value={m}
+                                        style={{textTransform: "uppercase"}}
+                                        primaryText={titleize(m.split("_").join(" "))}
+                                        key={uuid.v4()}
+                                        />
+                                )
+                            })}
+                        </DropDownMenu>
+                    </div>
                 </div>
                 <div className="main">
                     <Grid style={{padding: "0px"}}>

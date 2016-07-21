@@ -228,9 +228,21 @@ var PortfolioDashboard = React.createClass({
                         </div>
                     </div>
             */
+           if (location.hostname.indexOf('mcd') > -1) {
+            return (
+				<div className="modules-container">
+					<AssetOverview key={uuid.v4()} asset={asset} />
+                    <ScoreRadar key={uuid.v4()} asset={asset} />
+			        <AssetScore key={uuid.v4()} title="Team Score" score={score} asset={asset} />
+					<TallTabbedModule title={"Asset Data"} bar={false} key={uuid.v4()} asset={asset} />
+					<TallTabbedModule title={"Data Ranking"} bar={true} key={uuid.v4()} asset={asset} />
+                    <DynamicChart asset={asset} />
+                 	<TwitterFeed key={uuid.v4()} tweets={this.state.tweets} />
+				</div>
+			)
+        } else {
 			return (
 				<div className="modules-container">
-                    <InteractiveChart key={uuid.v4()} />
 					<AssetOverview key={uuid.v4()} asset={asset} />
                     <ScoreRadar key={uuid.v4()} asset={asset} />
 			        <AssetScore key={uuid.v4()} title="Team Score" score={score} asset={asset} />
@@ -241,6 +253,7 @@ var PortfolioDashboard = React.createClass({
 					<Valuation key={uuid.v4()} title={"Forbes Valuation"} asset={asset} />
 				</div>
 			)
+        }
 		}
 		var score = null;
 		var perfScore = null;
@@ -269,6 +282,15 @@ var PortfolioDashboard = React.createClass({
 			extras.push(<DynamicComponent key={component.id} component={component} />)
 		}
 		*/
+        if (location.hostname.indexOf('mcd') > -1) {
+            return (
+                <div className="modules-container">
+				{extras}
+                <InteractiveChart key={uuid.v4()} />
+                </div>
+            )
+
+        } else {
 		return (
 			<div className="modules-container">
 				<PortfolioMap />
@@ -277,8 +299,10 @@ var PortfolioDashboard = React.createClass({
 				<PortfolioSummary />
 				{extras}
 				<Notes dashboard={this.state.dashboard} key={uuid.v4()} />
+
 			</div>
 		)
+        }
     var modules = $.map(dashboardState, function(v, k){
       return this.mapModule(k, v.toggle);
     }.bind(this));
