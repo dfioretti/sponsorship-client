@@ -72,7 +72,7 @@ var InteractiveChart = React.createClass({
 
         var assets = _.keys(this.state.data[this.state.value]);
         return (
-            <Row style={{height: "50px", paddingLeft: "40px" }}>
+            <Row style={{height: "50px", marginLeft: "40px", marginRight: "10px"}}>
                 {assets.map(function(a) {
                     return (
                         <Col key={uuid.v4()} md={2} style={{paddingTop: "13px", marginLeft: "-30px", marginRight: "-65px"}}>
@@ -193,7 +193,7 @@ var InteractiveChart = React.createClass({
                         <DropDownMenu
                             onChange={this.handleDataChange}
                             value={this.state.value}
-                            style={{position: "relative", left: "900px", top: "0px"}}
+                            style={{position: "relative", left: "850px", top: "0px"}}
                             labelStyle={{color: "white", textTransform: "uppercase"}}
                             underlineStyle={{display: "none"}}
                             >

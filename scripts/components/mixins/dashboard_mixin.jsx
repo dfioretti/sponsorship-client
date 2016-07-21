@@ -3,10 +3,10 @@
 var DashboardMixin = {
   setupGrid: function() {
     $('.modules-container').shapeshift({
+      align: "left",
+      minColumns: 3,
       selector: ".dashboard-module",
       handle: ".drag-handle",
-      align: "left",
-      minColumns: 2,
       autoHeight: false,
       gutterX: 20,
       gutterY: 20,
