@@ -26,10 +26,14 @@ var LinearProgress = require('material-ui').LinearProgress;
 var BarChart = require('react-chartjs').Bar;
 var Tooltip = require('recharts').Tooltip;
 var Toolbar = require('material-ui').Toolbar;
+var ToolbarGroup = require('material-ui').ToolbarGroup;
 var Spinner = require('react-spinkit');
 var RadialChart = require('../../components/elements/RadialChart.jsx');
 var ScoreBar = require('../../components/elements/ScoreBar.jsx');
 var MetricTable = require('../../components/elements/MetricTable.jsx');
+var InfoIcon = require('react-icons/lib/md/info-outline');
+var Popover = require('material-ui').Popover;
+var titleize = require('underscore.string/titleize');
 
 var Analytics = React.createClass({
     mixins: [FluxMixin, StoreWatchMixin("AssetsStore", "ScoresStore")],
@@ -38,11 +42,24 @@ var Analytics = React.createClass({
             && !this.getFlux().store("ScoresStore").getState().loading) {
             this.getFlux().actions.loadScores();
         }
+        this.getFlux().actions.setBreadcrumb("Chicago Analysis");
     },
     getInitialState: function() {
         var charts = ["success_score", "fan_score", "reach_score", "alignment_score", "finance_score", "engagement_score"];
 
          return {chart: 'success_score', charts: charts}
+    },
+    handleScoreView: function(event) {
+        event.preventDefault();
+        this.setState({
+            open: true,
+            anchorEl: event.currentTarget
+        })
+    },
+    handleRequestClose: function() {
+        this.setState({
+            open: false,
+        });
     },
     renderTop: function() {
         var settings = {
@@ -141,7 +158,6 @@ var Analytics = React.createClass({
         */
     },
     handleChange: function(e, i, v) {
-        console.log(e.target, i, v)
         this.setState({chart: this.state.charts[i]});
     },
     renderMiddle: function() {
@@ -165,25 +181,59 @@ var Analytics = React.createClass({
             });
         });
         rankings = _.sortBy(rankings, 'score').reverse();
+        var currentScore;
+        var name = titleize(this.state.chart.split("_").join(" "));
+        _.each(this.state.scoreState.scores, function(score) {
+            if (score.name == name) {
+                 currentScore = score;
+            }
+        });
         var i = 0;
+        console.log("Score", currentScore);
         return (
              <Row style={{marginTop: "20px"}}>
                 <Col md={8}>
                     <Paper zDepth={4} style={{backgroundColor: "white", margin: "0px"}}>
                     <Toolbar style={{backgroundColor: "#4861A6", color: "white"}}className="toolbar">
                         <ToolbarTitle text="Property Scores" />
+                        <ToolbarGroup lastChild={true} >
+                        <Popover
+                            open={this.state.open}
+                            anchorEl={this.state.anchorEl}
+                            anchorOrigin={{"horizontal":"left","vertical":"bottom"}}
+                            targetOrigin={{"horizontal":"right","vertical":"top"}}
+                            onRequestClose={this.handleRequestClose}
+                            style={{backgroundColor: "rgba(10, 10, 10, 0.2)", top: "500px"}}
+                            >
+                            <div style={{height: "510px", width: "765px",  display: 'flex', justifyContent: 'center', backgroundColor: "rgba(10, 10, 10, 0.0)"}}>
+                                <img style={{height: "510px", width: "510px" }}src={currentScore.image} />
+                            </div>
+                        </Popover>
+
                         <DropDownMenu value={this.state.chart} onChange={this.handleChange} labelStyle={{color: "white"}}>
                         {this.state.charts.map(function(i) {
                             return (
                                 <MenuItem
                                     value={i}
-                                    primaryText={i}
+                                    primaryText={i.split("_").join(" ")}
                                     key={i}
                                     style={{textTransform: 'uppercase'}}
                                 />
                             )
                         }.bind(this))}
                         </DropDownMenu>
+                        <div style={{cursor: "pointer", marginTop: "15px",marginLeft: "-20px", marginRight: "5px"}} ref='target' onClick={this.handleScoreView}>
+                            <InfoIcon
+                            style={{
+                                color: "#e76959",
+                                cursor: "pointer",
+                                height: "20px",
+                                width: "20px",
+                                pointerEvents: "none"
+                            }}
+                            />
+                        </div>
+                    </ToolbarGroup>
                     </Toolbar>
                     <div style={{height: "550px"}}>
                         <ScoreBar assets={this.state.assetState.assets} metric={this.state.chart} />
@@ -226,7 +276,6 @@ var Analytics = React.createClass({
         };
     },
     render: function() {
-        console.log("logg", this.state);
         if (!this.state.assetState.assetsLoaded || !this.state.scoreState.scoresLoaded) {
             return (
             <div className=''>

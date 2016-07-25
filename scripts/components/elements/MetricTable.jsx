@@ -85,6 +85,7 @@ var MetricTable = React.createClass({
         _.each(scoreNames, function(score) {
              scoreOptions[score] = score;
         })
+        console.log("SCORE OPT", scoreOptions);
 
         return { data: data, metricOptions: metricOptions, assetOptions: assetOptions, scoreOptions: scoreOptions }
     },
@@ -139,9 +140,7 @@ var MetricTable = React.createClass({
         );
     },
     formatScore: function(cell, row) {
-        console.log("pre", cell, row);
         var icon = 'images/metrics/' + cell.split(" ").join("_").toLowerCase() + '.png';
-        console.log("icon" , icon);
 
         return (
             <ListItem
@@ -211,7 +210,7 @@ var MetricTable = React.createClass({
                 </TableHeaderColumn>
                 <TableHeaderColumn
                     dataField="score"
-                    filter={{type: "SelectFilter", options: this.state.scoreOptions}}
+                    filter={{type: "SelectFilter", options: this.state.scoreOptions, defaultValue: "Team Score"}}
                     dataSort={true}
                     width="100"
                     dataFormat={this.formatScore}

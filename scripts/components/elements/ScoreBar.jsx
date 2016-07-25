@@ -27,6 +27,9 @@ var CustomizedLabel = React.createClass({
 
 
 var ScoreBar = React.createClass({
+    getInitialState: function() {
+        return { metric: this.props.metric }
+    },
     buildData: function(assets, metric) {
         var data = [];
         var metricFormat = titleize(metric.split("_").join(" "));
@@ -48,6 +51,9 @@ var ScoreBar = React.createClass({
             data.push(input);
         });
         return data;
+    },
+    shouldComponentUpdate: function(nextProps, nextState) {
+        return nextProps.metric != this.props.metric;
     },
     render: function() {
         var rawData = this.buildData(this.props.assets, this.props.metric);
