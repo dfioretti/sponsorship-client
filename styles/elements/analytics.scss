@@ -11,14 +11,46 @@
 }
 
 .analytics {
-    //background-color: "#fff";
+    background-color: $dark-blue;
     margin-left: 256px;
+    padding: 25px;
+    .slick-prev {
+        margin-left: 20px;
+    }
+    .slick-next {
+        margin-right: 20px;
+    }
+    .slick-dots {
+        bottom: -30px;
+    }
+    .react-grid-HeaderCell {
+        background-color: "blue";
+    }
+    .react-datagrid > .z-inner {
+        flex :1 0 auto; 
+    }
+
+}
+
+#my-grid {
+    text-align: center;
+    font-family: 'Avenir-Book';
+    height: 500px;
     padding: 20px;
+    .react-grid-HeaderCell {
+        background: $light-grey;
+        padding-top: 5px;
+    }
+    .react-grid-Cell {
+        text-align: center;
+        padding-left: 10px;
+    }
 }
 
 .dash-top {
     height: 50px;
     background-color: "green";
 }
+
 
 // <div style={{margin: "0 auto", padding: "40px", width: "95%", height: "400px", color: "#333", background: "#419be0"}}>

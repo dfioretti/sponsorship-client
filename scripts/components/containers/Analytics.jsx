@@ -29,6 +29,7 @@ var Toolbar = require('material-ui').Toolbar;
 var Spinner = require('react-spinkit');
 var RadialChart = require('../../components/elements/RadialChart.jsx');
 var ScoreBar = require('../../components/elements/ScoreBar.jsx');
+var MetricTable = require('../../components/elements/MetricTable.jsx');
 
 var Analytics = React.createClass({
     mixins: [FluxMixin, StoreWatchMixin("AssetsStore")],
@@ -90,12 +91,26 @@ var Analytics = React.createClass({
                 {
                     key: 'value',
                     name: 'Value'
-                }
+               }
             ];
             var rowGetter = function(i) {
                  return data[i];
             };
 
+            return (
+                <Row style={{marginTop: "20px"}}>
+                    <Col md={12}>
+                        <Paper zDepth={4} style={{backgroundColor: "white", margin: "0px"}}>
+                            <Toolbar style={{backgroundColor: "#4861A6", color: "white"}}className="toolbar">
+                                <ToolbarTitle text="Property Data" />
+                            </Toolbar>
+                            <MetricTable assets={this.state.assets} />
+                        </Paper>
+                    </Col>
+                </Row>
+            )
+        }
+/*
             return (
                 <Row style={{backgroundColor: "blue"}}>
                     <Col md={12}>
@@ -117,6 +132,7 @@ var Analytics = React.createClass({
                 </Row>
             )
         }
+        */
     },
     handleChange: function(e, i, v) {
         console.log(e.target, i, v)
@@ -143,15 +159,15 @@ var Analytics = React.createClass({
             });
         });
         rankings = _.sortBy(rankings, 'score').reverse();
+        var i = 0;
         return (
              <Row style={{marginTop: "20px"}}>
                 <Col md={8}>
                     <Paper zDepth={4} style={{backgroundColor: "white", margin: "0px"}}>
-                    <Toolbar style={{backgroundColor: "#208089"}}className="toolbar">
+                    <Toolbar style={{backgroundColor: "#4861A6", color: "white"}}className="toolbar">
                         <ToolbarTitle text="Property Scores" />
-                        <DropDownMenu value={this.state.chart} onChange={this.handleChange}>
+                        <DropDownMenu value={this.state.chart} onChange={this.handleChange} labelStyle={{color: "white"}}>
                         {this.state.charts.map(function(i) {
-                            console.log("iter", i);
                             return (
                                 <MenuItem
                                     value={i}
@@ -163,12 +179,14 @@ var Analytics = React.createClass({
                         }.bind(this))}
                         </DropDownMenu>
                     </Toolbar>
+                    <div style={{height: "550px"}}>
                         <ScoreBar assets={this.state.assets} metric={this.state.chart} />
+                    </div>
                     </Paper>
                 </Col>
                 <Col md={4}>
                     <Paper zDepth={4} style={{backgroundColor: "white", margin: "0px"}}>
-                        <Toolbar style={{backgroundColor: "#208089"}} className="toolbar">
+                        <Toolbar style={{backgroundColor: "#4861A6"}} className="toolbar">
                             <ToolbarTitle text="Property Ranking" />
                         </Toolbar>
                         <Table height={"550px"}>
@@ -177,10 +195,14 @@ var Analytics = React.createClass({
                             >
                                 {rankings.map(function(r) {
                                     return (
-                                         <TableRow key={r.id}>
-                                            <TableRowColumn style={{width: "50px"}}><Avatar src={r.image} /></TableRowColumn>
-                                            <TableRowColumn style={{width: "100px"}}>{r.name}</TableRowColumn>
-                                            <TableRowColumn style={{width: "100px"}}><LinearProgress style={{height: "10px"}}mode="determinate" value={r.score * 100}/></TableRowColumn>
+                                         <TableRow key={r.id} style={{fontFamily: "Avenir-Book"}}>
+                                            <TableRowColumn style={{paddingLeft: "10px", paddingRight: "10px", width: "15px"}}>#{++i}</TableRowColumn>
+                                            <TableRowColumn style={{paddingLeft: "10px", paddingRight: "10px", width: "30px"}}><Avatar src={r.image} /></TableRowColumn>
+                                            <TableRowColumn style={{paddingLeft: "10px", paddingRight: "10px", width: "60px"}}>{r.name}</TableRowColumn>
+                                            <TableRowColumn style={{paddingLeft: "10px", paddingRight: "10px", width: "100px"}}>
+                                                <LinearProgress color="#208089" style={{marginTop: "15px", height: "15px"}}mode="determinate" value={r.score * 100}/>
+                                                <p style={{position: "relative", display: "inline", color: "white", left: "85px", top: "-17.5px"}}>{Math.round(r.score * 100.0)}</p>
+                                            </TableRowColumn>
                                         </TableRow>
                                     )
                                 })}

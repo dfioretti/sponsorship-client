@@ -10,6 +10,7 @@ var Legend = require('recharts').Legend;
 var Tooltip = require('recharts').Tooltip;
 var titleize = require('underscore.string/titleize');
 var Avatar = require('material-ui').Avatar;
+var ResponsiveContainer = require('recharts').ResponsiveContainer;
 
 var CustomizedLabel = React.createClass({
     getValueOfLabel: function() {
@@ -53,14 +54,17 @@ var ScoreBar = React.createClass({
         var metricFormat = titleize(this.props.metric.split("_").join(" "));
 
         return (
-            <ComposedChart margin={{top: 40, right: 10, bottom: 30, left: 10}}width={900} height={550} data={rawData}>
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey={metricFormat} barSize={50} fill="#208089" />
-                <Line type="monotone" dataKey="Team Score" strokeWidth={4} stroke="#8671C3" />
-            </ComposedChart>
+            <ResponsiveContainer>
+                <ComposedChart width={900} height={550} data={rawData}
+                    margin={{top: 20, right: 20, bottom: 20, left: 20}} >
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey={metricFormat} barSize={50} fill="#2F4B98" />
+                    <Line type="monotone" dataKey="Team Score" strokeWidth={4} stroke="#8671C3" />
+                </ComposedChart>
+            </ResponsiveContainer>
         )
     }
 });
