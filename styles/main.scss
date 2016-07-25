@@ -6,6 +6,9 @@
 //@import 'node/react-select';
 @import '../bower_components/foundation/scss/foundation/_functions.scss';
 @import '../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss';
+@import '../bower_components/slick-carousel/slick/slick.scss';
+@import '../bower_components/slick-carousel/slick/slick-theme.scss';
+
 @import './import/application.scss';
 @import url(https://fonts.googleapis.com/css?family=Raleway:700,400);
 
@@ -14,6 +17,7 @@
 @import 'pages/overview-content';
 @import 'elements/elements';
 @import 'elements/navigation';
+@import 'elements/analytics';
 @import 'flipcard';
 //@import 'elements/flipper';
 

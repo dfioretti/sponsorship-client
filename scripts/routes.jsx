@@ -14,6 +14,7 @@ var CreateAccount = require('./components/session/CreateAccount.react.jsx');
 var PasswordRecovery = require('./components/session/PasswordRecovery.react.jsx');
 var ResetPassword = require('./components/session/ResetPassword.react.jsx');
 var EditorComponent = require('./components/editors/editor_component.jsx');
+var Analytics = require('./components/containers/Analytics.jsx');
 var DashboardHome = require('./components/dashboards/dashboard_home.jsx');
 var UsersIndex = require('./components/session/UsersIndex.jsx');
 var EditorScore = require('./components/editors/EditorScore.jsx');
@@ -38,6 +39,7 @@ module.exports = (
     <Route name='home' handler={HomePage} path='home' />
     <Route name='dashboard_index' handler={DashboardIndex} path="dashboard_index" />
     <Route name='account_login' handler={AccountLogin} path='account_login' />
+    <Route name='analytics' handler={Analytics} path="analytics" />
     <Route name='create_account' handler={CreateAccount} path='create_account' />
     <Route name='password_recovery' handler={PasswordRecovery} path='password_recovery' />
     <Route name='reset_password' handler={ResetPassword} path='reset_password' />
