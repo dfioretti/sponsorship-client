@@ -152,6 +152,7 @@ var MetricTable = React.createClass({
         )
     },
     formatNumber: function(cell, row) {
+        if (cell == null) return "";
         var number = parseFloat(cell.toString() );
         var text = cell.toString();
         // has decimal
