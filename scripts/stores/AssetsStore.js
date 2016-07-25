@@ -32,6 +32,12 @@ var Fluxxor = require("fluxxor"),
             }
           }
         },
+        getAssetData: function() {
+            return {
+                assetsLoaded: this.assetsLoaded,
+                assets: this.assets
+            }
+        },
         getState: function() {
             return {
                 assets: this.assets,

@@ -36,7 +36,7 @@
     text-align: center;
     font-family: 'Avenir-Book';
     height: 500px;
-    padding: 20px;
+    padding: 0px;
     .react-grid-HeaderCell {
         background: $light-grey;
         padding-top: 5px;
@@ -44,6 +44,27 @@
     .react-grid-Cell {
         text-align: center;
         padding-left: 10px;
+    }
+    .react-bs-container-header.table-header-wrapper {
+        padding: 0px;
+        font-family: 'Avenir-Book';
+    }
+    .react-bs-container-body {
+        padding: 0px;
+        font-family: 'Avenir-Book';
+    }
+    *, :after, :before {
+        font-family: 'Avenir-Book';
+    }
+    .react-bs-table-search-form {
+        color: $light-blue;
+    }
+    .company-detail .details-subnav .filters .filters-search-input, .details-subnav .filters .filters-search-input, .filters.filters-search-form .filters-search-input, .form-control {
+        border-radius: 0px;
+        border: 0px;
+    }
+    .filter .select-filter .form-control .placeholder-selected {
+        color: "green";
     }
 }
 

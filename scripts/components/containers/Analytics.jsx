@@ -32,7 +32,13 @@ var ScoreBar = require('../../components/elements/ScoreBar.jsx');
 var MetricTable = require('../../components/elements/MetricTable.jsx');
 
 var Analytics = React.createClass({
-    mixins: [FluxMixin, StoreWatchMixin("AssetsStore")],
+    mixins: [FluxMixin, StoreWatchMixin("AssetsStore", "ScoresStore")],
+    componentWillMount: function() {
+        if (!this.getFlux().store("ScoresStore").getState().scoresLoaded
+            && !this.getFlux().store("ScoresStore").getState().loading) {
+            this.getFlux().actions.loadScores();
+        }
+    },
     getInitialState: function() {
         var charts = ["success_score", "fan_score", "reach_score", "alignment_score", "finance_score", "engagement_score"];
 
@@ -59,7 +65,7 @@ var Analytics = React.createClass({
         return (
             <Row>
                 <Slider {...settings}>
-                {this.state.assets.map(function(a) {
+                {this.state.assetState.assets.map(function(a) {
                     return (
                         <Col key={a.id} md={4}>
                             <Paper key={a.id} style={paperStyle} zDepth={5}>
@@ -73,7 +79,7 @@ var Analytics = React.createClass({
         );
     },
     renderBottom: function() {
-        if (this.state.assetsLoaded) {
+        if (this.state.assetState.assetsLoaded) {
             var data = this.getFlux().store("AssetsStore").getState().assets[0].metrics;
             var columns = [
                 {
@@ -104,7 +110,7 @@ var Analytics = React.createClass({
                             <Toolbar style={{backgroundColor: "#4861A6", color: "white"}}className="toolbar">
                                 <ToolbarTitle text="Property Data" />
                             </Toolbar>
-                            <MetricTable assets={this.state.assets} />
+                            <MetricTable assets={this.state.assetState.assets} scores={this.state.scoreState.scores} />
                         </Paper>
                     </Col>
                 </Row>
@@ -140,8 +146,8 @@ var Analytics = React.createClass({
     },
     renderMiddle: function() {
         var assets = [];
-        if (this.state.assetsLoaded) {
-             assets = this.state.assets;
+        if (this.state.assetState.assetsLoaded) {
+             assets = this.state.assetState.assets;
         }
         var rankings = [];
         _.each(assets, function(a) {
@@ -180,7 +186,7 @@ var Analytics = React.createClass({
                         </DropDownMenu>
                     </Toolbar>
                     <div style={{height: "550px"}}>
-                        <ScoreBar assets={this.state.assets} metric={this.state.chart} />
+                        <ScoreBar assets={this.state.assetState.assets} metric={this.state.chart} />
                     </div>
                     </Paper>
                 </Col>
@@ -214,10 +220,14 @@ var Analytics = React.createClass({
         )
     },
     getStateFromFlux: function() {
-         return this.getFlux().store("AssetsStore").getState();
+        return {
+            assetState: this.getFlux().store("AssetsStore").getAssetData(),
+            scoreState: this.getFlux().store("ScoresStore").getScoreData()
+        };
     },
     render: function() {
-        if (!this.state.assetsLoaded) {
+        console.log("logg", this.state);
+        if (!this.state.assetState.assetsLoaded || !this.state.scoreState.scoresLoaded) {
             return (
             <div className=''>
 		        <div style={{marginTop: "20%", display: 'flex', justifyContent: 'center'}}>

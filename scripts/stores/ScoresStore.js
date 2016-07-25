@@ -26,6 +26,12 @@ var Fluxxor = require("fluxxor"),
                 loading: this.loading
             }
         },
+        getScoreData: function() {
+            return {
+                scoresLoaded: this.scoresLoaded,
+                scores: this.scores
+            }
+        },
         getScore: function(sid) {
           for (var i = 0; i < this.scores.length; i++) {
             if (this.scores[i].id == sid) {
