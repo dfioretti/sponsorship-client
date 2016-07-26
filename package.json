@@ -57,6 +57,7 @@
     "object-assign": "^4.0.1",
     "pace": "0.0.4",
     "pubsub-js": "^1.5.3",
+    "pusher-js": "^3.1.0",
     "react": "^0.14.0",
     "react-addons-pure-render-mixin": "^0.14.7",
     "react-big-calendar": "^0.9.8",

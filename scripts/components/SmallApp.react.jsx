@@ -16,9 +16,9 @@ var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 var injectTapEventPlugin = require('react-tap-event-plugin');
 var SideNavigation = require('./sidebar/SideNavigation.jsx');
 var TopNavigation = require('./sidebar/TopNavigation.jsx');
+var Pusher = require('pusher-js');
 window.Auth = Auth;
 var AlertManager = require('./common/AlertManager.jsx');
-
 injectTapEventPlugin();
 
 const LoggedOutPaths = [
@@ -45,9 +45,25 @@ var SmallApp = React.createClass({
   mixins: [ Navigation ],
 
   getInitialState: function() {
-    return { loaded: false }
+    var flux = new Fluxxor.Flux(stores, actions);
+    window.flux = flux;
+      if (location.href.indexOf('localhost') > -1) {
+      flux.on("dispatch", function(type, payload) {
+        console.log("[Dispatch]", type, payload);
+      });
+    }
+    return { loaded: false , flux: flux }
   },
   componentWillMount: function() {
+    Pusher.logToConsole = true;
+    var pusher = new Pusher('bf8bd8741c0f6755705c', {
+        encrypted: true
+    });
+
+    var channel = pusher.subscribe('score_engine');
+    channel.bind('score_updated_event', function(data) {
+        this.state.flux.actions.showAlert(data.message);
+    }.bind(this));
     Auth.configure({
       apiUrl: API_ROOT + "api/v1",
       passwordResetSuccessUrl: function() {
@@ -124,13 +140,6 @@ var SmallApp = React.createClass({
       paddingTop: "0px"
     }
 
-    var flux = new Fluxxor.Flux(stores, actions);
-    window.flux = flux;
-      if (location.href.indexOf('localhost') > -1) {
-      flux.on("dispatch", function(type, payload) {
-        console.log("[Dispatch]", type, payload);
-      });
-    }
     //flux.actions.loadDashboard();
     //flux.actions.loadComponents();
     //flux.actions.loadScores();
@@ -140,10 +149,10 @@ var SmallApp = React.createClass({
     //
     return (
       <div id="main" style={style}>
-        <SideNavigation {...this.props} flux={flux} />
-        <TopNavigation {...this.props} flux={flux} />
-        <RouteHandler {...this.props} flux={flux} />
-        <AlertManager {...this.props} flux={flux} />
+        <SideNavigation {...this.props} flux={this.state.flux} />
+        <TopNavigation {...this.props} flux={this.state.flux} />
+        <RouteHandler {...this.props} flux={this.state.flux} />
+        <AlertManager {...this.props} flux={this.state.flux} />
       </div>
     );
   }
