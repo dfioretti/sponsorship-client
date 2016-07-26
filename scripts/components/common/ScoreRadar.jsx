@@ -73,8 +73,13 @@ var ScoreRadar = React.createClass({
                     //fillColor: "#50e3c2",
                     //fillColor: "rgba(220, 220, 220, 0.4)",
                     //strokeColor: "rgba(220, 220, 220, 0.2)",
-                    fillColor: colors[2],
-                    strokeColor: colors[2],
+                    fillColor: "rgba(26, 54, 127, 0.3)",
+                    strokeColor: "#250D67",
+                    pointColor: "#250D67",
+                    pointStrokeColor: "#6F85C1",
+
+                   // fillColor: colors[2],
+                   // strokeColor: colors[2],
                     data: points
                 }
             ]

@@ -50,10 +50,10 @@ var DynamicChart = React.createClass({
             datasets: [
                 {
                     data: this.state.dataSets[this.state.index],
-                    fillColor: "rgba(172, 194, 132, 0.2)",
-                    strokeColor: "#ACC26D",
-                    pointColor: "#fff",
-                    pointStrokeColor: "#9DB86D"
+                    fillColor: "rgba(26, 54, 127, 0.2)",
+                    strokeColor: "#250D67",
+                    pointColor: "#250D67",
+                    pointStrokeColor: "#6F85C1"
                 }
             ]
         }

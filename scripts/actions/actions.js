@@ -251,6 +251,9 @@ actions = {
       this.dispatch(constants.LOAD_DASHBOARDS_FAIL);
     });
   },
+  resetAnalytics: function() {
+      this.dispatch(constants.RESET_ANALYTICS);
+  },
   resetComponentEditor: function() {
     this.dispatch(constants.RESET_COMPONENT_EDITOR);
   },

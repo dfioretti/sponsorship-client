@@ -18,8 +18,23 @@ var AnalyticsStore = Fluxxor.createStore({
         this.bindActions(
             constants.LOAD_SCORES_SUCCESS, this.onLoadScoresSuccess,
             constants.LOAD_ASSETS_SUCCESS, this.onLoadAssetsSuccess,
-            constants.LOAD_SCORE_METRICS_SUCCESS, this.onLoadScoreMetricsSuccess
+            constants.LOAD_SCORE_METRICS_SUCCESS, this.onLoadScoreMetricsSuccess,
+            constants.RESET_ANALYTICS, this.onResetAnalytics
         );
+    },
+    onResetAnalytics: function() {
+        this.scoresLoaded = false;
+        this.assetsLoaded = false;
+        this.chartDataLoaded = false;
+        this.scoreMetricsLoaded = false;
+        this.assets = {};
+        this.scores = {};
+        this.scoreMetrics = {};
+        this.chartData = [];
+        this.assetOptions = {};
+        this.scoreOptions = {};
+
+        this.emit("change");
     },
     onLoadScoresSuccess: function(payload) {
         var scores = payload.scores;
