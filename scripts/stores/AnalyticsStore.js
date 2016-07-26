@@ -24,19 +24,13 @@ var AnalyticsStore = Fluxxor.createStore({
     },
     onResetAnalytics: function() {
         this.scoresLoaded = false;
-        this.assetsLoaded = false;
         this.chartDataLoaded = false;
         this.scoreMetricsLoaded = false;
-        this.assets = {};
-        this.scores = {};
-        this.scoreMetrics = {};
-        this.chartData = [];
-        this.assetOptions = {};
-        this.scoreOptions = {};
 
         this.emit("change");
     },
     onLoadScoresSuccess: function(payload) {
+        var oldScores = this.scores;
         var scores = payload.scores;
         _.each(scores, function(score) {
             this.scores[score['name']] = score;
@@ -83,55 +77,50 @@ var AnalyticsStore = Fluxxor.createStore({
             var scores = {};
             var scoreNames = [];
             var metricNames = [];
-            _.each(this.scores, function(score) {
-                var scoreName = score.name;
-                scoreNames.push(score.name);
-                _.each(score.score.nodeDataArray, function(node) {
-                    var parent = _.findWhere(score.score.nodeDataArray, { key: node.parent });
-                    var display = "";
-                    if (parent != null && typeof(parent) != 'undefined') {
-                        display = parent.component;
-                    }
-                    metricNames.push(node.dataname);
-                    scores[node.dataname] = {
-                        score: scoreName,
-                        weight: node.weight,
-                        group: display
-                    }
-                });
-            });
             var assetOptions = {};
             var metricOptions = {};
             var scoreOptions = {};
             var assetNames = [];
             var data = [];
-            _.each(this.scoreMetrics, function(metric) {
-                if (metric.metric != 'team_score') {
+
+            var scoreData = {};
+            _.each(this.scores, function(score) {
+                scoreOptions[score.name] = score.name;
+                _.each(score.score.nodeDataArray, function(node) {
+                    if (node.mode == 'value') {
+                        node['scoreName'] = score.name;
+                        scoreData[node.dataname] = node;
+                    } else {
+                        if (!_.has(scoreData, score.name)) {
+                            scoreData[score.name] = {};
+                        }
+                        scoreData[score.name][node.key] = node.component;
+                    }
+                });
+            });
+            _.each(this.scoreMetrics, function(m) {
+                if (m.metric != 'team_score') {
+                    var entityName = titleize(m.entity_key.split("_").join(" "));
+                    var scoreName = scoreData[m.metric].scoreName;
+                    assetOptions[entityName] = entityName;
                     var entry = {
-                        id: metric.id,
-                        entity_key: this.assets[metric.entity_key].name,
-                        source: metric.source,
-                        metric: metric.metric,
-                        value: metric.value,
-                        icon: metric.icon,
-                        norm_value: metric.norm_value,
-                        rank: metric.rank,
-                        entity_image: this.assets[metric.entity_key].image_url,
-                        score: scores[metric.metric].score,
-                        weight: scores[metric.metric].weight,
-                        group: scores[metric.metric].group
+                        id: m.id,
+                        entity_key: entityName,
+                        source: m.source,
+                        metric: m.metric,
+                        value: m.value,
+                        icon: m.icon,
+                        norm_value: m.norm_value,
+                        rank: (m.rank * 100),
+                        entity_image: this.assets[m.entity_key].image_url,
+                        score: scoreName,
+                        weight: scoreData[m.metric].weight,
+                        group: scoreData[scoreName][scoreData[m.metric].parent],
                     }
                     data.push(entry);
                 }
-            }.bind(this))
+            }.bind(this));
 
-            _.each(_.keys(this.assets), function(key) {
-                var fmt = titleize(key.split("_").join(" "));
-                 assetOptions[fmt] = fmt;
-            })
-            _.each(scoreNames, function(score) {
-                 scoreOptions[score] = score;
-            })
             this.chartData = data;
             this.assetOptions = assetOptions;
             this.scoreOptions = scoreOptions;

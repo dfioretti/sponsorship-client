@@ -30,33 +30,28 @@ var ScoreBar = React.createClass({
     getInitialState: function() {
         return { metric: this.props.metric }
     },
-    buildData: function(assets, metric) {
+    buildData: function() {
         var data = [];
-        var metricFormat = titleize(metric.split("_").join(" "));
-        _.each(assets, function(a) {
+        var metricFormat = titleize(this.props.metric.split("_").join(" "));
+        var entity_keys = _.keys(this.props.assets);
+        _.each(entity_keys, function(key) {
             var input = {};
-            input['name'] = a.name.split(" ").pop(-1);
-            input[metricFormat] = null;
-            input['Team Score'] = null;
-            _.each(a.metrics, function(m) {
-                if (m.source == 'score') {
-                    if (m.metric == metric) {
-                        input[metricFormat] = Math.round(m.value * 100.0, 2);
-                    }
-                    if (m.metric == 'team_score') {
-                        input['Team Score'] = Math.round(m.value * 100.0, 2);
-                    }
-                }
-            })
+            if (key.indexOf('ncaa' != -1)) {
+                input['name'] = titleize(key.split("_").slice(0, 1)[0] + key.charAt(key.length - 1))
+            } else {
+                input['name'] = titleize(key.split("_").join(" "));
+            }
+            input[metricFormat] = Math.round(this.props.scoreMetrics[this.props.metric + "_" + key].value * 100);
+            input['Team Score'] = Math.round(this.props.scoreMetrics['team_score_' + key].value * 100);
             data.push(input);
-        });
+        }.bind(this));
         return data;
     },
     shouldComponentUpdate: function(nextProps, nextState) {
         return nextProps.metric != this.props.metric;
     },
     render: function() {
-        var rawData = this.buildData(this.props.assets, this.props.metric);
+        var rawData = this.buildData();
         var metricFormat = titleize(this.props.metric.split("_").join(" "));
 
         return (

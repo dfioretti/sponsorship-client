@@ -101,7 +101,6 @@ var MetricTable = React.createClass({
     },
     formatScore: function(cell, row) {
         var icon = 'images/metrics/' + cell.split(" ").join("_").toLowerCase() + '.png';
-
         return (
             <ListItem
                 leftAvatar={<Avatar src={icon} backgroundColor="#fff" />}
@@ -129,8 +128,9 @@ var MetricTable = React.createClass({
         return (
         <div id="my-grid">
             <BootstrapTable
+                pagination={true}
                 data={this.props.data}
-                height={"450"}
+                height={"420"}
                 hover={true}
                 bordered={false}
                 condensed={false}

@@ -39,15 +39,10 @@ var titleize = require('underscore.string/titleize');
 var Analytics = React.createClass({
     mixins: [FluxMixin, StoreWatchMixin("AnalyticsStore")],
     componentWillMount: function() {
-        console.log("will mount");
         var state = this.getFlux().store("AnalyticsStore").getState();
         if (!state.scoresLoaded) this.getFlux().actions.loadScores();
         if (!state.assetsLoaded) this.getFlux().actions.loadAssets();
         if (!state.scoreMetricsLoaded) this.getFlux().actions.loadScoreMetrics();
-    },
-    componentWillUnmount: function() {
-        this.getFlux().actions.resetAnalytics();
-        console.log("WILL UNMOUNT");
     },
     getInitialState: function() {
         var charts = ["team_score", "success_score", "fan_score", "reach_score", "alignment_score", "finance_score", "engagement_score"];
@@ -175,7 +170,7 @@ var Analytics = React.createClass({
                     </ToolbarGroup>
                     </Toolbar>
                     <div style={{height: "550px"}}>
-                        <ScoreBar assets={this.state.assets} metric={this.state.chart} />
+                        <ScoreBar assets={this.state.assets} metric={this.state.chart} scoreMetrics={this.state.scoreMetrics} />
                     </div>
                     </Paper>
                 </Col>
