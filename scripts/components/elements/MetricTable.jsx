@@ -14,19 +14,7 @@ var SORT_INFO = [ { name: 'entity_key', dir: 'asc' } ]
 var titleize = require('underscore.string/titleize');
 var numberFormat = require('underscore.string/numberFormat');
 
-function sort(arr) {
-    return sorty(SORT_INFO, arr)
-}
-
-//var data = [];
-//var originalData = [];
-//var columns = [];
-
 var MetricTable = React.createClass({
-    //mixins: [ FluxMixin, StoreWatchMixin("ScoresStore") ],
-    //getStateFromFlux: function() {
-    //    return this.getFlux().store("ScoresStore").getState();
-    //},
     getInitialState: function() {
         var scores = {};
         var scoreNames = [];
@@ -40,7 +28,6 @@ var MetricTable = React.createClass({
                 if (parent != null && typeof(parent) != 'undefined') {
                     display = parent.component;
                 }
-
                 metricNames.push(node.dataname);
                 scores[node.dataname] = {
                     score: scoreName,
@@ -54,65 +41,38 @@ var MetricTable = React.createClass({
         var scoreOptions = {};
         var assetNames = [];
         var data = [];
-        _.each(this.props.assets, function(asset) {
-            assetNames.push(asset.name);
-            _.each(asset.metrics, function(metric) {
-                if (_.has(scores, metric.metric)) {
-                    var entry = {
-                        id: metric.id,
-                        entity_key: asset.name,
-                        source: metric.source,
-                        metric: metric.metric,
-                        value: metric.value,
-                        icon: metric.icon,
-                        norm_value: metric.norm_value,
-                        rank: metric.rank,
-                        entity_image: asset.image_url,
-                        score: scores[metric.metric].score,
-                        weight: scores[metric.metric].weight,
-                        group: scores[metric.metric].group
-                    }
-                    data.push(entry);
+       console.log("scores", scores);
+        _.each(this.props.metrics, function(metric) {
+            console.log("met dt", metric);
+            if (metric.metric != 'team_score') {
+                var entry = {
+                    id: metric.id,
+                    entity_key: this.props.assets[metric.entity_key].name,
+                    source: metric.source,
+                    metric: metric.metric,
+                    value: metric.value,
+                    icon: metric.icon,
+                    norm_value: metric.norm_value,
+                    rank: metric.rank,
+                    entity_image: this.props.assets[metric.entity_key].image_url,
+                    score: scores[metric.metric].score,
+                    weight: scores[metric.metric].weight,
+                    group: scores[metric.metric].group
                 }
-            })
-        });
-        _.each(assetNames, function(name) {
-             assetOptions[name] = name;
-        })
-        _.each(metricNames, function(metric) {
-             metricOptions[metric] = metric;
+                data.push(entry);
+            }
+        }.bind(this))
+
+        _.each(_.keys(this.props.assets), function(key) {
+            var fmt = titleize(key.split("_").join(" "));
+             assetOptions[fmt] = fmt;
         })
         _.each(scoreNames, function(score) {
              scoreOptions[score] = score;
         })
-        console.log("SCORE OPT", scoreOptions);
 
         return { data: data, metricOptions: metricOptions, assetOptions: assetOptions, scoreOptions: scoreOptions }
     },
-    handleSortChange: function(sortInfo) {
-        SORT_INFO = sortInfo;
-        data = [].concat(this.state.data)
-        data = sort(data)
-        this.setState({data: data})
-    },
-    handleFilter: function(column, value, allFilterValues){
-        // todo - need original copy of data...
-        var newData = [].concat(this.state.originalData);
-
-        Object.keys(allFilterValues).forEach(function(name){
-            var columnFilter = (allFilterValues[name] + '').toUpperCase()
-            if (columnFilter == ''){
-                return
-            }
-            newData = newData.filter(function(item){
-                if ((item[name] + '').toUpperCase().indexOf(columnFilter) === 0){
-                    return true
-                }
-            })
-        })
-
-	    this.setState({ data: newData })
-	},
     formatEntity: function(cell, row) {
         return (
             <ListItem
@@ -190,7 +150,7 @@ var MetricTable = React.createClass({
                     filter={{type: "SelectFilter", options: this.state.assetOptions}}
                     dataSort={true}
                     dataFormat={this.formatEntity}
-                    width="100"
+                    width="120"
                     >Property
                 </TableHeaderColumn>
                 <TableHeaderColumn
@@ -198,7 +158,7 @@ var MetricTable = React.createClass({
                     filter={{type: "TextFilter", placeholder: 'Filter'}}
                     dataSort={true}
                     dataFormat={this.formatMetric}
-                    width="100"
+                    width="120"
                     >Data Point
                 </TableHeaderColumn>
                 <TableHeaderColumn
@@ -212,7 +172,7 @@ var MetricTable = React.createClass({
                     dataField="score"
                     filter={{type: "SelectFilter", options: this.state.scoreOptions, defaultValue: "Team Score"}}
                     dataSort={true}
-                    width="100"
+                    width="110"
                     dataFormat={this.formatScore}
                     >Property Score
                 </TableHeaderColumn>
@@ -233,6 +193,7 @@ var MetricTable = React.createClass({
                 <TableHeaderColumn
                     dataField="norm_value"
                     dataSort={true}
+                    hidden={true}
                     dataFormat={this.formatNumber}
                     width="50"
                     >Normalized

@@ -8,7 +8,7 @@ var titleize = require('underscore.string/titleize');
 var Avatar = require('material-ui').Avatar;
 
 var RadialChart = React.createClass({
-    buildData: function(asset) {
+    buildData: function() {
         var colors = [
             "#2F4B98",
             "#4C309B",
@@ -19,16 +19,20 @@ var RadialChart = React.createClass({
         ];
         var data = [];
         var i = 0;
-        _.each(asset.metrics, function(m) {
-            if (m.source == 'score' && m.metric != 'team_score') {
-                data.push({
-                    name: titleize(m.metric.split("_").join(" ")),
-                    uv: Math.round((m.value * 100)),
-                    fill: colors[i]
-                })
+        _.each(this.props.metricKeys, function(key) {
+            if (key != 'team_score') {
+                var mKey = key + "_" + this.props.asset.entity_key;
+                var metric = this.props.metrics[mKey];
+                data.push(
+                    {
+                        name: titleize(metric.metric.split("_").join(" ")),
+                        uv: Math.round((metric.value * 100)),
+                        fill: colors[i]
+                    }
+                )
                 i++;
             }
-        });
+        }.bind(this));
         return data;
     },
     render: function() {
@@ -37,7 +41,7 @@ var RadialChart = React.createClass({
                 <h1>Error!</h1>
             )
         }
-        var data = this.buildData(this.props.asset);
+        var data = this.buildData();
         return (
             <div>
                 <RadialBarChart width={400} height={200} cx={200} cy={150} innerRadius={50} outerRadius={140} barSize={10} data={data}>

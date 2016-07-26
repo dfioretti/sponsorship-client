@@ -236,6 +236,14 @@ actions = {
       this.dispatch(constants.LOAD_COMPONENTS_FAIL);
     }.bind(this));
   },
+  loadScoreMetrics: function() {
+      DataClient.getScoreMetrics(function(data) {
+          console.log("from api", data);
+          this.dispatch(constants.LOAD_SCORE_METRICS_SUCCESS, { metrics: data })
+      }.bind(this), function(error) {
+          console.log("failed loading score metrics", error);
+      }.bind(this));
+  },
   loadDashboards: function() {
     this.dispatch(constants.LOAD_DASHBOARDS);
     DashboardClient.getDashboards(function(data) {

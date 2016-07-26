@@ -32,7 +32,7 @@ var Workspace = require('./components/routes/Workspace.jsx');
 
 var LoginPage = require('./components/routes/LoginPage.jsx');
 
-
+var defaultRoute = (location.hostname.indexOf('mcd') > -1) ? Analytics : PortfolioDashboard;
 
 module.exports = (
   <Route handler={SmallApp}>
@@ -68,6 +68,6 @@ module.exports = (
     <Route name="stories" path="stories" handler={StoriesPage}/>
     <Route name="story" path="stories/:storyId" handler={StoryPage} />
     <Route name="new-story" path="story/new" handler={StoryNew}/>
-    <DefaultRoute handler={PortfolioDashboard} />
+    <DefaultRoute handler={defaultRoute} />
   </Route>
 );

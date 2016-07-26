@@ -12,6 +12,7 @@ var RadialBarChart = require('recharts').RadialBarChart;
 var Legend = require('recharts').Legend;
 var ReactDataGrid = require('react-data-grid');
 var Fluxxor = require('fluxxor');
+var uuid = require('node-uuid');
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 var Table = require('material-ui').Table;
@@ -36,18 +37,17 @@ var Popover = require('material-ui').Popover;
 var titleize = require('underscore.string/titleize');
 
 var Analytics = React.createClass({
-    mixins: [FluxMixin, StoreWatchMixin("AssetsStore", "ScoresStore")],
+    mixins: [FluxMixin, StoreWatchMixin("AnalyticsStore")],
     componentWillMount: function() {
-        if (!this.getFlux().store("ScoresStore").getState().scoresLoaded
-            && !this.getFlux().store("ScoresStore").getState().loading) {
-            this.getFlux().actions.loadScores();
-        }
-        this.getFlux().actions.setBreadcrumb("Chicago Analysis");
+        var state = this.getFlux().store("AnalyticsStore").getState();
+        if (!state.scoresLoaded) this.getFlux().actions.loadScores();
+        if (!state.assetsLoaded) this.getFlux().actions.loadAsset();
+        if (!state.scoreMetricsLoaded) this.getFlux().actions.loadScoreMetrics();
     },
     getInitialState: function() {
-        var charts = ["success_score", "fan_score", "reach_score", "alignment_score", "finance_score", "engagement_score"];
+        var charts = ["team_score", "success_score", "fan_score", "reach_score", "alignment_score", "finance_score", "engagement_score"];
 
-         return {chart: 'success_score', charts: charts}
+        return {chart: 'success_score', charts: charts, ranking: 'team_score' }
     },
     handleScoreView: function(event) {
         event.preventDefault();
@@ -67,129 +67,63 @@ var Analytics = React.createClass({
             slidesToShow: 3
         };
         var paperStyle = {
-           // height: "200px",
-           // width: "100%",
             textAlign: 'center',
             display: 'flex',
             justifyContent: 'center'
         };
 
-        var style = {
-        //    top: 0,
-        //    left: 350,
-        //    lineHeight: '24px'
-        };
         return (
             <Row>
                 <Slider {...settings}>
-                {this.state.assetState.assets.map(function(a) {
+                {_.values(this.state.assets).map(function(a) {
                     return (
                         <Col key={a.id} md={4}>
                             <Paper key={a.id} style={paperStyle} zDepth={5}>
-                                <RadialChart key={a.id} asset={a} />
+                                <RadialChart key={a.id} asset={a} metricKeys={this.state.charts} metrics={this.state.scoreMetrics} />
                             </Paper>
                         </Col>
                     );
-                })}
+                }.bind(this))}
                 </Slider>
             </Row>
         );
     },
     renderBottom: function() {
-        if (this.state.assetState.assetsLoaded) {
-            var data = this.getFlux().store("AssetsStore").getState().assets[0].metrics;
-            var columns = [
-                {
-                    key: 'entity_key',
-                    name: 'Entity'
-                },
-                {
-                    key: 'source',
-                    name: 'Source'
-                },
-                {
-                    key: 'metric',
-                    name: 'Metric'
-                },
-                {
-                    key: 'value',
-                    name: 'Value'
-               }
-            ];
-            var rowGetter = function(i) {
-                 return data[i];
-            };
-
-            return (
-                <Row style={{marginTop: "20px"}}>
-                    <Col md={12}>
-                        <Paper zDepth={4} style={{backgroundColor: "white", margin: "0px"}}>
-                            <Toolbar style={{backgroundColor: "#4861A6", color: "white"}}className="toolbar">
-                                <ToolbarTitle text="Property Data" />
-                            </Toolbar>
-                            <MetricTable assets={this.state.assetState.assets} scores={this.state.scoreState.scores} />
-                        </Paper>
-                    </Col>
-                </Row>
-            )
-        }
-/*
-            return (
-                <Row style={{backgroundColor: "blue"}}>
-                    <Col md={12}>
-                        <div style={{width: "100%", height: "500px"}} >
-                            <ReactDataGrid
-                                columns={columns}
-                                rowGetter={rowGetter}
-                                rowsCount={data.length}
-                                minHeight={500}
-                                />
-                        </div>
-                    </Col>
-                </Row>
-            )
-        } else {
-            return (
-                <Row>
-                    <h1> eh</h1>
-                </Row>
-            )
-        }
-        */
+        return (
+            <Row style={{marginTop: "20px"}}>
+                <Col md={12}>
+                    <Paper zDepth={4} style={{backgroundColor: "white", margin: "0px"}}>
+                        <Toolbar style={{backgroundColor: "#4861A6", color: "white"}}className="toolbar">
+                            <ToolbarTitle text="Property Data" />
+                        </Toolbar>
+                        <MetricTable metrics={this.state.scoreMetrics} assets={this.state.assets} scores={this.state.scores} />
+                    </Paper>
+                </Col>
+            </Row>
+        )
     },
     handleChange: function(e, i, v) {
         this.setState({chart: this.state.charts[i]});
     },
+    handleRankingChange: function(e, i, v) {
+        this.setState({ranking: this.state.charts[i]});
+    },
     renderMiddle: function() {
-        var assets = [];
-        if (this.state.assetState.assetsLoaded) {
-             assets = this.state.assetState.assets;
-        }
+        var entity_keys = _.keys(this.state.assets);
         var rankings = [];
-        _.each(assets, function(a) {
-            var val = null;
-            for (var i = 0; i < a.metrics.length; i++) {
-                if (a.metrics[i].metric == 'team_score') {
-                    val = a.metrics[i].value;
-                    break;
-                }
-            }
+        _.each(entity_keys, function(key) {
+            var metricKey = this.state.ranking + "_" + key;
+            var metric = this.state.scoreMetrics[metricKey];
             rankings.push({
-                name: a.name,
-                image: a.image_url,
-                score: val
+                name : this.state.assets[key].name,
+                image: this.state.assets[key].image_url,
+                score: metric.value
             });
-        });
+        }.bind(this));
         rankings = _.sortBy(rankings, 'score').reverse();
-        var currentScore;
         var name = titleize(this.state.chart.split("_").join(" "));
-        _.each(this.state.scoreState.scores, function(score) {
-            if (score.name == name) {
-                 currentScore = score;
-            }
-        });
+        var currentScore = this.state.scores[name];
         var i = 0;
-        console.log("Score", currentScore);
         return (
              <Row style={{marginTop: "20px"}}>
                 <Col md={8}>
@@ -216,7 +150,7 @@ var Analytics = React.createClass({
                                 <MenuItem
                                     value={i}
                                     primaryText={i.split("_").join(" ")}
-                                    key={i}
+                                    key={uuid.v4()}
                                     style={{textTransform: 'uppercase'}}
                                 />
                             )
@@ -236,14 +170,27 @@ var Analytics = React.createClass({
                     </ToolbarGroup>
                     </Toolbar>
                     <div style={{height: "550px"}}>
-                        <ScoreBar assets={this.state.assetState.assets} metric={this.state.chart} />
+                        <ScoreBar assets={this.state.assets} metric={this.state.chart} />
                     </div>
                     </Paper>
                 </Col>
                 <Col md={4}>
                     <Paper zDepth={4} style={{backgroundColor: "white", margin: "0px"}}>
                         <Toolbar style={{backgroundColor: "#4861A6"}} className="toolbar">
-                            <ToolbarTitle text="Property Ranking" />
+                            <ToolbarTitle text="Ranking" />
+                            <DropDownMenu value={this.state.ranking} onChange={this.handleRankingChange} labelStyle={{color: "white"}}>
+                                {this.state.charts.map(function(i) {
+                                    return (
+                                        <MenuItem
+                                            value={i}
+                                            primaryText={i.split("_").join(" ")}
+                                            key={uuid.v4()}
+                                            style={{textTransform: 'uppercase'}}
+                                        />
+                                    )
+                                }.bind(this))}
+                            </DropDownMenu>
+
                         </Toolbar>
                         <Table height={"550px"}>
                             <TableBody
@@ -270,13 +217,10 @@ var Analytics = React.createClass({
         )
     },
     getStateFromFlux: function() {
-        return {
-            assetState: this.getFlux().store("AssetsStore").getAssetData(),
-            scoreState: this.getFlux().store("ScoresStore").getScoreData()
-        };
+        return this.getFlux().store("AnalyticsStore").getState();
     },
     render: function() {
-        if (!this.state.assetState.assetsLoaded || !this.state.scoreState.scoresLoaded) {
+        if (!this.state.assetsLoaded || !this.state.scoresLoaded || !this.state.scoreMetricsLoaded) {
             return (
             <div className=''>
 		        <div style={{marginTop: "20%", display: 'flex', justifyContent: 'center'}}>
@@ -285,6 +229,8 @@ var Analytics = React.createClass({
 		    </div>
             );
         }
+//                    {this.renderMiddle()}
+ //                   {this.renderBottom()}
 
         return (
             <div className="analytics">
