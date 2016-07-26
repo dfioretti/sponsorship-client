@@ -57,7 +57,8 @@ var SmallApp = React.createClass({
   //},
   //componentWillMount: function() {
       PubSub.subscribe('auth.signIn.success', function(ev, user) {
-        this.transitionTo('/apt/portfolio/dashboard');
+          this.transitionTo('/');
+        //this.transitionTo('/apt/portfolio/dashboard');
       }.bind(this));
       PubSub.subscribe('auth.emailRegistration.success', function(ev, user) {
         this.transitionTo('/apt/portfolio/dashboard');
