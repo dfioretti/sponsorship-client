@@ -84,10 +84,9 @@ var RoundChart = React.createClass({
     return $.map(data, function(pt, i) {
       var backgroundColor = this.backgroundColor[i];
 			var label = pt.metric.split("_").join(" ");
-			if (this.props.component.data !== null &&
-				this.props.component.data.view === 'entity') {
-					label = pt.entity;
-			}
+            if (this.props.component.label == 'entity') {
+                 label = pt.entity;
+            }
       return (
         <li key={i}>
           <span className="legend-droplet" style={{borderColor: backgroundColor}}></span>

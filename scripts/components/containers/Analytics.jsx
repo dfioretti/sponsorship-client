@@ -134,13 +134,15 @@ var Analytics = React.createClass({
                         <Popover
                             open={this.state.open}
                             anchorEl={this.state.anchorEl}
-                            anchorOrigin={{"horizontal":"left","vertical":"bottom"}}
-                            targetOrigin={{"horizontal":"right","vertical":"top"}}
+                            anchorOrigin={{"horizontal":"left","vertical":"center"}}
+                            targetOrigin={{"horizontal":"right","vertical":"center"}}
                             onRequestClose={this.handleRequestClose}
-                            style={{backgroundColor: "rgba(10, 10, 10, 0.2)", top: "500px"}}
+                            style={{marginTop: "5%", backgroundColor: "rgba(26, 54, 127, 0.2)"}}
                             >
-                            <div style={{height: "510px", width: "765px",  display: 'flex', justifyContent: 'center', backgroundColor: "rgba(10, 10, 10, 0.0)"}}>
-                                <img style={{height: "510px", width: "510px" }}src={currentScore.image} />
+                            <div sytle={{display: "inline-block"}}>
+                            <span style={{verticalAlign: 'middle', display: 'flex', justifyContent: 'center'}}>
+                                <img style={{marginTop: "5%", verticalAlign: "middle"}}src={currentScore.image} />
+                            </span>
                             </div>
                         </Popover>
 

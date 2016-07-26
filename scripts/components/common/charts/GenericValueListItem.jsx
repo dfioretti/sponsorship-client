@@ -49,7 +49,7 @@ var GenericValueListItem = React.createClass({
   },
   render: function() {
     var liStyle = this.props.styleOverride ? this.props.styleOverride : {};
-		
+
     return (
       <li style={liStyle} onMouseOver={this.showTooltip} onMouseLeave={this.hideToolip}>
         <Link to={this.props.link} >

@@ -36,10 +36,10 @@ var ScoreBar = React.createClass({
         var entity_keys = _.keys(this.props.assets);
         _.each(entity_keys, function(key) {
             var input = {};
-            if (key.indexOf('ncaa' != -1)) {
-                input['name'] = titleize(key.split("_").slice(0, 1)[0] + key.charAt(key.length - 1))
+            if (key.indexOf('ncaa') != -1) {
+                input['name'] = titleize(key.split("_").slice(0, 1)[0].substr(0, 6) + key.charAt(key.length - 1));
             } else {
-                input['name'] = titleize(key.split("_").join(" "));
+                input['name'] = titleize(key.split("_").pop(-1));
             }
             input[metricFormat] = Math.round(this.props.scoreMetrics[this.props.metric + "_" + key].value * 100);
             input['Team Score'] = Math.round(this.props.scoreMetrics['team_score_' + key].value * 100);
