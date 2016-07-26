@@ -15,6 +15,7 @@ var titleize = require('underscore.string/titleize');
 var numberFormat = require('underscore.string/numberFormat');
 
 var MetricTable = React.createClass({
+    /*
     getInitialState: function() {
         var scores = {};
         var scoreNames = [];
@@ -41,9 +42,7 @@ var MetricTable = React.createClass({
         var scoreOptions = {};
         var assetNames = [];
         var data = [];
-       console.log("scores", scores);
         _.each(this.props.metrics, function(metric) {
-            console.log("met dt", metric);
             if (metric.metric != 'team_score') {
                 var entry = {
                     id: metric.id,
@@ -73,6 +72,7 @@ var MetricTable = React.createClass({
 
         return { data: data, metricOptions: metricOptions, assetOptions: assetOptions, scoreOptions: scoreOptions }
     },
+    */
     formatEntity: function(cell, row) {
         return (
             <ListItem
@@ -129,10 +129,9 @@ var MetricTable = React.createClass({
         return (
         <div id="my-grid">
             <BootstrapTable
-                data={this.state.data}
+                data={this.props.data}
                 height={"450"}
                 hover={true}
-                trClassName="mui-table"
                 bordered={false}
                 condensed={false}
                 striped={false}
@@ -147,7 +146,7 @@ var MetricTable = React.createClass({
                 </TableHeaderColumn>
                 <TableHeaderColumn
                     dataField="entity_key"
-                    filter={{type: "SelectFilter", options: this.state.assetOptions}}
+                    filter={{type: "SelectFilter", options: this.props.assetOptions}}
                     dataSort={true}
                     dataFormat={this.formatEntity}
                     width="120"
@@ -170,7 +169,7 @@ var MetricTable = React.createClass({
                 </TableHeaderColumn>
                 <TableHeaderColumn
                     dataField="score"
-                    filter={{type: "SelectFilter", options: this.state.scoreOptions, defaultValue: "Team Score"}}
+                    filter={{type: "SelectFilter", options: this.props.scoreOptions, defaultValue: "Team Score"}}
                     dataSort={true}
                     width="110"
                     dataFormat={this.formatScore}

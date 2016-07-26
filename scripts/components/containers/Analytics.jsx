@@ -44,10 +44,13 @@ var Analytics = React.createClass({
         if (!state.assetsLoaded) this.getFlux().actions.loadAsset();
         if (!state.scoreMetricsLoaded) this.getFlux().actions.loadScoreMetrics();
     },
+    componentWillUnmount: function() {
+        console.log("WILL UNMOUNT");
+    },
     getInitialState: function() {
         var charts = ["team_score", "success_score", "fan_score", "reach_score", "alignment_score", "finance_score", "engagement_score"];
 
-        return {chart: 'success_score', charts: charts, ranking: 'team_score' }
+        return {chart: 'fan_score', charts: charts, ranking: 'team_score' }
     },
     handleScoreView: function(event) {
         event.preventDefault();
@@ -96,7 +99,7 @@ var Analytics = React.createClass({
                         <Toolbar style={{backgroundColor: "#4861A6", color: "white"}}className="toolbar">
                             <ToolbarTitle text="Property Data" />
                         </Toolbar>
-                        <MetricTable metrics={this.state.scoreMetrics} assets={this.state.assets} scores={this.state.scores} />
+                        <MetricTable data={this.state.chartData} assetOptions={this.state.assetOptions} scoreOptions={this.state.scoreOptions} />
                     </Paper>
                 </Col>
             </Row>
@@ -198,12 +201,12 @@ var Analytics = React.createClass({
                             >
                                 {rankings.map(function(r) {
                                     return (
-                                         <TableRow key={r.id} style={{fontFamily: "Avenir-Book"}}>
-                                            <TableRowColumn style={{paddingLeft: "10px", paddingRight: "10px", width: "15px"}}>#{++i}</TableRowColumn>
-                                            <TableRowColumn style={{paddingLeft: "10px", paddingRight: "10px", width: "30px"}}><Avatar src={r.image} /></TableRowColumn>
-                                            <TableRowColumn style={{paddingLeft: "10px", paddingRight: "10px", width: "60px"}}>{r.name}</TableRowColumn>
-                                            <TableRowColumn style={{paddingLeft: "10px", paddingRight: "10px", width: "100px"}}>
-                                                <LinearProgress color="#208089" style={{marginTop: "15px", height: "15px"}}mode="determinate" value={r.score * 100}/>
+                                         <TableRow key={uuid.v4()} style={{fontFamily: "Avenir-Book"}}>
+                                            <TableRowColumn key={uuid.v4()} style={{paddingLeft: "10px", paddingRight: "10px", width: "15px"}}>#{++i}</TableRowColumn>
+                                            <TableRowColumn key={uuid.v4()} style={{paddingLeft: "10px", paddingRight: "10px", width: "30px"}}><Avatar src={r.image} /></TableRowColumn>
+                                            <TableRowColumn key={uuid.v4()} style={{paddingLeft: "10px", paddingRight: "10px", width: "60px"}}>{r.name}</TableRowColumn>
+                                            <TableRowColumn key={uuid.v4()} style={{paddingLeft: "10px", paddingRight: "10px", width: "100px"}}>
+                                                <LinearProgress key={uuid.v4()} color="#208089" style={{marginTop: "15px", height: "15px"}}mode="determinate" value={r.score * 100}/>
                                                 <p style={{position: "relative", display: "inline", color: "white", left: "85px", top: "-17.5px"}}>{Math.round(r.score * 100.0)}</p>
                                             </TableRowColumn>
                                         </TableRow>
@@ -220,7 +223,7 @@ var Analytics = React.createClass({
         return this.getFlux().store("AnalyticsStore").getState();
     },
     render: function() {
-        if (!this.state.assetsLoaded || !this.state.scoresLoaded || !this.state.scoreMetricsLoaded) {
+        if (!this.state.assetsLoaded || !this.state.scoresLoaded || !this.state.scoreMetricsLoaded || !this.state.chartDataLoaded) {
             return (
             <div className=''>
 		        <div style={{marginTop: "20%", display: 'flex', justifyContent: 'center'}}>

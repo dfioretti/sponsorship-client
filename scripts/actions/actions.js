@@ -238,7 +238,6 @@ actions = {
   },
   loadScoreMetrics: function() {
       DataClient.getScoreMetrics(function(data) {
-          console.log("from api", data);
           this.dispatch(constants.LOAD_SCORE_METRICS_SUCCESS, { metrics: data })
       }.bind(this), function(error) {
           console.log("failed loading score metrics", error);
