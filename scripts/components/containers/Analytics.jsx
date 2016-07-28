@@ -71,7 +71,6 @@ var Analytics = React.createClass({
             display: 'flex',
             justifyContent: 'center'
         };
-
         return (
             <Row>
                 <Slider {...settings}>
@@ -231,8 +230,6 @@ var Analytics = React.createClass({
 		    </div>
             );
         }
-//                    {this.renderMiddle()}
- //                   {this.renderBottom()}
 
         return (
             <div className="analytics">
