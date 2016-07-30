@@ -100,13 +100,13 @@ var AnalyticsStore = Fluxxor.createStore({
                         entity_key: entityName,
                         source: m.source,
                         metric: m.metric,
-                        value: m.value,
+                        value: parseFloat(m.value),
                         icon: m.icon,
                         norm_value: m.norm_value,
                         rank: (m.rank * 100),
                         entity_image: this.assets[m.entity_key].image_url,
                         score: scoreName,
-                        weight: scoreData[m.metric].weight,
+                        weight: parseInt(scoreData[m.metric].weight),
                         group: scoreData[scoreName][scoreData[m.metric].parent],
                     }
                     data.push(entry);

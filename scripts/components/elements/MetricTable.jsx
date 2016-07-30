@@ -15,64 +15,6 @@ var titleize = require('underscore.string/titleize');
 var numberFormat = require('underscore.string/numberFormat');
 
 var MetricTable = React.createClass({
-    /*
-    getInitialState: function() {
-        var scores = {};
-        var scoreNames = [];
-        var metricNames = [];
-        _.each(this.props.scores, function(score) {
-            var scoreName = score.name;
-            scoreNames.push(score.name);
-            _.each(score.score.nodeDataArray, function(node) {
-                var parent = _.findWhere(score.score.nodeDataArray, { key: node.parent });
-                var display = "";
-                if (parent != null && typeof(parent) != 'undefined') {
-                    display = parent.component;
-                }
-                metricNames.push(node.dataname);
-                scores[node.dataname] = {
-                    score: scoreName,
-                    weight: node.weight,
-                    group: display
-                }
-            });
-        });
-        var assetOptions = {};
-        var metricOptions = {};
-        var scoreOptions = {};
-        var assetNames = [];
-        var data = [];
-        _.each(this.props.metrics, function(metric) {
-            if (metric.metric != 'team_score') {
-                var entry = {
-                    id: metric.id,
-                    entity_key: this.props.assets[metric.entity_key].name,
-                    source: metric.source,
-                    metric: metric.metric,
-                    value: metric.value,
-                    icon: metric.icon,
-                    norm_value: metric.norm_value,
-                    rank: metric.rank,
-                    entity_image: this.props.assets[metric.entity_key].image_url,
-                    score: scores[metric.metric].score,
-                    weight: scores[metric.metric].weight,
-                    group: scores[metric.metric].group
-                }
-                data.push(entry);
-            }
-        }.bind(this))
-
-        _.each(_.keys(this.props.assets), function(key) {
-            var fmt = titleize(key.split("_").join(" "));
-             assetOptions[fmt] = fmt;
-        })
-        _.each(scoreNames, function(score) {
-             scoreOptions[score] = score;
-        })
-
-        return { data: data, metricOptions: metricOptions, assetOptions: assetOptions, scoreOptions: scoreOptions }
-    },
-    */
     formatEntity: function(cell, row) {
         return (
             <ListItem
@@ -202,7 +144,7 @@ var MetricTable = React.createClass({
                     width="50"
                     dataFormat={this.formatNumber}
                     dataSort={true}
-                    >Peer Rank
+                    >Metric Score
                 </TableHeaderColumn>
             </BootstrapTable>
         </div>

@@ -47,7 +47,7 @@ var Analytics = React.createClass({
     getInitialState: function() {
         var charts = ["team_score", "success_score", "fan_score", "reach_score", "alignment_score", "finance_score", "engagement_score"];
 
-        return {chart: 'fan_score', charts: charts, ranking: 'team_score' }
+        return { chart: 'team_score', charts: charts, ranking: 'team_score' }
     },
     handleScoreView: function(event) {
         event.preventDefault();
