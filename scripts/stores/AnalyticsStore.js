@@ -18,8 +18,14 @@ var AnalyticsStore = Fluxxor.createStore({
         this.bindActions(
             constants.LOAD_SCORES_SUCCESS, this.onLoadScoresSuccess,
             constants.LOAD_ASSETS_SUCCESS, this.onLoadAssetsSuccess,
-            constants.LOAD_SCORE_METRICS_SUCCESS, this.onLoadScoreMetricsSuccess
+            constants.LOAD_SCORE_METRICS_SUCCESS, this.onLoadScoreMetricsSuccess,
+            constants.LOAD_SCORES, this.onLoadScores
         );
+    },
+    onLoadScores: function() {
+        this.scoresLoaded = false;
+        this.scoreMetricsLoaded = false;
+        this.emit("change");
     },
     onLoadScoresSuccess: function(payload) {
         var oldScores = this.scores;
