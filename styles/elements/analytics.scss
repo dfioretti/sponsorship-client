@@ -27,7 +27,7 @@
         background-color: "blue";
     }
     .react-datagrid > .z-inner {
-        flex :1 0 auto; 
+        flex :1 0 auto;
     }
 
 }
@@ -37,6 +37,8 @@
     font-family: 'Avenir-Book';
     height: 500px;
     padding: 0px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
     .react-grid-HeaderCell {
         background: $light-grey;
         padding-top: 5px;

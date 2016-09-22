@@ -67,7 +67,8 @@ body {
 
 #main {
   padding-top: 80px;
-  background: $dark-blue;
+  //background: $dark-blue;
+  background-color: #ecf0f1;
   height: 100vh;
 
   &.logged-out {

@@ -2,6 +2,7 @@ var React = require('react');
 var ReactBsTable = require('react-bootstrap-table');
 var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
+var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 var BootstrapTable = ReactBsTable.BootstrapTable;
 var TableHeaderColumn = ReactBsTable.TableHeaderColumn;
 var Grid = require('react-bootstrap').Grid;

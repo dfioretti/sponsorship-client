@@ -1,7 +1,7 @@
 var React = require('react'),
 		Toolbar = require('material-ui').Toolbar,
 		SaveIcon = require('react-icons/lib/md/save'),
-		AddIcon = require('react-icons/lib/md/add-circle-outline'),
+		AddIcon = require('react-icons/lib/md/add-circle_outline'),
 		ToolbarTitle = require('material-ui').ToolbarTitle,
 		RaisedButton = require('material-ui').RaisedButton,
 		FlatButton = require('material-ui').FlatButton,

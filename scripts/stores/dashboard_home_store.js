@@ -13,12 +13,15 @@ DashboardHomeStore = Fluxxor.createStore({
           constants.LOAD_DASHBOARDS, this.onLoadDashboards,
           constants.LOAD_DASHBOARDS_SUCCESS, this.onLoadDashboardsSuccess,
           constants.DASHBOARD_UPDATE_SUCCESS, this.onDashboardUpdateSuccess,
-          constants.ADD_COMPONENT_TO_DASHBOARD_SUCCESS, this.onDashboardUpdateSuccess
+          constants.ADD_COMPONENT_TO_DASHBOARD_SUCCESS, this.onDashboardUpdateSuccess,
+          constants.CONTEXT_CREATE_SUCCESS, this.onContextCreateSuccess,
+          constants.CONTEXT_UPDATE_SUCCESS, this.onDashboardUpdateSuccess
         )
     },
     getDashboard: function(s) {
         for (var t = 0; t < this.dashboards.length; t++)
             if (this.dashboards[t].id.toString() == s.toString()) return this.dashboards[t]
+        return null;
     },
     getPortoflioDashboard: function() {
         for (var s = 0; s < this.dashboards.length; s++)
@@ -34,6 +37,15 @@ DashboardHomeStore = Fluxxor.createStore({
             "custom" == s.kind && customDashboards.push(s)
         }.bind(this))
         return customDashboards;
+    },
+    getContextDashboards: function() {
+      var contextDashboards = [];
+      this.dashboards.forEach(function(d) {
+        if ("context" == d.kind) {
+          contextDashboards.push(d);
+        }
+      }.bind(this))
+      return contextDashboards;
     },
     fetchDashboards: function() {
         DashboardClient.getDashboards(function(s) {
@@ -55,10 +67,15 @@ DashboardHomeStore = Fluxxor.createStore({
             loading: this.loading,
             dashboards: this.dashboards,
             assetDashboard: this.getAssetDashboard(),
-            portoflioDashboard: this.getPortoflioDashboard()
+            portoflioDashboard: this.getPortoflioDashboard(),
+            contextDashboards: this.getContextDashboards()
         }
     },
     onDashboardCreateSuccess: function(payload) {
+      this.dashboards.push(payload.dashboard);
+      this.emit("change");
+    },
+    onContextCreateSuccess: function(payload) {
       this.dashboards.push(payload.dashboard);
       this.emit("change");
     },

@@ -1,0 +1,63 @@
+{
+  "bootstrap": {
+    "baseAssetDir": "/Users/david.fioretti/code/teneo-apps/sponsorship-client/node_modules/bootstrap/dist/css",
+    "assetLocationTranslation": {
+      "../fonts/glyphicons-halflings-regular.eot": "bootstrap/glyphicons-halflings-regular.eot",
+      "../fonts/glyphicons-halflings-regular.woff2": "bootstrap/glyphicons-halflings-regular.woff2",
+      "../fonts/glyphicons-halflings-regular.woff": "bootstrap/glyphicons-halflings-regular.woff",
+      "../fonts/glyphicons-halflings-regular.ttf": "bootstrap/glyphicons-halflings-regular.ttf",
+      "../fonts/glyphicons-halflings-regular.svg": "bootstrap/glyphicons-halflings-regular.svg"
+    }
+  },
+  "react-select": {
+    "baseAssetDir": "/Users/david.fioretti/code/teneo-apps/sponsorship-client/node_modules/react-select/dist",
+    "assetLocationTranslation": {}
+  },
+  "pui-css-bootstrap": {
+    "baseAssetDir": "/Users/david.fioretti/code/teneo-apps/sponsorship-client/node_modules/pui-css-bootstrap",
+    "assetLocationTranslation": {}
+  },
+  "pui-css-typography": {
+    "baseAssetDir": "/Users/david.fioretti/code/teneo-apps/sponsorship-client/node_modules/pui-css-typography",
+    "assetLocationTranslation": {
+      "fonts/sourcesanspro-light-webfont.eot": "pui-css-typography/sourcesanspro-light-webfont.eot",
+      "fonts/sourcesanspro-light-webfont.woff": "pui-css-typography/sourcesanspro-light-webfont.woff",
+      "fonts/sourcesanspro-light-webfont.ttf": "pui-css-typography/sourcesanspro-light-webfont.ttf",
+      "fonts/sourcesanspro-light-webfont.svg": "pui-css-typography/sourcesanspro-light-webfont.svg",
+      "fonts/sourcesanspro-regular-webfont.eot": "pui-css-typography/sourcesanspro-regular-webfont.eot",
+      "fonts/sourcesanspro-regular-webfont.woff": "pui-css-typography/sourcesanspro-regular-webfont.woff",
+      "fonts/sourcesanspro-regular-webfont.ttf": "pui-css-typography/sourcesanspro-regular-webfont.ttf",
+      "fonts/sourcesanspro-regular-webfont.svg": "pui-css-typography/sourcesanspro-regular-webfont.svg",
+      "fonts/sourcesanspro-it-webfont.eot": "pui-css-typography/sourcesanspro-it-webfont.eot",
+      "fonts/sourcesanspro-it-webfont.woff": "pui-css-typography/sourcesanspro-it-webfont.woff",
+      "fonts/sourcesanspro-it-webfont.ttf": "pui-css-typography/sourcesanspro-it-webfont.ttf",
+      "fonts/sourcesanspro-it-webfont.svg": "pui-css-typography/sourcesanspro-it-webfont.svg",
+      "fonts/sourcesanspro-semibold-webfont.eot": "pui-css-typography/sourcesanspro-semibold-webfont.eot",
+      "fonts/sourcesanspro-semibold-webfont.woff": "pui-css-typography/sourcesanspro-semibold-webfont.woff",
+      "fonts/sourcesanspro-semibold-webfont.ttf": "pui-css-typography/sourcesanspro-semibold-webfont.ttf",
+      "fonts/sourcesanspro-semibold-webfont.svg": "pui-css-typography/sourcesanspro-semibold-webfont.svg",
+      "fonts/sourcesanspro-bold-webfont.eot": "pui-css-typography/sourcesanspro-bold-webfont.eot",
+      "fonts/sourcesanspro-bold-webfont.woff": "pui-css-typography/sourcesanspro-bold-webfont.woff",
+      "fonts/sourcesanspro-bold-webfont.ttf": "pui-css-typography/sourcesanspro-bold-webfont.ttf",
+      "fonts/sourcesanspro-bold-webfont.svg": "pui-css-typography/sourcesanspro-bold-webfont.svg"
+    }
+  },
+  "pui-css-buttons": {
+    "baseAssetDir": "/Users/david.fioretti/code/teneo-apps/sponsorship-client/node_modules/pui-css-buttons",
+    "assetLocationTranslation": {}
+  },
+  "normalize.css": {
+    "baseAssetDir": "/Users/david.fioretti/code/teneo-apps/sponsorship-client/node_modules/react-style/examples/0.13/server/node_modules/normalize.css",
+    "assetLocationTranslation": {}
+  },
+  "font-awesome": {
+    "baseAssetDir": "/Users/david.fioretti/code/teneo-apps/sponsorship-client/node_modules/font-awesome/css",
+    "assetLocationTranslation": {
+      "../fonts/fontawesome-webfont.eot": "font-awesome/fontawesome-webfont.eot",
+      "../fonts/fontawesome-webfont.woff2": "font-awesome/fontawesome-webfont.woff2",
+      "../fonts/fontawesome-webfont.woff": "font-awesome/fontawesome-webfont.woff",
+      "../fonts/fontawesome-webfont.ttf": "font-awesome/fontawesome-webfont.ttf",
+      "../fonts/fontawesome-webfont.svg": "font-awesome/fontawesome-webfont.svg"
+    }
+  }
+}

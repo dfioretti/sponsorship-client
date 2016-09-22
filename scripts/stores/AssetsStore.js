@@ -1,8 +1,10 @@
 var Fluxxor = require("fluxxor"),
     constants = require("../constants/constants.js"),
+    _ = require('underscore'),
     AssetsStore = Fluxxor.createStore({
         initialize: function() {
             this.assets = [],
+            this.assetsMap = [],
             this.assetsLoaded = !1,
             this.loading = !1,
             this.bindActions(constants.LOAD_ASSETS_SUCCESS,
@@ -17,6 +19,14 @@ var Fluxxor = require("fluxxor"),
             this.assets = s.assets,
             this.assetsLoaded = !0,
             this.loading = !1,
+            _.each(s.assets, function(asset) {
+              var metricKeys = {};
+              _.each(asset.metrics, function(metric) {
+                metricKeys[metric.metric] = metric;
+              });
+              asset['metric_keys'] = metricKeys;
+              this.assetsMap[asset.entity_key] = asset;
+            }.bind(this));
             this.emit("change")
         },
         getOwnedAssets: function() {
@@ -24,6 +34,9 @@ var Fluxxor = require("fluxxor"),
             return $.each(this.assets, function(t, e) {
                 1 == e.owned && s.push(e)
             }), s
+        },
+        getAssetByKey: function(entity_key) {
+          return this.assetsMap[entity_key];
         },
         getAsset: function(aid) {
           for (var i = 0; i < this.assets.length; i++) {

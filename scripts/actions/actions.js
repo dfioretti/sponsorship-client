@@ -5,6 +5,7 @@ var DashboardClient = require("../clients/dashboard_client.js"),
     ScoreClient = require("../clients/score_client.js"),
     AssetClient = require("../clients/asset_client.js"),
     constants = require("../constants/constants.js"),
+    interactions = require('../constants/interactions.js'),
 
 
 actions = {
@@ -113,6 +114,15 @@ actions = {
       component_id: t
     })
   },
+  contextCreate: function(context) {
+    this.dispatch(constants.CONTEXT_CREATE), DashboardClient.createDashboard(context, function(context) {
+      this.dispatch(constants.CONTEXT_CREATE_SUCCESS, {
+        context: context
+      })
+    }.bind(this), function(context) {
+      this.dispatch(constants.CONTEXT_CREATE_FAIL)
+    }.bind(this))
+  },
   dashboardCreate: function() {
     this.dispatch(constants.DASHBOARD_CREATE), DashboardClient.createDashboard(flux.store("DashboardEditStore").getObject(), function(t) {
         this.dispatch(constants.DASHBOARD_CREATE_SUCCESS, {
@@ -129,6 +139,15 @@ actions = {
       })
     }.bind(this), function(t) {
       this.dispatch(constants.DASHBOARD_UPDATE_FAIL)
+    }.bind(this))
+  },
+  contextUpdate: function(context) {
+    this.dispatch(constants.CONTEXT_UPDATE), DashboardClient.updateDashboard(context, function(data) {
+      this.dispatch(constants.CONTEXT_UPDATE_SUCCESS, {
+        dashboard: data
+      })
+    }.bind(this), function(data) {
+      this.dispatch(constants.CONTEXT_UPDATE_FAIL)
     }.bind(this))
   },
   dashboardEditLoad: function(t) {
@@ -334,7 +353,17 @@ actions = {
   },
   showAlert: function(message) {
     this.dispatch(constants.SHOW_ALERT, { message: message });
+  },
+  createContext: function(name, properties) {
+    this.dispatch(interactions.CREATE_CONTEXT, { name: name, properties: properties });
+  },
+  updateContextView: function(view, metrics) {
+    this.dispatch(interactions.UPDATE_CONTEXT_VIEW, { view: view, metrics: metrics });
+  },
+  updateContextLayout: function(layout) {
+    this.dispatch(interactions.UPDATE_CONTEXT_LAYOUT, { layout: layout});
   }
+
 
 };
 module.exports = actions;

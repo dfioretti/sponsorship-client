@@ -10,6 +10,8 @@ var AlertStore = Fluxxor.createStore({
 			constants.UPDATE_SUCCESS, this.onSaveSuccess,
 			constants.HIDE_SNACKBAR, this.onHideSnackbar,
 			constants.DASHBOARD_CREATE_SUCCESS, this.onDashboardCreateSuccess,
+			constants.CONTEXT_CREATE_SUCCESS, this.onContextCreateSuccess,
+			constants.CONTEXT_UPDATE_SUCCESS, this.onContextUpdateSuccess,
 			constants.SAVE_SCORE_SUCCESS, this.onSaveScoreSuccess,
 			constants.DASHBOARD_UPDATE_SUCCESS, this.onDashboardUpdateSuccess,
 			constants.ADD_COMPONENT_TO_DASHBOARD_SUCCESS, this.onAddComponentToDashboardSuccess,
@@ -29,6 +31,16 @@ var AlertStore = Fluxxor.createStore({
 	onDashboardUpdateSuccess: function() {
 		this.open = true;
 		this.message = "Dashboard Updated";
+		this.emit("change");
+	},
+	onContextCreateSuccess: function() {
+		this.open = true;
+		this.message = "Scope Saved!";
+		this.emit("change");
+	},
+	onContextUpdateSuccess: function() {
+		this.open = true;
+		this.message = "Scope Updated!";
 		this.emit("change");
 	},
 	onSaveScoreSuccess: function() {

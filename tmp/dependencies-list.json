@@ -1,0 +1,30 @@
+[
+  {
+    "path": "/Users/david.fioretti/code/teneo-apps/sponsorship-client/node_modules/bootstrap/dist/css/bootstrap.css",
+    "packageName": "bootstrap"
+  },
+  {
+    "path": "/Users/david.fioretti/code/teneo-apps/sponsorship-client/node_modules/react-select/dist/react-select.min.css",
+    "packageName": "react-select"
+  },
+  {
+    "path": "/Users/david.fioretti/code/teneo-apps/sponsorship-client/node_modules/pui-css-bootstrap/bootstrap.css",
+    "packageName": "pui-css-bootstrap"
+  },
+  {
+    "path": "/Users/david.fioretti/code/teneo-apps/sponsorship-client/node_modules/pui-css-typography/typography.css",
+    "packageName": "pui-css-typography"
+  },
+  {
+    "path": "/Users/david.fioretti/code/teneo-apps/sponsorship-client/node_modules/pui-css-buttons/buttons.css",
+    "packageName": "pui-css-buttons"
+  },
+  {
+    "path": "/Users/david.fioretti/code/teneo-apps/sponsorship-client/node_modules/react-style/examples/0.13/server/node_modules/normalize.css/normalize.css",
+    "packageName": "normalize.css"
+  },
+  {
+    "path": "/Users/david.fioretti/code/teneo-apps/sponsorship-client/node_modules/font-awesome/css/font-awesome.css",
+    "packageName": "font-awesome"
+  }
+]

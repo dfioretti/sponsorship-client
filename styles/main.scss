@@ -9,8 +9,11 @@
 @import '../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss';
 @import '../bower_components/slick-carousel/slick/slick.scss';
 @import '../bower_components/slick-carousel/slick/slick-theme.scss';
+//@import '../node_modules/react-grid-layout/css/styles.css';
 
+@import './import/slide-menu.scss';
 @import './import/application.scss';
+@import './import/react-data-grid.scss';
 @import url(https://fonts.googleapis.com/css?family=Raleway:700,400);
 
 
@@ -32,6 +35,28 @@ $topbar-height: rem-calc(45);
   font-family: lato;
 }
 
+#property_search {
+  color: 'green';
+  background-color: 'yellow';
+}
+
+.slide-bar {
+  width: 200px;
+  background-color: rgb(74,74,74);
+  background-color: #222222;
+  background-color: #33363b;
+
+
+  //background-color: white;
+}
+
+.fixed-side {
+  width: 70px;
+  background-color: rgb(74,74,74);
+  background-color: #222222;
+  background-color: #33363b;
+
+}
 .drawer {
   max-height: 500px;
   transition-property: all;
@@ -51,7 +76,8 @@ $topbar-height: rem-calc(45);
 
 #app {
   height: 100%;
-  background-color: #03387a;
+  //background-color: #03387a;
+  background-color: rgba(0,0,0,.3);
 }
 body {
   background-color: #ffffff;

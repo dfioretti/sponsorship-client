@@ -29,6 +29,9 @@ var DataIndex = require('./components/routes/DataIndex.jsx');
 var AssetDashboard = require('./components/dashboards/AssetDashboard.jsx');
 var HomePage = require('./components/routes/HomePage.jsx');
 var Workspace = require('./components/routes/Workspace.jsx');
+var Scope = require('./components/routes/Scope.jsx');
+var Analyze = require('./components/routes/Analyze.jsx');
+var PortfolioHome = require('./components/routes/PortfolioHome.jsx');
 
 var LoginPage = require('./components/routes/LoginPage.jsx');
 
@@ -37,6 +40,10 @@ var defaultRoute = (location.hostname.indexOf('mcd') > -1) ? Analytics : Portfol
 module.exports = (
   <Route handler={SmallApp}>
     <Route name='home' handler={HomePage} path='home' />
+    <Route name="scope" handler={Scope} path="scope" />
+    <Route name="portfolio" handler={PortfolioHome} path="portfolio" />
+    <Route name="analyze" handler={Analyze} path="analyze" />
+    <Route name="view_scope" handler={Analyze} path="analyze/:id" />
     <Route name='dashboard_index' handler={DashboardIndex} path="dashboard_index" />
     <Route name='account_login' handler={AccountLogin} path='account_login' />
     <Route name='analytics' handler={Analytics} path="analytics" />

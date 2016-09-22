@@ -16,6 +16,7 @@ var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 var injectTapEventPlugin = require('react-tap-event-plugin');
 var SideNavigation = require('./sidebar/SideNavigation.jsx');
 var TopNavigation = require('./sidebar/TopNavigation.jsx');
+var Workspace = require('../components/routes/Workspace.jsx');
 var Pusher = require('pusher-js');
 window.Auth = Auth;
 var AlertManager = require('./common/AlertManager.jsx');
@@ -141,7 +142,15 @@ var SmallApp = React.createClass({
         var style = {
             paddingTop: "0px"
         }
-
+//wtf
+        return (
+          <div id="main" style={style}>
+            <Workspace flux={ this.state.flux} >
+              <RouteHandler {...this.props} flux={this.state.flux} />
+              <AlertManager {...this.props} flux={this.state.flux} />
+            </Workspace>
+          </div>
+        );
         //flux.actions.loadDashboard();
         //flux.actions.loadComponents();
         //flux.actions.loadScores();
@@ -149,6 +158,7 @@ var SmallApp = React.createClass({
         //
 
         //
+
         return (
             <div id="main" style={style}>
             <SideNavigation {...this.props} flux={this.state.flux} />

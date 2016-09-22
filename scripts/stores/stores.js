@@ -27,6 +27,7 @@ var ComponentEditorStore = require("./component_editor_store.js"),
     EntityDashboardStore = require('./EntityDashboardStore.js'),
     AnalyticsStore = require('./AnalyticsStore.js'),
     NavigationStore = require('./NavigationStore.js');
+    ContextStore = require('./ContextStore.js');
     stores = {
         ComponentEditorStore: new ComponentEditorStore,
         ComponentsStore: new ComponentsStore,
@@ -42,6 +43,7 @@ var ComponentEditorStore = require("./component_editor_store.js"),
         EntityDashboardStore: new EntityDashboardStore,
         ExternalApiStore: new ExternalApiStore,
         AnalyticsStore: new AnalyticsStore,
-        AlertStore: new AlertStore
+        AlertStore: new AlertStore,
+        ContextStore: new ContextStore
     };
 module.exports = stores;

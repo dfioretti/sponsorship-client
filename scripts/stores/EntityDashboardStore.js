@@ -1,5 +1,7 @@
 var Fluxxor = require('fluxxor'),
 		constants = require('../constants/constants.js'),
+		interactions = require('../constants/interactions.js'),
+		_ = require('underscore');
 		API_ROOT = require("../constants/environment.js").API_ROOT;
 
 
@@ -8,6 +10,8 @@ EntityDashboardStore = Fluxxor.createStore({
 	initialize: function() {
 		this.mode = null;
 		this.dashboard = null;
+		this.contexts = {},
+		this.currentContext = null;
 		this.asset = null;
 		this.tweets = null;
 		this.components = null;
@@ -20,9 +24,21 @@ EntityDashboardStore = Fluxxor.createStore({
 			constants.RESET_DASHBOARD_ASSET, this.onResetDashboardAsset,
 			constants.ASSET_LOAD, this.onAssetLoad,
 			constants.LOAD_DASHBOARD, this.onLoadDashboard,
-			constants.TWITTER_LOAD_SUCCESS, this.onTwitterLoadSuccess
+			constants.TWITTER_LOAD_SUCCESS, this.onTwitterLoadSuccess,
+			interactions.CREATE_CONTEXT, this.onCreateContext
 			//constants.TWITTER_LOAD, this.onTwitterLoad
 		)
+	},
+	onCreateContext: function(payload) {
+		console.log('doing create context?', payload);
+		var properties = [];
+		_.each(payload.properties, function(prop) {
+			properties.push(prop.id);
+		});
+		this.contexts[payload.name] = properties;
+		this.currentContext = payload.name;
+		this.mode = "context";
+		this.emit("change");
 	},
 	onTwitterLoad: function(payload) {
 		this.loadingTwitter = true;
@@ -81,8 +97,17 @@ EntityDashboardStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 	getState: function() {
+		var contextName = null;
+		var currentProperties = null;
+		if (!this.currentContext == null) {
+			contextProperties = this.contexts[this.currentContext];
+			contextName = this.currentContext;
+		}
+		console.log("state", this.currentContext, this.contexts);
 		return {
 			mode: this.mode,
+			contextName: this.currentContext,
+			contextProperties: this.contexts[this.currentContext],
 			asset: this.asset,
 			dashboard: this.dashboard,
 			components: this.components,
