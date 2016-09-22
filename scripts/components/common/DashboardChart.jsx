@@ -89,9 +89,10 @@ var DashboardChart = React.createClass({
 				trigger: 'axis'
 			},
 			legend: {
-				orient: 'vertical',
-				x: 'right',
-				y: 'center',
+				orient: 'horizontal',
+				x: 'top',
+				y: 'left',
+				padding: [40, 0, 0, 10],
 				data: legend
 			},
 			toolbox: {
@@ -103,7 +104,8 @@ var DashboardChart = React.createClass({
 				}
 			},
 			grid: {
-				x2: 120
+				y: 100,
+				x: 90
 				//left: '3%',
 				//right: '4%',
 				//bottom: '3%',

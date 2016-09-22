@@ -44,7 +44,8 @@ var ScopeTab = React.createClass({
 			enableSelectAll: false,
 			deselectOnClickaway: false,
 			showCheckboxes: false,
-			height: "calc(100vh - 250px)"
+			height: "calc(100vh - 335px)"
+			//height: "calc(100vh - 150px)"
 		};
 	},
 	componentWillMount: function() {
@@ -106,16 +107,30 @@ var ScopeTab = React.createClass({
 		var key = row.get('entity_key');
 		if (_.contains(this.props.scopeProperties, key)) {
 			return (
-				<FloatingActionButton secondary={true} onTouchTap={this.removeProperty.bind(this, key)} mini={true}>
+				<IconButton style={{color: Colors.RED_BASE}} onTouchTap={this.removeProperty.bind(this, key)}>
 					<RemoveIcon size={20} />
-				</FloatingActionButton>
+				</IconButton>
 			);
+			/*
+			return (
+			<FloatingActionButton secondary={true} onTouchTap={this.removeProperty.bind(this, key)} mini={true}>
+			<RemoveIcon size={20} />
+			</FloatingActionButton>
+			);
+			*/
 		}
 		return (
-			<FloatingActionButton onTouchTap={this.addProperty.bind(this, key)} mini={true}>
+			<IconButton style={{color: Colors.GREEN_BASE}} onTouchTap={this.addProperty.bind(this, key)}>
 				<AddIcon size={20} />
-			</FloatingActionButton>
+			</IconButton>
 		);
+		/*
+		return (
+		<FloatingActionButton onTouchTap={this.addProperty.bind(this, key)} mini={true}>
+		<AddIcon size={20} />
+		</FloatingActionButton>
+		);
+		*/
 	},
 	sortTable: function(key, event) {
 		var sortDir = 'asc';
@@ -148,24 +163,24 @@ var ScopeTab = React.createClass({
 		return (
 			<div>
 				<Col md={6} style={{margin: 0, padding: 0}}>
-					<div style={{backgroundColor: "white", width: "100%", height: "calc(100vh - 98px)"}}>
-						<div id="md-table-sort" style={{paddingTop: 20, paddingLeft: 20, width: "calc(100% - 40px)" }}>
+					<div style={{backgroundColor: "white", width: "100%", height: "calc(100vh - 145px)"}}>
+						<div id="md-table-sort" style={{paddingTop: 20, paddingLeft: 20, width: "calc(100% - 5px)" }}>
 							<div>
 								<Row>
-								<Col md={1} style={{marginTop: 10, marginRight: -20}}>
-									<SearchIcon size={30} />
-								</Col>
-								<Col md={11}>
-								<TextField
-									value={this.state.searchText}
-									onChange={this.filterData}
-									hintText="Property Search"
-									fullWidth={this.state.fullWidth}
-									onFocus={this.focusSearch}
-									onBlur={this.blurSearch}
-									/>
-								</Col>
-							</Row>
+									<Col md={1} style={{marginTop: 10, marginRight: -20}}>
+										<SearchIcon size={30} />
+									</Col>
+									<Col md={11}>
+										<TextField
+											value={this.state.searchText}
+											onChange={this.filterData}
+											hintText="Property Search"
+											fullWidth={this.state.fullWidth}
+											onFocus={this.focusSearch}
+											onBlur={this.blurSearch}
+											/>
+									</Col>
+								</Row>
 								<Table
 									height={this.state.height}
 									fixedHeader={this.state.fixedHeader}
@@ -262,20 +277,20 @@ var ScopeTab = React.createClass({
 					<div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around'}}>
 						<h4 style={{paddingTop: "0px", paddingBottom: "20px", textTransform: "uppercase", letterSpacing: "1.5px"}}>Scope Properties</h4>
 
-					<GridList
-						style={{width: "90%", height:"calc(100vh - 210px)", overflowY: 'auto', marginBottom: 24}}
-						cellHeight={200}
-						>
-						{this.props.currentAssets.map((tile) => (
-							<GridTile
-								key={tile.entity_key}
-								title={tile.name}
-								subtitle={tile.category + ' - ' + tile.subcategory}
-								>
-								<img src={tile.image_url} />
-							</GridTile>
-						))}
-					</GridList>
+						<GridList
+							style={{width: "90%", height:"calc(100vh - 250px)", overflowY: 'auto', marginBottom: 24}}
+							cellHeight={200}
+							>
+							{this.props.currentAssets.map((tile) => (
+								<GridTile
+									key={tile.entity_key}
+									title={tile.name}
+									subtitle={tile.category + ' - ' + tile.subcategory}
+									>
+									<img src={tile.image_url} />
+								</GridTile>
+							))}
+						</GridList>
 					</div>
 				</Col>
 			</div>

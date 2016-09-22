@@ -135,7 +135,7 @@ var Workspace = React.createClass({
 							sidebarClassName="slide-bar"
 							docked={this.state.docked}
 							shadow={false}
-							transitions={false}
+							transitions={this.state.open}
 							onSetOpen={this.onSetSidebarOpen}
 							>
 							<Sidebar
@@ -144,7 +144,7 @@ var Workspace = React.createClass({
 								sidebarClassName="fixed-side"
 								docked={!this.state.docked}
 								shadow={false}
-								transitions={false}
+								transitions={!this.state.open}
 								>
 								<Toolbar style={{backgroundColor: Colors.MAIN}}>
 									<ToolbarGroup firstChild={true}>

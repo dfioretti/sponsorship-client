@@ -164,8 +164,8 @@ var Analyze = React.createClass({
 		if (this.state.activeTab == 'scope') {
 			return (
 				<Grid fluid={true}>
-					<Row style={{paddingTop: "3px"}}>
-						<Col md={1}>
+					<Row style={{padding: 0, margin: 0}}>
+						<Col md={1} style={{padding: 0, margin: 0}}>
 							<div style={{fontSize: '20px', lineHeight: '48px', textAlign: 'bottom', textTransform: 'uppercase', letterSpacing: '1.5', height: 48}}>
 								SCOPE:
 							</div>
@@ -179,7 +179,7 @@ var Analyze = React.createClass({
 								/>
 						</Col>
 						<Col md={1}>
-							<FloatingActionButton style={{float: 'right', marginTop: -30}} mini={false} onTouchTap={this.saveScope}>
+							<FloatingActionButton backgroundColor={Colors.SECONDARY} style={{float: 'right', marginTop: -30}} mini={false} onTouchTap={this.saveScope}>
 								<SaveIcon size={30} />
 							</FloatingActionButton>
 						</Col>
@@ -207,11 +207,11 @@ var Analyze = React.createClass({
 						>
 						<VisualizationDialog handleClose={this.handleClose} doSave={this.doSave} assets={currentAssets} />
 					</Dialog>
-					<Row style={{paddingTop: "3px"}}>
+					<Row style={{margin: 0, padding: 0}}>
 						<Col md={11}>
 						</Col>
 						<Col md={1}>
-							<FloatingActionButton style={{float: 'right', marginTop: -30}} mini={false} onTouchTap={this.onAnalyzeAdd}>
+							<FloatingActionButton backgroundColor={Colors.SECONDARY} style={{float: 'right', marginTop: -30}} mini={false} onTouchTap={this.onAnalyzeAdd}>
 								<AddIcon size={30} />
 							</FloatingActionButton>
 						</Col>

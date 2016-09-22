@@ -78,8 +78,8 @@ var SideMenu = React.createClass({
 		};
 
 		return (
-			<div style={{marginTop: 10, width: '100%'}}>
-				<img style={{height: 36, display: 'block', margin: 'auto'}} src={'/images/login/full-logo.svg'} />
+			<div style={{marginTop: 18, width: '100%'}}>
+				<img style={{height: 24, display: 'block', margin: 'auto'}} src={'/images/login/full-logo.svg'} />
 				<Dialog
 					title="Create new scope"
 					actions={actions}
