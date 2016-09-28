@@ -27,7 +27,7 @@ var DashboardContainer = React.createClass({
 					expanded={this.state.expanded}
 					onExpandChange={this.handleExpandChange}
 					>
-					<span style={{marginLeft: 10, marginTop: 10, height: 40}} className="text-fix medium dark">{this.props.title}</span>
+					<span style={{marginLeft: 10, marginTop: 10, marginBottom: 20, lineHeight: '50px'}} className="text-fix medium dark">{this.props.title}</span>
 					<div style={{marginLeft: 10}}>
 						{this.props.children}
 					</div>

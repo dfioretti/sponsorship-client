@@ -340,13 +340,41 @@ var PropertyDashboard = React.createClass({
 			</DashboardContainer>
 		);
 	},
+	renderContractStatus: function() {
+
+		<DashboardContainer
+			cols={4}
+			title="Contract Status"
+			>
+			<div style={{paddingTop: 10, paddingBottom: 20}}>
+			<Row style={{paddingTop: 10, paddingBottom: 8}}>
+				<Col md={12}>
+					<span className="text-fix small dark pad"><strong>Renewal:&nbsp;&nbsp;&nbsp;</strong>{this.state.property.pretty_renewal}</span>
+				</Col>
+			</Row>
+			<Row style={{paddingTop: 10, paddingBottom: 8}}>
+				<Col md={12}>
+					<span className="text-fix small dark pad"><strong>Cost:&nbsp;&nbsp;&nbsp;</strong>{this.state.property.pretty_cost}</span>
+				</Col>
+			</Row>
+			<Row style={{paddingTop: 10, paddingBottom: 8}}>
+				<Col md={12}>
+					<span className="text-fix small dark pad"><strong>Term:&nbsp;&nbsp;&nbsp;</strong>{this.state.property.pretty_term}</span>
+				</Col>
+			</Row>
+			</div>
+		</DashboardContainer>
+	},
 	renderPropertyBackground: function() {
 		var wrap = {
 			display: 'flex',
 			flexWrap: 'wrap',
+			paddingBottom: 18
 		}
 		var chipStyle = {
 			margin: 4,
+			marginLeft: 6,
+			marginRigth: 6,
 			color: 'white'
 		}
 		return (
@@ -356,35 +384,46 @@ var PropertyDashboard = React.createClass({
 					title="Overview"
 					>
 					<div>
-						<CardText>
+						<CardText style={{fontSize: 18}}>
 							{this.state.property.description}
 						</CardText>
 						<Divider />
-						<Row style={{paddingTop: 8, paddingBottom: 8}}>
+						<Row style={{marginTop: 10, paddingTop: 20, paddingBottom: 20, textAlign: 'center'}}>
+							<Col md={4}>
+								<span className="text-fix small dark pad"><strong>Renewal:&nbsp;&nbsp;&nbsp;</strong>{this.state.property.pretty_renewal}</span>
+							</Col>
+							<Col md={4}>
+								<span className="text-fix small dark pad"><strong>Contract:&nbsp;&nbsp;&nbsp;</strong>{this.state.property.pretty_term}</span>
+							</Col>
+							<Col md={4}>
+								<span className="text-fix small dark pad"><strong>Total Cost:&nbsp;&nbsp;&nbsp;</strong>{this.state.property.pretty_cost}</span>
+							</Col>
+						</Row>
+						<Row style={{paddingTop: 8, paddingBottom: 0}}>
 							<Col md={10}>
 								<div style={wrap}>
 									<Chip style={chipStyle}
 										labelColor="white"
-										backgroundColor={Colors.GREEN_BASE}
+										backgroundColor={Colors.LIME_GREEN}
 										>
 										{this.state.property.scope}
 									</Chip>
 									<Chip style={chipStyle}
 										labelColor="white"
-										backgroundColor={Colors.RED_BASE}
+										backgroundColor={Colors.LIGHT_PURPLE}
 										>
 										{this.state.property.category}
 									</Chip>
 									<Chip style={chipStyle}
 										labelColor="white"
-										backgroundColor={Colors.SECONDARY}
+										backgroundColor={Colors.LIGHT_YELLOW_GREEN}
 										>
 
 										{this.state.property.subcategory}
 									</Chip>
 									<Chip style={chipStyle}
 										labelColor="white"
-										backgroundColor="#0084b4"
+										backgroundColor="#c0deed"
 										onTouchTap={() => window.location = "https://www.twitter.com/" + this.state.property.twitter_handle}
 										>
 										<Avatar backgroundColor="white" src={'/images/metrics/twitter.png'} />
@@ -400,31 +439,20 @@ var PropertyDashboard = React.createClass({
 									</Chip>
 								</div>
 							</Col>
-
 						</Row>
 					</div>
 				</DashboardContainer>
 				<DashboardContainer
 					cols={4}
-					title="Contract Status"
+					title="Scores"
+					pad={true}
 					>
-					<Row>
-						<Col md={12}>
-							<span className="text-fix small dark pad"><strong>Renewal:&nbsp;&nbsp;&nbsp;</strong>{this.state.property.pretty_renewal}</span>
-						</Col>
-					</Row>
-					<Row>
-						<Col md={12}>
-							<span className="text-fix small dark pad"><strong>Cost:&nbsp;&nbsp;&nbsp;</strong>{this.state.property.pretty_cost}</span>
-						</Col>
-					</Row>
-					<Row>
-						<Col md={12}>
-							<span className="text-fix small dark pad"><strong>Term:&nbsp;&nbsp;&nbsp;</strong>{this.state.property.pretty_term}</span>
-						</Col>
-					</Row>
-
+					<ReactEcharts
+						option={this.getRadar(this.state.property)}
+						theme="theme"
+						/>
 				</DashboardContainer>
+
 			</div>
 
 		);
@@ -495,18 +523,9 @@ var PropertyDashboard = React.createClass({
 							theme="theme"
 							/>
 					</DashboardContainer>
+
 					<DashboardContainer
-						cols={4}
-						title="Scores"
-						pad={true}
-						>
-						<ReactEcharts
-							option={this.getRadar(this.state.property)}
-							theme="theme"
-							/>
-					</DashboardContainer>
-					<DashboardContainer
-						cols={4}
+						cols={8}
 						title="Historical Data"
 						subtitle=""
 						text=""
@@ -540,16 +559,16 @@ var PropertyDashboard = React.createClass({
 				<Card>
 					<CardMedia
 						overlay={
-							<div style={{height: 75}}>
+							<div style={{height: 90}}>
 								<Row style={{margin: 0, height: 75, padding: 0}}>
 									<Col md={2}>
-										<Avatar size={150} className="profileAvatar" src={property.image_url} />
+										<Avatar size={175} className="profileAvatar" src={property.image_url} />
 									</Col>
-									<Col md={4} style={{marginTop: 33, padding: 0}}>
+									<Col md={4} style={{marginTop: 33, marginLeft: 30, padding: 0}}>
 										<div className="text-fix large">{property.name}</div>
-										<div className="text-fix medium">{property.category} {property.subcategory}</div>
+										<div className="text-fix medium">{property.subcategory}</div>
 									</Col>
-									<Col md={6}>
+									<Col md={5}>
 										{this.renderScores()}
 									</Col>
 								</Row>

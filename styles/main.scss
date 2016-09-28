@@ -33,7 +33,7 @@ $topbar-height: rem-calc(45);
   border: 3px solid #1C5D99;
   position: relative;
   left: 50px;
-  top: -75px;
+  top: -87px;
   //position: relative;
   //left: 50px;
   //top: -200px;
@@ -67,12 +67,15 @@ $topbar-height: rem-calc(45);
   line-height: 24px;
 }
 .pad {
+  margin-left: 10px;
+  /*
   margin-top:  20px;
   margin-bottom: 20px;
   padding-top: 20px;
   padding-bottom: 20px;
   padding-left: 15px;
   line-height: 55px;
+  */
 }
 
 .cover-photo {
