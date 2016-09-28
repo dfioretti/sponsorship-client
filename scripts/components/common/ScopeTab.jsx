@@ -24,8 +24,12 @@ var RemoveIcon = require('react-icons/lib/md/remove');
 var GridList = require('material-ui').GridList;
 var GridTile = require('material-ui').GridTile;
 var Subheader = require('material-ui').Subheader;
+var Navigation = require('react-router').Navigation;
+var Link = require('react-router').Link;
 
 var ScopeTab = React.createClass({
+	mixins: [Navigation],
+	
 	getInitialState: function() {
 		return {
 			fullWidth: false,
@@ -154,6 +158,9 @@ var ScopeTab = React.createClass({
 			displayData: displayData
 		});
 	},
+	handleTouch: function(id, event) {
+		this.transitionTo('/apt/asset/dashboard/' + id);
+	},
 	render: function() {
 		var sortStyle = {
 			color: Colors.DARK,
@@ -162,7 +169,7 @@ var ScopeTab = React.createClass({
 		var iconSize = 15;
 		return (
 			<div>
-				<Col md={6} style={{margin: 0, padding: 0}}>
+				<Col md={6} style={{margin: 0, padding: 0, marginTop: 20}}>
 					<div style={{backgroundColor: "white", width: "100%", height: "calc(100vh - 145px)"}}>
 						<div id="md-table-sort" style={{paddingTop: 20, paddingLeft: 20, width: "calc(100% - 5px)" }}>
 							<div>
@@ -273,9 +280,9 @@ var ScopeTab = React.createClass({
 						</div>
 					</div>
 				</Col>
-				<Col md={6}>
+				<Col md={6} style={{margin: 0, padding: 0, marginTop: -10}}>
 					<div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around'}}>
-						<h4 style={{paddingTop: "0px", paddingBottom: "20px", textTransform: "uppercase", letterSpacing: "1.5px"}}>Scope Properties</h4>
+						<span style={{fontSize: 16, paddingTop: "0px", paddingBottom: "20px", textTransform: "uppercase", letterSpacing: "1.5px"}}>Scope Properties</span>
 
 						<GridList
 							style={{width: "90%", height:"calc(100vh - 250px)", overflowY: 'auto', marginBottom: 24}}
@@ -285,7 +292,9 @@ var ScopeTab = React.createClass({
 								<GridTile
 									key={tile.entity_key}
 									title={tile.name}
+									style={{cursor: 'pointer'}}
 									subtitle={tile.category + ' - ' + tile.subcategory}
+									onTouchTap={() => this.handleTouch(tile.id)}
 									>
 									<img src={tile.image_url} />
 								</GridTile>

@@ -13,7 +13,7 @@ getApiRoot = function() {
         return "http://" + url + '/';
         //return "" + url[0] + "teneosponsorship.herokuapp.com/";
     }
-}
+};
 
 module.exports = {
     /*

@@ -7,4 +7,4 @@ module.exports = {
 	GREEN_BASE: "#13A06B",
 	RED_BASE: "#E31B32",
 	DARK_BACKGROUND: "#33363b"
-}
+};

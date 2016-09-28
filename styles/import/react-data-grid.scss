@@ -373,14 +373,17 @@
 .react-grid-Container {
   clear: both;
   margin-top: 0;
-  padding: 0;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 .react-grid-Toolbar {
   background-color: #ffffff;
+  /*
   border-color: #e7eaec;
   border-image: none;
   border-style: solid solid none;
   border-width: 1px 1px 1px 1px;
+  */
   color: inherit;
   margin-bottom: 0;
   padding: 14px 15px 7px;
@@ -427,22 +430,24 @@
   background-color: #ffffff;
   color: inherit;
   padding: 0px;
-  outline: 1px solid #e7eaec;
+  //outline: 1px solid #e7eaec;
   clear: both;
 }
 .react-grid-Grid {
   background-color: #ffffff;
-  border: 1px solid #dddddd;
+  //border: 1px solid #ffffff;//dddddd;
+  font-family: Avenir-Book;
+  letter-spacing: 1.5px;
 }
 .react-grid-Canvas {
   background-color: #ffffff;
 }
 .react-grid-Cell {
   background-color: #ffffff;
-  padding-left: 8px;
-  padding-right: 8px;
-  border-right: 1px solid #eee;
-  border-bottom: 1px solid #dddddd;
+  //padding-left: 8px;
+  //padding-right: 8px;
+  //border-right: 1px solid #eee;
+  //border-bottom: 1px solid #dddddd;
 }
 .react-grid-Cell:not(.editing) .react-grid-Cell__value {
   white-space: nowrap;
@@ -476,6 +481,10 @@
 }
 .react-grid-Row:hover .rdg-row-index {
   display: none;
+}
+
+.react-grid-Row {
+  margin: 10px;
 }
 .rdg-row-index {
   display: block;
@@ -636,7 +645,7 @@ textareaselect.editor-main {
   z-index: 99999;
 }
 .react-grid-HeaderCell > .react-grid-checkbox-container {
-  padding: 0px 10px;
+  //padding: 0px 10px;
 }
 .react-grid-HeaderCell > .react-grid-checkbox-container > .react-grid-checkbox-label {
   margin: 0;
@@ -644,6 +653,8 @@ textareaselect.editor-main {
 .react-grid-Header {
   box-shadow: 0px 0px 4px 0px #dddddd;
   background: #f9f9f9;
+  background: white;
+  height: 50px;
 }
 .react-grid-Header--resizing {
   cursor: ew-resize;
@@ -659,11 +670,13 @@ textareaselect.editor-main {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  background: #f9f9f9;
-  padding: 8px;
+  //background: #f9f9f9;
+  //padding: 8px;
   font-weight: bold;
-  border-right: 1px solid #dddddd;
-  border-bottom: 1px solid #dddddd;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  //border-right: 1px solid #dddddd;
+  //border-bottom: 1px solid #dddddd;
 }
 .react-grid-HeaderCell__value {
   white-space: nowrap;

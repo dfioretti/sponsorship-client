@@ -7,7 +7,7 @@ var ImageHelper = function(type, path) {
 		// this is hacky - but images are fucked up a little..
 		if (path.charAt(path.length - 2) == 'n')
 			return path;
-			
+
 		var id = path.split("/").pop(-1);
 
 		return '/images/properties/' + id;
@@ -16,5 +16,5 @@ var ImageHelper = function(type, path) {
 		return '/images' + path;
 	}
 	return path;
-}
+};
 module.exports = ImageHelper;

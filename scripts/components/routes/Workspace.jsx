@@ -125,6 +125,7 @@ var Workspace = React.createClass({
 						fontFamily: 'Avenir-Book'
 					}
 				}
+				//transitions={this.state.open}
 
 				return (
 					<MuiThemeProvider>
@@ -135,7 +136,7 @@ var Workspace = React.createClass({
 							sidebarClassName="slide-bar"
 							docked={this.state.docked}
 							shadow={false}
-							transitions={this.state.open}
+							transitions={false}
 							onSetOpen={this.onSetSidebarOpen}
 							>
 							<Sidebar
@@ -144,7 +145,7 @@ var Workspace = React.createClass({
 								sidebarClassName="fixed-side"
 								docked={!this.state.docked}
 								shadow={false}
-								transitions={!this.state.open}
+								transitions={false}
 								>
 								<Toolbar style={{backgroundColor: Colors.MAIN}}>
 									<ToolbarGroup firstChild={true}>

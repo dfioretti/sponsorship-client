@@ -59,6 +59,7 @@
     "node-uuid": "^1.4.7",
     "normalize.css": "^4.2.0",
     "object-assign": "^4.0.1",
+    "orgchart": "^1.2.2",
     "pace": "0.0.4",
     "pubsub-js": "^1.5.3",
     "pusher-js": "^3.1.0",
@@ -72,9 +73,12 @@
     "react-chartjs": "^0.7.3",
     "react-data-grid": "^1.0.44",
     "react-datagrid": "^2.1.1",
+    "react-dnd": "^2.1.4",
+    "react-dnd-html5-backend": "^2.1.2",
     "react-dom": "^0.14.7",
     "react-fa": "^4.0.0",
     "react-flipcard": "^0.2.1",
+    "react-graph-vis": "0.0.3",
     "react-grid-layout": "^0.11.1",
     "react-highcharts": "^8.0.2",
     "react-icons/lib": "^1.0.3",
@@ -101,6 +105,7 @@
     "underscore.string": "^3.3.4",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.0.0",
+    "vis": "^4.16.1",
     "watchify": "^3.4.0"
   },
   "devDependencies": {

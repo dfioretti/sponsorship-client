@@ -32,7 +32,7 @@ var Workspace = require('./components/routes/Workspace.jsx');
 var Scope = require('./components/routes/Scope.jsx');
 var Analyze = require('./components/routes/Analyze.jsx');
 var PortfolioHome = require('./components/routes/PortfolioHome.jsx');
-
+var PropertyDashboard = require('./components/routes/PropertyDashboard.jsx');
 var LoginPage = require('./components/routes/LoginPage.jsx');
 
 var defaultRoute = (location.hostname.indexOf('mcd') > -1) ? Analytics : PortfolioDashboard;
@@ -62,7 +62,7 @@ module.exports = (
     <Route name='data_index' handler={DataIndex} path='data_index' />
 
     <Route name='portfolio_dashboard' handler={PortfolioDashboard} path='apt/portfolio/dashboard' />
-    <Route name='asset_dashboard' handler={PortfolioDashboard} path="apt/asset/dashboard/:id" />
+    <Route name='asset_dashboard' handler={PropertyDashboard} path="apt/asset/dashboard/:id" />
     <Route name='portfolio_overview' handler={PortfolioOverview} path='portfolio_overview' />
     <Route name='asset_overview' handler={EntityOverview} path='asset_overview' />
     <Route name='workspace' handler={Workspace} path='workspace' />

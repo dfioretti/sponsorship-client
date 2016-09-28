@@ -29,6 +29,71 @@
 
 $topbar-height: rem-calc(45);
 
+.profileAvatar {
+  border: 3px solid #1C5D99;
+  position: relative;
+  left: 50px;
+  top: -75px;
+  //position: relative;
+  //left: 50px;
+  //top: -200px;
+}
+
+.text-fix {
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: white;
+}
+
+.dark {
+  color: #222222;
+}
+
+.large {
+  font-size: 24px;
+}
+
+.xlarge {
+  font-size: 64px;
+}
+
+.medium {
+  font-size: 18px;
+  //line-height: 50px;
+}
+
+.small {
+  font-size: 16px;
+  line-height: 24px;
+}
+.pad {
+  margin-top:  20px;
+  margin-bottom: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 15px;
+  line-height: 55px;
+}
+
+.cover-photo {
+//  filter: blur(1px);
+}
+/*
+.propertyCard {
+  position: relative;
+  overflow: hidden;
+}
+
+*/
+/*
+.propertyCard::after {
+  background-image: url('../../images/stadium.jpg');
+  background-size: 500px 280px;
+  opacity: 0.2;
+  z-index: -1;
+}
+*/
+
 
 *, *:before, *:after {
   box-sizing: border-box;
@@ -38,6 +103,76 @@ $topbar-height: rem-calc(45);
   color: 'green';
   height: 100px;
   background-color: 'yellow';
+}
+.chip-pop {
+  height: 120px;
+  width: 200px;
+  padding: 5px 15px 5px 15px;
+  margin-top: 60px;
+}
+
+.med-text {
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 12px;
+  display: inline-block;
+  font-family: Avenir-Book;
+}
+
+.med-text label {
+  font-family: Avenir-Book;
+}
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+.pop-arrow {
+	position: absolute;
+	//top: -18px;
+	//left: 20px;
+  top: 120px;
+  left: 75px;
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+	border-top: 20px solid rgb(238, 238, 238);//white;//rgb(233, 212, 222);
+  width: 0;
+  height: 0;
+  //-webkit-filter: drop-shadow(0 -2px 2px #AAA);
 }
 
 .slide-bar {

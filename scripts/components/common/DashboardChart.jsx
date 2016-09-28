@@ -2,6 +2,7 @@ var React = require('react');
 var ReactEcharts = require('echarts-for-react');
 var echarts = require('echarts');
 var theme = require('../../constants/macarons.js');
+var theme2 = require('../../constants/walden.js');
 var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
 
@@ -105,7 +106,8 @@ var DashboardChart = React.createClass({
 			},
 			grid: {
 				y: 100,
-				x: 90
+				x: 90,
+				x2: 60
 				//left: '3%',
 				//right: '4%',
 				//bottom: '3%',
@@ -131,6 +133,7 @@ var DashboardChart = React.createClass({
 	},
 	registerTheme: function() {
 		echarts.registerTheme('theme', theme);
+		echarts.registerTheme('theme2', theme2);
 	},
 	render: function() {
 		this.registerTheme();
@@ -141,7 +144,7 @@ var DashboardChart = React.createClass({
 					<ReactEcharts
 						option={this.getOtion()}
 						style={{height: height, width: '100%'}}
-						theme="theme"
+						theme="theme2"
 						/>
 				</div>
 			</div>

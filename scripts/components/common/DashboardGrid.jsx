@@ -44,7 +44,7 @@ var DashboardGrid = React.createClass({
 		console.log("render items", this.props.items);
     return (
       <div>
-        <ResponsiveReactGridLayout onLayoutChange={this.props.onLayoutChange} onBreakpointChange={this.props.onBreakpointChange}
+        <ResponsiveReactGridLayout style={{marginTop: 0, paddingTop: 0}} onLayoutChange={this.props.onLayoutChange} onBreakpointChange={this.props.onBreakpointChange}
             {...this.props}>
           {_.map(this.props.items, this.createElement)}
         </ResponsiveReactGridLayout>

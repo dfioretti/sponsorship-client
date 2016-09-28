@@ -124,7 +124,7 @@ gulp.task('bower-libs', function() {
   // JS from bower_components
   .pipe(jsFilter)
   .pipe(gulp.dest(p.distJs))
-  .pipe(uglify())
+  .pipe(uglify().on('error', gulpUtil.log))
   .pipe(rename({
     suffix: ".min"
   }))

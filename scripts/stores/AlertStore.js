@@ -16,7 +16,7 @@ var AlertStore = Fluxxor.createStore({
 			constants.DASHBOARD_UPDATE_SUCCESS, this.onDashboardUpdateSuccess,
 			constants.ADD_COMPONENT_TO_DASHBOARD_SUCCESS, this.onAddComponentToDashboardSuccess,
 			constants.SHOW_ALERT, this.onShowAlert
-		)
+		);
 	},
 	onShowAlert: function(payload) {
 		this.open = true;
@@ -67,7 +67,7 @@ var AlertStore = Fluxxor.createStore({
 		return {
 			message: this.message,
 			open: this.open
-		}
+		};
 	}
 });
 module.exports = AlertStore;

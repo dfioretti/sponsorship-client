@@ -8,6 +8,6 @@ var DataFormatter = function(val) {
   }
 	if (val === 1) return 100;
   return val;
-}
+};
 
 module.exports = DataFormatter;

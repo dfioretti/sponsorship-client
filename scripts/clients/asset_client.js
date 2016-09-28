@@ -8,7 +8,7 @@ AssetClient = {
       contentType: "application/json",
       url: asset_url.ASSET_URL,
       success: function(data) {
-        callback(data)
+        callback(data);
       },
       error: function(s, t, e) {
         console.log(t);

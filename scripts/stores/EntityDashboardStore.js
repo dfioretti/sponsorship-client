@@ -99,7 +99,7 @@ EntityDashboardStore = Fluxxor.createStore({
 	getState: function() {
 		var contextName = null;
 		var currentProperties = null;
-		if (!this.currentContext == null) {
+		if (this.currentContext !== null) {
 			contextProperties = this.contexts[this.currentContext];
 			contextName = this.currentContext;
 		}

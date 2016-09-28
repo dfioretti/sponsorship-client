@@ -6,6 +6,8 @@ var React = require('react'),
 var AppSidebar = require('./sidebar/app_sidebar.jsx');
 var Nav = require('./common/nav.jsx');
 var ComponentEditor = require('./editors/component_editor.jsx');
+var ScoreTab = require("./common/ScoreTab.jsx");
+var ModelBuilder = require('./editors/ModelBuilder.jsx');
 //var Gallery = require('../components/demos/Gallery.jsx');
 //var Grid = require('../components/demos/Grid.jsx');
 //var GridView = require('./containers/GridView.jsx');
@@ -31,8 +33,7 @@ var Dev = React.createClass({
   render: function () {
 		var elements = ["hey", "you", "sup"];
     return (
-			<div>
-			</div>
+			<ModelBuilder />
     );
   }
 });
