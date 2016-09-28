@@ -107,19 +107,25 @@ var ScoreTab = React.createClass({
 
 	render: function() {
 		return (
-			<div>
-				<div id="score-vis"
-					style={{width: 600, height: 400, border: "1px solid lightgray"}}
-					>
-				</div>
-				<button onClick={this.addNode}>add</button>
-			</div>
+			<Grid>
+				<Row>
+					<Col md={4}>
+					</Col>
+					<Col md={8}>
+					</Col>
+				</Row>
+			</Grid>
 		);
 	}
-
-
-
-
+/*
+<div>
+	<div id="score-vis"
+		style={{width: 600, height: 400, border: "1px solid lightgray"}}
+		>
+	</div>
+	<button onClick={this.addNode}>add</button>
+</div>
+*/
 });
 
 module.exports = ScoreTab;

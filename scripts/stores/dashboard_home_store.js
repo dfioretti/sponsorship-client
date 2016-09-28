@@ -34,6 +34,7 @@ DashboardHomeStore = Fluxxor.createStore({
     getCustomDashboards: function() {
       var customDashboards = [];
         this.dashboards.forEach(function(s) {
+          if (typeof(s) === 'undefined') return;
             "custom" == s.kind && customDashboards.push(s)
         }.bind(this))
         return customDashboards;

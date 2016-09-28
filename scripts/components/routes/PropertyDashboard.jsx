@@ -287,7 +287,7 @@ var PropertyDashboard = React.createClass({
 				key: 'icon',
 				name: '',
 				formatter: this.sourceFormatter,
-				width: 60
+				width: 55
 			},
 			{
 				key: 'source',
@@ -295,7 +295,7 @@ var PropertyDashboard = React.createClass({
 				//filterable: true,
 				sortable: true,
 				formatter: this.sourceNameFormatter,
-				width: 120
+				width: 100
 			},
 			{
 				key: 'metric',
@@ -303,13 +303,13 @@ var PropertyDashboard = React.createClass({
 				//filterable: true,
 				sortable: true,
 				formatter: this.metricFormatter,
-				width: 250
+				width: 150
 			},
 			{
 				key: 'value',
 				name: 'Value',
 				sortable: true,
-				width: 120,
+				width: 100,
 				formatter: this.valueFormatter
 			},
 			{
@@ -329,6 +329,7 @@ var PropertyDashboard = React.createClass({
 				<div>
 					<ReactDataGrid
 						columns={columns}
+						style={{fontSize: 12}}
 						rowGetter={this.rowGetter}
 						rowsCount={this.state.rows.length}
 						onGridSort={this.handleGridSort}

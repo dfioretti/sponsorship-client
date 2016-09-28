@@ -13,7 +13,6 @@ var DashboardGrid = require('../common/DashboardGrid.jsx');
 var Tabs = require('material-ui').Tabs;
 var Tab = require('material-ui').Tab;
 var Colors = require('../../constants/colors.js');
-
 var ScopeTab = require('../common/ScopeTab.jsx');
 var ScoreTab = require('../common/ScoreTab.jsx');
 var FlatButton = require('material-ui').FlatButton;
@@ -55,10 +54,11 @@ var Analyze = React.createClass({
 		if (nextProps.params.id) {
 			var dashboard = this.getFlux().store("DashboardHomeStore").getDashboard(nextProps.params.id);
 			if (dashboard) {
+				console.log('lick me', dashboard);
 				this.setState({
 					scopeName: dashboard.name,
-					scopeProperties: dashboard.state.context,
-					items: dashboard.state.layout,
+					scopeProperties: (dashboard.state.context) ? dashboard.state.context : [],
+					items: (dashboard.state.layout) ? dashboard.state.layout : [],
 					elements: dashboard.state.elements,
 					id: nextProps.params.id,
 					newCounter: dashboard.state.elements.length
@@ -90,7 +90,7 @@ var Analyze = React.createClass({
 		this.setState({activeTab: value});
 	},
 	onAnalyzeAdd: function(ev) {
-		if (this.state.scopeProperties.length == 0) {
+		if (this.state.scopeProperties !== null && this.state.scopeProperties.length == 0) {
 			this.setState({
 				showError: true
 			});
