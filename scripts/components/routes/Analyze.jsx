@@ -54,7 +54,6 @@ var Analyze = React.createClass({
 		if (nextProps.params.id) {
 			var dashboard = this.getFlux().store("DashboardHomeStore").getDashboard(nextProps.params.id);
 			if (dashboard) {
-				console.log('lick me', dashboard);
 				this.setState({
 					scopeName: dashboard.name,
 					scopeProperties: (dashboard.state.context) ? dashboard.state.context : [],
@@ -126,7 +125,6 @@ var Analyze = React.createClass({
 			kpiDialogOpen: false,
 			formulas: formulas
 		});
-		console.log('do kpi save', data);
 	},
 	doSave: function(data) {
 		var elements = this.state.elements;
