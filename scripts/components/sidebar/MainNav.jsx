@@ -1,5 +1,5 @@
 var React = require('react'),
-	 	ToggleIcon = require('react-icons/lib/md/arrow-drop-down'),
+	 	ToggleIcon = require('react-icons/lib/md/arrow-drop_down'),
 		DashboardIcon = require('react-icons/lib/fa/dashboard'),
 		ModuleIcon = require('react-icons/lib/md/dashboard'),
 		ScoreIcon = require('react-icons/lib/fa/sitemap'),
