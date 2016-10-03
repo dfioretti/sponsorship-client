@@ -9,7 +9,7 @@ var React = require('react'),
 		ListIcon = require('react-icons/lib/fa/list-ul');
 		MuiThemeProvider = require('material-ui').MuiThemeProvider;
 		//cyan500 = require('material-ui/lib/styles/colors').cyan500;
-		getMuiTheme = require('material-ui/lib/styles').getMuiTheme;
+		getMuiTheme = require('material-ui/styles').getMuiTheme;
 		//require('material-ui').getMuiTheme;
 		SelectField = require('material-ui').SelectField;
 		MenuItem = require('material-ui').MenuItem;
