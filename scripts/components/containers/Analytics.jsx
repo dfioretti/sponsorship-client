@@ -35,6 +35,7 @@ var MetricTable = require('../../components/elements/MetricTable.jsx');
 var InfoIcon = require('react-icons/lib/md/info-outline');
 var Popover = require('material-ui').Popover;
 var titleize = require('underscore.string/titleize');
+var _ = require('underscore');
 
 var Analytics = React.createClass({
     mixins: [FluxMixin, StoreWatchMixin("AnalyticsStore")],

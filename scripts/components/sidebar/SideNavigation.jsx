@@ -1,5 +1,5 @@
 var React = require('react'),
-		LeftNav = require('material-ui').LeftNav,
+		LeftNav = require('material-ui').Drawer,
 		AssetSearch = require('./AssetSearch.jsx'),
 		Divider = require('material-ui').Divider,
 		OverviewContextMenu = require('./OverviewContextMenu.jsx'),
@@ -47,6 +47,13 @@ var SideNavigation = React.createClass({
 		)
 	},
 	render: function() {
+		/*
+		return (
+			<div>
+				hey
+			</div>
+		);
+		*/
 		var navState = this.getFlux().store("NavigationStore").getState();
 
 		//if (this.getFlux().store("NavigationStore").getState().currentView === 'home')
