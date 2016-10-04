@@ -1,5 +1,5 @@
 var React = require('react');
-
+var ReactDOM = require('react-dom');
 var ReactDataGrid = require('react-data-grid');
 var ReactDataGridPlugins = require('react-data-grid/addons');
 var Toolbar = ReactDataGridPlugins.Toolbar;
@@ -98,7 +98,7 @@ var MetricBuilder = React.createClass({
 		});
 	},
 	getInitialState : function(){
-		return { formula: [], inputData: [], outputData: [] , data: Immutable.List(), filteredData: Immutable.List(), displayData: Immutable.List(), dataSearchText: "", searchText: "", fullWidth: false}
+		return { formulaName: "", formula: [], inputData: [], outputData: [] , data: Immutable.List(), filteredData: Immutable.List(), displayData: Immutable.List(), dataSearchText: "", searchText: "", fullWidth: false}
 		/*var columns = [
 		{
 		key: 'id',
@@ -191,8 +191,8 @@ var MetricBuilder = React.createClass({
 		var rows = this.getRows();
 		return rows[rowIdx];
 	},
-	doSave: function(event) {
-		this.props.doSave(this.state.formula);
+	doKpiSave: function(event) {
+		this.props.doKpiSave({ name: this.kpiName.input.value, formula: this.state.formula, uuid: uuid.v4() });
 	},
 	handleFilterChange : function(filter){
 		var newFilters = Object.assign({}, this.state.filters);
@@ -268,13 +268,29 @@ var MetricBuilder = React.createClass({
 			formula: formula
 		});
 	},
+	updateFormulaName: function(event) {
+		this.setState({
+			formulaName: event.target.value
+		});
+	},
 	render:function(){
 		var sortStyle = {
 			color: Colors.DARK,
 		};
 		var iconSize = 15;
+		//								onChange={this.updateFormulaName}
+
 		return(
 			<div>
+				<Row>
+					<Col md={8}>
+							<TextField
+								ref={(ref) => this.kpiName = ref}
+								hintText="KPI Name"
+								fullWidth={this.state.fullWidth}
+								/>
+					</Col>
+				</Row>
 				<Row>
 					<Col md={4}>
 						<h4 style={{paddingTop: "10px", textTransform: "uppercase", letterSpacing: "1.5px"}}>Browse</h4>
@@ -286,7 +302,7 @@ var MetricBuilder = React.createClass({
 								<TextField
 									value={this.state.searchText}
 									onChange={this.filterData}
-									hintText="Property Search"
+									hintText="Data Search"
 									fullWidth={this.state.fullWidth}
 									onFocus={this.focusSearch}
 									onBlur={this.blurSearch}
@@ -300,7 +316,6 @@ var MetricBuilder = React.createClass({
 							selectable={false}
 							multiSelectable={false}
 							>
-
 							<TableBody
 								displayRowCheckbox={false}
 								deselectOnClickaway={false}
@@ -342,7 +357,7 @@ var MetricBuilder = React.createClass({
 						<FlatButton
 							label="Save"
 							primary={false}
-							onTouchTap={this.doSave}
+							onTouchTap={this.doKpiSave}
 							/>
 					</Col>
 				</Row>

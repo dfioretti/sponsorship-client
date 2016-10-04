@@ -81,7 +81,7 @@
     "react-graph-vis": "0.0.3",
     "react-grid-layout": "^0.11.1",
     "react-highcharts": "^8.0.2",
-    "react-icons/lib": "^1.0.3",
+    "react-icons": "^1.0.3",
     "react-loader": "^2.2.0",
     "react-materialize": "^0.14.3",
     "react-packery-component": "^1.0.2",

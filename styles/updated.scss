@@ -1,0 +1,40 @@
+
+.tab-col {
+	margin: 20px 0px 0px 0x;
+	padding: 0px 0px 0px 20px;
+}
+
+.tab-content {
+	background-color: white;
+	width: 100%;
+	height: calc(100vh - 145px)	;
+}
+
+.small-pad {
+	padding: 10px 10px 10px 10px;
+}
+
+.center {
+	text-align: center;
+}
+
+.title {
+	text-transform: uppercase;
+	letter-spacing: 1.5px;
+	.med {
+		font-size: 18px;
+	}
+	.small {
+		font-size: 10px;
+	}
+	.large {
+		font-size: 24px;
+	}
+}
+/*
+.med-title {
+	text-transform: uppercase;
+	letter-spacing: 1.5px;
+
+}
+*/

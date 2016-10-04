@@ -43,17 +43,16 @@ var FormulaContainer = React.createClass({
 		if (typeof(item.key) == 'undefined') {
 			item['key'] = uuid.v4();
 		}
-		console.log('call update output', this.state.outputData.concat(item));
 		this.props.updateOutput(this.state.outputData.concat(item));
 		this.setState({
 			outputData: this.state.outputData.concat(item)
 		});
 	},
 	handleValueDrop: function(item) {
-		console.log('handle value drop?', item);
+		//console.log('handle value drop?', item);
 	},
 	handleNormWeight: function(item) {
-		console.log('norm weight for', item);
+		//console.log('norm weight for', item);
 	},
 	renderOutputs: function(data) {
 		var style = {
@@ -258,7 +257,7 @@ var FormulaContainer = React.createClass({
 				width: 75,
 				border: "2px dashed rgba(51, 54, 59, 0.1)",
 				margin: 5,
-				borderRadius: '50%'
+				//borderRadius: '50%'
 			}
 			if (this.state.outputData.length > 0) {
 				return (
@@ -287,12 +286,10 @@ var FormulaContainer = React.createClass({
 			this.outputData = this.state.outputData;
 			var outputToDelete = this.outputData.map((output) => output.key).indexOf(key);
 			this.outputData.splice(outputToDelete, 1);
-			console.log('remove data', this.outputData);
 			this.props.updateOutput(this.outputData);
 			this.setState({outputData: this.outputData});
 		},
 		hideOverlay: function(data, event) {
-			console.log('hide overlay', data, this.state.popovers);
 			var popovers = this.state.popovers;
 			if (typeof(popovers[data.key]) === 'undefined') {
 				popovers[data.key] = true;
@@ -314,7 +311,6 @@ var FormulaContainer = React.createClass({
 		},
 		showOverlay: function(data, event) {
 			this.inputData = this.state.inputData;
-			console.log("in data", this.inputData);
 			var popovers = this.state.popovers;
 			var toggleState = false;
 			if (typeof(popovers[data.key]) !== 'undefined') {
@@ -335,10 +331,8 @@ var FormulaContainer = React.createClass({
 			inputData: this.inputData
 			});
 			*/
-			console.log('show', data, event);
 		},
 		renderInput: function(data) {
-			console.log('data in input', data, this);
 			var showState = this.state.popovers[data.key];
 			var show = false;
 			if (typeof(showState) === 'undefined') {

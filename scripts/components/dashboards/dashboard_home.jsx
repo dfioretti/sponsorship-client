@@ -26,8 +26,6 @@ var DashboardHome = React.createClass({
 		this.getFlux().actions.setCurrentNav("dashboard", this.props.params.id);
 		if (this.isDashboardLoaded()) {
 			var dash = this.getDashboardFromFlux();
-			console.log('dash', dash);
-			console.log('stat', this.state);
 			this.getFlux().actions.setBreadcrumb("Dashboards > " + dash.name);
 		}
 		/*

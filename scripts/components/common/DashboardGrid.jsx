@@ -24,7 +24,6 @@ var DashboardGrid = React.createClass({
     };
 
     var height = (el.h * this.props.rowHeight);
-    console.log("elementi", el.i);
 		return (
 			<div key={el.i} _grid={el}>
 				<Card style={{height: "100%",width: "100%"}}>
@@ -36,12 +35,10 @@ var DashboardGrid = React.createClass({
 
   // TODO: port to parent..
   onRemoveItem(i) {
-    console.log('removing', i);
     this.setState({items: _.reject(this.state.items, {i: i})});
   },
 
   render() {
-		console.log("render items", this.props.items);
     return (
       <div>
         <ResponsiveReactGridLayout style={{marginTop: 0, paddingTop: 0}} onLayoutChange={this.props.onLayoutChange} onBreakpointChange={this.props.onBreakpointChange}

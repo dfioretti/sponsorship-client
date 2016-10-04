@@ -43,8 +43,16 @@ var FixedSide = React.createClass({
 	getStateFromFlux: function() {
 		return this.getFlux().store("DashboardHomeStore").getState();
 	},
+	renderEmpty: function() {
+		return (
+			<MenuItem
+				style={{fontSize: 10, backgroundColor: Colors.DARK_BACKGROUND, color: Colors.WHITE, textTransform: 'uppercase', letterSpacing: '1.5', fontFamily: 'Avenir-Book'}}
+				primaryText={"No Assessments"}
+				disabled={true}
+				/>
+		);
+	},
 	renderContexts: function(context) {
-		//				<Link style={{color: "white"}} to={'/apt/dashboard/' + d.id}>
 		return (
 			<MenuItem
 				style={{fontSize: 10, backgroundColor: Colors.DARK_BACKGROUND, color: Colors.WHITE, textTransform: 'uppercase', letterSpacing: '1.5', fontFamily: "Avenir-Book"}}
@@ -53,13 +61,6 @@ var FixedSide = React.createClass({
 				primaryText={context.name}
 				/>
 		);
-		/*
-		return (
-		<li key={context.id}>
-		<Link key={context.id} style={{color: "white"}} to={'/analyze/'+ context.id}>{context.name}</Link>
-		</li>
-		);
-		*/
 	},
 	handleClose: function(event) {
 		this.setState({
@@ -70,7 +71,6 @@ var FixedSide = React.createClass({
 		this.transitionTo('/analyze/' + value);
 	},
 	handleSave: function(event) {
-		console.log('cocksucker');
 		var context = [];
 		var layout = [];
 		var dashboard = {
@@ -80,7 +80,9 @@ var FixedSide = React.createClass({
 			state: {
 				context: new Array(),
 				layout: new Array(),
-				elements: {}
+				elements: {},
+				formulas: new Array(),
+				activeTab: 'scope'
 			}
 		}
 		DashboardClient.createDashboard(dashboard, function(data) {
@@ -122,7 +124,6 @@ var FixedSide = React.createClass({
 				onTouchTap={this.handleSave}
 				/>
 		];
-		console.log('in render bitch', this.state);
 		return (
 			<div>
 				<Dialog
@@ -176,7 +177,7 @@ var FixedSide = React.createClass({
 						anchorOrigin={{vertical: 'top', horizontal: 'right'}}
 						onChange={this.handleChange}
 						>
-						{this.state.contextDashboards.map(this.renderContexts, this)}
+						{(this.state.contextDashboards.length > 0) ? this.state.contextDashboards.map(this.renderContexts, this) : this.renderEmpty()}
 					</IconMenu>
 					<h6 style={{marginTop: -10, fontSize: 10, color: '#FFFEFF', textAlign: 'center', textTransform: 'uppercase', letterSpacing: '1.5'}}>Analyze</h6>
 				</div>

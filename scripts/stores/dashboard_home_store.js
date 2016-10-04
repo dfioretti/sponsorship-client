@@ -80,6 +80,14 @@ DashboardHomeStore = Fluxxor.createStore({
       this.dashboards.push(payload.dashboard);
       this.emit("change");
     },
+    updateDashboard: function(dashboard) {
+      for (var i = 0; i < this.dashboards.length; i++) {
+        if (this.dashboards[i].id == dashboard.id) {
+          this.dashboards[i] = dashboard;
+          break;
+        }
+      }
+    },
     onDashboardUpdateSuccess: function(payload) {
       for (var i = 0; i < this.dashboards.length; i++) {
         if (this.dashboards[i].id == payload.dashboard.id) {

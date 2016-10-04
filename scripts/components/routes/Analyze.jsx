@@ -16,26 +16,34 @@ var Colors = require('../../constants/colors.js');
 var ScopeTab = require('../common/ScopeTab.jsx');
 var ScoreTab = require('../common/ScoreTab.jsx');
 var FlatButton = require('material-ui').FlatButton;
+var uuid = require('node-uuid');
 var TextField = require('material-ui').TextField;
 var SaveIcon = require('react-icons/lib/md/done');
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 var CircularProgress =  require('material-ui').CircularProgress;
 var MetricBuilder = require('../editors/MetricBuilder.jsx');
+var DashboardClient = require('../../clients/dashboard_client.js');
+var constants = require('../../constants/constants.js');
 
 var Analyze = React.createClass({
 	mixins: [FluxMixin, StoreWatchMixin("AssetsStore")],
-
+	getInitialState: function() {
+		return { models: [], formulas: [], id: null, scopeName: "", kpis: [], scopeProperties: [], showError: false, activeTab: 'scope', dialogOpen: false, kpiDialogOpen: false, items: [], elements: {}, newCounter: 0, breakpoint: 'lg', cols: 12 }
+	},
 	componentWillMount: function() {
 		if (this.props.params.id) {
 			var dashboard = this.getFlux().store("DashboardHomeStore").getDashboard(this.props.params.id);
 			if (dashboard) {
 				this.setState({
 					scopeName: dashboard.name,
-					scopeProperties: dashboard.state.context,
-					items: dashboard.state.layout,
+					scopeProperties: (dashboard.state.context) ? dashboard.state.context : [],
+					items: (dashboard.state.layout) ? dashboard.state.layout : [],
 					elements: dashboard.state.elements,
 					id: this.props.params.id,
-					newCounter: dashboard.state.elements.length
+					newCounter: dashboard.state.elements.length,
+					formulas: (dashboard.state.formulas) ? dashboard.state.formulas : [],
+					activeTab: dashboard.state.activeTab,
+					models: (dashboard.state.models) ? dashboard.state.models : []
 				});
 			}
 		}
@@ -46,7 +54,10 @@ var Analyze = React.createClass({
 				items: [],
 				elements: {},
 				id: null,
-				newCounter: 0
+				newCounter: 0,
+				formulas: [],
+				activeTab: 'scope',
+				models: []
 			});
 		}
 	},
@@ -60,7 +71,10 @@ var Analyze = React.createClass({
 					items: (dashboard.state.layout) ? dashboard.state.layout : [],
 					elements: dashboard.state.elements,
 					id: nextProps.params.id,
-					newCounter: dashboard.state.elements.length
+					newCounter: dashboard.state.elements.length,
+					formulas: (dashboard.state.formulas) ? dashboard.state.formulas : [],
+					activeTab: dashboard.state.activeTab,
+					models: (dashboard.state.models) ? dashboard.state.models : []
 				});
 			}
 		} else {
@@ -70,12 +84,12 @@ var Analyze = React.createClass({
 				items: [],
 				elements: {},
 				id: null,
-				newCounter: 0
+				newCounter: 0,
+				formulas: [],
+				activeTab: 'scope',
+				models: []
 			});
 		}
-	},
-	getInitialState: function() {
-		return { formulas: [], id: null, scopeName: "", scopeProperties: [], showError: false, activeTab: 'scope', dialogOpen: false, kpiDialogOpen: false,items: [], elements: {}, newCounter: 0, breakpoint: 'lg', cols: 12 }
 	},
 	getStateFromFlux: function() {
 		return this.getFlux().store("AssetsStore").getState();
@@ -96,6 +110,9 @@ var Analyze = React.createClass({
 		} else {
 			this.setState({dialogOpen: true});
 		}
+	},
+	onModelChange: function(event) {
+		console.log('on model change', event);
 	},
 	onKpiAdd: function(ev) {
 		if (this.state.scopeProperties.length == 0) {
@@ -128,7 +145,9 @@ var Analyze = React.createClass({
 	},
 	doSave: function(data) {
 		var elements = this.state.elements;
-		elements['key-' + this.state.newCounter] = {
+		var id = uuid.v4();
+		//elements['key-' + this.state.newCounter] = {
+		elements['key-' + id] = {
 			chartType: data.chartType.toLowerCase(),
 			properties: data.chipData,
 			dataPoints: data.dataChips,
@@ -137,11 +156,12 @@ var Analyze = React.createClass({
 		this.setState({
 			elements: elements,
 			items: this.state.items.concat({
-				i: 'key-' + this.state.newCounter,
+				i: 'key-' + id,
+				//i: 'key-' + this.state.newCounter,
 				x: this.state.items.length * 2 % (this.state.cols || 12),
 				y: Infinity,
-				w: 5,
-				h: 5,
+				w: 3,
+				h: 2,
 				data: data
 			}),
 			newCounter: this.state.newCounter + 1,
@@ -167,37 +187,29 @@ var Analyze = React.createClass({
 	saveScope: function() {
 		var dashboard = {
 			company_id: 5555,
-			id: this.state.id,
+			id: this.props.params.id,
 			name: this.state.scopeName,
 			kind: 'context',
 			state: {
 				context: this.state.scopeProperties,
 				layout: this.state.items,
 				elements: this.state.elements,
+				formulas: this.state.formulas,
+				activeTab: this.state.activeTab
 			}
-
 		}
-		if (this.state.new) {
-			this.getFlux().actions.contextCreate(dashboard);
+		if (this.props.params.id) {
+			DashboardClient.updateDashboard(dashboard, function(data) {
+				this.getFlux().store("DashboardHomeStore").updateDashboard(data);
+			}.bind(this));
+			//this.getFlux().actions.contextCreate(dashboard);
 		} else {
-			this.getFlux().actions.contextUpdate(dashboard);
+			DashboardClient.createDashboard(dashboard, function(data) {
+				//this.getFlux().store("DashboardHomeStore").updateDashboard({dashboard: data});
+			}.bind(this));
+			//this.getFlux().actions.contextUpdate(dashboard);
 		}
 	},
-	/*
-	<Col md={1} style={{padding: 0, margin: 0}}>
-		<div style={{fontSize: '20px', lineHeight: '48px', textAlign: 'bottom', textTransform: 'uppercase', letterSpacing: '1.5', height: 48}}>
-			SCOPE:
-		</div>
-	</Col>
-	<Col md={10}>
-		<TextField
-			style={{textTransform: 'uppercase', letterSpacing: '1.5px'}}
-			hintText='Scope Name'
-			onChange={this.onScopeNameUpdate}
-			value={this.state.scopeName}
-			/>
-	</Col>
-	*/
 	renderContent: function(currentAssets) {
 		if (this.state.activeTab == 'scope') {
 			return (
@@ -249,7 +261,7 @@ var Analyze = React.createClass({
 						autoScrollBodyContent={true}
 						contentStyle={{width: "75%", height: "900px", maxWidth: 'none'}}
 						>
-						<MetricBuilder handleClose={this.handleKpiClose} doSave={this.doKpiSave} assets={currentAssets} />
+						<MetricBuilder handleClose={this.handleKpiClose} doKpiSave={this.doKpiSave} assets={currentAssets} />
 					</Dialog>
 					<Row style={{margin: 0, padding: 0}}>
 							<FloatingActionButton backgroundColor={Colors.SECONDARY} style={{float: 'right', marginTop: -30}} mini={false} onTouchTap={this.onKpiAdd}>
@@ -257,7 +269,7 @@ var Analyze = React.createClass({
 							</FloatingActionButton>
 					</Row>
 					<Row md={12}>
-						<ScoreTab />
+						<ScoreTab models={this.state.models} onModelChange={this.onModelChange} formulas={this.state.formulas} onKpiAdd={this.onKpiAdd} />
 					</Row>
 				</Grid>
 			);
@@ -305,6 +317,9 @@ var Analyze = React.createClass({
 			textTransform: 'uppercase',
 			paddingTop: 0
 		}
+		if (this.state.id !== null) {
+			this.saveScope();
+		}
 		return (
 			<div>
 				<Row style={{margin: 0, padding: 0}}>
@@ -326,7 +341,6 @@ var Analyze = React.createClass({
 			</div>
 		);
 	}
-
 });
 
 module.exports = Analyze;

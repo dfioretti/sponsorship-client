@@ -128,7 +128,6 @@ var DashboardChart = React.createClass({
 			],
 			series : series
 		};
-		console.log('options', option);
 		return option;
 	},
 	registerTheme: function() {

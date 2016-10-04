@@ -23,10 +23,11 @@ var TextField = require("material-ui").TextField;
 var Paper = require('material-ui').Paper;
 var IconButton = require('material-ui').IconButton;
 var CircularProgress = require('material-ui').CircularProgress;
+var uuid = require('node-uuid');
 
 var VisualizationDialog = React.createClass({
 	getInitialState: function() {
-		return { charts: ['Bar', 'Line', 'Area', 'Pie'], chartType: "Bar", chartName: "", chipData: [], searchText: "", dataChips: [], dataSearchText: ""};
+		return { charts: ['Bar', 'Line', 'Area', 'Pie'], uuid: uuid.v4(), chartType: "Bar", chartName: "", chipData: [], searchText: "", dataChips: [], dataSearchText: ""};
 	},
 	getDataSearchItems: function() {
 		var data = [];
