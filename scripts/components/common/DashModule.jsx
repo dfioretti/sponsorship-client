@@ -63,17 +63,11 @@ var DashModule = React.createClass({
 				</RadarChart>
 			);
 			break;
-		}
+		};
 		return el;
 	},
 	renderEchart: function() {
-		return (
-			<ReactEcharts
-				options={this.getOptions()}
-				notMerge={true}
-				lazyUpdate={true}
-				/>
-		);
+		return null;
 	},
 	getOptions: function() {
 		const option = {

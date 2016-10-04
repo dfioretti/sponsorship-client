@@ -125,7 +125,7 @@ var ScoreTab = React.createClass({
 			position: 'absolute',
 			zIndex: 9999999,
 			top: this.state.y + 'px',
-			left: this.state.x + 'px',
+			left: (this.state.x - 150) + 'px',
 			//marginBottom: this.state.y,
 			//marginRight: this.state.x,
 			//backgroundColor: 'green'
@@ -159,7 +159,7 @@ var ScoreTab = React.createClass({
 							primaryText={
 							<Row>
 									<Col md={9}>
-										<Slider onChange={this.onWeightChange.bind(this, this.state.currentNode)} value={this.state.currentSliderValue} step={0.05} style={{maring: 0, padding: 0}} sliderStyle={{margin: 0, padding: 0}}/>
+										<Slider onChange={this.onWeightChange.bind(this, this.state.currentNode)} value={nodes.get(this.state.currentNode).weight} step={0.05} style={{maring: 0, padding: 0}} sliderStyle={{margin: 0, padding: 0}}/>
 									</Col>
 									<Col md={2}>
 										{Math.round(nodes.get(this.state.currentNode).weight * 100, 0)}
@@ -259,6 +259,7 @@ var ScoreTab = React.createClass({
 					sortMethod: 'directed'
 				}
 			},
+			/*
 			manipulation: {
 				addEdge: function(data, callback) {
 					if (data.from == data.to) {
@@ -271,7 +272,7 @@ var ScoreTab = React.createClass({
 						callback(data);
 					}
 				}
-			},
+			},*/
 			interaction: {
 				navigationButtons: true,
 				keyboard: false
@@ -369,9 +370,9 @@ var ScoreTab = React.createClass({
 						</Row>
 					</div>
 				</Col>
-				<Col md={4}>
+				<Col md={5}>
 					<div className="tab-content">
-						<div style={{height: '100%', backgroundColor: 'green'}}>
+						<div style={{height: '100%', width: "100%", backgroundColor: 'green'}}>
 							this is the editor
 						</div>
 					</div>

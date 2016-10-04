@@ -45,15 +45,6 @@ var DashboardChart = React.createClass({
 				data.push(properties[prop.key].metric_keys[m].value);
 			});
 			masterData[properties[prop.key].name] = data;
-			/*
-			series.push({
-			name: properties[prop.key].name,
-			type: this.props.data.chartType,
-			stack: "group1",
-			areaStyle: {normal: {}},
-			data: data
-			});
-			*/
 		}.bind(this));
 
 		legend.forEach(function(s) {
@@ -61,27 +52,10 @@ var DashboardChart = React.createClass({
 			series.push({
 				name: s,
 				type: this.props.data.chartType,
-				/*
-				markPoint: {
-					data: [
-						{type: 'max', name: "Max"},
-						{type: 'min', name: "Min"}
-					]
-				},//,
-				/*
-				markLine: {
-					data: [
-						{type: 'average', name: 'Average'}
-					]
-				},
-				*/
-				//stack: 'group1',
-				//areaStyle: {normal: {}},
 				data: masterData[s]
 			})
 		}.bind(this));
 
-		//console.log('properties', properties);
 		const option = {
 			title: {
 				text: this.props.data.title
@@ -152,28 +126,3 @@ var DashboardChart = React.createClass({
 });
 
 module.exports = DashboardChart;
-/*
-[
-{
-name:'邮件营销',
-type:'line',
-stack: '总量',
-areaStyle: {normal: {}},
-data:[120, 132, 101, 134, 90, 230, 210]
-},
-{
-name:'联盟广告',
-type:'line',
-stack: '总量',
-areaStyle: {normal: {}},
-data:[220, 182, 191, 234, 290, 330, 310]
-},
-{
-name:'视频广告',
-type:'line',
-stack: '总量',
-areaStyle: {normal: {}},
-data:[150, 232, 201, 154, 190, 330, 410]
-}
-]
-*/
