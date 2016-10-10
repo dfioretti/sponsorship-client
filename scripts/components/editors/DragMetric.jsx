@@ -1,19 +1,18 @@
 var React = require('react');
 var DragSource = require('react-dnd').DragSource;
 var PropTypes = React.PropTypes;
-var Chip = require('material-ui').Chip;
-var Avatar = require('material-ui').Avatar;
 var uuid = require('node-uuid');
 
 var metricSource = {
-
 	beginDrag: function(props) {
 		return {
 			text: props.text,
-			key: props.iid,
+			id: props.id,
 			point: props.point,
+			type: props.type,
 			dragType: props.dragType,
-			icon: props.icon
+			icon: props.icon,
+			updateDrag: props.updateDrag
 		};
 	},
 	endDrag: function(props, monitor) {
@@ -33,16 +32,17 @@ var DragMetric = React.createClass({
 	propTypes: {
 		text: PropTypes.string.isRequired,
 		dragType: PropTypes.string.isRequired,
-		//key: PropTypes.string.isRequired,
-		isDragging: PropTypes.bool.isRequired,
-		connectDragSource: PropTypes.func.isRequired
+		id: PropTypes.string.isRequired,
+		//isDragging: PropTypes.bool.isRequired,
+		connectDragSource: PropTypes.func.isRequired,
+		updateDrag: PropTypes.func.isRequired
 	},
 	render: function() {
 		var isDragging = this.props.isDragging;
 		var connectDragSource = this.props.connectDragSource;
 		var text = this.props.text;
 		return connectDragSource(
-			<div key={this.key} style={{display: 'inline-block', opacity: isDragging ? 0.5 : 1}}>
+			<div key={this.props.id} style={{display: 'inline-block', opacity: isDragging ? 0.5 : 1}}>
 				{this.props.children}
 			</div>
 		);

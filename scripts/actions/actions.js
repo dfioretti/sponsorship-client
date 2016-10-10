@@ -150,6 +150,11 @@ actions = {
       this.dispatch(constants.CONTEXT_UPDATE_FAIL);
     }.bind(this));
   },
+  propogateContext: function(context) {
+    this.dispatch(constants.CONTEXT_UPDATE_SUCCESS, {
+      dashboard: context
+    });
+  },
   dashboardEditLoad: function(t) {
       this.dispatch(constants.LOAD_EDITOR_DASHBOARD, {
           dashboard_id: t

@@ -1,10 +1,11 @@
 var React = require('react');
+var Analytics = require('../containers/Analytics.jsx');
 
 var PortfolioHome = React.createClass({
 
 	render: function() {
 		return (
-			<h1>TODO</h1>
+			<Analytics wide={true} />
 		);
 	}
 

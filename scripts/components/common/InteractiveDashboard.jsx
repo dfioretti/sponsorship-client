@@ -43,7 +43,7 @@ var options = {
  */
 var InteractiveDashboard = React.createClass({
 
-	getInitialState() {
+	getInitialState: function() {
 		var layout = [
 		];
 
@@ -55,7 +55,7 @@ var InteractiveDashboard = React.createClass({
 		}
 	},
 
-	onAddItem() {
+	onAddItem: function() {
 		this.setState({
 			newLayout: this.state.newLayout.concat({
 				i: 'n' + this.state.newCounter,
@@ -68,7 +68,7 @@ var InteractiveDashboard = React.createClass({
 		});
 	},
 
-	renderLayout() {
+	renderLayout: function() {
 		{this.state.layout.map(function(i) {
 			console.log("render", i);
 			return (
@@ -86,7 +86,7 @@ var InteractiveDashboard = React.createClass({
 		//this.setState({layout: layout});
 	},
 
-  render() {
+  render: function() {
 		console.log("render", this.state.newLayout);
 		var rowHeight = 150;
 		var cols = 12;

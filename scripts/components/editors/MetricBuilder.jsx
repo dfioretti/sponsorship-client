@@ -10,6 +10,9 @@ var Colors = require('../../constants/colors.js');
 var Col = require('react-bootstrap').Col;
 var Grid = require('react-bootstrap').Grid;
 var Row = require('react-bootstrap').Row;
+var NormalizeIcon = require('react-icons/lib/fa/magic')
+var WeightIcon = require('react-icons/lib/fa/balance-scale');
+var Slider = require('material-ui').Slider;
 var Chip = require('material-ui').Chip;
 var Avatar = require('material-ui').Avatar;
 var DragSource = require('react-dnd').DragSource;
@@ -18,6 +21,7 @@ var PropTypes = React.PropTypes;
 var DragMetric = require('./DragMetric.jsx');
 var FormulaContainer = require('./FormulaContainer.jsx');
 var uuid = require('node-uuid');
+var Toggle = require('material-ui').Toggle;
 var PlusIcon = require('react-icons/lib/ti/plus');
 var AutoComplete = require('material-ui').AutoComplete;
 var titleize = require('underscore.string/titleize');
@@ -36,24 +40,13 @@ var TableHeader = require('material-ui').TableHeader;
 var TableHeaderColumn = require('material-ui').TableHeaderColumn;
 var TableRow = require('material-ui').TableRow;
 var TableRowColumn = require('material-ui').TableRowColumn;
+var Popover = require('material-ui').Popover;
+var List = require('material-ui').List;
+var ListItem = require('material-ui').ListItem;
+var Divider = require('material-ui').ListItem;
+var StatEngine = require('../../utils/StatEngine.js');
 
-function createRows(numberOfRows){
-	var _rows = [];
-	for (var i = 1; i < numberOfRows; i++) {
-		_rows.push({
-			id: i,
-			point: 'Point ' + i,
-			icon: '/images/metrics/espn.png',
-			kind: ['Survey', 'Social', 'Financial', 'Native'][Math.floor((Math.random() * 3) + 1)],
-			source: ['ESPN', 'Twitter', 'Facebook', 'Instagram'][Math.floor((Math.random() * 3) + 1)],
-		});
-	}
-	return _rows;
-}
-
-var rowGetter = function(i){
-	return _rows[i];
-};
+var currentElementWeight;
 
 var MetricBuilder = React.createClass({
 	getDataSearchItems: function() {
@@ -75,15 +68,26 @@ var MetricBuilder = React.createClass({
 		});
 		return data
 	},
-	componentWillReceiveProps(newProps) {
+	componentWillReceiveProps: function(newProps) {
 		this.loadStateData(newProps);
 	},
 	componentWillMount: function() {
 		this.loadStateData(this.props);
 	},
 	loadStateData: function(props) {
+		console.log('props yo', props);
+		console.log('props', props.kpiEdit);
 		var data = [];
 		var metrics = props.assets[0].metrics;
+		if (props.kpiEdit) {
+			this.setState({
+				formulaName: props.kpiEdit.name,
+				uuid: props.kpiEdit.uuid,
+				formula: props.kpiEdit.formula,
+				outputData: props.kpiEdit.formula
+			});
+		}
+		if (typeof(metrics) === 'undefined') return;
 		metrics.forEach(function(m) {
 			data.push({
 				text: titleize(m.metric.split("_").join(" ")),
@@ -91,37 +95,15 @@ var MetricBuilder = React.createClass({
 				icon: '/images' + m.icon,
 			});
 		});
+
 		this.setState({
 			data: Immutable.fromJS(data).toList(),
 			filteredData: Immutable.fromJS(data).toList(),
-			displayData: Immutable.fromJS(data).toList()
+			displayData: Immutable.fromJS(data).toList(),
 		});
 	},
 	getInitialState : function(){
-		return { formulaName: "", formula: [], inputData: [], outputData: [] , data: Immutable.List(), filteredData: Immutable.List(), displayData: Immutable.List(), dataSearchText: "", searchText: "", fullWidth: false}
-		/*var columns = [
-		{
-		key: 'id',
-		name: '',
-		width: 50,
-		formatter: this.addFormatter
-		},
-		{
-		key: 'source',
-		name: 'Source',
-		filterable: true,
-		sortable: true
-		},
-		{
-		key: 'point',
-		name: 'Value',
-		filterable: true,
-		sortable: true
-		},
-		]
-		var rows = createRows(100);
-		return {columns: columns, inputData: [], outputData: [], rows : rows, filters : {}};
-		*/
+		return { currentIndex: -1, anchorEl: null, uuid: uuid.v4(), currentNode: null, currentSliderValue: 1, formulaName: "", showPopover: false, formula: [], inputData: [], outputData: [] , data: Immutable.List(), filteredData: Immutable.List(), displayData: Immutable.List(), dataSearchText: "", searchText: "", fullWidth: false}
 	},
 	filterData:  function(event) {
 		event.preventDefault();
@@ -132,11 +114,7 @@ var MetricBuilder = React.createClass({
 		var displayData = filtered.sort(
 			(a, b) => a.get('text').localeCompare(b.get('text'))
 		);
-		/*else {
-		displayData = filtered.sort(
-		(a, b) => b.get(this.state.sortKey).localeCompare(a.get(this.state.sortKey))
-		)
-		}*/
+
 		this.setState({
 			searchText: event.target.value,
 			filteredData: filtered,
@@ -156,9 +134,6 @@ var MetricBuilder = React.createClass({
 			</IconButton>
 		);
 	},
-	onUpdateDataInput: function(searchText, dataSource) {
-		this.setState({dataSearchText: searchText});
-	},
 	addInput: function(obj, event) {
 		var row = {
 			key: uuid.v4(),
@@ -166,9 +141,10 @@ var MetricBuilder = React.createClass({
 			metric: obj.get('metric'),
 			icon: obj.get('icon'),
 			image: obj.get('icon'),
-			popover: true
+			popover: true,
+			weight: 1,
+			normalize: true
 		};
-		//var row = this.rowGetter(key);
 		this.setState({
 			inputData: this.state.inputData.concat(row)
 		});
@@ -179,20 +155,19 @@ var MetricBuilder = React.createClass({
 			inputData: this.state.inputData.concat(item)
 		});
 	},
-	getRows : function() {
+	getRows: function() {
 		return Selectors.getRows(this.state);
 	},
 
-	getSize : function() {
+	getSize: function() {
 		return this.getRows().length;
 	},
-
-	rowGetter : function(rowIdx){
+	rowGetter: function(rowIdx){
 		var rows = this.getRows();
 		return rows[rowIdx];
 	},
 	doKpiSave: function(event) {
-		this.props.doKpiSave({ name: this.kpiName.input.value, formula: this.state.formula, uuid: uuid.v4() });
+		this.props.doKpiSave({ name: this.kpiName.input.value, inputData: this.state.inputData, formula: this.state.formula, uuid: this.state.uuid });
 	},
 	handleFilterChange : function(filter){
 		var newFilters = Object.assign({}, this.state.filters);
@@ -220,7 +195,6 @@ var MetricBuilder = React.createClass({
 		);
 	},
 	renderOperationToolbar: function() {
-
 		return (
 			<div>
 				<DragMetric dragType="operation"  key={uuid.v4()} iid="plus" text="+">
@@ -232,11 +206,6 @@ var MetricBuilder = React.createClass({
 	sortTable: function(key, event) {
 		var sortDir = 'asc';
 		var filtered = this.state.displayData;
-		/*
-		if (key == this.state.sortKey) {
-		sortDir = (this.state.sortDir == 'asc') ? 'desc' : 'asc';
-		}
-		*/
 		var displayData;
 		if (sortDir == 'asc') {
 			displayData = filtered.sort(
@@ -273,12 +242,129 @@ var MetricBuilder = React.createClass({
 			formulaName: event.target.value
 		});
 	},
+	handleClose: function() {
+		this.setState({
+			showPopover: false
+		});
+	},
+	renderPopover: function() {
+		var popoverStyle = {
+			height: 200,
+			width: 300,
+			zIndex: 9999999,
+			top: (this.state.y -200) + 'px',
+			left: (this.state.x - 175) + 'px',
+			position: 'absolute'
+			//marginBottom: this.state.y,
+			//marginRight: this.state.x,
+			//backgroundColor: 'green'
+			//style={popoverStyle}
+
+		}
+		if (this.state.currentNode == null) return null;
+		//console.log('uh', network, nodes, edges);
+		//console.log('nodes', nodes);
+		//console.log('wtf', nodes.get(this.state.currentNode));
+		//var currentObject = nodes.get(this.state.currentNode);
+		console.log('anchor', this.state.anchorEl);
+		return (
+			<Popover
+				open={this.state.showPopover}
+				style={popoverStyle}
+				anchorEl={this.state.anchorEl}
+				key={uuid.v4()}
+				anchorOrigin={{horizontal: 'left', vertical: 'top'}}
+				targetOrigin={{horizontal: 'left', vertical: 'top'}}
+				onRequestClose={this.handleClose}
+				animation={Popover.PopoverAnimationVertical}
+				>
+				<div className="title med center">Configure</div>
+				<Divider />
+				<List>
+					<ListItem
+						primaryText="Normalize"
+						disabled={true}
+						rightToggle={<Toggle onToggle={this.onNormalizeToggle.bind(this, this.state.currentNode)} toggled={this.state.currentNode.normalize} />}
+						leftIcon={<NormalizeIcon />}
+						/>
+						<ListItem
+							primaryText={
+							<Row>
+									<Col md={9}>
+										<Slider defaultValue={1} value={this.state.currentSliderValue} onChange={this.onWeightChange} style={{maring: 0, padding: 0}} sliderStyle={{margin: 0, padding: 0}}/>
+									</Col>
+									<Col md={2}>
+										{Math.round(currentElementWeight * 100, 0)}
+									</Col>
+									<Col md={1}></Col>
+							</Row>}
+							leftIcon={<WeightIcon />}
+							disabled={true}
+							/>
+				</List>
+			</Popover>
+		);
+		//value={nodes.get(this.state.currentNode).weight
+	},
+	onNormalizeToggle: function(currentNode, event, isToggled) {
+		console.log('toggle', currentNode, event, isToggled);
+		this.inputData = this.state.inputData;
+		this.inputData[this.state.currentIndex].normalize = !this.inputData[this.state.currentIndex].normalize;
+		this.setState({
+			inputData: this.inputData
+		});
+		/*
+		this.setState({
+			doUpdate: true
+		});
+		*/
+		//nodes.update({id: currentNode, normalize: !isToggled});
+		//this.forceUpdate();
+	},
+	onWeightChange: function(event, value) {
+		this.inputData = this.state.inputData;
+		this.inputData[this.state.currentIndex].weight = value;
+		this.currentNode = this.state.currentNode;
+		this.currentNode.weight = value;
+		currentElementWeight = value;
+		//this.forceUpdate();
+		this.setState({
+			currentSliderValue: value,
+			inputData: this.inputData
+		});
+		/*
+		this.setState({
+			currentNode: this.currentNode
+			//inputData: this.inputData
+		});
+		//this.state.inputData[this.state.currentIndex].weight = value;
+		//nodes.update({id: currentNode, weight: value});
+		//this.forceUpdate();
+		//*/
+	},
+	onSelectInput: function(nativeEvent, nodeId) {
+		this.inputData = this.state.inputData;
+		var idx = this.inputData.map((input) => input.key).indexOf(nodeId);
+		///console.log('on select input', input, event, event);
+		//var element = document.getElementById(input.key);
+		//console.log('el', element);
+		//console.log('event', event.target);
+		currentElementWeight = this.inputData[idx].weight;
+		this.setState({
+			currentNode: this.inputData[idx],
+			currentSliderValue: this.inputData[idx].weight,
+			showPopover: true,
+			x: nativeEvent.clientX,
+			currentIndex: idx,
+			y: nativeEvent.clientY,
+			anchorEl: document.getElementById(nodeId)
+		});
+	},
 	render:function(){
 		var sortStyle = {
 			color: Colors.DARK,
 		};
 		var iconSize = 15;
-		//								onChange={this.updateFormulaName}
 
 		return(
 			<div>
@@ -287,6 +373,7 @@ var MetricBuilder = React.createClass({
 							<TextField
 								ref={(ref) => this.kpiName = ref}
 								hintText="KPI Name"
+								defaultValue={this.state.formulaName}
 								fullWidth={this.state.fullWidth}
 								/>
 					</Col>
@@ -339,7 +426,7 @@ var MetricBuilder = React.createClass({
 						<h4 style={{paddingTop: "10px", textTransform: "uppercase", letterSpacing: "1.5px"}}>Build</h4>
 						<h6 style={{paddingTop: "10px", textTransform: "uppercase", letterSpacing: '1.5px'}}>Operators</h6>
 						<div style={{display: 'flex', flexWrap: 'flex'}}>
-							<FormulaContainer outputData={this.state.outputData} inputData={this.state.inputData} updateOutput={this.updateOutput} />
+							<FormulaContainer outputData={this.state.outputData} inputData={this.state.inputData} onSelectInput={this.onSelectInput} updateOutput={this.updateOutput} />
 						</div>
 					</Col>
 				</Row>
@@ -361,63 +448,10 @@ var MetricBuilder = React.createClass({
 							/>
 					</Col>
 				</Row>
+				{this.renderPopover()}
 			</div>
 		)
 	}
 });
 
-//								{this.state.inputData.map(this.renderInput, this)}
-;
-
 module.exports = MetricBuilder;
-/*
-<TableHeader
-displaySelectAll={false}
-adjustForCheckbox={false}
-enableSelectAll={false}
->
-<TableRow>
-<TableHeaderColumn style={{width: "70px"}}>
-</TableHeaderColumn>
-<TableHeaderColumn style={{width: "70px"}}>
-</TableHeaderColumn>
-<TableHeaderColumn >
-
-</TableHeaderColumn>
-</TableRow>
-</TableHeader>
-<Row style={{margin: 0, padding: 0}}>
-<Col style={{margin: 0, padding: 0, lineHeight: '48px', height: 48}} md={6}>
-Property
-</Col>
-<Col md={6}>
-<IconButton key="text" style={sortStyle} onTouchTap={this.sortTable.bind(this, "name")}>
-<SortIcon size={iconSize} />
-</IconButton>
-</Col>
-</Row>
-<div style={{padding: 5}}>
-<ReactDataGrid
-columns={this.state.columns}
-rowGetter={this.rowGetter}
-enableCellSelect={false}
-style={{fontFamily: 'Avenir-Book', letterSpacing: '1.5', textTransform: 'uppercase'}}
-rowsCount={this.getSize()}
-minHeight={500}
-toolbar={<Toolbar enableFilter={true}/>}
-onAddFilter={this.handleFilterChange}
-onClearFilters={this.onClearFilters}
-/>
-<AutoComplete
-hintText="Search Data"
-filter={AutoComplete.caseInsensitiveFilter}
-onUpdateInput={this.onUpdateDataInput}
-searchText={this.state.dataSearchText}
-value={this.state.dataSearchText}
-onNewRequest={this.handleDataItemSelect}
-menuStyle={{height: 500}}
-fullWidth={true}
-dataSource={this.getDataSearchItems()}
-/>
-</div>
-*/

@@ -24,15 +24,41 @@ var CircularProgress =  require('material-ui').CircularProgress;
 var MetricBuilder = require('../editors/MetricBuilder.jsx');
 var DashboardClient = require('../../clients/dashboard_client.js');
 var constants = require('../../constants/constants.js');
+var StatEngine = require('../../utils/StatEngine.js');
+var MetricsAnalytics  =require('../common/MetricsAnalytics.jsx');
+var loki = require('lokijs');
+var LokiIndexedAdapter = require('lokijs/src/loki-indexed-adapter');
+var idbAdapter = new LokiIndexedAdapter('loki-db');
 
 var Analyze = React.createClass({
 	mixins: [FluxMixin, StoreWatchMixin("AssetsStore")],
 	getInitialState: function() {
-		return { models: [], formulas: [], id: null, scopeName: "", kpis: [], scopeProperties: [], showError: false, activeTab: 'scope', dialogOpen: false, kpiDialogOpen: false, items: [], elements: {}, newCounter: 0, breakpoint: 'lg', cols: 12 }
+		db = new loki('outperform.db', {autosave: true, autosaveInterval: 10000, adapter: idbAdapter, autoload: true, autoloadCallback: this.dbLoaded });
+		window.db = db;
+		return { db: db, metricsColl: null, formualsColl: null, scopeMetrics: [], models: [], formulas: [], id: null, scopeName: "", kpis: [], scopeProperties: [], showError: false, activeTab: 'scope', kpiEdit: null, dialogOpen: false, kpiDialogOpen: false, items: [], elements: {}, newCounter: 0, breakpoint: 'lg', cols: 12 }
+	},
+	dbLoaded: function() {
+		console.log('in db loaded', this.state.db);
+		var coll = this.state.db.getCollection('metrics');
+		if (coll.find().length == 0) {
+			this.getFlux().store("AssetsStore").getState().assets.map(function(asset) {
+				asset.metrics.map(function(metric) {
+					coll.insert(metric);
+				});
+			});
+		}
+		this.setState({
+			formulasColl: this.state.db.getCollection('formulas'),
+			metricsColl: coll
+		});
 	},
 	componentWillMount: function() {
 		if (this.props.params.id) {
 			var dashboard = this.getFlux().store("DashboardHomeStore").getDashboard(this.props.params.id);
+			var rawMetrics = [];
+			if (dashboard)
+			rawMetrics = this.getFlux().store("DocumentStore").getMetrics({'entity_key' : { '$in' : dashboard.state.context }});
+
 			if (dashboard) {
 				this.setState({
 					scopeName: dashboard.name,
@@ -43,13 +69,14 @@ var Analyze = React.createClass({
 					newCounter: dashboard.state.elements.length,
 					formulas: (dashboard.state.formulas) ? dashboard.state.formulas : [],
 					activeTab: dashboard.state.activeTab,
-					models: (dashboard.state.models) ? dashboard.state.models : []
+					models: (dashboard.state.models) ? dashboard.state.models : [],
+					scopeMetrics: rawMetrics
 				});
 			}
 		}
 		else {
 			this.setState({
-				scopeName: "",
+				scopeName: "NEED NAME",
 				scopeProperties: [],
 				items: [],
 				elements: {},
@@ -57,13 +84,17 @@ var Analyze = React.createClass({
 				newCounter: 0,
 				formulas: [],
 				activeTab: 'scope',
-				models: []
+				models: [],
+				scopeMetrics: []
 			});
 		}
 	},
 	componentWillReceiveProps: function(nextProps) {
 		if (nextProps.params.id) {
 			var dashboard = this.getFlux().store("DashboardHomeStore").getDashboard(nextProps.params.id);
+			var rawMetrics = [];
+			if (dashboard)
+			rawMetrics = this.getFlux().store("DocumentStore").getMetrics({'entity_key' : { '$in' : dashboard.state.context }});
 			if (dashboard) {
 				this.setState({
 					scopeName: dashboard.name,
@@ -74,12 +105,13 @@ var Analyze = React.createClass({
 					newCounter: dashboard.state.elements.length,
 					formulas: (dashboard.state.formulas) ? dashboard.state.formulas : [],
 					activeTab: dashboard.state.activeTab,
-					models: (dashboard.state.models) ? dashboard.state.models : []
+					models: (dashboard.state.models) ? dashboard.state.models : [],
+					scopeMetrics: rawMetrics
 				});
 			}
 		} else {
 			this.setState({
-				scopeName: "",
+				scopeName: "NEED NAME2",
 				scopeProperties: [],
 				items: [],
 				elements: {},
@@ -87,7 +119,8 @@ var Analyze = React.createClass({
 				newCounter: 0,
 				formulas: [],
 				activeTab: 'scope',
-				models: []
+				models: [],
+				scopeMetrics: []
 			});
 		}
 	},
@@ -111,8 +144,19 @@ var Analyze = React.createClass({
 			this.setState({dialogOpen: true});
 		}
 	},
-	onModelChange: function(event) {
-		console.log('on model change', event);
+	onModelChange: function(data) {
+		this.models = this.state.models;
+		var idx = this.models.map((m) => m.key).indexOf(data.key);
+		if (idx < 0) {
+			this.setState({
+				models: this.state.models.concat(data)
+			});
+		} else {
+			this.models[idx] = data;
+			this.setState({
+				models: this.models
+			});
+		}
 	},
 	onKpiAdd: function(ev) {
 		if (this.state.scopeProperties.length == 0) {
@@ -127,7 +171,7 @@ var Analyze = React.createClass({
 		this.setState({dialogOpen: !this.state.dialogOpen});
 	},
 	handleKpiClose: function() {
-		this.setState({kpiDialogOpen: !this.state.kpiDialogOpen});
+		this.setState({kpiDialogOpen: !this.state.kpiDialogOpen, kpiEdit: null});
 	},
 	onBreakpointChange: function(breakpoint, cols) {
 		this.setState({
@@ -136,12 +180,21 @@ var Analyze = React.createClass({
 		});
 	},
 	doKpiSave: function(data) {
+		console.log('kpi ave data', data);
 		var formulas = this.state.formulas;
+		var stats = new StatEngine(data);
+		//var collection = this.getFlux().store("DocumentStore").getCollection('metrics');
+		var collection = this.getFlux().store("DocumentStore").getMetricsCollection();
+		console.log('collection', collection);
+		stats.setCollection(collection);
+		//stats.setCollection(this.getFlux().store("DocumentStore").getCollection('metrics'));
+		stats.runFormula();
 		formulas.push(data);
 		this.setState({
 			kpiDialogOpen: false,
 			formulas: formulas
 		});
+		this.saveScope();
 	},
 	doSave: function(data) {
 		var elements = this.state.elements;
@@ -175,6 +228,7 @@ var Analyze = React.createClass({
 		this.setState({
 			scopeProperties: scopeKeys
 		});
+		this.saveScope();
 	},
 	tabChange: function(key, e) {
 		this.setState({
@@ -195,7 +249,8 @@ var Analyze = React.createClass({
 				layout: this.state.items,
 				elements: this.state.elements,
 				formulas: this.state.formulas,
-				activeTab: this.state.activeTab
+				activeTab: this.state.activeTab,
+				models: this.state.models
 			}
 		}
 		if (this.props.params.id) {
@@ -214,9 +269,9 @@ var Analyze = React.createClass({
 		if (this.state.activeTab == 'scope') {
 			return (
 				<Grid fluid={true}>
-							<FloatingActionButton backgroundColor={Colors.SECONDARY} style={{float: 'right', marginTop: -30}} mini={false} onTouchTap={this.saveScope}>
-								<SaveIcon size={30} />
-							</FloatingActionButton>
+					<FloatingActionButton backgroundColor={Colors.SECONDARY} style={{float: 'right', marginTop: -30}} mini={false} onTouchTap={this.saveScope}>
+						<SaveIcon size={30} />
+					</FloatingActionButton>
 					<ScopeTab currentAssets={currentAssets} onScopeChanged={this.onScopeChanged} scopeProperties={this.state.scopeProperties} allProperties={this.getFlux().store("AssetsStore").getState().assets} />
 				</Grid>
 			);
@@ -240,40 +295,49 @@ var Analyze = React.createClass({
 						>
 						<VisualizationDialog handleClose={this.handleClose} doSave={this.doSave} assets={currentAssets} />
 					</Dialog>
-							<FloatingActionButton backgroundColor={Colors.SECONDARY} style={{float: 'right', marginTop: -30}} mini={false} onTouchTap={this.onAnalyzeAdd}>
-								<AddIcon size={30} />
-							</FloatingActionButton>
-						<Row>
-							<Col md={12} style={{marginTop: 10, paddingTop: 0, position: 'absolute'}}>
-								<DashboardGrid elements={this.state.elements} items={this.state.items} className="layout" rowHeight={100} cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}} onBreakpointChange={this.onBreakpointChange} onLayoutChange={this.onLayoutChange} />
-							</Col>
-						</Row>
+					<FloatingActionButton backgroundColor={Colors.SECONDARY} style={{float: 'right', marginTop: -30}} mini={false} onTouchTap={this.onAnalyzeAdd}>
+						<AddIcon size={30} />
+					</FloatingActionButton>
+					<Row>
+						<Col md={12} style={{marginTop: 10, paddingTop: 0, position: 'absolute'}}>
+							<DashboardGrid elements={this.state.elements} items={this.state.items} className="layout" rowHeight={100} cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}} onBreakpointChange={this.onBreakpointChange} onLayoutChange={this.onLayoutChange} />
+						</Col>
+					</Row>
 				</Grid>
 			);
 		} else {
+			//						<MetricBuilder kpiEdit={this.state.kpiEdit} handleClose={this.handleKpiClose} doKpiSave={this.doKpiSave} assets={currentAssets} />
+
 			return (
 				<Grid fluid={true}>
 					<Dialog
-						title="Define KPI"
 						modal={true}
 						open={this.state.kpiDialogOpen}
 						onRequestClose={this.handleKpiClose}
 						autoScrollBodyContent={true}
-						contentStyle={{width: "75%", height: "900px", maxWidth: 'none'}}
+						contentStyle={{width: "95%", height: "95vh", maxWidth: 'none'}}
 						>
-						<MetricBuilder handleClose={this.handleKpiClose} doKpiSave={this.doKpiSave} assets={currentAssets} />
+						<MetricsAnalytics contextId={this.props.params.id} kpiEdit={this.state.kpiEdit} metricsColl={this.state.metricsColl} formulasColl={this.state.formulasColl} doKpiSave={this.doKpiSave} handleClose={this.handleKpiClose}/>
 					</Dialog>
 					<Row style={{margin: 0, padding: 0}}>
-							<FloatingActionButton backgroundColor={Colors.SECONDARY} style={{float: 'right', marginTop: -30}} mini={false} onTouchTap={this.onKpiAdd}>
-								<AddIcon size={30} />
-							</FloatingActionButton>
+						<FloatingActionButton backgroundColor={Colors.SECONDARY} style={{float: 'right', marginTop: -30}} mini={false} onTouchTap={this.onKpiAdd}>
+							<AddIcon size={30} />
+						</FloatingActionButton>
 					</Row>
 					<Row md={12}>
-						<ScoreTab models={this.state.models} onModelChange={this.onModelChange} formulas={this.state.formulas} onKpiAdd={this.onKpiAdd} />
+						<ScoreTab scopeProperties={this.state.scopeProperties} contextId={this.props.params.id} metricsColl={this.state.metricsColl} formulasColl={this.state.formulasColl} onKpiUpdate={this.onKpiUpdate} models={this.state.models} onModelChange={this.onModelChange} formulas={this.state.formulas} onKpiAdd={this.onKpiAdd} />
 					</Row>
 				</Grid>
 			);
 		}
+	},
+	onKpiUpdate: function(id) {
+		console.log('on kapi edit', id);
+		//var formula = this.getFlux().store("DocumentStore").getFormula({ uuid: uuid });
+		this.setState({
+			kpiEdit: id,
+			kpiDialogOpen: true
+		});
 	},
 	render: function() {
 		if (!this.state.assetsLoaded || !this.getFlux().store("DashboardHomeStore").getState().dashboardsLoaded) {

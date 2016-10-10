@@ -231,9 +231,18 @@ var Analytics = React.createClass({
 		    </div>
             );
         }
-
+        console.log('props',this.props);
+        if (this.props.wide) {
+          return (
+            <div style={{padding: 20}}>
+              {this.renderTop()}
+              {this.renderMiddle()}
+              {this.renderBottom()}
+            </div>
+          );
+        }
         return (
-            <div className="analytics">
+            <div style={{margin: 15, padding: 15}} className="analytics">
                 <div className="analytics-body">
                     {this.renderTop()}
                     {this.renderMiddle()}

@@ -37,11 +37,22 @@ var Chip = require('material-ui').Chip;
 
 var rowHeight = 250;
 var PropertyDashboard = React.createClass({
-	mixins: [ FluxMixin, StoreWatchMixin("AssetsStore")],
+	mixins: [ FluxMixin, StoreWatchMixin("AssetsStore", "DocumentStore")],
 
 	componentWillMount: function() {
 		if (this.state.assets == null && !this.state.assetsLoaded &&!this.state.loading) {
 			this.getFlux().actions.loadAssets();
+		} else {
+			var property = this.getFlux().store("AssetsStore").getAsset(this.props.params.id);
+			if (!property) return;
+			var originalRows = property.metrics;
+			var rows = originalRows.slice(0);
+			this.loadData(property.twitter_handle);
+			this.setState({
+				property: property,
+				rows: rows,
+				originalRows: originalRows
+			});
 		}
 	},
 	getInitialState: function() {
@@ -80,7 +91,6 @@ var PropertyDashboard = React.createClass({
 			} else {
 				this.loadData(property.twitter_handle);
 			}
-
 			this.setState({
 				property: property,
 				rows: rows,
@@ -134,6 +144,7 @@ var PropertyDashboard = React.createClass({
 		});
 	},
 	getRadar: function(property) {
+		console.log('get radar', property);
 		var indicators = [];
 		var data = [];
 		var legend = [];
@@ -348,21 +359,21 @@ var PropertyDashboard = React.createClass({
 			title="Contract Status"
 			>
 			<div style={{paddingTop: 10, paddingBottom: 20}}>
-			<Row style={{paddingTop: 10, paddingBottom: 8}}>
-				<Col md={12}>
-					<span className="text-fix small dark pad"><strong>Renewal:&nbsp;&nbsp;&nbsp;</strong>{this.state.property.pretty_renewal}</span>
-				</Col>
-			</Row>
-			<Row style={{paddingTop: 10, paddingBottom: 8}}>
-				<Col md={12}>
-					<span className="text-fix small dark pad"><strong>Cost:&nbsp;&nbsp;&nbsp;</strong>{this.state.property.pretty_cost}</span>
-				</Col>
-			</Row>
-			<Row style={{paddingTop: 10, paddingBottom: 8}}>
-				<Col md={12}>
-					<span className="text-fix small dark pad"><strong>Term:&nbsp;&nbsp;&nbsp;</strong>{this.state.property.pretty_term}</span>
-				</Col>
-			</Row>
+				<Row style={{paddingTop: 10, paddingBottom: 8}}>
+					<Col md={12}>
+						<span className="text-fix small dark pad"><strong>Renewal:&nbsp;&nbsp;&nbsp;</strong>{this.state.property.pretty_renewal}</span>
+					</Col>
+				</Row>
+				<Row style={{paddingTop: 10, paddingBottom: 8}}>
+					<Col md={12}>
+						<span className="text-fix small dark pad"><strong>Cost:&nbsp;&nbsp;&nbsp;</strong>{this.state.property.pretty_cost}</span>
+					</Col>
+				</Row>
+				<Row style={{paddingTop: 10, paddingBottom: 8}}>
+					<Col md={12}>
+						<span className="text-fix small dark pad"><strong>Term:&nbsp;&nbsp;&nbsp;</strong>{this.state.property.pretty_term}</span>
+					</Col>
+				</Row>
 			</div>
 		</DashboardContainer>
 	},
@@ -487,13 +498,23 @@ var PropertyDashboard = React.createClass({
 		);
 	},
 	renderScores: function() {
+		if (!this.getFlux().store("DocumentStore").metricsLoaded()) return null;
+		var collection = this.getFlux().store("DocumentStore").getMetricsCollection();
+		console.log('collection', collection, this.state);
+		var results = collection.findOne({
+			'$and' : [{
+				entity_key: this.state.property.entity_key
+			},{
+				metric: 'team_score'
+			}]
+		});
 		return (
 			<div>
 				<Row>
 					<Col md={6}>
 					</Col>
 					<Col md={4}>
-						<div style={{textAlign: 'center', margin: 0, padding: 0}} className="text-fix light xlarge">83</div>
+						<div style={{textAlign: 'center', margin: 0, padding: 0}} className="text-fix light xlarge">{Math.round(results.value * 100, 0)}</div>
 						<div style={{textAlign: 'center', margin: 0, padding: 0}} className="text-fix light medium">Team Score</div>
 					</Col>
 					<Col md={2}>

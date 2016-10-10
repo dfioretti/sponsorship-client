@@ -15,6 +15,8 @@
 @import './import/application.scss';
 @import './import/react-data-grid.scss';
 @import './import/vis.scss';
+@import './import/slider.scss';
+
 @import url(https://fonts.googleapis.com/css?family=Raleway:700,400);
 
 
@@ -31,6 +33,88 @@
 
 $topbar-height: rem-calc(45);
 
+.formula-builder {
+  height: 100px;
+  //background-color: blue;
+}
+
+.drop-metric {
+  height: 60px;
+  width: 100%;
+  overflow: hidden;
+  text-align: center;
+  //background-color: white;
+  //padding-top: 20px;
+  //margin-top: 10px;
+  //margin-bottom: -10px;
+  ///margin-left: 10px;
+  //margin-right: 20px;
+  //padding: 10px;
+  border: 1px dashed rgba(51, 54, 59, 0.3);
+  display: table-cell;
+  vertical-align: middle;
+  //background-color: red;
+}
+#drop-box {
+  display: table;
+}
+
+.icon-button {
+  //color: red;
+  cursor: pointer;
+}
+
+.formula-table {
+  td {
+    vertical-align: middle;
+    display: table-cell;
+    line-height: 75px;
+  }
+  vertical-align: middle;
+  line-height: 75px;
+
+}
+
+.formula-table-column {
+  //height: 100px;
+  //line-height: 100px;
+  //vertical-align: middle;
+  //border: 0px;
+}
+
+.formula-selected {
+  //border: 1px solid rgba(51, 54, 59, 0.3);
+  border-radius: 10px;
+  background-color: #96dee8;
+  //background-color: rgba(51, 51, 59, 0.5);
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+.formula-operation {
+  font-size: 20px;
+  font-weight: 900;
+  font-stretch: ultra-expanded;
+  //margin: 4px;
+  //padding: 10px 15px 10px 15px;
+  //background-color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin: 2px;
+  cursor: move;
+  //border: 1px solid black;
+  //border-radius: 10px;
+}
+
+.formula-value {
+  cursor: move;
+  display: inline-block;
+}
+
+.formula-item {
+  display: inline-block;
+}
 .profileAvatar {
   border: 3px solid #1C5D99;
   position: relative;
@@ -81,21 +165,21 @@ $topbar-height: rem-calc(45);
 }
 
 .cover-photo {
-//  filter: blur(1px);
+  //  filter: blur(1px);
 }
 /*
 .propertyCard {
-  position: relative;
-  overflow: hidden;
+position: relative;
+overflow: hidden;
 }
 
 */
 /*
 .propertyCard::after {
-  background-image: url('../../images/stadium.jpg');
-  background-size: 500px 280px;
-  opacity: 0.2;
-  z-index: -1;
+background-image: url('../../images/stadium.jpg');
+background-size: 500px 280px;
+opacity: 0.2;
+z-index: -1;
 }
 */
 
@@ -127,54 +211,56 @@ $topbar-height: rem-calc(45);
 .med-text label {
   font-family: Avenir-Book;
 }
+/*
 .tooltip {
-    position: relative;
-    display: inline-block;
-    border-bottom: 1px dotted black;
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
 }
 
 .tooltip .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-    position: absolute;
-    z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -60px;
-    opacity: 0;
-    transition: opacity 1s;
+  visibility: hidden;
+  width: 120px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 1s;
 }
 
 .tooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
 }
 
 .tooltip:hover .tooltiptext {
-    visibility: visible;
-    opacity: 1;
+  visibility: visible;
+  opacity: 1;
 }
+*/
 
 .pop-arrow {
-	position: absolute;
-	//top: -18px;
-	//left: 20px;
+  position: absolute;
+  //top: -18px;
+  //left: 20px;
   top: 120px;
   left: 75px;
-	border-left: 20px solid transparent;
-	border-right: 20px solid transparent;
-	border-top: 20px solid rgb(238, 238, 238);//white;//rgb(233, 212, 222);
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid rgb(238, 238, 238);//white;//rgb(233, 212, 222);
   width: 0;
   height: 0;
   //-webkit-filter: drop-shadow(0 -2px 2px #AAA);
@@ -229,17 +315,17 @@ body {
 
 .new-story__title {
   input {
-   border: none;
-   box-shadow: none;
-   border-bottom: 2px solid #ccc;
+    border: none;
+    box-shadow: none;
+    border-bottom: 2px solid #ccc;
   }
 }
 
 .new-story__body {
   textarea {
-   background-color: #fafafa;
-   border: none;
-   box-shadow: none;
+    background-color: #fafafa;
+    border: none;
+    box-shadow: none;
   }
 }
 .new-story__submit {

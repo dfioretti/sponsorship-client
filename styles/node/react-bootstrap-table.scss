@@ -6,6 +6,8 @@
 }
 
 .react-bs-table {
+  margin-top: 10px;
+  //margin-top: 50px;
   //border: 1px solid #ddd;
   //border-radius: 5px;
 }
@@ -30,7 +32,7 @@
 }
 
 .react-bs-table-tool-bar {
-  margin: 10px 0px 5px 0px;
+  //margin: 10px 0px 5px 0px;
   padding-right: 10px;
 }
 
@@ -44,7 +46,13 @@
 .react-bs-container-body {
   /*height: 154px;*/
   overflow: auto;
-  padding: 20px;
+
+//  padding: 20px;
+padding-left: 10px;
+padding-right: 10px;
+//padding-top: 10px;
+text-transform: capitalize;
+padding-bottom: 10px;
   width: 100%;
 }
 
@@ -133,6 +141,7 @@
 
 /*inline editor default style*/
 .react-bs-container .form-control.editor{
+
   /*width:100%;
   top:0;
   left:0;*/

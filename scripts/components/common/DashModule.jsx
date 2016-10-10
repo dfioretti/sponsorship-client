@@ -67,7 +67,9 @@ var DashModule = React.createClass({
 		return el;
 	},
 	renderEchart: function() {
-		return null;
+		return (
+			<h4>test</h4>
+		);
 	},
 	getOptions: function() {
 		const option = {
@@ -131,6 +133,8 @@ var DashModule = React.createClass({
 	},
 	render: function() {
 		var props = this.props;
+		return null;
+		/*
 		return (
 			<div>
 				{this.renderEchart()}
@@ -147,6 +151,7 @@ var DashModule = React.createClass({
 				</ResponsiveContainer>
 			);
 		}
+		*/
 	}
 });
 module.exports = DashModule;

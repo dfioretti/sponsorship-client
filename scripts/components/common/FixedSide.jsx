@@ -26,6 +26,12 @@ var DashboardClient = require('../../clients/dashboard_client.js');
 var FixedSide = React.createClass({
 	mixins: [ FluxMixin, StoreWatchMixin("DashboardHomeStore"), Navigation ],
 
+	componentWillMount: function() {
+		var home = this.getFlux().store("DashboardHomeStore").getState();
+		if (!home.dashboardsLoaded && !home.loading) {
+			this.getFlux().actions.loadDashboards();
+		}
+	},
 	getInitialState: function() {
 		return { valueScopes: 1, dialogOpen: false, assessmentName: "" }
 	},
@@ -53,12 +59,14 @@ var FixedSide = React.createClass({
 		);
 	},
 	renderContexts: function(context) {
+		//				primaryText={context.name}
+
 		return (
 			<MenuItem
 				style={{fontSize: 10, backgroundColor: Colors.DARK_BACKGROUND, color: Colors.WHITE, textTransform: 'uppercase', letterSpacing: '1.5', fontFamily: "Avenir-Book"}}
 				value={context.id}
 				key={context.id}
-				primaryText={context.name}
+				primaryText={"Fix Me"}
 				/>
 		);
 	},

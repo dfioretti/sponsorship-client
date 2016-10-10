@@ -28,13 +28,31 @@ var emptyStyle = {
 	backgroundColor: 'black'
 }
 
+var inputWeights;
+
 var FormulaContainer = React.createClass({
 	getInitialState: function() {
-		return { functions: {}, popovers: {}, inputData: [], outputData: [] }
+		return { currentSliderValue: 1, functions: {}, showPopover: false, currentInput: null, popovers: {}, update: false, inputData: [], outputData: [] }
+	},
+	componentWillMount: function() {
+		inputWeights = {};
+		this.setState({
+			outputData: this.props.outputData
+		});
 	},
 	componentWillReceiveProps: function(nextProps) {
+		//var weights = this.state.inputWeights;
+		nextProps.inputData.map(function(input) {
+			inputWeights[input.key] = (input.weight) ? input.weight : 1;
+		}.bind(this));
+		var output = nextProps.outputData;
+		if (this.state.outputData.length > 0) {
+			output = this.state.outputData;
+		}
 		this.setState({
-			inputData: nextProps.inputData
+			inputData: nextProps.inputData,
+			outputData: output
+			//inputWeights: weights
 		});
 	},
 	handleDrop: function(item) {
@@ -52,7 +70,7 @@ var FormulaContainer = React.createClass({
 		//console.log('handle value drop?', item);
 	},
 	handleNormWeight: function(item) {
-		//console.log('norm weight for', item);
+		console.log('norm weight for', item);
 	},
 	renderOutputs: function(data) {
 		var style = {
@@ -73,7 +91,7 @@ var FormulaContainer = React.createClass({
 			//var tooltip = <Tooltip placement="top" className="in">test tool tip</Tooltip>;
 			/*
 			<span className="tooltiptext">
-				{titleize(data.point.split("_").join(" "))}
+			{titleize(data.point.split("_").join(" "))}
 			</span>
 			labelStyle={{cursor: 'context-menu'}}
 
@@ -81,7 +99,6 @@ var FormulaContainer = React.createClass({
 			case 'value':
 			el = (
 				<DropMetric title="this is a title" dropType="value" style={style} key={uuid.v4()} onDrop={(item) => this.handleValueDrop(item)}>
-
 					<Chip
 						key={data.key}
 						title={titleize(data.point.split("_").join(" "))}
@@ -89,9 +106,7 @@ var FormulaContainer = React.createClass({
 						onRequestDelete={() => this.handleOutputRequestDelete(data.key)}
 						>
 						<Avatar size={32} src={data.icon} />
-
 					</Chip>
-
 				</DropMetric>
 			);
 			break;
@@ -105,7 +120,7 @@ var FormulaContainer = React.createClass({
 				el = (
 					<div style={style} key={uuid.v4()}>
 						<Chip
-							key={uuid.v4()}
+							key={data.key}
 							style={noPad}
 							labelStyle={tiny}
 							backgroundColor="transparent"
@@ -119,7 +134,7 @@ var FormulaContainer = React.createClass({
 				el = (
 					<div style={style} key={uuid.v4()}>
 						<Chip
-							key={uuid.v4()}
+							key={data.key}
 							style={noPad}
 							labelStyle={tiny}
 							backgroundColor="transparent"
@@ -137,7 +152,7 @@ var FormulaContainer = React.createClass({
 				el = (
 					<div style={style} key={uuid.v4()}>
 						<Chip
-							key={uuid.v4()}
+							key={data.key}
 							style={noPad}
 							labelStyle={tiny}
 							backgroundColor="transparent"
@@ -152,7 +167,7 @@ var FormulaContainer = React.createClass({
 				el = (
 					<div style={style} key={uuid.v4()}>
 						<Chip
-							key={uuid.v4()}
+							key={data.key}
 							style={noPad}
 							labelStyle={tiny}
 							backgroundColor="transparent"
@@ -167,7 +182,7 @@ var FormulaContainer = React.createClass({
 						<div style={style} key={uuid.v4()}>
 
 							<Chip
-								key={uuid.v4()}
+								key={data.key}
 								style={noPad}
 								labelStyle={tiny}
 								backgroundColor="transparent"
@@ -178,12 +193,12 @@ var FormulaContainer = React.createClass({
 						</div>
 					);
 					break;
-					case 'x':
+					case '*':
 					el = (
 						<div style={style} key={uuid.v4()}>
 
 							<Chip
-								key={uuid.v4()}
+								key={data.key}
 								style={noPad}
 								labelStyle={tiny}
 								backgroundColor="transparent"
@@ -195,7 +210,7 @@ var FormulaContainer = React.createClass({
 					);
 					break;
 				}
-			}
+			};
 			return el;
 		},
 		handlePlaceholderDrop: function(side, item) {
@@ -235,7 +250,7 @@ var FormulaContainer = React.createClass({
 					<DragMetric style={display} dragType="operation" text="-" key={uuid.v4()} type="-">
 						<MinusIcon style={display} size={32} />
 					</DragMetric>
-					<DragMetric style={display} dragType="operation" text="x" key={uuid.v4()} type="x">
+					<DragMetric style={display} dragType="operation" text="*" key={uuid.v4()} type="x">
 						<MultiplyIcon style={display} size={32} />
 					</DragMetric>
 					<DragMetric style={display} dragType="operation" text="/" key={uuid.v4()} type="/">
@@ -290,110 +305,172 @@ var FormulaContainer = React.createClass({
 			this.setState({outputData: this.outputData});
 		},
 		hideOverlay: function(data, event) {
-			var popovers = this.state.popovers;
-			if (typeof(popovers[data.key]) === 'undefined') {
-				popovers[data.key] = true;
-			} else {
-				popovers[data.key] = false;
-			}
 			this.setState({
-				popovers: popovers
+				showPopover: false,
+				currentInput: null
 			});
 			/*
-			console.log('the event', event);
 			var popovers = this.state.popovers;
+			if (typeof(popovers[data.key]) === 'undefined') {
+			popovers[data.key] = true;
+			} else {
 			popovers[data.key] = false;
+			}
 			this.setState({
 			popovers: popovers
 			});
-			console.log('todo', data, event);
 			*/
 		},
-		showOverlay: function(data, event) {
+		showOverlay: function(event) {
+			event.preventDefault();
+			console.log('this is show', event, event.nativeEvent, event.currentTarget.id);
+			this.props.onSelectInput(event.nativeEvent, event.currentTarget.id);
+			/*
 			this.inputData = this.state.inputData;
 			var popovers = this.state.popovers;
 			var toggleState = false;
 			if (typeof(popovers[data.key]) !== 'undefined') {
-				toggleState = !popovers[data.key];
+			toggleState = !popovers[data.key];
 			}
 			popovers[data.key] = toggleState;
 			this.setState({
-				popovers: popovers
-			});
-			/*
-			this.inputData.forEach(function(in) {
-			console.log('ei', in);
-			if (in.key == data.key) {
-			in.popover = !in.popover;
-			}
-			});
-			this.setState({
-			inputData: this.inputData
+			popovers: popovers
 			});
 			*/
 		},
+		onNormalizeToggle: function(formulaInput, event, isToggled) {
+			this.inputData = this.state.inputData;
+			var inputIndex = this.inputData.map((input) => input.key).indexOf(formulaInput.key);
+			this.inputData[inputIndex].normalize = !this.inputData[inputIndex].normalize;
+			this.setState({
+				inputData: this.inputData
+			});
+		},
 		renderInput: function(data) {
+			console.log('render input', data);
+			/*
 			var showState = this.state.popovers[data.key];
 			var show = false;
 			if (typeof(showState) === 'undefined') {
-				show = true;
+			show = true;
 			} else {
-				show = showState;
+			show = showState;
 			}
-			//style={{textTransform: "uppercase", letterSpacing: '1.5px'}}
+			/*
+			var weight = 1;
+			if (typeof(inputWeights[data.key]) !== 'undefined') {
+			weight = inputWeights[data.key];
+			}
+			*/
 			return (
-
-				<DragMetric dragType="value" ref={data.key} style={{padding: 2}} key={uuid.v4()} iid={data.key} type={data.type} source={data.source} point={data.metric} metric={data.metric} text={data.metric} icon={data.image} image={data.image}>
-					<Overlay
-						show={show}
-						onHide={() => this.hideOverlay(data)}
-						rootClose={true}
-						placement="top"
-						container={this}
-						target={() => ReactDOM.findDOMNode(this.refs[data.key])}
-						>
-						<div className="chip-pop" style={{
-								position: 'absolute',
-								backgroundColor: '#EEE',
-								boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)',
-
-							}}
-							>
-							<span className="med-text" style={{fontSize: 15, fontWeight: 600, paddingBottom: 8}}>Format Data</span>
-							<Toggle style={{margin: 0, padding: 0}} ref={'tog-' + data.key} labelStyle={{fontSize: "12px", textTransform: "uppercase", letterSpacing: "1.5px", fontFamily: "Avenir-Book", color: "rgba(0, 0, 0, 0.6)", fontWeight: "normal"}} label="Normalize" defaultToggled={false} />
-							<span className="med-text">Weight</span>
-							<Slider ref={'slide-' + data.key} sliderStyle={{margin: 0, padding: 0}} style={{margin: 0, padding: 0}} defaultValue={1} />
-							<div className="pop-arrow"></div>
-						</div>
-					</Overlay>
+				<DragMetric dragType="value" ref={data.key} style={{padding: 2}} key={uuid.v4()} id={data.key} type={data.type} source={data.source} point={data.metric} metric={data.metric} text={data.metric} icon={data.image} image={data.image}>
 					<Chip
 						key={data.key}
 						style={{margin: 0, cursor: 'move'}}
+						id={data.key}
 						onRequestDelete={() => this.handleRequestDelete(data.key)}
-						onTouchTap={() => this.showOverlay(data)}
+						onTouchTap={this.showOverlay}
 						>
 						<Avatar src={data.image} />
 						{titleize(data.metric.split("_").join(" "))}
 					</Chip>
 				</DragMetric>
-
 			);
 		},
-		/*
-		borderRadius: 3,
-		marginLeft: -5,
-		marginTop: 5,
-		padding: 10,
-		width: 200,
-		height: 100
-		*/
+		onWeightChange: function(event, value) {
+			//console.log('event', input, event, value);
+			/*
+			this.setState({
+			currentSliderValue: value
+			});
+			*/
+			this.inputs = this.state.inputData;
+			var inputIndex = this.inputs.map((input) => input.key).indexOf(this.state.currentInput.key);
+			this.inputs[inputIndex].weight = value;
+			this.setState({
+				inputData: this.inputs
+			});
+			inputWeights[this.state.currentInput.key] = value;
+			//this.forceUpdate();
+			//this.setState({
+			//	update: true
+			//});
+			//this.forceUpdate();
+			//console.log('event', event.target, event.target.key);
+			/*
+			this.inputWeights[formulaInput.key] = value;
+			this.inputData = this.state.inputData;
+			var inputIndex = this.inputData.map((input) => input.key).indexOf(formulaInput.key);
+			this.inputData[inputIndex].weight = value;
+			this.setState({
+			inputData: this.inputData
+			});
+			*/
+			//console.log('iw is: ', inputWeights, formulaInput, event, value);
+			//inputWeights[formulaInput.key] = value;
+			//						{this.state.inputData.map(this.renderInput, this)}
+			/*
+			<span className="med-text" style={{fontSize: 15, fontWeight: 600, paddingBottom: 8}}>Format Data</span>
+			<Toggle onToggle={this.onNormalizeToggle.bind(this, data)} style={{margin: 0, padding: 0}} ref={'tog-' + data.key} labelStyle={{fontSize: "12px", textTransform: "uppercase", letterSpacing: "1.5px", fontFamily: "Avenir-Book", color: "rgba(0, 0, 0, 0.6)", fontWeight: "normal"}} label="Normalize" toggled={data.normalize} />
+			<span className="med-text">Weight</span>
+			<Row>
+			<Col md={9}>
+			<Slider sliderStyle={{margin: 0, padding: 0}} style={{margin: 0, padding: 0}} value={this.inputWeights[data.key]} key={data.key} id={data.key} onChange={this.onWeightChange.bind(this, data.key)} />
+			</Col>
+			<Col md={2}>
+			{Math.round(this.inputWeights[data.key] * 100, 0)}
+			</Col>
+			</Row>
+			*/
+		},
+		onDragStop: function() {
+			//this.forceUpdate();
+		},
+		renderOverlay: function() {
+			if (this.state.currentInput === null) return;
+			return (
+				<Overlay
+					show={this.state.showPopover}
+					onHide={this.hideOverlay}
+					rootClose={true}
+					placement="top"
+					container={this}
+					key={uuid.v4()}
+					target={() => ReactDOM.findDOMNode(this.refs[this.state.currentInput.key])}
+					>
+					<div className="chip-pop" style={{
+							position: 'absolute',
+							backgroundColor: '#EEE',
+							boxShadow: '0 5px 10px rgba(0, 0, 0, 0.2)',
+						}}
+						>
+						<span className="med-text" style={{fontSize: 15, fontWeight: 600, paddingBottom: 8}}>Format Data</span>
+						<Toggle onToggle={this.onNormalizeToggle.bind(this, this.state.currentInput)} style={{margin: 0, padding: 0}}  labelStyle={{fontSize: "12px", textTransform: "uppercase", letterSpacing: "1.5px", fontFamily: "Avenir-Book", color: "rgba(0, 0, 0, 0.6)", fontWeight: "normal"}} label="Normalize" toggled={this.state.currentInput.normalize} />
+						<span className="med-text">Weight</span>
+						<Row>
+							<Col md={9}>
+								<Slider sliderStyle={{margin: 0, padding: 0}} style={{margin: 0, padding: 0}} value={inputWeights[this.state.currentInput.key]} onChange={this.onWeightChange} />
+							</Col>
+							<Col md={2}>
+								{Math.round(inputWeights[this.state.currentInput.key] * 100, 0)}
+							</Col>
+						</Row>
+						<div className="pop-arrow"></div>
+					</div>
+				</Overlay>
+			);
+		},
 		render: function() {
 			return (
 				<div style={{width: "100%"}}>
 					<div style={{height: 200, width: '100%' }}>
 						{this.renderTools()}
 						<h6 style={{textTransform: "uppercase", letterSpacing: '1.5px'}}>Data</h6>
-						{this.state.inputData.map(this.renderInput, this)}
+						{this.state.inputData.map(function(input) {
+							return (
+								this.renderInput(input)
+							);
+						}.bind(this))}
 					</div>
 					<h4 style={{paddingTop: "10px", textTransform: "uppercase", letterSpacing: "1.5px"}}>KPI Formula</h4>
 					<DropMetric style={{height: 200, width: '100%', paddingTop: "50px", textAlign: 'center', border: "2px dashed rgba(51, 54, 59, 0.2)"}} dropType="formula" onDrop={(item) => this.handleDrop(item)}>
@@ -407,3 +484,4 @@ var FormulaContainer = React.createClass({
 	});
 
 	module.exports = DragDropContext(HTML5Backend)(FormulaContainer);
+	//					{this.renderOverlay()}

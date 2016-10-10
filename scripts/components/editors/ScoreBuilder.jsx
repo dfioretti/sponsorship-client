@@ -7,6 +7,8 @@ var uuid = require('node-uuid');
 var Popover = require('material-ui').Popover;
 var ReactDOM = require('react-dom');
 var Chip = require('material-ui').Chip;
+var Fluxxor = require('fluxxor');
+var FluxMixin = Fluxxor.FluxMixin(React);
 
 var nodeIds, nodeList, nodes, edgeList, edges, network, options, counter;
 
@@ -29,23 +31,11 @@ function generateNode() {
 }
 
 var ScoreBuilder = React.createClass({
+	mixins: [ FluxMixin ],
+
 	getInitialState: function() {
 		return { showPopover: false, x: 0, y: 0, currentNode: null }
 	},
-	/*
-	getInitialState: function() {
-	return {
-	network: null,
-	layoutMethod: 'directed',
-	nodes: [],
-	edges: [],
-	nodeList: [],
-	edgeList: [],
-	options: {},
-	data: {},
-	nodeIds: []
-	}
-	},*/
 	componentDidMount: function() {
 		this.loadScoreTree();
 	},

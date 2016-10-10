@@ -14,5 +14,4 @@ module.exports = {
 	LIGHT_YELLOW_GREEN: "#c4ebad",
 	LIGHERT_BLUE: "#96dee8"
 
-
 };

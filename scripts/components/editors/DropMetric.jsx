@@ -13,7 +13,7 @@ var metricTarget = {
 		return true;
 	},
 	drop: function(props, monitor) {
-		props.onDrop(monitor.getItem());
+		props.onDrop(monitor.getItem(), monitor.getClientOffset());
 	},
 }
 
@@ -43,7 +43,7 @@ var DropMetric = React.createClass({
 	render: function() {
 		var connectDropTarget = this.props.connectDropTarget;
 		return connectDropTarget(
-			<div title={this.props.title} style={this.props.style}>
+			<div className={this.props.className} title={this.props.title} style={this.props.style}>
 				{this.props.children}
 			</div>
 		)

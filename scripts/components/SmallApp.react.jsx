@@ -12,6 +12,7 @@ var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
 var stores = require('../stores/stores.js');
 var actions = require('../actions/actions.js');
+var ModelingActions = require('../actions/ModelingActions.js');
 var StoreWatchMixin = Fluxxor.StoreWatchMixin;
 var injectTapEventPlugin = require('react-tap-event-plugin');
 var SideNavigation = require('./sidebar/SideNavigation.jsx');
@@ -19,6 +20,7 @@ var TopNavigation = require('./sidebar/TopNavigation.jsx');
 var Workspace = require('../components/routes/Workspace.jsx');
 var Pusher = require('pusher-js');
 window.Auth = Auth;
+var _ = require('underscore');
 var AlertManager = require('./common/AlertManager.jsx');
 injectTapEventPlugin();
 
@@ -46,6 +48,7 @@ var SmallApp = React.createClass({
     mixins: [ Navigation ],
 
     getInitialState: function() {
+        _.extendOwn(actions, ModelingActions);
         var flux = new Fluxxor.Flux(stores, actions);
         window.flux = flux;
         if (location.href.indexOf('localhost') > -1) {
