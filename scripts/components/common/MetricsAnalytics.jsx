@@ -13,6 +13,7 @@ var DragDropContext = require('react-dnd').DragDropContext;
 var HTML5Backend = require('react-dnd-html5-backend');
 var DropMetric = require('../editors/DropMetric.jsx');
 var TextField = require('material-ui').TextField;
+var numberFormat = require('underscore.string/numberFormat');
 var DragMetric = require('../editors/DragMetric.jsx');
 var Colors = require('../../constants/colors.js');
 var RemoveIcon = require('react-icons/lib/md/remove');
@@ -35,11 +36,14 @@ var Badge = require('material-ui').Badge;
 var Slider = require('rc-slider');
 var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
+var StatEngine = require('../../utils/StatEngine.js');
 
 var MetricsAnalytics = React.createClass({
   mixins: [ FluxMixin ],
   getInitialState: function() {
-    var data = this.props.metricsColl.find({'entity_key' : 'chicago_bears'});
+    var stats = new StatEngine();
+    var data = stats.getAggregateStats(this.props.scopeProperties, this.props.metricsColl);
+    //var data = this.props.metricsColl.find({'entity_key' : 'chicago_bears'});
     var metrics = [];
     var formula = [];
     var formulaWeights = [];
@@ -56,6 +60,14 @@ var MetricsAnalytics = React.createClass({
       name = kpi.name;
     }
     return { name: name, data: data, metrics: metrics, formulaWeights: formulaWeights, formulaToggles: formulaToggles, currentInput: -1, formula: formula}
+  },
+  formatValue: function(cell, row) {
+    if (cell < 1) {
+      cell = cell * 100;
+    }
+    return (
+      <span>{numberFormat(cell, 0)}</span>
+    );
   },
   onRowSelect: function(row, isSelected) {
     if (isSelected) {
@@ -130,33 +142,8 @@ var MetricsAnalytics = React.createClass({
     return (
       <div>
       <div className="formula-toolbar">
-      <Row>
-      <Col md={10}>
-        <span className="text-fix dark">operations:&nbsp;&nbsp;</span>
-        <DragMetric key={uuid.v4()} id={uuid.v4()} updateDrag={() => this.updateDrag()} dragType="operation" text="+" key={uuid.v4()} type={"+"}>
-          <PlusIcon size={iconSize} style={iconStyle}/>
-        </DragMetric>
-        <DragMetric key={uuid.v4()} id={uuid.v4()} updateDrag={() => this.updateDrag()} dragType="operation" text="-" key={uuid.v4()} type={"-"}>
-        <MinusIcon size={iconSize} style={iconStyle} />
-        </DragMetric>
-        <DragMetric id={uuid.v4()} key={uuid.v4()} updateDrag={() => this.updateDrag()} dragType="operation" text="/" key={uuid.v4()} type={"/"}>
-        <DivideIcon size={iconSize} style={iconStyle} />
-        </DragMetric>
-        <DragMetric key={uuid.v4()} id={uuid.v4()} updateDrag={() => this.updateDrag()} dragType="operation" text="*" key={uuid.v4()} type={"*"}>
-        <MultiplyIcon size={iconSize} style={iconStyle} />
-        </DragMetric>
-        <DragMetric key={uuid.v4()} id={uuid.v4()} updateDrag={() => this.updateDrag()} dragType="operation" text="(" key={uuid.v4()} type={"("}>
-          <span className="formula-operation">(</span>
-        </DragMetric>
-        <DragMetric key={uuid.v4()} id={uuid.v4()} updateDrag={() => this.updateDrag()} dragType="operation" text=")" key={uuid.v4()} type={")"}>
-          <span className="formula-operation">)</span>
-        </DragMetric>
-        </Col>
-        <Col md={2}></Col>
-        </Row>
         <Row>
         <Col md={12}>
-        <span className="text-fix dark small">Inputs:&nbsp;&nbsp;</span>
         {this.state.metrics.map(function(metric) {
           return (
             <DragMetric className="formula-value" id={uuid.v4()} updateDrag={() => this.updateDrag()} dragType="value" text="+" key={uuid.v4()} type={metric}>
@@ -177,6 +164,7 @@ var MetricsAnalytics = React.createClass({
 
       <div className="formula-builder">
       <Row>
+        <div style={{backgroundColor: Colors.MAIN, color: 'white', marginLeft: 15, marginRight: 15, marginTop: 15}} className="title med small-pad center ">Formula</div>
         {this.renderConfig()}
         <Col id="drop-box" md={12}>
           <DropMetric  className="drop-metric" dropType="side" onDrop={(item, offset) => this.handleMetricDrop('formula', item, offset)}>
@@ -230,6 +218,12 @@ var MetricsAnalytics = React.createClass({
     );
   },
   renderConfig: function() {
+    var iconSize = 20;
+    var iconStyle = {
+      cursor: 'move',
+      display: 'inline-block',
+      color: Colors.DARK_BACKGROUND
+    }
     if (this.state.currentInput == -1) return null;
     if (this.state.formula[this.state.currentInput].length == 1) {
       return (
@@ -250,7 +244,7 @@ var MetricsAnalytics = React.createClass({
     }
     return (
     <Row>
-      <Col md={3}>
+      <Col md={3} style={{margin: 0}}>
         <ListItem
           primaryText="Normalize"
           disabled={true}
@@ -258,14 +252,14 @@ var MetricsAnalytics = React.createClass({
           leftIcon={<NormalizeIcon />}
           />
       </Col>
-      <Col md={6}>
+      <Col md={4} style={{margin: 0}}>
         <ListItem
           primaryText={
             <Row>
-              <Col md={2}>
-                Weight&nbsp;&nbsp;
+              <Col md={3}>
+                Weight
               </Col>
-              <Col md={10}>
+              <Col md={9}>
                 <Slider style={{marginTop: 8}} value={this.state.formulaWeights[this.state.currentInput]} onChange={this.onSliderChange} />
               </Col>
             </Row>
@@ -274,7 +268,34 @@ var MetricsAnalytics = React.createClass({
           leftIcon={<WeightIcon />}
           />
       </Col>
-      <Col md={2}>
+      <Col md={2} >
+      <ListItem
+        disabled={true}
+        primaryText={
+          <div>
+            <DragMetric key={uuid.v4()} id={uuid.v4()} updateDrag={() => this.updateDrag()} dragType="operation" text="+" key={uuid.v4()} type={"+"}>
+              <PlusIcon size={iconSize} style={iconStyle}/>
+            </DragMetric>
+            <DragMetric key={uuid.v4()} id={uuid.v4()} updateDrag={() => this.updateDrag()} dragType="operation" text="-" key={uuid.v4()} type={"-"}>
+              <MinusIcon size={iconSize} style={iconStyle} />
+            </DragMetric>
+            <DragMetric id={uuid.v4()} key={uuid.v4()} updateDrag={() => this.updateDrag()} dragType="operation" text="/" key={uuid.v4()} type={"/"}>
+              <DivideIcon size={iconSize} style={iconStyle} />
+            </DragMetric>
+            <DragMetric key={uuid.v4()} id={uuid.v4()} updateDrag={() => this.updateDrag()} dragType="operation" text="*" key={uuid.v4()} type={"*"}>
+              <MultiplyIcon size={iconSize} style={iconStyle} />
+            </DragMetric>
+            <DragMetric key={uuid.v4()} id={uuid.v4()} updateDrag={() => this.updateDrag()} dragType="operation" text="(" key={uuid.v4()} type={"("}>
+              <span className="formula-operation">(</span>
+            </DragMetric>
+            <DragMetric key={uuid.v4()} id={uuid.v4()} updateDrag={() => this.updateDrag()} dragType="operation" text=")" key={uuid.v4()} type={")"}>
+              <span className="formula-operation">)</span>
+            </DragMetric>
+          </div>
+        }
+        />
+      </Col>
+      <Col md={2} style={{margin: 0}}>
         <ListItem
           primaryText="Delete"
           disabled={true}
@@ -338,16 +359,15 @@ var MetricsAnalytics = React.createClass({
     };
     return (
     <Grid>
-      <Row>
-        <TextField hintText="KPI Name" value={this.state.name} onChange={this.updateName} fullWidth={true} />
+      <Row style={{marginTop: 15, marginBottom: 15}}>
+        <span className="text-fix dark med">KPI Name:&nbsp;&nbsp;&nbsp;</span><TextField hintText="Enter Name" value={this.state.name} onChange={this.updateName} fullWidth={false} />
       </Row>
       <Row>
       </Row>
       <Row>
           {this.renderFormula()}
       </Row>
-      <Divider />
-      <Row style={{marginTop: "10px"}}>
+      <Row style={{marginTop: 10}}>
         <BootstrapTable
           selectRow={selectRowProp}
           trClassName="formula-table"
@@ -379,11 +399,62 @@ var MetricsAnalytics = React.createClass({
             Metric
           </TableHeaderColumn>
           <TableHeaderColumn
-            dataField="value"
+            dataField="mean"
+            dataFormat={this.formatValue}
             columnClassName="formula-table-column"
             dataSort={true}
           >
-          Value
+          Mean
+          </TableHeaderColumn>
+          <TableHeaderColumn
+            dataField="min"
+            dataFormat={this.formatValue}
+            columnClassName="formula-table-column"
+            dataSort={true}
+          >
+          Min
+          </TableHeaderColumn>
+          <TableHeaderColumn
+            dataField="max"
+            dataFormat={this.formatValue}
+            columnClassName="formula-table-column"
+            dataSort={true}
+          >
+          Max
+          </TableHeaderColumn>
+          <TableHeaderColumn
+            dataField="median"
+            dataFormat={this.formatValue}
+            columnClassName="formula-table-column"
+            dataSort={true}
+          >
+          Median
+          </TableHeaderColumn>
+          <TableHeaderColumn
+            dataField="mode"
+            dataFormat={this.formatValue}
+            columnClassName="formula-table-column"
+            dataSort={true}
+          >
+          Mode
+          </TableHeaderColumn>
+          <TableHeaderColumn
+            dataField="variance"
+            hidden={true}
+            dataFormat={this.formatValue}
+            columnClassName="formula-table-column"
+            dataSort={true}
+          >
+          Var
+          </TableHeaderColumn>
+          <TableHeaderColumn
+            dataField="stdev"
+            hidden={true}
+            dataFormat={this.formatValue}
+            columnClassName="formula-table-column"
+            dataSort={true}
+          >
+          StDev
           </TableHeaderColumn>
         </BootstrapTable>
       </Row>
@@ -409,5 +480,6 @@ var MetricsAnalytics = React.createClass({
     );
   }
 });
+//        <span className="text-fix dark small">Inputs:&nbsp;&nbsp;</span>
 
 module.exports = DragDropContext(HTML5Backend)(MetricsAnalytics);

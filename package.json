@@ -103,6 +103,7 @@
     "reactify": "^1.1.1",
     "rebass": "^0.2.4",
     "recharts": "^0.12.6",
+    "simple-statistics": "^2.1.0",
     "sorty": "^1.2.2",
     "superagent": "^1.4.0",
     "taffy": "^2.6.2",

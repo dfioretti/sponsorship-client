@@ -43,7 +43,9 @@ var Analyze = React.createClass({
 		if (coll.find().length == 0) {
 			this.getFlux().store("AssetsStore").getState().assets.map(function(asset) {
 				asset.metrics.map(function(metric) {
-					coll.insert(metric);
+					var insert = metric;
+					insert.value = parseFloat(metric.value);
+					coll.insert(insert);
 				});
 			});
 		}
@@ -260,7 +262,7 @@ var Analyze = React.createClass({
 			//this.getFlux().actions.contextCreate(dashboard);
 		} else {
 			DashboardClient.createDashboard(dashboard, function(data) {
-				//this.getFlux().store("DashboardHomeStore").updateDashboard({dashboard: data});
+				this.getFlux().store("DashboardHomeStore").updateDashboard({dashboard: data});
 			}.bind(this));
 			//this.getFlux().actions.contextUpdate(dashboard);
 		}
@@ -317,7 +319,7 @@ var Analyze = React.createClass({
 						autoScrollBodyContent={true}
 						contentStyle={{width: "95%", height: "95vh", maxWidth: 'none'}}
 						>
-						<MetricsAnalytics contextId={this.props.params.id} kpiEdit={this.state.kpiEdit} metricsColl={this.state.metricsColl} formulasColl={this.state.formulasColl} doKpiSave={this.doKpiSave} handleClose={this.handleKpiClose}/>
+						<MetricsAnalytics scopeProperties={this.state.scopeProperties} contextId={this.props.params.id} kpiEdit={this.state.kpiEdit} metricsColl={this.state.metricsColl} formulasColl={this.state.formulasColl} doKpiSave={this.doKpiSave} handleClose={this.handleKpiClose}/>
 					</Dialog>
 					<Row style={{margin: 0, padding: 0}}>
 						<FloatingActionButton backgroundColor={Colors.SECONDARY} style={{float: 'right', marginTop: -30}} mini={false} onTouchTap={this.onKpiAdd}>

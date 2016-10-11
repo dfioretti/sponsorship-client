@@ -40,6 +40,7 @@ var PropertyDashboard = React.createClass({
 	mixins: [ FluxMixin, StoreWatchMixin("AssetsStore", "DocumentStore")],
 
 	componentWillMount: function() {
+		console.log('will mount');
 		if (this.state.assets == null && !this.state.assetsLoaded &&!this.state.loading) {
 			this.getFlux().actions.loadAssets();
 		} else {
@@ -59,36 +60,42 @@ var PropertyDashboard = React.createClass({
 		return { property: null, historical: 3, rows: [], originalRows: [], tweets: [] }
 	},
 	loadData: function(handle) {
-		console.log('loading data');
-		if (this.state.property == null) return;
+		console.log('loading data', handle);
+		//if (this.state.property == null) return;
 		$.ajax({
 			type: "GET",
 			contentType: "application/json",
 			url: API_ROOT + "api/v1/twitter",
 			data: { screen_name: handle },
 			success: function(data, status, xhr) {
+				console.log('success?', data, status, xhr);
 				this.setState({
 					tweets: data
 				});
+				this.forceUpdate();
 			}.bind(this),
 			error: function(xhr, status, error) {
+				console.log('error?', xhr, status, error);
 				console.log(status);
 				console.log(error);
 			}
 		});
 	},
 	componentWillReceiveProps: function(newProps) {
-		console.log('will rec');
+		console.log('will rec', newProps);
 		if (this.state.assetsLoaded) {
 			var property = this.getFlux().store("AssetsStore").getAsset(newProps.params.id);
 			var originalRows = property.metrics;
 			var rows = originalRows.slice(0);
 
 			if (this.state.tweets.length > 0) {
+				console.log(' length gt');
 				if (newProps.params.id != this.props.params.id) {
+					console.log('call load in gt');
 					this.loadData(property.twitter_handle);
 				}
 			} else {
+				console.log('call load in else');
 				this.loadData(property.twitter_handle);
 			}
 			this.setState({

@@ -23,7 +23,6 @@ var DocumentStore = Fluxxor.createStore({
 		)
 	},
 	onLoadDashboardsSuccess: function(payload) {
-		console.log('on load', payload);
 		return;
 		if (this.dashboardsLoaded) return;
 		this.models.clear();

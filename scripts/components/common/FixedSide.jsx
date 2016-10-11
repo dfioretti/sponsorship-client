@@ -66,7 +66,7 @@ var FixedSide = React.createClass({
 				style={{fontSize: 10, backgroundColor: Colors.DARK_BACKGROUND, color: Colors.WHITE, textTransform: 'uppercase', letterSpacing: '1.5', fontFamily: "Avenir-Book"}}
 				value={context.id}
 				key={context.id}
-				primaryText={"Fix Me"}
+				primaryText={context.name}
 				/>
 		);
 	},
