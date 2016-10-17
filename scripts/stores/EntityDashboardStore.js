@@ -1,12 +1,12 @@
 var Fluxxor = require('fluxxor'),
 		constants = require('../constants/constants.js'),
 		interactions = require('../constants/interactions.js'),
-		_ = require('underscore');
+		_ = require('underscore'),
 		API_ROOT = require("../constants/environment.js").API_ROOT;
 
 
 
-EntityDashboardStore = Fluxxor.createStore({
+var EntityDashboardStore = Fluxxor.createStore({
 	initialize: function() {
 		this.mode = null;
 		this.dashboard = null;

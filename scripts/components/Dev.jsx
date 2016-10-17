@@ -10,6 +10,22 @@ var ScoreTab = require("./common/ScoreTab.jsx");
 var ModelBuilder = require('./editors/ModelBuilder.jsx');
 var PouchDB = require('pouchdb');
 var MetricsAnalytics = require('./common/MetricsAnalytics.jsx');
+var ReactEcharts = require('react-echarts-component')
+
+
+const option = {
+  title: { text: 'Bar Chart Example' },
+  tooltip: {},
+  xAxis: {
+    data: ['A', 'B', 'C', 'D', 'E', 'F'],
+  },
+  yAxis: {},
+  series: [{
+    name: 'sales',
+    type: 'bar',
+    data: [5, 20, 36, 10, 10, 20],
+  }],
+};
 
 //var Gallery = require('../components/demos/Gallery.jsx');
 //var Grid = require('../components/demos/Grid.jsx');
@@ -44,7 +60,10 @@ var Dev = React.createClass({
 	},
   render: function () {
     return (
-			<MetricsAnalytics />
+			<ReactEcharts
+				height={400}
+				option={option}
+				/>
     );
   }
 });

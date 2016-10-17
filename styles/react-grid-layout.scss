@@ -4,6 +4,7 @@
 }
 .react-grid-item {
   transition: all 200ms ease;
+  height: 100%;
   //background-color: blue;
   transition-property: left, top;
 }

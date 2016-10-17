@@ -26,7 +26,7 @@ var LiveTwitter = React.createClass({
 			url: API_ROOT + "api/v1/twitter",
 			data: { screen_name: this.props.handle },
 			success: function(data, status, xhr) {
-				console.log('success??')
+				console.log('success??');
 				this.setState({
 					tweets: data
 				});

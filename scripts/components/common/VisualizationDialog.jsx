@@ -6,6 +6,9 @@ var LineChart = require('react-icons/lib/fa/line-chart');
 var BarChart = require('react-icons/lib/fa/bar-chart');
 var PieChart = require('react-icons/lib/fa/pie-chart');
 var AreaChart = require('react-icons/lib/fa/area-chart');
+var CalcIcon = require('react-icons/lib/fa/calculator');
+var TableIcon = require('react-icons/lib/fa/list');
+var RadarIcon = require('react-icons/lib/md/gps-fixed');
 var Avatar = require('material-ui').Avatar;
 var Chip = require('material-ui').Chip;
 var Grid = require('react-bootstrap').Grid;
@@ -24,10 +27,12 @@ var Paper = require('material-ui').Paper;
 var IconButton = require('material-ui').IconButton;
 var CircularProgress = require('material-ui').CircularProgress;
 var uuid = require('node-uuid');
+var Tabs = require('material-ui').Tabs;
+var Tab = require('material-ui').Tab;
 
 var VisualizationDialog = React.createClass({
 	getInitialState: function() {
-		return { charts: ['Bar', 'Line', 'Area', 'Pie'], uuid: uuid.v4(), chartType: "Bar", chartName: "", chipData: [], searchText: "", dataChips: [], dataSearchText: ""};
+		return { charts: ['Bar', 'Line', 'Radar', 'Pie', 'Table'], uuid: uuid.v4(), chartType: "Bar", chartName: "", chipData: [], searchText: "", dataChips: [], dataSearchText: ""};
 	},
 	getDataSearchItems: function() {
 		var data = [];
@@ -166,10 +171,10 @@ var VisualizationDialog = React.createClass({
 				</IconButton>
 			);
 			break;
-			case "Area":
+			case "Radar":
 			return (
-				<IconButton id="Area" key="Area" onTouchTap={this.setChartType} style={(this.state.chartType == c) ? selectedStyle : buttonStyle}  tooltip="Area Chart">
-					<AreaChart size={iconSize} />
+				<IconButton id="Radar" key="Radar" onTouchTap={this.setChartType} style={(this.state.chartType == c) ? selectedStyle : buttonStyle}  tooltip="Radar Chart">
+					<RadarIcon size={iconSize} />
 				</IconButton>
 			);
 			break;
@@ -180,6 +185,12 @@ var VisualizationDialog = React.createClass({
 				</IconButton>
 			);
 			break;
+			case "Table":
+			return (
+				<IconButton id="Table" key="Table" onTouchTap={this.setChartType} style={(this.state.chartType == c) ? selectedStyle : buttonStyle}  tooltip="Data Table">
+					<TableIcon size={iconSize} />
+				</IconButton>
+			);
 		}
 	},
 	handleSave: function(event) {
@@ -190,6 +201,8 @@ var VisualizationDialog = React.createClass({
 		var iconPad = "0px";
 		console.log("props??", this.props);
 		return (
+			<Tabs tabItemContainerStyle={{height: 50, backgroundColor: Colors.MAIN}}>
+			<Tab label="Visualization">
 			<div>
 					<Row>
 						<Col md={5}>
@@ -270,6 +283,8 @@ var VisualizationDialog = React.createClass({
 						</Col>
 					</Row>
 			</div>
+		</Tab>
+		</Tabs>
 		);
 	}
 });

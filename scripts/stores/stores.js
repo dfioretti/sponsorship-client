@@ -26,10 +26,10 @@ var ComponentEditorStore = require("./component_editor_store.js"),
     AlertStore = require('./AlertStore.js'),
     EntityDashboardStore = require('./EntityDashboardStore.js'),
     AnalyticsStore = require('./AnalyticsStore.js'),
-    NavigationStore = require('./NavigationStore.js');
-    ContextStore = require('./ContextStore.js');
-    DocumentStore = require('./DocumentStore.js');
-    ModelingStore = require('./ModelingStore.js');
+    NavigationStore = require('./NavigationStore.js'),
+    ContextStore = require('./ContextStore.js'),
+    DocumentStore = require('./DocumentStore.js'),
+    ModelingStore = require('./ModelingStore.js'),
     stores = {
         ComponentEditorStore: new ComponentEditorStore,
         ComponentsStore: new ComponentsStore,

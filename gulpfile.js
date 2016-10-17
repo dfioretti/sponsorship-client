@@ -19,6 +19,7 @@ var gulp = require('gulp'),
     imagemin = require('gulp-imagemin'),
     cache = require('gulp-cache'),
     reactify = require('reactify'),
+    babelify = require('babelify'),
     uglify = require('gulp-uglify'),
     del = require('del'),
     notify = require('gulp-notify'),
@@ -75,6 +76,7 @@ gulp.task('watchify', function() {
 gulp.task('browserify', function() {
   browserify(p.jsx)
     .transform(reactify)
+    .transform(babelify, { presets: ["es2015", "react"]})
     .bundle()
     .pipe(source(p.bundle))
     .pipe(buffer())

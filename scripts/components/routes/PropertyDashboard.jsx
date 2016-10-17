@@ -1,4 +1,5 @@
 var React = require('react');
+var CircularProgress =  require('material-ui').CircularProgress;
 var Grid = require('react-bootstrap').Grid;
 var Col = require('react-bootstrap').Col;
 var Row = require('react-bootstrap').Row;
@@ -578,7 +579,9 @@ var PropertyDashboard = React.createClass({
 	},
 	render: function() {
 		if (this.state.property == null) {
-			return (<h1>wait bitch</h1>);
+			return (
+				<CircularProgress size={3} />
+			);
 		}
 
 		echarts.registerTheme('theme', theme);
@@ -610,95 +613,6 @@ var PropertyDashboard = React.createClass({
 				{this.renderPropertyContent()}
 			</div>
 		);
-		/*
-		{this.renderBody(property)}
-
-		return (
-
-		<div>
-		<Grid fluid={true}>
-		<Row style={{marginTop: 15}}>
-		<Col md={12}>
-		<Paper style={{height: 300}}>
-		<Col style={{verticalAlign: 'center', padding: 75, margin: 0}} md={4}>
-		<Avatar className="profileAvatar" size={150} src={property.image_url} />
-		</Col>
-		<Col md={8}>
-		</Col>
-		</Paper>
-		</Col>
-		</Row>
-		</Grid>
-		</div>
-		);
-		*/
-		/*
-		return (
-		<Grid fluid={false}>
-		<Row style={{margin: 20}}>
-		<Card style={{width: "25%"}}>
-		<CardMedia
-		overlay={<CardTitle style={{textTransform: 'uppercase', letterSpacing: '1.5px'}} title={property.name} subtitle={property.category + " " + property.subcategory}/>}
-		>
-		<img src={property.image_url} />
-		</CardMedia>
-		</Card>
-		<Card style={{width: "75%"}}>
-		sup man
-		</Card>
-		</Row>
-		</Grid>
-		);
-		*/
-		/*
-		return (
-		<Paper
-		style={style}
-		>
-		<div className="propertyCard">
-		<img src="/images/stadium.jpg" style={{position: 'absolute', left: 0, right: 0, width: '100%', height: 'auto', opacity: 0.6}} />
-		<div style={{padding: 60, zIndex: 2, position: 'relative'}}>
-		<Col md={4}>
-		</Col>
-		<Col md={4}>
-		<Avatar size={160} style={{border: "10px solid white", textAlign: 'center'}} src={property.image_url} />
-		</Col>
-		<Col md={4}>
-		</Col>
-		</div>
-		</div>
-		</Paper>
-		<img style={{position: 'relative', width: 500, height: 280, opacity: 0.6}} src={"/images/stadium.jpg"} />
-
-		<Row>
-		<Col md={4}>
-		<Card style={{width: "33%"}}
-		>
-		<CardMedia
-		overlay={<Avatar src={property.image_url} />}
-		>
-		<img src="/images/stadium.jpg" />
-		</CardMedia>
-		</Card>
-		</Col>
-		<Col md={8}>
-		<Card>
-		</Card>
-		</Col>
-		</Row>
-		);
-
-
-
-		/*
-		<DropDownMenu className="text-fix small" value={this.state.historical} onChange={this.handleChange}>
-		{this.state.property.historicals.map(function(h) {
-		return (
-		<MenuItem className="text-fix small" value={i++} key={h.metric} primaryText={h.metric} />
-		);
-		})}
-		</DropDownMenu>
-		*/
 	}
 
 });

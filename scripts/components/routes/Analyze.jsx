@@ -11,6 +11,7 @@ var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
 var DashboardGrid = require('../common/DashboardGrid.jsx');
 var Tabs = require('material-ui').Tabs;
+var CircularProgress =  require('material-ui').CircularProgress;
 var Tab = require('material-ui').Tab;
 var Colors = require('../../constants/colors.js');
 var ScopeTab = require('../common/ScopeTab.jsx');
@@ -31,16 +32,25 @@ var LokiIndexedAdapter = require('lokijs/src/loki-indexed-adapter');
 var idbAdapter = new LokiIndexedAdapter('loki-db');
 
 var Analyze = React.createClass({
-	mixins: [FluxMixin, StoreWatchMixin("AssetsStore")],
+	mixins: [FluxMixin, StoreWatchMixin("AssetsStore", "DashboardHomeStore")],
 	getInitialState: function() {
-		db = new loki('outperform.db', {autosave: true, autosaveInterval: 10000, adapter: idbAdapter, autoload: true, autoloadCallback: this.dbLoaded });
+		db = new loki('outperform.db', {autosave: true, autosaveInterval: 500, adapter: idbAdapter, autoload: true, autoloadCallback: this.dbLoaded });
 		window.db = db;
-		return { db: db, metricsColl: null, formualsColl: null, scopeMetrics: [], models: [], formulas: [], id: null, scopeName: "", kpis: [], scopeProperties: [], showError: false, activeTab: 'scope', kpiEdit: null, dialogOpen: false, kpiDialogOpen: false, items: [], elements: {}, newCounter: 0, breakpoint: 'lg', cols: 12 }
+		return { db: db, dbLoaded: false, metricsColl: null, formualsColl: null, scopeMetrics: [], models: [], formulas: [], id: null, scopeName: "", kpis: [], scopeProperties: [], showError: false, activeTab: 'scope', kpiEdit: null, dialogOpen: false, kpiDialogOpen: false, items: [], elements: {}, newCounter: 0, breakpoint: 'lg', cols: 12 }
 	},
 	dbLoaded: function() {
+		console.log('db loaded', this.state);
+		this.setState({
+			formulasColl: this.state.db.getCollection('formulas'),
+			metricsColl: this.state.db.getCollection('metrics'),
+			dbLoaded: true
+		});
+		/*
 		console.log('in db loaded', this.state.db);
 		var coll = this.state.db.getCollection('metrics');
+		console.log('coll', coll, coll.find().length);
 		if (coll.find().length == 0) {
+			console.log('in here?');
 			this.getFlux().store("AssetsStore").getState().assets.map(function(asset) {
 				asset.metrics.map(function(metric) {
 					var insert = metric;
@@ -51,8 +61,10 @@ var Analyze = React.createClass({
 		}
 		this.setState({
 			formulasColl: this.state.db.getCollection('formulas'),
-			metricsColl: coll
+			metricsColl: coll,
+			dbLoaded: true
 		});
+		*/
 	},
 	componentWillMount: function() {
 		if (this.props.params.id) {
@@ -215,8 +227,8 @@ var Analyze = React.createClass({
 				//i: 'key-' + this.state.newCounter,
 				x: this.state.items.length * 2 % (this.state.cols || 12),
 				y: Infinity,
-				w: 3,
-				h: 2,
+				w: 6,
+				h: 8,
 				data: data
 			}),
 			newCounter: this.state.newCounter + 1,
@@ -302,7 +314,7 @@ var Analyze = React.createClass({
 					</FloatingActionButton>
 					<Row>
 						<Col md={12} style={{marginTop: 10, paddingTop: 0, position: 'absolute'}}>
-							<DashboardGrid elements={this.state.elements} items={this.state.items} className="layout" rowHeight={100} cols={{lg: 12, md: 10, sm: 6, xs: 4, xxs: 2}} onBreakpointChange={this.onBreakpointChange} onLayoutChange={this.onLayoutChange} />
+							<DashboardGrid metricsColl={this.state.metricsColl} elements={this.state.elements} items={this.state.items} className="layout" rowHeight={25} cols={{lg: 24, md: 18, sm: 12, xs: 10, xxs: 6}} onBreakpointChange={this.onBreakpointChange} onLayoutChange={this.onLayoutChange} />
 						</Col>
 					</Row>
 				</Grid>
@@ -311,25 +323,25 @@ var Analyze = React.createClass({
 			//						<MetricBuilder kpiEdit={this.state.kpiEdit} handleClose={this.handleKpiClose} doKpiSave={this.doKpiSave} assets={currentAssets} />
 
 			return (
-				<Grid fluid={true}>
+				<div>
 					<Dialog
 						modal={true}
 						open={this.state.kpiDialogOpen}
 						onRequestClose={this.handleKpiClose}
 						autoScrollBodyContent={true}
-						contentStyle={{width: "95%", height: "95vh", maxWidth: 'none'}}
+						contentStyle={{height: "95vh", maxWidth: 'none'}}
 						>
 						<MetricsAnalytics scopeProperties={this.state.scopeProperties} contextId={this.props.params.id} kpiEdit={this.state.kpiEdit} metricsColl={this.state.metricsColl} formulasColl={this.state.formulasColl} doKpiSave={this.doKpiSave} handleClose={this.handleKpiClose}/>
 					</Dialog>
-					<Row style={{margin: 0, padding: 0}}>
+					<Row style={{marginLeft: 10, marginRight: 10, marginTop: 0, padding: 0}}>
 						<FloatingActionButton backgroundColor={Colors.SECONDARY} style={{float: 'right', marginTop: -30}} mini={false} onTouchTap={this.onKpiAdd}>
-							<AddIcon size={30} />
+							<SaveIcon size={30} />
 						</FloatingActionButton>
 					</Row>
-					<Row md={12}>
+					<Row style={{marginTop: -10, paddingTop: 0}}>
 						<ScoreTab scopeProperties={this.state.scopeProperties} contextId={this.props.params.id} metricsColl={this.state.metricsColl} formulasColl={this.state.formulasColl} onKpiUpdate={this.onKpiUpdate} models={this.state.models} onModelChange={this.onModelChange} formulas={this.state.formulas} onKpiAdd={this.onKpiAdd} />
 					</Row>
-				</Grid>
+				</div>
 			);
 		}
 	},
@@ -342,9 +354,27 @@ var Analyze = React.createClass({
 		});
 	},
 	render: function() {
-		if (!this.state.assetsLoaded || !this.getFlux().store("DashboardHomeStore").getState().dashboardsLoaded) {
+		if (this.state.assetsLoaded && this.state.dbLoaded) {
+			var coll = this.state.db.getCollection('metrics');
+			if (coll.find().length == 0) {
+				this.state.assets.map(function(asset) {
+					asset.metrics.map(function(metric) {
+						var insert = metric;
+						insert.value = parseFloat(metric.value);
+						coll.insert(insert);
+					});
+				});
+			}
+		}
+		if (!(this.state.dbLoaded && this.state.assetsLoaded && this.getFlux().store("DashboardHomeStore").getState().dashboardsLoaded)) {
 			return (
-				<CircularProgress size={2} />
+				<Row style={{marginTop: "25%"}}>
+					<Col md={5}></Col>
+					<Col md={2}>
+						<CircularProgress size={3} />
+					</Col>
+					<Col md={5}></Col>
+				</Row>
 			);
 		}
 		var tabStyle = {
@@ -394,13 +424,13 @@ var Analyze = React.createClass({
 						<FlatButton rippleColor="transparent" backgroundColor={Colors.WHITE} labelStyle={labelStyle} hoverColor={Colors.WHITE} style={{color: Colors.MAIN, width: "100%", padding: 0, margin: 0, marginTop: 0, height: 30, fontSize: 10}} onTouchTap={this.tabChange.bind(this, scopeKey)} label="Scope" />
 						<div style={(this.state.activeTab == 'scope') ? activeStyle : inactiveStyle} />
 					</Col>
-					<Col style={colStyle} md={4}>
-						<FlatButton rippleColor="transparent" backgroundColor={Colors.WHITE} labelStyle={labelStyle} hoverColor={Colors.WHITE} style={{color: Colors.MAIN, width: "100%", padding: 0, margin: 0, marginTop: 0, height: 30, fontSize: 10}} onTouchTap={this.tabChange.bind(this, "analyze")} label="Analyze" />
-						<div style={(this.state.activeTab == 'analyze') ? activeStyle : inactiveStyle} />
-					</Col>
 					<Col md={4} style={colStyle}>
 						<FlatButton rippleColor="transparent" backgroundColor={Colors.WHITE} labelStyle={labelStyle} hoverColor={Colors.WHITE} style={{color: Colors.MAIN, padding: 0, margin: 0, height: 30, marginTop: 0, width: "100%"}} onTouchTap={this.tabChange.bind(this, "evaluate")} label="Evaluate" />
 						<div style={(this.state.activeTab == 'evaluate') ? activeStyle : inactiveStyle} />
+					</Col>
+					<Col style={colStyle} md={4}>
+						<FlatButton rippleColor="transparent" backgroundColor={Colors.WHITE} labelStyle={labelStyle} hoverColor={Colors.WHITE} style={{color: Colors.MAIN, width: "100%", padding: 0, margin: 0, marginTop: 0, height: 30, fontSize: 10}} onTouchTap={this.tabChange.bind(this, "analyze")} label="Analyze" />
+						<div style={(this.state.activeTab == 'analyze') ? activeStyle : inactiveStyle} />
 					</Col>
 				</Row>
 				{this.renderContent(currentAssets)}

@@ -15,7 +15,7 @@ var DashboardChart = require('./DashboardChart.jsx');
 var DashboardGrid = React.createClass({
   mixins: [PureRenderMixin],
 
-  createElement(el) {
+  createElement: function(el) {
     var removeStyle = {
       position: 'absolute',
       right: '2px',
@@ -24,24 +24,23 @@ var DashboardGrid = React.createClass({
     };
 
     var height = (el.h * this.props.rowHeight);
+    var updatedHeight = height - (10 * el.h);
 		return (
-			<div key={el.i} _grid={el}>
-				<Card style={{height: "100%",width: "100%"}}>
-          <DashboardChart data={this.props.elements[el.i]} height={height} />
-				</Card>
+			<div key={el.i} _grid={el} >
+        <DashboardChart metricsColl={this.props.metricsColl} data={this.props.elements[el.i]} height={height} />
 			</div>
 		)
   },
 
   // TODO: port to parent..
-  onRemoveItem(i) {
+  onRemoveItem: function(i) {
     this.setState({items: _.reject(this.state.items, {i: i})});
   },
 
-  render() {
+  render: function() {
     return (
       <div>
-        <ResponsiveReactGridLayout style={{marginTop: 0, paddingTop: 0}} onLayoutChange={this.props.onLayoutChange} onBreakpointChange={this.props.onBreakpointChange}
+        <ResponsiveReactGridLayout style={{marginTop: 10, paddingTop: 0}} onLayoutChange={this.props.onLayoutChange} onBreakpointChange={this.props.onBreakpointChange}
             {...this.props}>
           {_.map(this.props.items, this.createElement)}
         </ResponsiveReactGridLayout>

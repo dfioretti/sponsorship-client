@@ -21,6 +21,7 @@ var EditorScore = require('./components/editors/EditorScore.jsx');
 var ScoreIndex = require('./components/editors/ScoreIndex.jsx');
 var DashboardIndex = require('./components/routes/DashboardIndex.jsx');
 var PortfolioDashboard = require('./components/dashboards/PortfolioDashboard.jsx');
+var CompanyDashboard = require('./components/routes/CompanyDashboard.jsx');
 var Dev = require('./components/Dev.jsx');
 var PortfolioOverview = require('./components/routes/PortfolioOverview.jsx');
 var EntityOverview = require('./components/routes/EntityOverview.jsx');
@@ -35,7 +36,7 @@ var PortfolioHome = require('./components/routes/PortfolioHome.jsx');
 var PropertyDashboard = require('./components/routes/PropertyDashboard.jsx');
 var LoginPage = require('./components/routes/LoginPage.jsx');
 
-var defaultRoute = (location.hostname.indexOf('mcd') > -1) ? Analytics : PortfolioDashboard;
+var defaultRoute = (location.hostname.indexOf('mcd') > -1) ? CompanyDashboard : PortfolioDashboard;
 
 module.exports = (
   <Route handler={SmallApp}>
@@ -46,7 +47,7 @@ module.exports = (
     <Route name="view_scope" handler={Analyze} path="analyze/:id" />
     <Route name='dashboard_index' handler={DashboardIndex} path="dashboard_index" />
     <Route name='account_login' handler={AccountLogin} path='account_login' />
-    <Route name='analytics' handler={Analytics} path="analytics" />
+    <Route name='analytics' handler={CompanyDashboard} path="analytics" />
     <Route name='create_account' handler={CreateAccount} path='create_account' />
     <Route name='password_recovery' handler={PasswordRecovery} path='password_recovery' />
     <Route name='reset_password' handler={ResetPassword} path='reset_password' />

@@ -1,7 +1,7 @@
 var API_ROOT = require("../constants/environment.js").API_ROOT;
 var asset_url = { ASSET_URL: API_ROOT + "api/v1/assets/" };
 
-AssetClient = {
+var AssetClient = {
   getAssets: function(callback) {
     $.ajax({
       type: "GET",

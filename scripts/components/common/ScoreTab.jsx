@@ -47,13 +47,15 @@ var StatEngine = require('../../utils/StatEngine.js');
 // graph variables
 var nodeIds, nodeList, nodes, edgeList, edges, network, options, nodeCounter, edgeCounter, currentNode;
 
-function generateNode() {
+function generateNode(name, weight, normalize) {
 	var data =
-	'<svg xmlns="http://www.w3.org/2000/svg" width="390" height="65">'
-	+ '<rect x="0" y="0" width="100%" height="100%" fill="#7890A7" stroke-width="20" stroke="#ffffff"></rect>'
+	'<svg xmlns="http://www.w3.org/2000/svg" width="150" height="85">'
+	+ '<rect x="0" y="0" width="100%" height="100%" fill="#1C5D99" rx="5" ry="5"></rect>'
 	+ '<foreignObject x="15" y="10" width="100%" height="100%">'
-	+ '<div xmlns="http://www.w3.org/1999/xhtml" style="font-size: 40px">'
-	+ '<em>TEST</em>'
+	+ '<div xmlns="http://www.w3.org/1999/xhtml" style="font-size: 14px; font-family: Avenir-Book; text-transform: letter-spacing: 1.5px; uppercase; color: white;">'
+	+ '<div>' + name +'</div>'
+	+ '<div style="font-size: 12px; font-style: italic; padding-top: 10px;">Weight: ' + weight + '</div>'
+	+ '<div style="font-size: 12px; font-style: italic; padding-top: 2px;">Normalized: ' + 'Yes' + '</div>'
 	+ '</div>'
 	+ '</foreignObject>'
 	+ '</svg>';
@@ -300,7 +302,24 @@ var ScoreTab = React.createClass({
 			nodeCounter = nodeCounter + 1;
 			var edgeId = edgeCounter;
 			edgeCounter = edgeCounter + 1;
-			nodes.add({ id: id, weight: 1, normalize: true, type: type, fid: kpi, labelHighlightBold: false, borderWidthSelected: 1, label: label, shape: shape, font:{face: 'Avenir-Book', color: color}, color: '#1C5D99'});
+			var url = generateNode(label, 100, "Normalize");
+			if (kpi.length > 0) {
+			nodes.add({ id: id,
+				weight: 1,
+				normalize: true,
+				type: type,
+				fid: kpi,
+				labelHighlightBold: false,
+				borderWidthSelected: 1,
+				//label: label,
+				//shape: shape,
+				shape: 'image',
+				image: url
+			});
+		} else {
+			nodes.add({ id: id, weight: 1, normalize: true, type: type, fid: kpi, labelHighlightBold: false, borderWidthSelected: 1, label: label, shape: shape});
+		}
+				//font:{face: 'Avenir-Book', color: color}, color: '#1C5D99'});
 			edges.add({
 				id: edgeId,
 				from: parent,
@@ -333,7 +352,7 @@ var ScoreTab = React.createClass({
 			var color = "#ffffff";//"#000000";
 			if (typeof(nodeList) == 'undefined') {
 				nodeList = [
-					{ id: 0, labelHighlightBold: false, weight: 1, normalize: true, borderWidthSelected: 1, label: 'MODEL', shape: 'circle', font:{face: 'Avenir-Book', color: color}, color: '#1C5D99'}
+					{ id: 0, labelHighlightBold: false, weight: 1, normalize: true, borderWidthSelected: 1, label: 'MODEL', shape: 'circle', font:{face: 'Avenir-Book', color: color, size: 10}, color: '#1C5D99'}
 				];
 				edgeList = [];
 				nodeIds = [];
@@ -437,9 +456,7 @@ var ScoreTab = React.createClass({
 		renderTree: function() {
 			return (
 				<div>
-					<div style={{backgroundColor: Colors.MAIN, color: 'white'}} className="title med small-pad center ">Model</div>
-					<Divider />
-					<div id="vis" style={{height: 350, backgroundColor: Colors.LIGHT}}></div>
+					<div id="vis" style={{height: 400, backgroundColor: Colors.LIGHT}}></div>
 				</div>
 			);
 		},
@@ -470,7 +487,7 @@ var ScoreTab = React.createClass({
 					</Col>
 					<Col className="tab-col" md={9}>
 						<div className="tab-content">
-							<Row>
+							<Row style={{marginTop: -10}}>
 								<Col md={12}>
 									{this.renderTree()}
 								</Col>

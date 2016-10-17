@@ -3,7 +3,7 @@ var Fluxxor = require("fluxxor"),
     constants = require("../constants/constants.js"),
     ReactRouter = require('react-router');
 
-ScoreEditorStore = Fluxxor.createStore({
+var ScoreEditorStore = Fluxxor.createStore({
         initialize: function() {
             this.id = null;
             this.selectedPane = "General",

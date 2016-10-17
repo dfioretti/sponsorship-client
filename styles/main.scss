@@ -2,19 +2,21 @@
 @import 'spinner';
 @import 'react-grid-layout';
 @import 'node/react-big-calendar';
+
 @import 'node/react-bootstrap-table';
 @import 'node/index';
 //@import 'node/react-select';
 @import '../bower_components/foundation/scss/foundation/_functions.scss';
 @import '../bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss';
 @import '../bower_components/slick-carousel/slick/slick.scss';
+
 @import '../bower_components/slick-carousel/slick/slick-theme.scss';
 //@import '../node_modules/react-grid-layout/css/styles.css';
-
 @import './import/slide-menu.scss';
 @import './import/application.scss';
 @import './import/react-data-grid.scss';
 @import './import/vis.scss';
+
 @import './import/slider.scss';
 
 @import url(https://fonts.googleapis.com/css?family=Raleway:700,400);
@@ -116,7 +118,7 @@ $topbar-height: rem-calc(45);
   display: inline-block;
 }
 .profileAvatar {
-  border: 3px solid #1C5D99;
+  border: 2px solid white;//#1C5D99;
   position: relative;
   left: 50px;
   top: -87px;
@@ -131,12 +133,41 @@ $topbar-height: rem-calc(45);
   color: white;
 }
 
+.main-card {
+  color: #1C5D99;
+}
+
+.second-card {
+  color: #639FAB;
+}
+
+.light-main-card {
+  color: #3FB1E3;
+}
+
+.light-second-card {
+  color: #6BE6C1;
+}
+
 .dark {
   color: #222222;
 }
 
+.darkish {
+  color: #33363B;
+}
+
 .large {
   font-size: 24px;
+  line-height: 48px;
+}
+
+.larger {
+  font-size: 48px;
+}
+
+.thin {
+  font-weight: 100;
 }
 
 .xlarge {
@@ -147,7 +178,6 @@ $topbar-height: rem-calc(45);
   font-size: 18px;
   //line-height: 50px;
 }
-
 .small {
   font-size: 16px;
   line-height: 24px;
@@ -205,11 +235,11 @@ z-index: -1;
   letter-spacing: 1.5px;
   font-size: 12px;
   display: inline-block;
-  font-family: Avenir-Book;
+  font-family: Lato-Light;
 }
 
 .med-text label {
-  font-family: Avenir-Book;
+  font-family: Lato-Light;
 }
 /*
 .tooltip {

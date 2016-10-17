@@ -244,7 +244,7 @@ var MetricsAnalytics = React.createClass({
     }
     return (
     <Row>
-      <Col md={3} style={{margin: 0}}>
+      <Col md={3} style={{margin: 0, paddingRight: 0}}>
         <ListItem
           primaryText="Normalize"
           disabled={true}
@@ -252,7 +252,7 @@ var MetricsAnalytics = React.createClass({
           leftIcon={<NormalizeIcon />}
           />
       </Col>
-      <Col md={4} style={{margin: 0}}>
+      <Col md={4} style={{margin: 0, padding: 0}}>
         <ListItem
           primaryText={
             <Row>
@@ -268,11 +268,12 @@ var MetricsAnalytics = React.createClass({
           leftIcon={<WeightIcon />}
           />
       </Col>
-      <Col md={2} >
+      <Col md={3} style={{padding: 0, margin: 0}} >
       <ListItem
         disabled={true}
         primaryText={
           <div>
+            <span>Math:&nbsp;</span>
             <DragMetric key={uuid.v4()} id={uuid.v4()} updateDrag={() => this.updateDrag()} dragType="operation" text="+" key={uuid.v4()} type={"+"}>
               <PlusIcon size={iconSize} style={iconStyle}/>
             </DragMetric>
@@ -295,13 +296,12 @@ var MetricsAnalytics = React.createClass({
         }
         />
       </Col>
-      <Col md={2} style={{margin: 0}}>
+      <Col md={2} style={{paddingLeft: 0, margin: 0}}>
         <ListItem
           primaryText="Delete"
           disabled={true}
           onTouchTap={this.removeInput}
-          rightIconButton={<IconButton onTouchTap={this.removeInput} style={{color: Colors.RED_BASE}}><RemoveIcon size={20}/></IconButton>}
-          leftIcon={<DeleteIcon  />}
+          rightIconButton={<IconButton onTouchTap={this.removeInput} style={{color: Colors.RED_BASE}}><DeleteIcon size={20}/></IconButton>}
           />
       </Col>
     </Row>
@@ -358,7 +358,7 @@ var MetricsAnalytics = React.createClass({
       onSelectAll: this.onSelectAll
     };
     return (
-    <Grid>
+    <Grid fluid={true}>
       <Row style={{marginTop: 15, marginBottom: 15}}>
         <span className="text-fix dark med">KPI Name:&nbsp;&nbsp;&nbsp;</span><TextField hintText="Enter Name" value={this.state.name} onChange={this.updateName} fullWidth={false} />
       </Row>

@@ -80,7 +80,7 @@ var DataBrowser = React.createClass({
 		return (
 			<BootstrapTable
 				data={this.state.stats}
-				height="260"
+				height="160"
 				search={false}
 				>
 			<TableHeaderColumn
@@ -127,7 +127,7 @@ var DataBrowser = React.createClass({
 		return (
 			<BootstrapTable
 				data={this.state.data}
-				height="260"
+				height="160"
 				search={false}
 				>
 				<TableHeaderColumn
@@ -144,6 +144,7 @@ var DataBrowser = React.createClass({
 				</TableHeaderColumn>
 				<TableHeaderColumn
 					dataField="metric"
+					width="180"
 					dataFormat={this.formatMetric}
 					dataSort={true}
 					>Metric
