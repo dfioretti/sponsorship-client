@@ -5,8 +5,9 @@
 var React = require('react'),
 		Fluxxor = require('fluxxor'),
 		FluxMixin = Fluxxor.FluxMixin(React),
-		StoreWatchMixin = Fluxxor.StoreWatchMixin;
+		StoreWatchMixin = Fluxxor.StoreWatchMixin,
 		GenericValueListItem = require('../../common/charts/GenericValueListItem.jsx');
+
 var jScrollPane = require('jscrollpane');
 var PortfolioSummary = React.createClass({
 	mixins: [FluxMixin, StoreWatchMixin("AssetsStore")],

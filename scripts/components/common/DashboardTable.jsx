@@ -16,6 +16,7 @@ var Colors = require('../../constants/colors.js');
 var DashboardTable = React.createClass({
 
   getInitialState: function() {
+    console.log("get initial state in table", this.props, this.props.metricsColl);
     var data = this.props.metricsColl.chain().find().data();
     return { data: data, searchText: "" }
   },
@@ -25,6 +26,7 @@ var DashboardTable = React.createClass({
     )
   },
   formatNumer: function(cell, row) {
+    cell = parseFloat(cell);
     if (cell < 0) {
       return (
         <span>{numberFormat(cell, 2)}</span>

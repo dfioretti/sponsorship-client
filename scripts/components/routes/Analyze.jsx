@@ -32,17 +32,20 @@ var LokiIndexedAdapter = require('lokijs/src/loki-indexed-adapter');
 var idbAdapter = new LokiIndexedAdapter('loki-db');
 
 var Analyze = React.createClass({
-	mixins: [FluxMixin, StoreWatchMixin("AssetsStore", "DashboardHomeStore")],
+	mixins: [FluxMixin, StoreWatchMixin("DocumentStore")],
 	getInitialState: function() {
-		db = new loki('outperform.db', {autosave: true, autosaveInterval: 500, adapter: idbAdapter, autoload: true, autoloadCallback: this.dbLoaded });
-		window.db = db;
-		return { db: db, dbLoaded: false, metricsColl: null, formualsColl: null, scopeMetrics: [], models: [], formulas: [], id: null, scopeName: "", kpis: [], scopeProperties: [], showError: false, activeTab: 'scope', kpiEdit: null, dialogOpen: false, kpiDialogOpen: false, items: [], elements: {}, newCounter: 0, breakpoint: 'lg', cols: 12 }
+		//console.log('initial state');
+		//var db = new loki('outperform.db', {autosave: true, autosaveInterval: 500, adapter: idbAdapter, autoload: true, autoloadCallback: this.dbLoaded });
+		//window.db = db;
+		return {  dbLoaded: true, scopeMetrics: [], models: [], formulas: [], id: null, scopeName: "", kpis: [], scopeProperties: [], showError: false, activeTab: 'scope', kpiEdit: null, dialogOpen: false, kpiDialogOpen: false, items: [], elements: {}, newCounter: 0, breakpoint: 'lg', cols: 12 }
 	},
 	dbLoaded: function() {
-		console.log('db loaded', this.state);
+		/*
+		console.log("db loaded");
 		this.setState({
 			formulasColl: this.state.db.getCollection('formulas'),
 			metricsColl: this.state.db.getCollection('metrics'),
+			propertiesColl: this.state
 			dbLoaded: true
 		});
 		/*
@@ -67,11 +70,55 @@ var Analyze = React.createClass({
 		*/
 	},
 	componentWillMount: function() {
+		this.loadData(this.props);
+		return;
+		console.log("will mt");
 		if (this.props.params.id) {
-			var dashboard = this.getFlux().store("DashboardHomeStore").getDashboard(this.props.params.id);
+			var dashboard = this.state.contextCollection.findOne({ 'id': this.props.params.id });//='id' : )//this.getFlux().store("DashboardHomeStore").getDashboard(this.props.params.id);
+			console.log('dashboard', dashboard);
 			var rawMetrics = [];
 			if (dashboard)
-			rawMetrics = this.getFlux().store("DocumentStore").getMetrics({'entity_key' : { '$in' : dashboard.state.context }});
+				rawMetrics = this.state.metricsColl.find({'entity_key' : { '$in' : dashboard.state.context }});
+			//rawMetrics = this.getFlux().store("DocumentStore").getMetrics({'entity_key' : { '$in' : dashboard.state.context }});
+
+			if (dashboard) {
+				this.setState({
+					scopeName: dashboard.name,
+					scopeProperties: (dashboard.state.context) ? dashboard.state.context : [],
+					items: (dashboard.state.layout) ? dashboard.state.layout : [],
+					elements: dashboard.state.elements,
+					id: this.props.params.id,
+					newCounter: dashboard.state.elements.length,
+					formulas: (dashboard.state.formulas) ? dashboard.state.formulas : [],
+					activeTab: dashboard.state.activeTab,
+					models: (dashboard.state.models) ? dashboard.state.models : [],
+					scopeMetrics: rawMetrics
+				});
+			}
+		}
+		else {
+			this.setState({
+				scopeName: "NEED NAME",
+				scopeProperties: [],
+				items: [],
+				elements: {},
+				id: null,
+				newCounter: 0,
+				formulas: [],
+				activeTab: 'scope',
+				models: [],
+				scopeMetrics: []
+			});
+		}
+	},
+	loadData: function(props) {
+		if (props.params.id) {
+			var dashboard = this.state.contextCollection.findOne({ 'id': parseInt(props.params.id) });//='id' : )//this.getFlux().store("DashboardHomeStore").getDashboard(this.props.params.id);
+			console.log('dashboard', dashboard);
+			var rawMetrics = [];
+			if (dashboard)
+				rawMetrics = this.state.metricsColl.find({'entity_key' : { '$in' : dashboard.state.context }});
+			//rawMetrics = this.getFlux().store("DocumentStore").getMetrics({'entity_key' : { '$in' : dashboard.state.context }});
 
 			if (dashboard) {
 				this.setState({
@@ -104,6 +151,8 @@ var Analyze = React.createClass({
 		}
 	},
 	componentWillReceiveProps: function(nextProps) {
+		this.loadData(nextProps);
+		return;
 		if (nextProps.params.id) {
 			var dashboard = this.getFlux().store("DashboardHomeStore").getDashboard(nextProps.params.id);
 			var rawMetrics = [];
@@ -139,7 +188,7 @@ var Analyze = React.createClass({
 		}
 	},
 	getStateFromFlux: function() {
-		return this.getFlux().store("AssetsStore").getState();
+		return this.getFlux().store("DocumentStore").getState();
 	},
 	onScopeNameUpdate: function(event) {
 		this.setState({
@@ -194,12 +243,10 @@ var Analyze = React.createClass({
 		});
 	},
 	doKpiSave: function(data) {
-		console.log('kpi ave data', data);
 		var formulas = this.state.formulas;
 		var stats = new StatEngine(data);
 		//var collection = this.getFlux().store("DocumentStore").getCollection('metrics');
 		var collection = this.getFlux().store("DocumentStore").getMetricsCollection();
-		console.log('collection', collection);
 		stats.setCollection(collection);
 		//stats.setCollection(this.getFlux().store("DocumentStore").getCollection('metrics'));
 		stats.runFormula();
@@ -236,6 +283,7 @@ var Analyze = React.createClass({
 		});
 	},
 	onLayoutChange: function(layout) {
+		console.log('layout change parent');
 		this.setState({items: layout});
 	},
 	onScopeChanged: function(scopeKeys) {
@@ -286,7 +334,7 @@ var Analyze = React.createClass({
 					<FloatingActionButton backgroundColor={Colors.SECONDARY} style={{float: 'right', marginTop: -30}} mini={false} onTouchTap={this.saveScope}>
 						<SaveIcon size={30} />
 					</FloatingActionButton>
-					<ScopeTab currentAssets={currentAssets} onScopeChanged={this.onScopeChanged} scopeProperties={this.state.scopeProperties} allProperties={this.getFlux().store("AssetsStore").getState().assets} />
+					<ScopeTab scopeProperties={this.state.scopeProperties} currentAssets={this.state.propertiesColl.find({'entity_key' : { '$in' : this.state.scopeProperties }})} onScopeChanged={this.onScopeChanged} allProperties={this.state.propertiesColl.find()} />
 				</Grid>
 			);
 		} else if (this.state.activeTab == 'analyze') {
@@ -307,14 +355,14 @@ var Analyze = React.createClass({
 						autoScrollBodyContent={true}
 						contentStyle={{width: "75%", height: "900px", maxWidth: 'none'}}
 						>
-						<VisualizationDialog handleClose={this.handleClose} doSave={this.doSave} assets={currentAssets} />
+						<VisualizationDialog handleClose={this.handleClose} doSave={this.doSave} assets={this.state.propertiesColl.find({'entity_key' : { '$in' : this.state.scopeProperties } })} />
 					</Dialog>
 					<FloatingActionButton backgroundColor={Colors.SECONDARY} style={{float: 'right', marginTop: -30}} mini={false} onTouchTap={this.onAnalyzeAdd}>
 						<AddIcon size={30} />
 					</FloatingActionButton>
 					<Row>
 						<Col md={12} style={{marginTop: 10, paddingTop: 0, position: 'absolute'}}>
-							<DashboardGrid metricsColl={this.state.metricsColl} elements={this.state.elements} items={this.state.items} className="layout" rowHeight={25} cols={{lg: 24, md: 18, sm: 12, xs: 10, xxs: 6}} onBreakpointChange={this.onBreakpointChange} onLayoutChange={this.onLayoutChange} />
+							<DashboardGrid metricsColl={this.state.metricsColl} elements={this.state.elements} items={this.state.items} className="layout" rowHeight={50} cols={{lg: 24, md: 18, sm: 12, xs: 10, xxs: 6}} onBreakpointChange={this.onBreakpointChange}  />
 						</Col>
 					</Row>
 				</Grid>
@@ -346,7 +394,6 @@ var Analyze = React.createClass({
 		}
 	},
 	onKpiUpdate: function(id) {
-		console.log('on kapi edit', id);
 		//var formula = this.getFlux().store("DocumentStore").getFormula({ uuid: uuid });
 		this.setState({
 			kpiEdit: id,
@@ -354,6 +401,7 @@ var Analyze = React.createClass({
 		});
 	},
 	render: function() {
+		/*
 		if (this.state.assetsLoaded && this.state.dbLoaded) {
 			var coll = this.state.db.getCollection('metrics');
 			if (coll.find().length == 0) {
@@ -365,8 +413,8 @@ var Analyze = React.createClass({
 					});
 				});
 			}
-		}
-		if (!(this.state.dbLoaded && this.state.assetsLoaded && this.getFlux().store("DashboardHomeStore").getState().dashboardsLoaded)) {
+		}*/
+		if (!(this.state.dashboardsLoaded && this.state.propertiesLoaded)) {// && this.getFlux().store("DashboardHomeStore").getState().dashboardsLoaded)) {
 			return (
 				<Row style={{marginTop: "25%"}}>
 					<Col md={5}></Col>
@@ -402,11 +450,13 @@ var Analyze = React.createClass({
 			width: "100%"
 		}
 		var currentAssets = [];
+		/*
 		if (this.state.scopeProperties != null) {
 			this.state.scopeProperties.forEach(function(p) {
 				currentAssets.push(this.getFlux().store("AssetsStore").getAssetByKey(p))
 			}.bind(this));
 		}
+		*/
 		var labelStyle = {
 			fontSize: 12,
 			letterSpacing: 1.5,
@@ -414,7 +464,7 @@ var Analyze = React.createClass({
 			paddingTop: 0
 		}
 		if (this.state.id !== null) {
-			this.saveScope();
+			//this.saveScope();
 		}
 		return (
 			<div>

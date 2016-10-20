@@ -3,7 +3,7 @@ var React = require('react'),
 		FluxMixin = Fluxxor.FluxMixin(React),
 		Link = require('react-router').Link,
 		Glyphicon = require('react-bootstrap').Glyphicon,
-		CloseIcon = require('react-icons/lib/fa/close');
+		CloseIcon = require('react-icons/lib/fa/close'),
 		StoreWatchMixin = Fluxxor.StoreWatchMixin;
 
 

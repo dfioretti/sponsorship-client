@@ -35,14 +35,13 @@ var Avatar = require('material-ui').Avatar;
 var Navigation = require('react-router').Navigation;
 
 var Workspace = React.createClass({
-	mixins: [Navigation, FluxMixin, StoreWatchMixin("DashboardHomeStore", "AssetsStore")],
+	mixins: [Navigation, FluxMixin, StoreWatchMixin("DocumentStore")],//, StoreWatchMixin("DashboardHomeStore", "AssetsStore")],
 	componentWillMount: function() {
 		this.getFlux().actions.loadDashboards();
 		this.getFlux().actions.loadAssets();
 	},
-
 	getInitialState: function() {
-		return {open: false, searchText: "", fullSearch: false, docked: false, drawerOpen: false, buttonBottom: 10};
+		return {open: false, searchText: "", fullSearch: true, docked: false, drawerOpen: false, buttonBottom: 10};
 	},
 	toggleMenu: function(e) {
 		this.setState({open: !this.state.open, docked: !this.state.docked});
@@ -61,7 +60,7 @@ var Workspace = React.createClass({
 	},
 	getSearchItems: function() {
 		var data = [];
-		this.state.assets.forEach(function(asset) {
+		this.state.propertiesColl.find().forEach(function(asset) {
 			data.push({
 				text: asset.name,
 				entity_key: asset.entity_key,
@@ -83,13 +82,11 @@ var Workspace = React.createClass({
 	},
 	onSearchBlur: function() {
 		this.setState({
-			fullSearch: false
+			fullSearch: true
 		});
 	},
 	getStateFromFlux: function() {
-		var dashState = this.getFlux().store("DashboardHomeStore").getState();
-		dashState['assets'] = this.getFlux().store("AssetsStore").getState().assets;
-		return dashState;
+		return this.getFlux().store("DocumentStore").getState();
 	},
 	onSearchFocus: function() {
 		this.setState({
@@ -103,6 +100,11 @@ var Workspace = React.createClass({
 		this.transitionTo("/apt/asset/dashboard/" + item.id);
 	},
 	render: function() {
+		if (!this.state.propertiesLoaded || !this.state.dashboardsLoaded) {
+			return (
+				<div>wait</div>
+			);
+		}
 		var topStyle = {
 			backgroundColor: Colors.MAIN,
 		}
@@ -173,12 +175,10 @@ var Workspace = React.createClass({
 												fullWidth={this.state.fullSearch}
 												/>
 										</div>
-
 									</ToolbarGroup>
 									<ToolbarGroup>
 									</ToolbarGroup>
 								</Toolbar>
-
 								{this.props.children}
 							</Sidebar>
 						</Sidebar>

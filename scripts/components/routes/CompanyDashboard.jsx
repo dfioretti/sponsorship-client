@@ -94,10 +94,7 @@ var CompanyDashboard = React.createClass({
 		var xAxis = [];
 		{this.getFlux().store("AssetsStore").getOwnedAssets().map((tile) => (
 			tile.metrics.map(function(met) {
-				console.log('prp',tile)
-				console.log('met', met)
 				if (met.source == "score") {
-					console.log('prp',tile)
 					if (legend.indexOf(met.source) == -1) {
 						legend.push(met.metric);
 					}
@@ -105,8 +102,7 @@ var CompanyDashboard = React.createClass({
 				}
 			})
 		))};
-		console.log('data', xAxis, metrics, legend);
-		option = {
+		var option = {
 			color: ['#3398DB'],
 			tooltip : {
 				trigger: 'axis',

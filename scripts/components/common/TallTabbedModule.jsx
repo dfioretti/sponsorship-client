@@ -9,7 +9,7 @@ var React = require('react'),
 		ImageHelper = require('../../utils/ImageHelper.js'),
 		DataFormatter = require('../../utils/DataFormatter.js'),
 		_ = require('lodash'),
-		GenericBarListItem = require('./charts/GenericBarListItem.jsx');
+		GenericBarListItem = require('./charts/GenericBarListItem.jsx'),
 		GenericValueListItem = require('./charts/GenericValueListItem.jsx');
 
 var TallTabbedModule = React.createClass({

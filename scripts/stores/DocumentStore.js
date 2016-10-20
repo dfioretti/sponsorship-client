@@ -8,14 +8,25 @@ var idbAdapter = new LokiIndexedAdapter('loki-db');
 
 var DocumentStore = Fluxxor.createStore({
 	initialize: function() {
-		this.db = new loki('outperform.db', {autosave: true, autosaveInterval: 10000, adapter: idbAdapter});
-		this.metrics = this.db.addCollection('metrics');
-		this.properties = this.db.addCollection('properties');
-		this.contexts = this.db.addCollection('contexts');
-		this.models = this.db.addCollection('models');
-		this.formulas = this.db.addCollection('formulas');
+		this.db = new loki('outperform.db', {autosave: true, autosaveInterval: 500, adapter: idbAdapter});
+		this.metrics = this.db.getCollection('metrics');
+		if (!this.metrics)
+			this.metrics = this.db.addCollection('metrics');
+		this.properties = this.db.getCollection('properties');
+		if (!this.properties)
+			this.properties = this.db.addCollection('properties');
+		this.contexts = this.db.getCollection('contexts');
+		if (!this.contexts)
+			this.contexts = this.db.addCollection('contexts');
+		this.models = this.db.getCollection('models');
+		if (!this.models)
+			this.models = this.db.addCollection('models');
+		this.formulas = this.db.getCollection('formulas');
+		if (!this.formulas)
+			this.formulas = this.db.addCollection('formulas');
 		this.dashboardsLoaded = false;
 		this.propertiesLoaded = false;
+		window.documents = this.db;
 		this.bindActions(
 			constants.LOAD_ASSETS_SUCCESS, this.onLoadAssetsSuccess,
 			constants.LOAD_DASHBOARDS_SUCCESS, this.onLoadDashboardsSuccess,
@@ -23,11 +34,10 @@ var DocumentStore = Fluxxor.createStore({
 		)
 	},
 	onLoadDashboardsSuccess: function(payload) {
-		return;
 		if (this.dashboardsLoaded) return;
-		this.models.clear();
-		this.formulas.clear();
-		this.contexts.clear();
+		//this.models.clear();
+		//this.formulas.clear();
+		//this.contexts.clear();
 		this.contexts.insert(payload.dashboards);
 		payload.dashboards.map(function(dashboard) {
 			if (dashboard.state.formulas) {
@@ -49,10 +59,9 @@ var DocumentStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 	onLoadAssetsSuccess: function(payload) {
-		return;
 		if (this.propertiesLoaded) return;
-		this.metrics.clear();
-		this.properties.clear();
+		//this.metrics.clear();
+		//this.properties.clear();
 		payload.assets.map(function(asset) {
 			asset.metrics.map(function(metric) {
 				this.metrics.insert(metric);
@@ -91,10 +100,15 @@ var DocumentStore = Fluxxor.createStore({
 	getMetricsCollection: function() {
 		return this.metrics;
 	},
-	getStateCollections: function() {
+	getState: function() {
 		return {
-			metricsCollection: this.metricsCollection,
-			contextsCollection: this.contexts
+			db: this.db,
+			formulasColl: this.formulas,
+			metricsColl: this.metrics,
+			propertiesColl: this.properties,
+			contextCollection: this.contexts,
+			dashboardsLoaded: this.dashboardsLoaded,
+			propertiesLoaded: this.propertiesLoaded
 		}
 	},
 	metricsLoaded: function() {

@@ -29,8 +29,9 @@ var Link = require('react-router').Link;
 
 var ScopeTab = React.createClass({
 	mixins: [Navigation],
-	
+
 	getInitialState: function() {
+		console.log('scope tab', this.props);
 		return {
 			fullWidth: false,
 			data: Immutable.List(),
