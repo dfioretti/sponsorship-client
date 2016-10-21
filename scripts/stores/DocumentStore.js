@@ -6,9 +6,22 @@ var LokiIndexedAdapter = require('lokijs/src/loki-indexed-adapter');
 var uuid = require('node-uuid');
 var idbAdapter = new LokiIndexedAdapter('loki-db');
 
+// NOTE:  I'm turning off all updates from the server.  If the database exists and it is loaded, then we're done
+// all other writes are going to be local
+
 var DocumentStore = Fluxxor.createStore({
 	initialize: function() {
-		this.db = new loki('outperform.db', {autosave: true, autosaveInterval: 500, adapter: idbAdapter});
+		this.db = new loki('outperform.db', {autoload: true, autoloadCallback: this.dbLoaded, autosave: true, autosaveInterval: 500, adapter: idbAdapter});
+		this.dashboardsLoaded = false;
+		this.propertiesLoaded = false;
+		window.documents = this.db;
+		this.bindActions(
+			constants.LOAD_ASSETS_SUCCESS, this.onLoadAssetsSuccess,
+			constants.LOAD_DASHBOARDS_SUCCESS, this.onLoadDashboardsSuccess,
+			constants.CONTEXT_UPDATE_SUCCESS, this.onContextUpdateSuccess
+		)
+	},
+	dbLoaded: function() {
 		this.metrics = this.db.getCollection('metrics');
 		if (!this.metrics)
 			this.metrics = this.db.addCollection('metrics');
@@ -19,25 +32,23 @@ var DocumentStore = Fluxxor.createStore({
 		if (!this.contexts)
 			this.contexts = this.db.addCollection('contexts');
 		this.models = this.db.getCollection('models');
-		if (!this.models)
+		if (!this.models) 
 			this.models = this.db.addCollection('models');
 		this.formulas = this.db.getCollection('formulas');
 		if (!this.formulas)
 			this.formulas = this.db.addCollection('formulas');
-		this.dashboardsLoaded = false;
-		this.propertiesLoaded = false;
-		window.documents = this.db;
-		this.bindActions(
-			constants.LOAD_ASSETS_SUCCESS, this.onLoadAssetsSuccess,
-			constants.LOAD_DASHBOARDS_SUCCESS, this.onLoadDashboardsSuccess,
-			constants.CONTEXT_UPDATE_SUCCESS, this.onContextUpdateSuccess
-		)
 	},
 	onLoadDashboardsSuccess: function(payload) {
+		this.dashboardsLoaded = true;
+		this.emit('change');
+		return;
 		if (this.dashboardsLoaded) return;
-		//this.models.clear();
-		//this.formulas.clear();
-		//this.contexts.clear();
+		var result = this.contexts.find();
+		if (result.length > 0) {
+			this.dashboardsLoaded = true;
+			this.emit("change");
+			return;
+		}
 		this.contexts.insert(payload.dashboards);
 		payload.dashboards.map(function(dashboard) {
 			if (dashboard.state.formulas) {
@@ -59,7 +70,16 @@ var DocumentStore = Fluxxor.createStore({
 		this.emit("change");
 	},
 	onLoadAssetsSuccess: function(payload) {
+		this.propertiesLoaded = true;
+		this.emit('change');
+		return;
 		if (this.propertiesLoaded) return;
+		var result = this.metrics.find();
+		if (result.length > 0) {
+			this.propertiesLoaded = true;
+			this.emit("change");
+			return;
+		}
 		//this.metrics.clear();
 		//this.properties.clear();
 		payload.assets.map(function(asset) {
@@ -105,6 +125,7 @@ var DocumentStore = Fluxxor.createStore({
 			db: this.db,
 			formulasColl: this.formulas,
 			metricsColl: this.metrics,
+			modelsColl: this.models,
 			propertiesColl: this.properties,
 			contextCollection: this.contexts,
 			dashboardsLoaded: this.dashboardsLoaded,

@@ -45,7 +45,10 @@ var _ = require('underscore');
 var StatEngine = require('../../utils/StatEngine.js');
 
 // graph variables
-var nodeIds, nodeList, nodes, edgeList, edges, network, options, nodeCounter, edgeCounter, currentNode;
+var nodeIds, nodeList, nodes, edgeList, edges, network, options, nodeCounter, edgeCounter, currentNode, nodeToggles, nodeWeights;
+
+var scoreModel;
+
 
 function generateNode(name, weight, normalize) {
 	var data =
@@ -72,6 +75,7 @@ var ScoreTab = React.createClass({
 	mixins: [ FluxMixin ],
 
 	getInitialState: function() {
+		this.scoreModel = null;
 		return { nodeToggles: [true], nodeWeights: [100], loaded: false, formulas: [], uuid: uuid.v4(), usedMetrics: [], update: false, loadedMetrics: [], showPopover: false, x: 0, y: 0, currentNode: 0, currentSliderValue: 1 }
 	},
 	componentWillMount: function() {
@@ -81,6 +85,7 @@ var ScoreTab = React.createClass({
 		//this.loadScore(newProps);
 	},
 	loadScore: function(props) {
+
 		if (props.models.length > 0) {
 			var model = props.models[0];
 			var nodeKeys = _.keys(model.nodes['_data']);
@@ -93,9 +98,10 @@ var ScoreTab = React.createClass({
 			edgeKeys.forEach(function(key) {
 				var edge = model.edges['_data'][key];
 				if (typeof(edge) != 'undefined')
-					edgeList.push(model.edges['_data'][key]);
+				edgeList.push(model.edges['_data'][key]);
 			});
 			nodeIds = _.keys(nodeList);
+			scoreModel.nodeIds = _.keys(nodeList);
 			nodeCounter = _.keys(nodeList).length;
 			edgeCounter = _.keys(edgeList).length;
 			this.setState({
@@ -197,6 +203,8 @@ var ScoreTab = React.createClass({
 	onToggle: function() {
 		this.nodeToggles = this.state.nodeToggles;
 		this.nodeToggles[this.state.currentNode] = !this.nodeToggles[this.state.currentNode];
+		nodeToggles[this.state.currentNode] = !nodeToggles[this.state.currentNode];
+		scoreModel.nodeToggles = nodeToggles;
 		this.setState({nodeToggles: this.nodeToggles});
 	},
 	onSliderChange: function(value) {
@@ -206,6 +214,8 @@ var ScoreTab = React.createClass({
 	onAfterChange: function(value) {
 		this.nodeWeights = this.state.nodeWeights;
 		this.nodeWeights[this.state.currentNode] = value;
+		nodeWeights[this.state.currentNode] = value;
+		scoreModel.nodeWeights = nodeWeights;//;scoreModel.nodeWeights.concat(value)
 		this.setState({nodeWeights: this.nodeWeights});
 	},
 	percentFormatter: function(v) {
@@ -239,18 +249,18 @@ var ScoreTab = React.createClass({
 
 					<ListItem leftIcon={<WeightIcon />}
 						disabled={true}
-						primaryText={<RcSlider onAfterChange={this.onAfterChange} tipFormatter={this.percentFormatter} defaultValue={this.state.nodeWeights[this.state.currentNode]} onChange={this.onSliderChange} />}
+						primaryText={<RcSlider onAfterChange={this.onAfterChange} tipFormatter={this.percentFormatter} defaultValue={nodeWeights[this.state.currentNode]} onChange={this.onSliderChange} />}
 						></ListItem>
 					<ListItem primaryText="Normalize"
 						leftIcon={<NormalizeIcon />}
-						rightToggle={<Toggle onToggle={this.onToggle} toggled={this.state.nodeToggles[this.state.currentNode]}/>}
+						rightToggle={<Toggle onToggle={this.onToggle} toggled={nodeToggles[this.state.currentNode]}/>}
 						></ListItem>
-						<ListItem
-							primaryText="Add Child"
-							leftIcon={<NodesIcon />}
-							onTouchTap={this.addChild}
-							>
-						</ListItem>
+					<ListItem
+						primaryText="Add Subscore"
+						leftIcon={<NodesIcon />}
+						onTouchTap={this.addChild}
+						>
+					</ListItem>
 					<ListItem
 						primaryText="Add Metric"
 						initiallyOpen={false}
@@ -264,244 +274,338 @@ var ScoreTab = React.createClass({
 						>
 					</ListItem>
 				</List>
-				</Popover>
-			);
-		},
-		onNormalizeToggle: function(currentNode, event, isToggled) {
-			nodes.update({id: currentNode, normalize: !isToggled});
-			this.forceUpdate();
-		},
-		onWeightChange: function(currentNode, event, value) {
-			this.setState({
-				currentSliderValue: value
-			});
-			nodes.update({id: currentNode, weight: value});
-			this.onModelChange();
-		},
-		onCheckChange: function(parent, kpi, event, isInputChecked) {
-			if (isInputChecked) {
-				this.addNode(parent, kpi);
-			} else {
-				this.removeNode(parent, kpi);
-			}
-			this.onModelChange();
-		},
-		addNode: function(parent, kpi) {
-			var label = "";
-			var type = "node";
-			var id = 0;
-			var shape = 'diamond';
-			if (kpi.length > 0) {
-				label = this.props.formulasColl.findOne({id: kpi}).name;
-				type = "formula";
-				id = kpi;
-				shape = 'dot';
-			}
-			var color = "#ffffff";//"#000000";
-			var id = nodeCounter;
-			nodeCounter = nodeCounter + 1;
-			var edgeId = edgeCounter;
-			edgeCounter = edgeCounter + 1;
-			var url = generateNode(label, 100, "Normalize");
-			if (kpi.length > 0) {
+			</Popover>
+		);
+	},
+	onNormalizeToggle: function(currentNode, event, isToggled) {
+		nodes.update({id: currentNode, normalize: !isToggled});
+		this.forceUpdate();
+	},
+	onWeightChange: function(currentNode, event, value) {
+		this.setState({
+			currentSliderValue: value
+		});
+		nodes.update({id: currentNode, weight: value});
+		this.onModelChange();
+	},
+	onCheckChange: function(parent, kpi, event, isInputChecked) {
+		if (isInputChecked) {
+			this.addNode(parent, kpi);
+		} else {
+			this.removeNode(parent, kpi);
+		}
+		this.onModelChange();
+	},
+	addNode: function(parent, kpi) {
+		var label = "";
+		var type = "node";
+		var id = 0;
+		var shape = 'diamond';
+		if (kpi.length > 0) {
+			label = this.props.formulasColl.findOne({id: kpi}).name;
+			type = "formula";
+			id = kpi;
+			shape = 'dot';
+		}
+		var color = "#ffffff";//"#000000";
+		var id = nodeCounter;
+		nodeCounter = nodeCounter + 1;
+		var edgeId = edgeCounter;
+		edgeCounter = edgeCounter + 1;
+		var url = generateNode(label, 100, "Normalize");
+		if (kpi.length > 0) {
 			nodes.add({ id: id,
+				weight: 1,
+				normalize: true,
+				type: type,
+				parent: parent,
+				fid: kpi,
+				labelHighlightBold: false,
+				borderWidthSelected: 1,
+				label: label,
+				shape: shape,
+				//shape: 'image',
+				//image: url
+			});
+			/*
+			scoreModel['nodes'].add({
+				id: id,
 				weight: 1,
 				normalize: true,
 				type: type,
 				fid: kpi,
 				labelHighlightBold: false,
 				borderWidthSelected: 1,
-				//label: label,
-				//shape: shape,
-				shape: 'image',
-				image: url
+				label: label,
+				shape: shape
+				//shape: 'image',
+				//image: url
+			});*/
+			scoreModel['nodeList'] = scoreModel.nodeList.concat({
+				id: id,
+				weight: 1,
+				normalize: true,
+				type: type,
+				fid: kpi,
+				parent: parent,
+				labelHighlightBold: false,
+				borderWidthSelected: 1,
+				shape: shape,
+				label: label
+				//shape: 'image',
+				//image: url
 			});
 		} else {
-			nodes.add({ id: id, weight: 1, normalize: true, type: type, fid: kpi, labelHighlightBold: false, borderWidthSelected: 1, label: label, shape: shape});
+			scoreModel.nodeList = scoreModel.nodeList.concat({ id: id, parent: parent, weight: 1, normalize: true, type: type, fid: kpi, labelHighlightBold: false, borderWidthSelected: 1, label: label, shape: shape});
+			//scoreModel['nodes'].add({ id: id, weight: 1, normalize: true, type: type, fid: kpi, labelHighlightBold: false, borderWidthSelected: 1, label: label, shape: shape});
+			nodes.add({ id: id, weight: 1, parent: parent, normalize: true, type: type, fid: kpi, labelHighlightBold: false, borderWidthSelected: 1, label: label, shape: shape});
 		}
-				//font:{face: 'Avenir-Book', color: color}, color: '#1C5D99'});
-			edges.add({
-				id: edgeId,
-				from: parent,
-				to: id
-			});
-			nodeIds.push(id);
-			this.setState({
-				nodeToggles: this.state.nodeToggles.concat(true),
-				nodeWeights: this.state.nodeWeights.concat(100),
-				showPopover: false,
-				currentNode: id
-			});
-		},
-		getNestedItems: function() {
-			var items = [];
-			this.state.loadedMetrics.map(function(m) {
-				var idx = this.props.formulas.map((kpi) => kpi.id).indexOf(m);
-				var kpi = this.props.formulas[idx];
-				items.push(<ListItem key={kpi.id} primaryText={kpi.name} style={{fontSize: 12}} leftCheckbox={<Checkbox onCheck={this.onCheckChange.bind(this, this.state.currentNode, kpi.name)}/>} />);
-			}.bind(this));
-			return items;
-		},
-		doNodeDeselect: function(params) {
-			this.setState({
-				showPopover: false,
-				currentNode: null
-			});
-		},
-		loadScoreTree: function() {
-			var color = "#ffffff";//"#000000";
-			if (typeof(nodeList) == 'undefined') {
-				nodeList = [
-					{ id: 0, labelHighlightBold: false, weight: 1, normalize: true, borderWidthSelected: 1, label: 'MODEL', shape: 'circle', font:{face: 'Avenir-Book', color: color, size: 10}, color: '#1C5D99'}
-				];
-				edgeList = [];
-				nodeIds = [];
-				nodeCounter = 1;
-				edgeCounter = 0;
+		//font:{face: 'Avenir-Book', color: color}, color: '#1C5D99'});
+		edges.add({
+			id: edgeId,
+			from: parent,
+			to: id
+		});
+		/*
+		scoreModel['edges'].add({
+			id: edgeId,
+			from: parent,
+			to: id
+		});
+		*/
+		scoreModel.edgeList = scoreModel.edgeList.concat({id: edgeId, from: parent, to: id});
+		scoreModel.nodeWeights = scoreModel.nodeWeights.concat(100);
+		scoreModel.nodeToggles = scoreModel.nodeToggles.concat(true);
+		//nodeIds.push(id);
+		//scoreModel.nodeIds = scoreModel.nodeIds.push(id);
+		nodeToggles = nodeToggles.concat(true);
+		nodeWeights = nodeWeights.concat(100);
+		this.setState({
+			nodeToggles: this.state.nodeToggles.concat(true),
+			nodeWeights: this.state.nodeWeights.concat(100),
+			showPopover: false,
+			currentNode: id
+		});
+		this.props.modelsColl.update(scoreModel);
+		window.scoreModel = scoreModel;
+	},
+	getNestedItems: function() {
+		var items = [];
+		this.state.loadedMetrics.map(function(m) {
+			var idx = this.props.formulas.map((kpi) => kpi.id).indexOf(m);
+			var kpi = this.props.formulas[idx];
+			items.push(<ListItem key={kpi.id} primaryText={kpi.name} style={{fontSize: 12}} leftCheckbox={<Checkbox onCheck={this.onCheckChange.bind(this, this.state.currentNode, kpi.name)}/>} />);
+		}.bind(this));
+		return items;
+	},
+	doNodeDeselect: function(params) {
+		this.setState({
+			showPopover: false,
+			currentNode: null
+		});
+	},
+	loadScoreTree: function() {
+		var newModel = true;
+		if (this.props.modelsColl.find().length == 0) {
+			console.log('no score found');
+			// maybe do nothing?
+		} else {
+			scoreModel = this.props.modelsColl.find()[0];
+			console.log('score found', scoreModel);
+			newModel = false;
+		}
+		var color = "#ffffff";//"#000000";
+		if (newModel) {
+			nodeList = [
+				{ id: 0, parent: -1, labelHighlightBold: false, weight: 1, normalize: true, borderWidthSelected: 1, label: 'MODEL', shape: 'circle', font:{face: 'Avenir-Book', color: color, size: 10}, color: '#1C5D99'}
+			];
+			var modelNodeList = [
+				{ id: 0, parent: -1, labelHighlightBold: false, weight: 1, normalize: true, borderWidthSelected: 1, label: 'MODEL', shape: 'circle', font:{face: 'Avenir-Book', color: color, size: 10}, color: '#1C5D99'}
+			];
+			edgeList = [];
+			var modelEdgeList = [];
+			nodeIds = [];
+			modelNodeIds = [];
+			modelNodeCounter = 1;
+			modelEdgeCounter = 0;
+			nodeCounter = 1;
+			edgeCounter = 0;
+		} else {
+			nodeList = scoreModel.nodeList;
+			edgeList = scoreModel.edgeList;
+			nodeCounter = scoreModel.nodeList.length;
+			edgeCounter = scoreModel.edgeList.length;
+		}
+		nodes = new vis.DataSet(nodeList);
+		edges = new vis.DataSet(edgeList);
+		var modelNodes = new vis.DataSet(modelNodeList);
+		var modelEdges = new vis.DataSet(modelEdgeList);
+		currentNode = 0;
+
+		var container = document.getElementById('vis');
+
+		options = {
+			layout: {
+				hierarchical: {
+					blockShifting: true,
+					direction: 'UD',
+					sortMethod: 'directed'
+				}
+			},
+			/*
+			manipulation: {
+			addEdge: function(data, callback) {
+			if (data.from == data.to) {
+			var r = confirm("Do you want to connect the node to itself?");
+			if (r == true) {
+			callback(data);
+			else {
+			callback(data);
+			},*/
+			interaction: {
+				navigationButtons: false,
+				keyboard: false
+			},
+			edges: {
+				smooth: {
+					forceDirection: 'none'
+				}
 			}
-			nodes = new vis.DataSet(nodeList);
-			edges = new vis.DataSet(edgeList);
-			currentNode = 0;
+		};
+		var data = {
+			nodes: nodes,
+			edges: edges
+		}
+		network = new vis.Network(container, data, options);
+		network.on("doubleClick", function(params) {
+			this.doNodeSelect(params);
+		}.bind(this));
+		network.on("click", function(params) {
+			this.doSetNode(params);
+		}.bind(this));
+		network.on("deselectNode", function(params) {
+			this.doNodeDeselect(params);
+		}.bind(this));
 
-			var container = document.getElementById('vis');
-
-			options = {
-				layout: {
-					hierarchical: {
-						blockShifting: true,
-						direction: 'UD',
-						sortMethod: 'directed'
-					}
-				},
-				/*
-				manipulation: {
-				addEdge: function(data, callback) {
-				if (data.from == data.to) {
-				var r = confirm("Do you want to connect the node to itself?");
-				if (r == true) {
-				callback(data);
-				}
-				}
-				else {
-				callback(data);
-				}
-				}
-				},*/
-				interaction: {
-					navigationButtons: false,
-					keyboard: false
-				},
-				edges: {
-					smooth: {
-						forceDirection: 'none'
-					}
-				}
-			};
-			var data = {
+		if (newModel) {
+			model = {
+				modelName: "Property Score",
+				nodeWeights: [],
+				formulas: [],
+				nodeList: nodeList,
 				nodes: nodes,
+				edgeList: edgeList,
 				edges: edges
 			}
-			network = new vis.Network(container, data, options);
-			network.on("doubleClick", function(params) {
-				this.doNodeSelect(params);
-			}.bind(this));
-			network.on("click", function(params) {
-				this.doSetNode(params);
-			}.bind(this));
-			network.on("deselectNode", function(params) {
-				this.doNodeDeselect(params);
-			}.bind(this));
-		},
-		componentDidMount: function() {
-			this.loadScoreTree();
-		},
-		componentDidUpdate: function(prevProps, prevState) {
-			if (!network)
-			this.loadScoreTree();
-		},
-		doSetNode: function(params) {
-			if (params.nodes.length == 0) return;
-			var node = params.nodes[0];
-			this.setState({
-				currentNode: node
-			});
-			currentNode = node;
-		},
-		doNodeSelect: function(params) {
-			console.log('do node select?', params);
-			if (params.nodes.length == 0) return;
-			var node = params.nodes[0];
-			var def = network.body.nodes[node];//;[node];
-			this.setState({
-				showPopover: true,
-				currentNode: node,
-				x: params.event.pointers[0].pageX,
-				y: params.event.pointers[0].pageY,
-				currentSliderValue: nodes.get(this.state.currentNode).weight
-			});
-			currentNode = node;
-		},
-		handleClick: function(event) {
-			var id = counter;
-			counter = counter + 1;
-			var url = generateNode();
-			nodes.add({id: id, image: url, shape: 'image' });
-			nodeIds.push(id);
-		},
-		handleClose: function(event) {
-			this.setState({
-				showPopover: false
-			});
-		},
-		renderTree: function() {
-			return (
-				<div>
-					<div id="vis" style={{height: 400, backgroundColor: Colors.LIGHT}}></div>
-				</div>
-			);
-		},
-		render: function() {
-			return (
-				<div ref={(ref) => this.vis = ref} >
-					{this.renderPopover()}
-					<Col className="tab-col" md={3}>
-						<div className="tab-content" style={{backgroundColor: 'white'}}>
-							<Row>
-								<Col md={12}>
-									<div className="title med small-pad center">Configure</div>
-									<Divider />
-									<List>
-										<ListItem
-											leftIcon={<DataIcon style={{color: Colors.MAIN}}/>}
-											primaryText="Create KPI"
-											key={uuid.v4()}
-											secondaryText="Define custom metric"
-											disabled={true}
-											rightIconButton={<IconButton tooltip="New" tooltipPosition="bottom-left" touch={true} style={{color: Colors.GREEN_BASE}} onTouchTap={this.props.onKpiAdd}><AddIcon size={20}/></IconButton>}
-											/>
-										{this.renderDefinedKpis()}
-									</List>
-								</Col>
-							</Row>
-						</div>
-					</Col>
-					<Col className="tab-col" md={9}>
-						<div className="tab-content">
-							<Row style={{marginTop: -10}}>
-								<Col md={12}>
-									{this.renderTree()}
-								</Col>
-							</Row>
-							<Row>
-								<Col md={12}>
-									<DataBrowser node={(typeof(nodes) !== 'undefined') ? nodes.get(this.state.currentNode) : null } formulasColl={this.props.formulasColl} metricsColl={this.props.metricsColl} scopeProperties={this.props.scopeProperties} currentNode={this.state.currentNode} />
-								</Col>
-							</Row>
-						</div>
-					</Col>
-				</div>
-			);
+			scoreModel = {
+				id: uuid.v4(),
+				//nodeIds: [].concat(nodeIds),
+				nodeList: modelNodeList,
+				//nodes: modelNodes,
+				edgeList: modelEdgeList,
+				//edges: modelEdges,
+				modelName: "Property Score Model",
+				nodeWeights: [100],
+				nodeToggles: [true],
+				formulas: this.state.formulas
+			}
+			this.props.modelsColl.insert(scoreModel);
 		}
-	});
+		scoreModel = this.props.modelsColl.find()[0];
+		nodeWeights = [].concat(scoreModel.nodeWeights);
+		nodeToggles = [].concat(scoreModel.nodeToggles);
+		window.scoreModel = scoreModel;
+	},
+	componentDidMount: function() {
+		this.loadScoreTree();
+	},
+	componentDidUpdate: function(prevProps, prevState) {
+		if (!network)
+		this.loadScoreTree();
+	},
+	doSetNode: function(params) {
+		if (params.nodes.length == 0) return;
+		var node = params.nodes[0];
+		this.setState({
+			currentNode: node
+		});
+		currentNode = node;
+	},
+	doNodeSelect: function(params) {
+		if (params.nodes.length == 0) return;
+		var node = params.nodes[0];
+		var def = network.body.nodes[node];//;[node];
+		this.setState({
+			showPopover: true,
+			currentNode: node,
+			x: params.event.pointers[0].pageX,
+			y: params.event.pointers[0].pageY,
+			currentSliderValue: nodes.get(this.state.currentNode).weight
+		});
+		currentNode = node;
+	},
+	handleClick: function(event) {
+		var id = counter;
+		counter = counter + 1;
+		var url = generateNode();
+		nodes.add({id: id, image: url, shape: 'image' });
+		nodeIds.push(id);
+	},
+	handleClose: function(event) {
+		this.setState({
+			showPopover: false
+		});
+	},
+	renderTree: function() {
+		return (
+			<div>
+				<div id="vis" style={{height: 400, backgroundColor: Colors.LIGHT}}></div>
+			</div>
+		);
+	},
+	render: function() {
 
-	module.exports = ScoreTab;
+		return (
+			<div ref={(ref) => this.vis = ref} >
+				{this.renderPopover()}
+				<Col className="tab-col" md={3}>
+					<div className="tab-content" style={{backgroundColor: 'white'}}>
+						<Row>
+							<Col md={12}>
+								<div className="title med small-pad center">Configure</div>
+								<Divider />
+								<List>
+									<ListItem
+										leftIcon={<DataIcon style={{color: Colors.MAIN}}/>}
+										primaryText="Create KPI"
+										key={uuid.v4()}
+										secondaryText="Define custom metric"
+										disabled={true}
+										rightIconButton={<IconButton tooltip="New" tooltipPosition="bottom-left" touch={true} style={{color: Colors.GREEN_BASE}} onTouchTap={this.props.onKpiAdd}><AddIcon size={20}/></IconButton>}
+										/>
+									{this.renderDefinedKpis()}
+								</List>
+							</Col>
+						</Row>
+					</div>
+				</Col>
+				<Col className="tab-col" md={9}>
+					<div className="tab-content">
+						<Row style={{marginTop: -10}}>
+							<Col md={12}>
+								{this.renderTree()}
+							</Col>
+						</Row>
+						<Row>
+							<Col md={12}>
+								<DataBrowser modelsColl={this.props.modelsColl} node={(typeof(nodes) !== 'undefined') ? nodes.get(this.state.currentNode) : null } formulasColl={this.props.formulasColl} metricsColl={this.props.metricsColl} scopeProperties={this.props.scopeProperties} currentNode={this.state.currentNode} />
+							</Col>
+						</Row>
+					</div>
+				</Col>
+			</div>
+		);
+	}
+});
+
+module.exports = ScoreTab;

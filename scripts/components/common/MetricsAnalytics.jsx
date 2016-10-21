@@ -62,6 +62,7 @@ var MetricsAnalytics = React.createClass({
     return { name: name, data: data, metrics: metrics, formulaWeights: formulaWeights, formulaToggles: formulaToggles, currentInput: -1, formula: formula}
   },
   formatValue: function(cell, row) {
+    cell = parseFloat(cell);
     if (cell < 1) {
       cell = cell * 100;
     }

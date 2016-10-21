@@ -58,7 +58,7 @@ var DashboardTable = React.createClass({
       <BootstrapTable
         data={this.state.data}
         ref="dashTable"
-        height={"" + (this.props.height - 5)+ ""}
+        height={"" + (this.props.height - 20)+ ""}
         headerStyle={{textTransform: 'uppercase', letterSpacing: '1.5px'}}
         tableStyle={{borderStyle: 'none'}}
         containerStyle={{borderStyle: 'none'}}

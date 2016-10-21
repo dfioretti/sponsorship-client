@@ -199,10 +199,7 @@ var VisualizationDialog = React.createClass({
 	render: function() {
 		var iconSize = 125;
 		var iconPad = "0px";
-		console.log("props??", this.props);
 		return (
-			<Tabs tabItemContainerStyle={{height: 50, backgroundColor: Colors.MAIN}}>
-			<Tab label="Visualization">
 			<div>
 					<Row>
 						<Col md={5}>
@@ -283,8 +280,6 @@ var VisualizationDialog = React.createClass({
 						</Col>
 					</Row>
 			</div>
-		</Tab>
-		</Tabs>
 		);
 	}
 });

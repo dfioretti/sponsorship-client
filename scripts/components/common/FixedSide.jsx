@@ -86,16 +86,18 @@ var FixedSide = React.createClass({
 			name: this.state.assessmentName,
 			kind: 'context',
 			state: {
-				context: new Array(),
-				layout: new Array(),
+				context: [],
+				layout: [],//new Array(),
 				elements: {},
-				formulas: new Array(),
+				formulas: [],//new Array(),
 				activeTab: 'scope'
 			}
 		}
 		DashboardClient.createDashboard(dashboard, function(data) {
 			this.setState({ dialogOpen: false, assessmentName: ''});
-			this.getFlux().actions.loadDashboards();
+			var documentStore = this.getFlux().store("DocumentStore").getState();
+			documentStore.contextCollection.insert(data);
+			this.getFlux().store("DashboardHomeStore").onContextCreateSuccess({dashboard: data});
 			this.transitionTo('/analyze/' + data.id);
 		}.bind(this));
 	},

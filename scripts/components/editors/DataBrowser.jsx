@@ -60,10 +60,14 @@ var DataBrowser = React.createClass({
 		return;
 	},
 	loadFormulaData: function(props) {
+		console.log('kk load formula data', props);
 		var stats = new StatEngine();
 		if (props.node == null) return this.clearState();
 		if (props.currentNode == null) return this.clearState();
-		if (props.currentNode == 0) return this.clearState();
+		// todo render full score
+		if (props.currentNode == 0)
+			var data = stats.calculateModel(props.formulasColl, props.metricsColl, props.scopeProperties, props.modelsColl);
+		return this.clearState();
 		if (props.node.fid < 0 || props.node.fid == "") return this.clearState();
 		var data = stats.calculateFormula(props.node.fid, props.formulasColl, props.scopeProperties, props.metricsColl);
 		this.setState({

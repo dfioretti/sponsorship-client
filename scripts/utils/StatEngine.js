@@ -16,6 +16,7 @@ StatEngine.prototype = {
 	setCollection: function(collection) {
 		this.collection = collection;
 	},
+	
 	rank: function(metric, list) {
 		list.sort();
 		return ( ( list.indexOf( metric ) + 1 ) / list.length );
@@ -50,6 +51,70 @@ StatEngine.prototype = {
 		});
 		console.log('aggretate', ret);
 		return ret;
+	},
+	buildTreeNode: function(node, norm, weight) {
+		return {
+			id: node.id,
+			parent: node.parent,
+			children: [],
+			weight: weight / 100.0,
+			fid: node.fid,
+			type: node.type
+		};
+	},
+	buildScoreTree: function(model) {
+		var treeNodes = [];
+		var rootNode = null;
+
+		model.nodeList.map(function(n, i) {
+			if (n.id == 0) {
+				rootNode = this.buildTreeNode(n, model.nodeToggles[i], model.nodeWeights[i]);
+			} else {
+				treeNodes.push(this.buildTreeNode(n, model.nodeToggles[i], model.nodeWeights[i]));
+			}
+		}.bind(this));
+
+		var nodeList = { 0: rootNode };
+		treeNodes.map(function(n) {
+			nodeList[n['id']] = n;
+			nodeList[n['parent']]['children'].push(nodeList[n['id']]);
+		});
+		return rootNode;
+	},
+	scoreNode: function(node, data) {
+		if (node.parent == -1) {
+			console.log('at the root');
+		} else if (node.children.length == 0) {
+			this.calculateModelFormula(node, data);
+		} else {
+			this.calculateSubscore(node, data);
+		}
+		return data;
+	},
+	calculateModelFormula: function(node, data) {
+		console.log('in calculate model formula', node, data);
+		var formula = this.calculateFormula(node.fid, this.formulasColl, this.properties, this.metricsColl);
+		console.log('testing 123', formula);
+	},
+	calculateSubscore: function(node, data) {
+		console.log('in claulate subscore', node, data);
+	},
+	traverse: function(node, data) {
+		node.children.map(function(c) {
+			this.traverse(c, data);
+		}.bind(this));
+		data = this.scoreNode(node, data);
+	},
+	calculateModel: function(formulasColl, metricsColl, properties, modelsColl) {
+		this.formulasColl = formulasColl;
+		this.metricsColl = metricsColl;
+		this.properties = properties;
+
+		console.log('called calcluate', modelsColl);
+		var model = modelsColl.find()[0];
+		console.log('model is', model);
+		var tree = this.buildScoreTree(model);
+		this.traverse(tree, {});
 	},
 	calculateFormula: function(formulaId, formulaColl, properties, metricsColl) {
 		if (typeof(formulaColl) === 'undefined') return [];

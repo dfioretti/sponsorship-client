@@ -132,6 +132,24 @@ actions = {
         this.dispatch(constants.DASHBOARD_CREATE_FAIL);
     }.bind(this));
   },
+  createDashboard: function(dashboard) {
+    this.dispatch(constants.DASHBOARD_CREATE), DashboardClient.createDashboard(dashboard, function(t) {
+      this.dispatch(constants.DASHBOARD_CREATE_SUCCESS, {
+        dashboard: t
+      })
+    }.bind(this), function(t) {
+      this.dispatch(constants.DASHBOARD_CREATE_FAIL);
+    }.bind(this));
+  },
+  updateDashboard: function(dashboard) {
+    this.dispatch(constants.DASHBOARD_UPDATE), DashboardClient.updateDashboard(dashboard, function(data) {
+      this.dispatch(constants.DASHBOARD_UPDATE_SUCCESS, {
+        dashboard: data
+      });
+    }.bind(this), function(error) {
+      this.dispatch(constants.DASHBOARD_UPDATE_FAIL);
+    }.bind(this));
+  },
   dashboardUpdate: function() {
     this.dispatch(constants.DASHBOARD_UPDATE), DashboardClient.updateDashboard(flux.store("DashboardEditStore").getObject(), function(t) {
       this.dispatch(constants.DASHBOARD_UPDATE_SUCCESS, {

@@ -34,47 +34,15 @@ var idbAdapter = new LokiIndexedAdapter('loki-db');
 var Analyze = React.createClass({
 	mixins: [FluxMixin, StoreWatchMixin("DocumentStore")],
 	getInitialState: function() {
-		//console.log('initial state');
-		//var db = new loki('outperform.db', {autosave: true, autosaveInterval: 500, adapter: idbAdapter, autoload: true, autoloadCallback: this.dbLoaded });
-		//window.db = db;
 		return {  dbLoaded: true, scopeMetrics: [], models: [], formulas: [], id: null, scopeName: "", kpis: [], scopeProperties: [], showError: false, activeTab: 'scope', kpiEdit: null, dialogOpen: false, kpiDialogOpen: false, items: [], elements: {}, newCounter: 0, breakpoint: 'lg', cols: 12 }
-	},
-	dbLoaded: function() {
-		/*
-		console.log("db loaded");
-		this.setState({
-			formulasColl: this.state.db.getCollection('formulas'),
-			metricsColl: this.state.db.getCollection('metrics'),
-			propertiesColl: this.state
-			dbLoaded: true
-		});
-		/*
-		console.log('in db loaded', this.state.db);
-		var coll = this.state.db.getCollection('metrics');
-		console.log('coll', coll, coll.find().length);
-		if (coll.find().length == 0) {
-			console.log('in here?');
-			this.getFlux().store("AssetsStore").getState().assets.map(function(asset) {
-				asset.metrics.map(function(metric) {
-					var insert = metric;
-					insert.value = parseFloat(metric.value);
-					coll.insert(insert);
-				});
-			});
-		}
-		this.setState({
-			formulasColl: this.state.db.getCollection('formulas'),
-			metricsColl: coll,
-			dbLoaded: true
-		});
-		*/
 	},
 	componentWillMount: function() {
 		this.loadData(this.props);
 		return;
 		console.log("will mt");
 		if (this.props.params.id) {
-			var dashboard = this.state.contextCollection.findOne({ 'id': this.props.params.id });//='id' : )//this.getFlux().store("DashboardHomeStore").getDashboard(this.props.params.id);
+			var dashboard = this.getFlux().store("DashboardHomeStore").getDashboard(this.props.params.id);
+			//var dashboard = this.state.contextCollection.findOne({ 'id': this.props.params.id });//='id' : )//this.getFlux().store("DashboardHomeStore").getDashboard(this.props.params.id);
 			console.log('dashboard', dashboard);
 			var rawMetrics = [];
 			if (dashboard)
@@ -113,10 +81,12 @@ var Analyze = React.createClass({
 	},
 	loadData: function(props) {
 		if (props.params.id) {
+			//var dashboard = this.getFlux().store("DashboardHomeStore").getDashboard(this.props.params.id);
+
 			var dashboard = this.state.contextCollection.findOne({ 'id': parseInt(props.params.id) });//='id' : )//this.getFlux().store("DashboardHomeStore").getDashboard(this.props.params.id);
 			console.log('dashboard', dashboard);
 			var rawMetrics = [];
-			if (dashboard)
+			if (dashboard && dashboard.state.context != null)
 				rawMetrics = this.state.metricsColl.find({'entity_key' : { '$in' : dashboard.state.context }});
 			//rawMetrics = this.getFlux().store("DocumentStore").getMetrics({'entity_key' : { '$in' : dashboard.state.context }});
 
@@ -255,7 +225,7 @@ var Analyze = React.createClass({
 			kpiDialogOpen: false,
 			formulas: formulas
 		});
-		this.saveScope();
+		this.saveScope(this.state.layout);
 	},
 	doSave: function(data) {
 		var elements = this.state.elements;
@@ -274,8 +244,8 @@ var Analyze = React.createClass({
 				//i: 'key-' + this.state.newCounter,
 				x: this.state.items.length * 2 % (this.state.cols || 12),
 				y: Infinity,
-				w: 6,
-				h: 8,
+				w: 4,
+				h: 6,
 				data: data
 			}),
 			newCounter: this.state.newCounter + 1,
@@ -290,7 +260,10 @@ var Analyze = React.createClass({
 		this.setState({
 			scopeProperties: scopeKeys
 		});
-		this.saveScope();
+		this.saveScope(this.state.layout);
+	},
+	commitDashboardUpdate: function(layout) {
+		this.saveScope(layout);
 	},
 	tabChange: function(key, e) {
 		this.setState({
@@ -300,7 +273,7 @@ var Analyze = React.createClass({
 	closeError: function() {
 		this.setState({showError: false})
 	},
-	saveScope: function() {
+	saveScope: function(layout) {
 		var dashboard = {
 			company_id: 5555,
 			id: this.props.params.id,
@@ -308,7 +281,7 @@ var Analyze = React.createClass({
 			kind: 'context',
 			state: {
 				context: this.state.scopeProperties,
-				layout: this.state.items,
+				layout: layout,//this.state.items,
 				elements: this.state.elements,
 				formulas: this.state.formulas,
 				activeTab: this.state.activeTab,
@@ -316,14 +289,16 @@ var Analyze = React.createClass({
 			}
 		}
 		if (this.props.params.id) {
-			DashboardClient.updateDashboard(dashboard, function(data) {
-				this.getFlux().store("DashboardHomeStore").updateDashboard(data);
-			}.bind(this));
+			this.getFlux().actions.updateDashboard(dashboard);
+			//DashboardClient.updateDashboard(dashboard, function(data) {
+			//this.getFlux().store("DashboardHomeStore").updateDashboard(data);
+			//}.bind(this));
 			//this.getFlux().actions.contextCreate(dashboard);
 		} else {
-			DashboardClient.createDashboard(dashboard, function(data) {
-				this.getFlux().store("DashboardHomeStore").updateDashboard({dashboard: data});
-			}.bind(this));
+			this.getFlux().actions.createDashboard(dashboard);
+			//DashboardClient.createDashboard(dashboard, function(data) {
+			//	this.getFlux().store("DashboardHomeStore").updateDashboard({dashboard: data});
+			//}.bind(this));
 			//this.getFlux().actions.contextUpdate(dashboard);
 		}
 	},
@@ -362,7 +337,7 @@ var Analyze = React.createClass({
 					</FloatingActionButton>
 					<Row>
 						<Col md={12} style={{marginTop: 10, paddingTop: 0, position: 'absolute'}}>
-							<DashboardGrid metricsColl={this.state.metricsColl} elements={this.state.elements} items={this.state.items} className="layout" rowHeight={50} cols={{lg: 24, md: 18, sm: 12, xs: 10, xxs: 6}} onBreakpointChange={this.onBreakpointChange}  />
+							<DashboardGrid persistDashboard={this.commitDashboardUpdate} metricsColl={this.state.metricsColl} elements={this.state.elements} items={this.state.items} className="layout" rowHeight={50} cols={{lg: 24, md: 18, sm: 12, xs: 10, xxs: 6}} onBreakpointChange={this.onBreakpointChange}  />
 						</Col>
 					</Row>
 				</Grid>
@@ -387,7 +362,7 @@ var Analyze = React.createClass({
 						</FloatingActionButton>
 					</Row>
 					<Row style={{marginTop: -10, paddingTop: 0}}>
-						<ScoreTab scopeProperties={this.state.scopeProperties} contextId={this.props.params.id} metricsColl={this.state.metricsColl} formulasColl={this.state.formulasColl} onKpiUpdate={this.onKpiUpdate} models={this.state.models} onModelChange={this.onModelChange} formulas={this.state.formulas} onKpiAdd={this.onKpiAdd} />
+						<ScoreTab scopeProperties={this.state.scopeProperties} modelsColl={this.state.modelsColl} contextId={this.props.params.id} metricsColl={this.state.metricsColl} formulasColl={this.state.formulasColl} onKpiUpdate={this.onKpiUpdate} models={this.state.models} onModelChange={this.onModelChange} formulas={this.state.formulas} onKpiAdd={this.onKpiAdd} />
 					</Row>
 				</div>
 			);

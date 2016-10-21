@@ -18,6 +18,12 @@ var DashboardGrid = React.createClass({
   getInitialState: function() {
     return { items: this.props.items, elements: this.props.elements }
   },
+  componentWillReceiveProps: function(newProps) {
+    this.setState({
+      items: newProps.items,
+      elements: newProps.elements
+    });
+  },
   createElement: function(el) {
     var removeStyle = {
       position: 'absolute',
@@ -40,13 +46,15 @@ var DashboardGrid = React.createClass({
     this.setState({items: _.reject(this.state.items, {i: i})});
   },
   layoutChanged: function(layout) {
-    console.log('layout is', layout);
     this.setState({items: layout});
+  },
+  commitUpdate: function(layout) {
+    this.props.persistDashboard(layout);
   },
   render: function() {
     return (
       <div>
-        <ResponsiveReactGridLayout style={{marginTop: 10, paddingTop: 0}} onLayoutChange={this.layoutChanged} onBreakpointChange={this.props.onBreakpointChange}
+        <ResponsiveReactGridLayout onResizeStop={this.commitUpdate} onDragStop={this.commitUpdate}  style={{marginTop: 10, paddingTop: 0}} onLayoutChange={this.layoutChanged} onBreakpointChange={this.props.onBreakpointChange}
             {...this.props}>
           {_.map(this.state.items, this.createElement)}
         </ResponsiveReactGridLayout>

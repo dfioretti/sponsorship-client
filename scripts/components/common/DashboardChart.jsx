@@ -311,7 +311,7 @@ var DashboardChart = React.createClass({
 				break;
 		}
 		width = "100%";
-		var chartHeight = (this.props.height * 0.94);
+		var chartHeight = (this.props.height - 50);
 		return (
 			<div style={{margin: "0px 20px 0px 20px", height: "100%"}}>
 			<ReactEcharts
