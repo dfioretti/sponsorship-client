@@ -24,12 +24,10 @@ StatEngine.prototype = {
 	getAggregateStats: function(properties, metricsColl) {
 		var ret = [];
 		var metrics = metricsColl.chain().find({entity_key: properties[0]}).data();
-		console.log('metrics', metrics);
 		metrics.map(function(met) {
 			var result = metricsColl.chain().find({
 				'$and' : [ { metric: met.metric }, { entity_key: { '$in' : properties } } ]
 			}).simplesort("value").data();
-			console.log('result', result);
 			var values = [];
 			result.map(function(r) {
 				values.push(r.value);
@@ -49,7 +47,6 @@ StatEngine.prototype = {
 			};
 			ret.push(data);
 		});
-		console.log('aggretate', ret);
 		return ret;
 	},
 	buildTreeNode: function(node, norm, weight) {
@@ -58,7 +55,9 @@ StatEngine.prototype = {
 			parent: node.parent,
 			children: [],
 			weight: weight / 100.0,
+			norm: norm,	
 			fid: node.fid,
+			sid: node.sid,
 			type: node.type
 		};
 	},
@@ -85,7 +84,13 @@ StatEngine.prototype = {
 		if (node.parent == -1) {
 			console.log('at the root');
 		} else if (node.children.length == 0) {
-			this.calculateModelFormula(node, data);
+			var node = { 
+				weight: node.weight,
+				norm: node.norm,
+				value: this.formulaCalcColl.findOne({fid: node.fid})
+			}
+			data.push(node);
+			//this.calculateModelFormula(node, data);
 		} else {
 			this.calculateSubscore(node, data);
 		}
@@ -97,6 +102,48 @@ StatEngine.prototype = {
 		console.log('testing 123', formula);
 	},
 	calculateSubscore: function(node, data) {
+		var values = {};
+		var raw = [];
+		var result = {};
+		data.map(function(d) {
+			_.keys(d.value.result).map(function(k) {
+				if (typeof(values[k]) == 'undefined')  {
+					console.log()
+					values[k] = (d.weight * d.value.result[k].rank_weight);
+				}
+				else {
+					values[k] = values[k] + (d.weight * d.value.result[k].rank_weight);
+				}
+			});
+		});
+		_.keys(values).map(function(k) {
+			raw.push(values[k]);
+		});
+		var stdev = ss.standardDeviation(raw);
+		var mean = ss.mean(raw);
+		var zScores = [];	
+		_.keys(values).map(function(k) {
+			var zScore = ss.zScore(values[k], mean, stdev);
+			zScores.push(zScore);
+			result[k] = zScore;
+		});
+		_.keys(result).map(function(k) {
+			var rank = this.rank(result[k], zScores);
+			result[k] = rank
+		}.bind(this));
+		if (this.modelCalcColl.find({sid: node.sid}).length == 0) {
+			var modelCalc = {
+				sid: node.sid,
+				data: values,
+				result: result
+			};
+			this.modelCalcColl.insert(modelCalc);
+		} else {
+			var modelCalc = this.modelCalcColl.find({sid: node.sid})[0];
+			modelCalc.data = values;
+			modelCalc.result = result;
+			this.modelCalcColl.update(modelCalc);
+		}
 		console.log('in claulate subscore', node, data);
 	},
 	traverse: function(node, data) {
@@ -105,20 +152,23 @@ StatEngine.prototype = {
 		}.bind(this));
 		data = this.scoreNode(node, data);
 	},
-	calculateModel: function(formulasColl, metricsColl, properties, modelsColl) {
-		this.formulasColl = formulasColl;
-		this.metricsColl = metricsColl;
-		this.properties = properties;
-
-		console.log('called calcluate', modelsColl);
-		var model = modelsColl.find()[0];
-		console.log('model is', model);
+//	calculateModel: function(formulasColl, metricsColl, properties, modelsColl) {
+	calculateModel: function(model, formulaCalcColl, modelCalcColl) {
+		console.log('in calcualte model', model, formulaCalcColl, modelCalcColl);
+		this.formulaCalcColl = formulaCalcColl;
+		this.modelCalcColl = modelCalcColl;
+		//this.formulasColl = formulasColl;
+		//this.metricsColl = metricsColl;
+		//this.properties = properties;
+		//console.log('called calcluate', modelsColl);
+		//var model = modelsColl.find()[0];
+		//console.log('model is', model);
 		var tree = this.buildScoreTree(model);
-		this.traverse(tree, {});
+		this.traverse(tree, []);
+		console.log('created tree', tree);
+		//this.traverse(tree, {});
 	},
-	calculateFormula: function(formulaId, formulaColl, properties, metricsColl) {
-		if (typeof(formulaColl) === 'undefined') return [];
-		var kpi = formulaColl.findOne({ id: formulaId });
+	calculateFormula: function(kpi, properties, metricsColl) {
 		var formulaData = {};
 		var scopes = {};
 		var variables = {};
@@ -167,7 +217,6 @@ StatEngine.prototype = {
 						variables[ek][item] = scopes[ek][item]['raw_weight'];
 					}
 				}.bind(this));
-
 				// stats
 				var data = {
 					min: ss.minSorted(values),
@@ -208,6 +257,7 @@ StatEngine.prototype = {
 
 		var ret = [];
 		var obj = {};
+		var result = {};
 		_.keys(scopes).map(function(key) {
 			_.keys(scopes[key]).map(function(met) {
 				if (true) { // exclude the formula
@@ -218,7 +268,11 @@ StatEngine.prototype = {
 						obj[val] = scopes[key][met][val];
 					});
 					obj['id'] = uuid.v4();
-					ret.push(obj);
+					if (met == kpi.name) {
+						result[key] = obj;
+					} else {
+						ret.push(obj);
+					}
 				}
 			});
 		});
@@ -232,9 +286,7 @@ StatEngine.prototype = {
 			});
 			ret2.push(obj);
 		});
-		kpi['stats'] = ret;
-		formulaColl.update(kpi);
-		return { data: ret, stats: ret2 };
+		return { data: ret, stats: ret2, result: result };
 	},
 	runFormula: function() {
 		var entityKey = 'chicago_bears';

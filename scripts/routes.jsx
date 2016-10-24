@@ -35,6 +35,7 @@ var Analyze = require('./components/routes/Analyze.jsx');
 var PortfolioHome = require('./components/routes/PortfolioHome.jsx');
 var PropertyDashboard = require('./components/routes/PropertyDashboard.jsx');
 var LoginPage = require('./components/routes/LoginPage.jsx');
+var Assessment = require('./components/routes/Assessment.jsx');
 
 var defaultRoute = (location.hostname.indexOf('mcd') > -1) ? CompanyDashboard : PortfolioDashboard;
 
@@ -44,6 +45,7 @@ module.exports = (
     <Route name="scope" handler={Scope} path="scope" />
     <Route name="portfolio" handler={PortfolioHome} path="portfolio" />
     <Route name="analyze" handler={Analyze} path="analyze" />
+    <Route name="assessment" handler={Assessment} path="assessment/:id" />
     <Route name="view_scope" handler={Analyze} path="analyze/:id" />
     <Route name='dashboard_index' handler={DashboardIndex} path="dashboard_index" />
     <Route name='account_login' handler={AccountLogin} path='account_login' />

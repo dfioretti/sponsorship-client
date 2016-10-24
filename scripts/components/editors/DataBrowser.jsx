@@ -15,6 +15,7 @@ var titleize = require('underscore.string/titleize');
 var numberFormat = require('underscore.string/numberFormat');
 var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
+var _ = require('underscore');
 
 var DataBrowser = React.createClass({
 	mixins: [FluxMixin],
@@ -30,7 +31,7 @@ var DataBrowser = React.createClass({
 	formatMetric: function(cell, row) {
 		var image = '/images/native.png';
 		if (cell.indexOf("_") > -1) {
-			image = '/images' + this.props.metricsColl.findOne({metric: cell}).icon
+			image = '/images' + this.getFlux().store("DocumentStore").getState().metricsColl.findOne({metric: cell}).icon
 		}
 		return (
 			<div>
@@ -42,7 +43,7 @@ var DataBrowser = React.createClass({
 	formatProperty: function(cell, row) {
 		return (
 			<div>
-				<Avatar size={20} src={this.getFlux().store("AssetsStore").getAssetByKey(cell).image_url} />
+				<Avatar size={20} src={this.getFlux().store("DocumentStore").getState().propertiesColl.find({entity_key: cell})[0].image_url} />
 				<span>&nbsp;&nbsp;&nbsp;{titleize(cell.split("_").join(" "))}</span>
 			</div>
 		);
@@ -60,9 +61,34 @@ var DataBrowser = React.createClass({
 		return;
 	},
 	loadFormulaData: function(props) {
-		console.log('kk load formula data', props);
-		var stats = new StatEngine();
+		console.log('load formula data', props);
+		if (props.currentNode == null) return this.clearState();
 		if (props.node == null) return this.clearState();
+		if (props.node.type == "formula") {
+			var displayData = this.getFlux().store("DocumentStore").getState().formulaCalculations.find({fid: props.node.fid})[0];
+			if (typeof(displayData) == 'undefined') return this.clearState();
+			console.log('display data', displayData);
+			this.setState({
+				data: displayData.data,
+				stats: displayData.stats
+			});
+			return;
+		} 
+		if (props.node.type == 'node') {
+			var displayData = this.getFlux().store("DocumentStore").getState().modelCalculations.find({sid: props.node.sid})[0];
+			if (typeof(displayData) == 'undefined') return this.clearState();
+			console.log("display data", displayData);
+			this.setState({
+				data: displayData.result,
+				stats: displayData.data
+			});
+			return;
+		}
+		console.log(props);
+		return this.clearState();
+		//console.log('kk load formula data', props);
+		var stats = new StatEngine();
+		//if (props.node == null) return this.clearState();
 		if (props.currentNode == null) return this.clearState();
 		// todo render full score
 		if (props.currentNode == 0)
@@ -80,7 +106,9 @@ var DataBrowser = React.createClass({
 			aggregate: !this.state.aggregate
 		});
 	},
-	renderAggregateTable: function() {
+	renderAggregateTable: function(node) {
+		if (node == null) return null;
+		if (node.type == 'node') return this.renderScoreTable();
 		return (
 			<BootstrapTable
 				data={this.state.stats}
@@ -127,7 +155,37 @@ var DataBrowser = React.createClass({
 			</BootstrapTable>
 		)
 	},
-	renderDataTable: function() {
+	renderScoreTable: function() {
+		var tableData = [];
+		_.keys(this.state.data).map(function(k) {
+			tableData.push({entity_key: k, value: this.state.data[k] * 100.0});
+		}.bind(this));
+		return (
+			<BootstrapTable
+				data={tableData}
+				height="160"
+				search={false}
+				>
+				<TableHeaderColumn
+					dataField="entity_key"
+					dataFormat={this.formatProperty}
+					dataSort={true}
+					isKey={true}>
+					Property
+				</TableHeaderColumn>
+				<TableHeaderColumn
+					dataField="value"
+					dataFormat={this.formatValue}
+					dataSort={true}
+					>
+					Value
+				</TableHeaderColumn>
+			</BootstrapTable>
+		);
+	},
+	renderDataTable: function(node) {
+		if (node == null) return null;
+		if (node.type == 'node') return this.renderScoreTable();
 		return (
 			<BootstrapTable
 				data={this.state.data}
@@ -191,7 +249,7 @@ var DataBrowser = React.createClass({
 				<Row style={{marginTop: 0, backgroundColor: 'white', padding: 10, marginLeft: 0, marginRight: 0}}>
 					<Col md={12}>
 						<Toggle label="Show Aggregate Metrics" toggle={this.state.aggregate} onToggle={this.toggleAggregate} />
-						{(this.state.aggregate) ? this.renderAggregateTable() : this.renderDataTable()}
+						{(this.state.aggregate) ? this.renderAggregateTable(this.props.node) : this.renderDataTable(this.props.node)}
 					</Col>
 				</Row>
 			</div>

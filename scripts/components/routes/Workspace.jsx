@@ -37,8 +37,10 @@ var Navigation = require('react-router').Navigation;
 var Workspace = React.createClass({
 	mixins: [Navigation, FluxMixin, StoreWatchMixin("DocumentStore")],//, StoreWatchMixin("DashboardHomeStore", "AssetsStore")],
 	componentWillMount: function() {
-		this.getFlux().actions.loadDashboards();
-		this.getFlux().actions.loadAssets();
+		console.log("state in worspace", this.state);
+		//this.getFlux().actions.syncData();
+		//this.getFlux().actions.loadDashboards();
+		//this.getFlux().actions.loadAssets();
 	},
 	getInitialState: function() {
 		return {open: false, searchText: "", fullSearch: true, docked: false, drawerOpen: false, buttonBottom: 10};
@@ -100,7 +102,8 @@ var Workspace = React.createClass({
 		this.transitionTo("/apt/asset/dashboard/" + item.id);
 	},
 	render: function() {
-		if (!this.state.propertiesLoaded || !this.state.dashboardsLoaded) {
+		console.log('doing render', this.state);
+		if (!this.state.propertiesLoaded || !this.state.databaseLoaded)  {// || !this.state.dashboardsLoaded) {
 			return (
 				<div>wait</div>
 			);
@@ -120,7 +123,7 @@ var Workspace = React.createClass({
 				onSetOpen: this.setSetSidebarOpen
 			}
 			//				<img style={{height: 30, width: 30}} src={'/images/login/teneo-white.png'} />
-			var thinSide = <FixedSide contexts={this.state.contextDashboards} />;//;<div style={{width: "100%", marginTop: "10px"}}><img  style={{display: 'block', margin: 'auto', width: "37px", height: "36px"}} src={'/images/login/teneo-white.png'} /></div>;
+			var thinSide = <FixedSide contextCollection={this.state.contextCollection} />;//;<div style={{width: "100%", marginTop: "10px"}}><img  style={{display: 'block', margin: 'auto', width: "37px", height: "36px"}} src={'/images/login/teneo-white.png'} /></div>;
 				var textStyle = {
 					style: {
 						color: 'white',
@@ -187,33 +190,4 @@ var Workspace = React.createClass({
 			}
 		});
 
-		module.exports = Workspace;
-
-		/*
-		<AppBar
-		style={topStyle}
-		onLeftIconButtonTouchTap={this.toggleMenu}
-		/>
-		<DataDrawer open={this.state.open}>
-		<DataContainer />
-		</DataDrawer>
-		*/
-		/*
-		<Drawer
-		docked={false}
-		open={this.state.drawerOpen}
-		position="bottom"
-		overlayStyle={{display: "none"}}
-		sidebar={drawerContent}
-		style={{overflow: "auto", backgroundColor: "transparent"}}
-		>
-		<AppBar
-		style={topStyle}
-		onLeftIconButtonTouchTap={this.toggleMenu}
-		/>
-		{ this.props.children }
-		<FloatingActionButton mini={true} backgroundColor={Colors.SECONDARY} style={{position: "fixed", bottom: this.state.buttonBottom, right: 80}} onTouchTap={this.handleDrawer}>
-		<ButtonIcon />
-		</FloatingActionButton>
-		</Drawer>
-		*/
+module.exports = Workspace;

@@ -2,26 +2,27 @@ var Fluxxor = require('fluxxor');
 var constants = require('../constants/constants');
 var loki = require('lokijs');
 var LokiIndexedAdapter = require('lokijs/src/loki-indexed-adapter');
-//import LokiIndexedAdapter from 'lokijs/src/loki-indexed-adapter';
 var uuid = require('node-uuid');
 var idbAdapter = new LokiIndexedAdapter('loki-db');
-
-// NOTE:  I'm turning off all updates from the server.  If the database exists and it is loaded, then we're done
-// all other writes are going to be local
+var StatEngine = require('../utils/StatEngine.js');
 
 var DocumentStore = Fluxxor.createStore({
 	initialize: function() {
 		this.db = new loki('outperform.db', {autoload: true, autoloadCallback: this.dbLoaded, autosave: true, autosaveInterval: 500, adapter: idbAdapter});
 		this.dashboardsLoaded = false;
 		this.propertiesLoaded = false;
+		this.databaseLoaded = false;
 		window.documents = this.db;
 		this.bindActions(
 			constants.LOAD_ASSETS_SUCCESS, this.onLoadAssetsSuccess,
 			constants.LOAD_DASHBOARDS_SUCCESS, this.onLoadDashboardsSuccess,
-			constants.CONTEXT_UPDATE_SUCCESS, this.onContextUpdateSuccess
+			constants.CONTEXT_UPDATE_SUCCESS, this.onContextUpdateSuccess,
+			constants.CALCULATE_FORMULA, this.onCalculateFormula,
+			constants.CALCULATE_MODEL, this.onCalculateModel
 		)
 	},
 	dbLoaded: function() {
+		console.log("called db loaded");
 		this.metrics = this.db.getCollection('metrics');
 		if (!this.metrics)
 			this.metrics = this.db.addCollection('metrics');
@@ -30,13 +31,54 @@ var DocumentStore = Fluxxor.createStore({
 			this.properties = this.db.addCollection('properties');
 		this.contexts = this.db.getCollection('contexts');
 		if (!this.contexts)
-			this.contexts = this.db.addCollection('contexts');
+			this.contexts = this.db.addCollection('contexts', { unique: ['cid'], autoupdate: true});
 		this.models = this.db.getCollection('models');
 		if (!this.models) 
-			this.models = this.db.addCollection('models');
+			this.models = this.db.addCollection('models', { unique: ["mid"], autoupdate: true });
 		this.formulas = this.db.getCollection('formulas');
 		if (!this.formulas)
-			this.formulas = this.db.addCollection('formulas');
+			this.formulas = this.db.addCollection('formulas', { unique: ["fid"], autoupdate: true });
+		this.formulaCalculations = this.db.getCollection('formulaCalculations');
+		if (!this.formulaCalculations)
+			this.formulaCalculations = this.db.addCollection('formulaCalculations');
+		this.modelCalculations = this.db.getCollection('modelCalculations');
+		if (!this.modelCalculations)
+			this.modelCalculations = this.db.addCollection('modelCalculations');
+
+		this.databaseLoaded = true;
+		this.propertiesLoaded = true;
+		this.emit("change");
+	},
+	onCalculateModel: function(payload) {
+		console.log("doing on caclucalte model");
+		var model = this.getScore(payload.cid);
+		var context = this.getContext(payload.cid);
+		var stats = new StatEngine();
+		var calc = stats.calculateModel(model, this.formulaCalculations, this.modelCalculations);
+//		var calc = stats.calculateModel(this.formulas, this.metrics, context.scopeProperties, );
+		console.log("caluclat emodel", model);
+	},
+	onCalculateFormula: function(payload) {
+		var formula = this.getFormula(payload.fid);
+		var context = this.getContext(formula.cid);
+		var stats = new StatEngine();
+		var calc = stats.calculateFormula(formula, context.scopeProperties, this.metrics);
+		if (this.formulaCalculations.find({fid: payload.fid}).length == 0) {
+			var fc = {
+				fcid: uuid.v4(),
+				data: calc.data,
+				stats: calc.stats,
+				result: calc.result,
+				fid: payload.fid
+			}
+			this.formulaCalculations.insert(fc);
+		} else {
+			var fc = this.formulaCalculations.find({fid: payload.fid})[0];
+			fc.data = calc.data;
+			fc.stats = calc.stats;
+			fc.result = calc.result;
+		}
+		this.saveDatabase();
 	},
 	onLoadDashboardsSuccess: function(payload) {
 		this.dashboardsLoaded = true;
@@ -91,6 +133,9 @@ var DocumentStore = Fluxxor.createStore({
 		this.propertiesLoaded = true;
 		this.emit("change");
 	},
+	getContext: function(cid) {
+		return this.contexts.find({cid: cid})[0];
+	},
 	getProperty: function(query) {
 		var results = this.properties.findOne(query);
 		return results;
@@ -111,7 +156,15 @@ var DocumentStore = Fluxxor.createStore({
 		var results = this.formulas.find(query);
 		return results;
 	},
-	getFormula: function(query) {
+	getScore: function(cid) {
+		var result = this.models.find({cid: cid});
+		if (result.length == 0) {
+			return null;
+		}
+		return result[0];
+	},
+	getFormula: function(fid) {
+		return this.formulas.find({fid: fid})[0];
 		console.log('calling get formula', query);
 		var results = this.formulas.findOne(query);
 		console.log('results', results);
@@ -120,12 +173,22 @@ var DocumentStore = Fluxxor.createStore({
 	getMetricsCollection: function() {
 		return this.metrics;
 	},
+	saveDatabase: function() {
+		this.db.saveDatabase();
+	},
+	updateContext: function(context) {
+		console.log("update contex", context);
+		this.contexts.update(context);
+	},
 	getState: function() {
 		return {
 			db: this.db,
 			formulasColl: this.formulas,
+			databaseLoaded: this.databaseLoaded, 
 			metricsColl: this.metrics,
 			modelsColl: this.models,
+			formulaCalculations: this.formulaCalculations,
+			modelCalculations: this.modelCalculations,
 			propertiesColl: this.properties,
 			contextCollection: this.contexts,
 			dashboardsLoaded: this.dashboardsLoaded,

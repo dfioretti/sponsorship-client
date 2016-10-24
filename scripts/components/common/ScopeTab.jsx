@@ -26,15 +26,29 @@ var GridTile = require('material-ui').GridTile;
 var Subheader = require('material-ui').Subheader;
 var Navigation = require('react-router').Navigation;
 var Link = require('react-router').Link;
+var Fluxxor = require('fluxxor');
+var FluxMixin = Fluxxor.FluxMixin(React);
+
+var contextRecord;
 
 var ScopeTab = React.createClass({
-	mixins: [Navigation],
+	mixins: [Navigation, FluxMixin],
 
 	getInitialState: function() {
-		console.log('scope tab', this.props);
+		//var context = this.getFlux().store("DocumentStore").getContext(this.props.cid);
+		//var documentStore = this.getFlux().store("DocumentStore").getState();
+		//var propertiesColl = documentStore.propertiesColl;
+		contextRecord = this.getFlux().store("DocumentStore").getContext(this.props.cid);
+		var currentAssets = [];
+		var allProperties = this.getFlux().store("DocumentStore").getProperties({});//propertiesColl.find();
+		contextRecord.scopeProperties.map(function(p) {
+			currentAssets.push(this.getFlux().store("DocumentStore").getProperty({entity_key: p}));
+		}.bind(this));
 		return {
 			fullWidth: false,
+			allProperties: allProperties,//propertiesColl.find(),
 			data: Immutable.List(),
+			currentAssets: currentAssets,
 			filteredData: Immutable.List(),
 			displayData: Immutable.List(),
 			searchText: "" ,
@@ -55,20 +69,20 @@ var ScopeTab = React.createClass({
 	},
 	componentWillMount: function() {
 		this.setState({
-			data: Immutable.fromJS(this.props.allProperties).toList(),
-			filteredData: Immutable.fromJS(this.props.allProperties).toList(),
-			displayData: Immutable.fromJS(this.props.allProperties).toList()
+			data: Immutable.fromJS(this.state.allProperties).toList(),
+			filteredData: Immutable.fromJS(this.state.allProperties).toList(),
+			displayData: Immutable.fromJS(this.state.allProperties).toList()
 		});
 	},
 	componentWillReceiveProps: function(nextProps) {
 		this.setState({
-			data: Immutable.fromJS(this.props.allProperties).toList(),
-			filteredData: Immutable.fromJS(this.props.allProperties).toList(),
-			displayData: Immutable.fromJS(this.props.allProperties).toList()
+			data: Immutable.fromJS(this.state.allProperties).toList(),
+			filteredData: Immutable.fromJS(this.state.allProperties).toList(),
+			displayData: Immutable.fromJS(this.state.allProperties).toList()
 		});
 	},
 	getRow: function(i) {
-		return this.props.allProperties[i];
+		return this.state.allProperties[i];
 	},
 	filterData:  function(event) {
 		event.preventDefault();
@@ -99,43 +113,43 @@ var ScopeTab = React.createClass({
 		this.setState({fullWidth: false});
 	},
 	addProperty: function(key, event) {
-		this.props.onScopeChanged(this.props.scopeProperties.concat(key));
+		contextRecord.scopeProperties = contextRecord.scopeProperties.concat(key);
+		this.currentAssets = this.state.currentAssets;
+		var addedProperty = this.getFlux().store("DocumentStore").getProperty({entity_key: key});
+		this.currentAssets = this.currentAssets.concat(addedProperty);
+		this.setState({
+			currentAssets: this.currentAssets
+		});
+		this.getFlux().store("DocumentStore").saveDatabase();
 	},
 	removeProperty: function(key, event) {
-		this.selectedKeys = this.props.scopeProperties;
-		var keyToDelete = this.selectedKeys.indexOf(key);
-		this.selectedKeys.splice(keyToDelete, 1);
-		this.props.onScopeChanged(this.selectedKeys);
-		//this.props.onScopeChanged(this.props.scopeProperties.concat(key));
+		var scopeProperties = contextRecord.scopeProperties;
+		var currentAssets = this.state.currentAssets;
+		var propertyToDelete = scopeProperties.indexOf(key);
+		scopeProperties.splice(propertyToDelete, 1);
+		contextRecord.scopeProperties = scopeProperties;
+		currentAssets.splice(propertyToDelete, 1);
+
+		this.setState({
+			currentAssets: currentAssets
+		});
+
+		this.getFlux().store("DocumentStore").saveDatabase();
 	},
 	renderActionButton: function(row) {
 		var key = row.get('entity_key');
-		if (_.contains(this.props.scopeProperties, key)) {
+		if (_.contains(contextRecord.scopeProperties, key)) {
 			return (
 				<IconButton style={{color: Colors.RED_BASE}} onTouchTap={this.removeProperty.bind(this, key)}>
 					<RemoveIcon size={20} />
 				</IconButton>
 			);
-			/*
-			return (
-			<FloatingActionButton secondary={true} onTouchTap={this.removeProperty.bind(this, key)} mini={true}>
-			<RemoveIcon size={20} />
-			</FloatingActionButton>
-			);
-			*/
 		}
 		return (
 			<IconButton style={{color: Colors.GREEN_BASE}} onTouchTap={this.addProperty.bind(this, key)}>
 				<AddIcon size={20} />
 			</IconButton>
 		);
-		/*
-		return (
-		<FloatingActionButton onTouchTap={this.addProperty.bind(this, key)} mini={true}>
-		<AddIcon size={20} />
-		</FloatingActionButton>
-		);
-		*/
 	},
 	sortTable: function(key, event) {
 		var sortDir = 'asc';
@@ -166,7 +180,6 @@ var ScopeTab = React.createClass({
 		var sortStyle = {
 			color: Colors.DARK,
 		}
-		//console.log('doing render tab', this.props.currentAssets);
 		var iconSize = 15;
 		return (
 			<div>
@@ -289,7 +302,7 @@ var ScopeTab = React.createClass({
 							style={{width: "90%", height:"calc(100vh - 250px)", overflowY: 'auto', marginBottom: 24}}
 							cellHeight={200}
 							>
-							{this.props.currentAssets.map((tile) => (
+							{this.state.currentAssets.map((tile) => (
 								<GridTile
 									key={tile.entity_key}
 									title={tile.name}

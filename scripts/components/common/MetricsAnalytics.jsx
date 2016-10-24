@@ -38,28 +38,31 @@ var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
 var StatEngine = require('../../utils/StatEngine.js');
 
+var contextRecord;
+
 var MetricsAnalytics = React.createClass({
   mixins: [ FluxMixin ],
   getInitialState: function() {
+    contextRecord = this.getFlux().store('DocumentStore').getContext(this.props.cid);
+    
     var stats = new StatEngine();
-    var data = stats.getAggregateStats(this.props.scopeProperties, this.props.metricsColl);
-    //var data = this.props.metricsColl.find({'entity_key' : 'chicago_bears'});
+    var data = stats.getAggregateStats(contextRecord.scopeProperties, this.getFlux().store("DocumentStore").getState().metricsColl);
     var metrics = [];
     var formula = [];
     var formulaWeights = [];
     var formulaToggles = [];
     var name = "";
-    console.log('analytics', this.props, this.props.kpiEdit);
-    if (this.props.kpiEdit !== null) {
-      var kpi = this.props.formulasColl.findOne({'id':this.props.kpiEdit});
-      console.log('kpi looked', kpi);
-      metrics = kpi.metrics;
-      formula = kpi.formula;
-      formulaWeights = kpi.formulaWeights;
-      formulaToggles = kpi.formulaToggles;
-      name = kpi.name;
+   
+    if (this.props.fid !== null) {
+      var formulaRecord = this.getFlux().store("DocumentStore").getFormula(this.props.fid);
+      formula = formulaRecord.formula;
+      metrics = formulaRecord.metrics;
+      formulaWeights = formulaRecord.formulaWeights;
+      formulaToggles = formulaRecord.formulaToggles;
+      name = formulaRecord.name;
     }
-    return { name: name, data: data, metrics: metrics, formulaWeights: formulaWeights, formulaToggles: formulaToggles, currentInput: -1, formula: formula}
+
+    return { cid: this.props.cid, data: data, name: name, metrics: metrics, formulaWeights: formulaWeights, formulaToggles: formulaToggles, currentInput: -1, formula: formula }
   },
   formatValue: function(cell, row) {
     cell = parseFloat(cell);
@@ -153,7 +156,7 @@ var MetricsAnalytics = React.createClass({
                 className="formula-value"
                 style={{cursor: 'move', marginLeft: 4, marginRight: 4}}
                 >
-                <Avatar size={10} style={{cursor: 'move' }} src={'/images/' + this.props.metricsColl.findOne({metric: metric }).icon} />
+                <Avatar size={10} style={{cursor: 'move' }} src={'/images/' + this.getFlux().store("DocumentStore").getState().metricsColl.findOne({metric: metric }).icon} />
                 {titleize(metric.split("_").join(" "))}
               </Chip>
             </DragMetric>
@@ -204,7 +207,7 @@ var MetricsAnalytics = React.createClass({
                     style={{cursor: 'pointer', margin: 4, display: 'inline-block'}}
                     onTouchTap={() => this.handleMetricSelect(index)}
                     >
-                    <Avatar src={'/images/' + this.props.metricsColl.findOne({metric: f }).icon} />
+                    <Avatar src={'/images/' + this.getFlux().store("DocumentStore").getState().metricsColl.findOne({metric: f }).icon} />
                   {titleize(f.split("_").join(" "))}
                   </Chip>
                 </span>
@@ -309,7 +312,34 @@ var MetricsAnalytics = React.createClass({
   );
   },
   handleSave: function() {
-    console.log('props', this.props.params);
+    var fid;
+    if (this.props.fid === null) {
+      fid = uuid.v4();
+      var formula = {
+        name: this.state.name,
+        fid: fid,
+        cid: this.props.cid,
+        formula: this.state.formula,
+        formulaWeights: this.state.formulaWeights,
+        formulaToggles: this.state.formulaToggles,
+        metrics: this.state.metrics
+      }
+      this.getFlux().store("DocumentStore").getState().formulasColl.insert(formula);
+    } else {
+      var formulaRecord = this.getFlux().store("DocumentStore").getFormula(this.props.fid);
+      fid = formulaRecord.fid;
+      formulaRecord.formula = this.state.formula;
+      formulaRecord.name = this.state.name;
+      formulaRecord.formulaWeights = this.state.formulaWeights; 
+      formulaRecord.formulaToggles = this.state.formulaToggles;
+      formulaRecord.metrics = this.state.metrics;
+    }
+    this.getFlux().store("DocumentStore").saveDatabase();
+    this.getFlux().actions.calculateFormula(fid);
+    this.props.handleClose();
+    return;
+
+    // clear this shit out
     if (this.props.kpiEdit !== null) {
       var doc = this.props.formulasColl.findOne({id: this.props.kpiEdit});
       doc.formula = this.state.formula;
@@ -334,7 +364,7 @@ var MetricsAnalytics = React.createClass({
   formatSource: function(cell, row) {
     return (
       <div>
-        <Avatar size={20} src={'/images/' + this.props.metricsColl.findOne({source: cell}).icon} />
+        <Avatar size={20} src={'/images/' + this.getFlux().store("DocumentStore").getState().metricsColl.findOne({source: cell}).icon} />
           <span>&nbsp;&nbsp;&nbsp;{cell}</span>
       </div>
     )

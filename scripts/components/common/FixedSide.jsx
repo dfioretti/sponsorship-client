@@ -14,6 +14,7 @@ var Dialog = require('material-ui').Dialog;
 var FlatButton = require('material-ui').FlatButton;
 var Stepper = require('material-ui').Stepper;
 var Step = require('material-ui').Step;
+var uuid = require('node-uuid');
 var StepLabel = require('material-ui').StepLabel;
 var TextField = require('material-ui').TextField;
 var Fluxxor = require('fluxxor');
@@ -24,13 +25,15 @@ var DashboardClient = require('../../clients/dashboard_client.js');
 
 
 var FixedSide = React.createClass({
-	mixins: [ FluxMixin, StoreWatchMixin("DashboardHomeStore"), Navigation ],
+	mixins: [ FluxMixin, Navigation ],
 
 	componentWillMount: function() {
+		/*
 		var home = this.getFlux().store("DashboardHomeStore").getState();
 		if (!home.dashboardsLoaded && !home.loading) {
 			this.getFlux().actions.loadDashboards();
 		}
+		*/
 	},
 	getInitialState: function() {
 		return { valueScopes: 1, dialogOpen: false, assessmentName: "" }
@@ -46,9 +49,11 @@ var FixedSide = React.createClass({
 	goScope: function() {
 		this.transitionTo('analyze');
 	},
+	/*
 	getStateFromFlux: function() {
 		return this.getFlux().store("DashboardHomeStore").getState();
 	},
+	*/
 	renderEmpty: function() {
 		return (
 			<MenuItem
@@ -59,13 +64,11 @@ var FixedSide = React.createClass({
 		);
 	},
 	renderContexts: function(context) {
-		//				primaryText={context.name}
-
 		return (
 			<MenuItem
 				style={{fontSize: 10, backgroundColor: Colors.DARK_BACKGROUND, color: Colors.WHITE, textTransform: 'uppercase', letterSpacing: '1.5', fontFamily: "Avenir-Book"}}
-				value={context.id}
-				key={context.id}
+				value={context.cid}
+				key={context.cid}
 				primaryText={context.name}
 				/>
 		);
@@ -76,9 +79,21 @@ var FixedSide = React.createClass({
 		});
 	},
 	handleChange: function(event, value) {
-		this.transitionTo('/analyze/' + value);
+		this.transitionTo('/assessment/' + value);
 	},
 	handleSave: function(event) {
+		var cid = uuid.v4();
+		var context = {
+			scopeProperties: [],
+			layout: [],
+			elements: {},
+			activeTab: 'scope',
+			cid: cid,
+			name: this.state.assessmentName
+		};
+		this.props.contextCollection.insert(context);
+		this.transitionTo('/assessment/' + cid);
+		/*
 		var context = [];
 		var layout = [];
 		var dashboard = {
@@ -100,6 +115,7 @@ var FixedSide = React.createClass({
 			this.getFlux().store("DashboardHomeStore").onContextCreateSuccess({dashboard: data});
 			this.transitionTo('/analyze/' + data.id);
 		}.bind(this));
+		*/
 	},
 	handleTextUpdate: function(event, value) {
 		this.setState({
@@ -187,7 +203,7 @@ var FixedSide = React.createClass({
 						anchorOrigin={{vertical: 'top', horizontal: 'right'}}
 						onChange={this.handleChange}
 						>
-						{(this.state.contextDashboards.length > 0) ? this.state.contextDashboards.map(this.renderContexts, this) : this.renderEmpty()}
+						{(this.props.contextCollection.find().length > 0) ? this.props.contextCollection.find().map(this.renderContexts, this) : this.renderEmpty()}
 					</IconMenu>
 					<h6 style={{marginTop: -10, fontSize: 10, color: '#FFFEFF', textAlign: 'center', textTransform: 'uppercase', letterSpacing: '1.5'}}>Analyze</h6>
 				</div>
@@ -196,10 +212,5 @@ var FixedSide = React.createClass({
 	}
 
 });
-/*
-<ul>
-{this.props.contexts.map(this.renderContexts, this)}
-</ul>
-*/
 
 module.exports = FixedSide;

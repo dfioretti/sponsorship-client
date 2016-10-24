@@ -9,6 +9,16 @@ var DashboardClient = require("../clients/dashboard_client.js"),
 
 
 actions = {
+    calculateFormula: function(fid) {
+      this.dispatch(constants.CALCULATE_FORMULA, {
+        fid: fid
+      });
+    },
+    calculateModel: function(cid) {
+      this.dispatch(constants.CALCULATE_MODEL, {
+        cid: cid 
+      });
+    },
     updateDisplayIcon: function(icon) {
         this.dispatch(constants.UPDATE_DISPLAY_ICON, {
             icon: icon
