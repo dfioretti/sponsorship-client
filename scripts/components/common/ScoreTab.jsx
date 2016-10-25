@@ -8,6 +8,7 @@ var FlatButton = require('material-ui').FlatButton;
 var SettingsIcon = require('react-icons/lib/md/settings');
 var List = require('material-ui').List;
 var ListItem = require('material-ui').ListItem;
+var ModelBuilder = require('./ModelBuilder.jsx');
 var EditIcon = require('react-icons/lib/md/edit');
 var NormalizeIcon = require('react-icons/lib/fa/magic')
 var WeightIcon = require('react-icons/lib/fa/balance-scale');
@@ -53,6 +54,7 @@ var nodeIds, nodeList, nodes, edgeList, edges, network, options, nodeCounter, ed
 
 var scoreModel;
 var scoreRecord;
+var goModel;
 
 
 function generateNode(name, weight, normalize) {
@@ -80,8 +82,47 @@ var ScoreTab = React.createClass({
 	mixins: [ FluxMixin ],
 
 	getInitialState: function() {
+		var model = this.getFlux().store("DocumentStore").getScore(this.props.cid);
+		var nodeDataArray = [];
+		var goModelDef;
+		if (model == null) {
+			var node = {
+				key: 0,
+				component: "Score",
+				weight: "",
+				mode: "",
+				operation: "",
+				shape: 'circle',
+				category: 'circle'
+			};
+			nodeDataArray.push(node);
+			goModelDev = {
+				class: 'go.TreeModel',
+				nodeDataArray: nodeDataArray
+			};
+		} else {
+			model.nodeList.map(function(n, i) {
+				var node = {
+					key: n.id,
+					parent: n.parent,
+					component: n.label,
+					weight: model.nodeWeights[i],
+					norm: model.nodeToggles[i],
+					shape: n.shape,
+					category: n.shape,
+					color: 'lightblue'
+				}
+				nodeDataArray.push(node);
+			});
+			goModelDef = {
+				class: 'go.TreeModel',
+				nodeDataArray: nodeDataArray
+			};
+		}
+
+
 		this.scoreModel = null;
-		return { subscoreName: "", editId: null, showSubscoreDialog: false, kpiDialogOpen: false, nodeToggles: [true], nodeWeights: [100], loaded: false, formulas: [], uuid: uuid.v4(), usedMetrics: [], update: false, loadedMetrics: [], showPopover: false, x: 0, y: 0, currentNode: 0, currentSliderValue: 1 }
+		return { goModelDef: goModelDef, subscoreName: "", editId: null, showSubscoreDialog: false, kpiDialogOpen: false, nodeToggles: [true], nodeWeights: [100], loaded: false, formulas: [], uuid: uuid.v4(), usedMetrics: [], update: false, loadedMetrics: [], showPopover: false, x: 0, y: 0, currentNode: 0, currentSliderValue: 1 }
 	},
 	editKpi: function(name, id, event) {
 		this.setState({
@@ -381,6 +422,7 @@ var ScoreTab = React.createClass({
 	},
 	loadScoreTree: function() {
 		scoreModel = this.getFlux().store("DocumentStore").getScore(this.props.cid);
+		var nodeDataArray = [];
 		var color = "#ffffff";
 		if (scoreModel == null) {
 			nodeList = [
@@ -389,7 +431,33 @@ var ScoreTab = React.createClass({
 			edgeList = [];
 			nodeCounter = 1;
 			edgeCounter = 0;
+			var node = {
+				key: 0,
+				component: "Score",
+				weight: "",
+				mode: "",
+				operation: ""
+			};
+			nodeDataArray.push(node);
+			goModel = {
+				class: 'go.TreeModel',
+				nodeDataArray: nodeDataArray
+			};
 		} else {
+			var nodeDataArray = [];
+			scoreModel.nodeList.map(function(n, i) {
+				var node = {
+					key: n.id,
+					component: n.label,
+					weight: scoreModel.nodeWeights[i],
+					norm: scoreModel.nodeToggles[i]
+				}
+				nodeDataArray.push(node);
+			});
+			goModel = {
+				class: 'go.TreeModel',
+				nodeDataArray: nodeDataArray
+			};
 			nodeList = scoreModel.nodeList;
 			edgeList = scoreModel.edgeList;
 			nodeCounter = scoreModel.nodeList.length;
@@ -468,6 +536,16 @@ var ScoreTab = React.createClass({
 		});
 		currentNode = node;
 	},
+	onDoubleClick: function(e, obj) {
+		console.log('event', e.Dq.clientX, e.Dq.clientY);
+		this.setState({
+			showPopover: true,
+			currentNode: 1,
+			x: e.Dq.clientX,
+			y: e.Dq.clientY
+		});
+		console.log(obj);
+	},
 	doNodeSelect: function(params) {
 		if (params.nodes.length == 0) return;
 		var node = params.nodes[0];
@@ -493,10 +571,11 @@ var ScoreTab = React.createClass({
 			showPopover: false
 		});
 	},
+	//				<ModelBuilder goModelDef={this.state.goModelDef} onDoubleClick={this.onDoubleClick} />
 	renderTree: function() {
 		return (
 			<div>
-				<div id="vis" style={{height: 400, backgroundColor: Colors.LIGHT}}></div>
+				<div id="vis" style={{height: 530, backgroundColor: Colors.LIGHT}}></div>
 			</div>
 		);
 	},
@@ -566,7 +645,7 @@ var ScoreTab = React.createClass({
 				</Dialog>
 				{this.renderPopover()}
 				<Col className="tab-col" md={3}>
-					<div className="tab-content" style={{backgroundColor: 'white'}}>
+					<div className="tab-content" style={{backgroundColor: 'white' }}>
 						<Row>
 							<Col md={12}>
 								<div className="title med small-pad center">Custom KPIs</div>
@@ -588,7 +667,7 @@ var ScoreTab = React.createClass({
 				</Col>
 				<Col className="tab-col" md={9}>
 					<div className="tab-content">
-						<Row style={{marginTop: -10}}>
+						<Row style={{marginTop: 0}}>
 							<Col md={12}>
 								{this.renderTree()}
 							</Col>

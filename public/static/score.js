@@ -252,7 +252,7 @@ function initilizeScoreCanvas(savedModel) {
           _$(go.Shape, "RoundedRectangle", {
               fill: null,
               stroke: "dodgerblue",
-              strokeWidth: 4
+              strokeWidth: 20
             },
             new go.Binding("stroke", "color")),
           _$(go.Placeholder)

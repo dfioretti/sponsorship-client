@@ -20,6 +20,7 @@
     "flip": "^1.0.0",
     "flux": "^2.0.0",
     "fluxxor": "^1.7.3",
+    "gojs": "^1.6.19",
     "gulp": "^3.8.10",
     "gulp-autoprefixer": "~2.3.1",
     "gulp-bower": "^0.0.10",

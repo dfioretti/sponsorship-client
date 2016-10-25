@@ -112,7 +112,7 @@ var DataBrowser = React.createClass({
 		return (
 			<BootstrapTable
 				data={this.state.stats}
-				height="160"
+				height="185"
 				search={false}
 				>
 			<TableHeaderColumn
@@ -163,7 +163,7 @@ var DataBrowser = React.createClass({
 		return (
 			<BootstrapTable
 				data={tableData}
-				height="160"
+				height="185"
 				search={false}
 				>
 				<TableHeaderColumn
@@ -189,7 +189,7 @@ var DataBrowser = React.createClass({
 		return (
 			<BootstrapTable
 				data={this.state.data}
-				height="160"
+				height="185"
 				search={false}
 				>
 				<TableHeaderColumn

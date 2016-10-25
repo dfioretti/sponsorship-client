@@ -3,6 +3,7 @@ var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
 var ScopeTab = require('../common/ScopeTab.jsx');
 var ScoreTab = require('../common/ScoreTab.jsx');
+var DashboardTab = require('../common/DashboardTab.jsx');
 var Colors = require('../../constants/colors.js');
 var FlatButton = require('material-ui').FlatButton;
 var Grid = require('react-bootstrap').Grid;
@@ -24,6 +25,8 @@ var Assessment = React.createClass({
                 return <ScopeTab cid={this.props.params.id} />
             case 'evaluate':
                 return <ScoreTab cid={this.props.params.id} />
+            default:
+                return <DashboardTab cid={this.props.params.id} />
         }
     },
     render: function() {

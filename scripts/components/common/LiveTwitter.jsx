@@ -12,21 +12,21 @@ var LiveTwitter = React.createClass({
 	},
 
 	componentWillReceiveProps: function(newProps) {
-		console.log('new props', newProps);
+		//console.log('new props', newProps);
 		//this.loadData();
 	},
 	componentWillMount: function() {
 		//this.loadData();
 	},
 	loadData: function() {
-		console.log('loading data');
+		//console.log('loading data');
 		$.ajax({
 			type: "GET",
 			contentType: "application/json",
 			url: API_ROOT + "api/v1/twitter",
 			data: { screen_name: this.props.handle },
 			success: function(data, status, xhr) {
-				console.log('success??');
+				//console.log('success??');
 				this.setState({
 					tweets: data
 				});
@@ -38,7 +38,6 @@ var LiveTwitter = React.createClass({
 		});
 	},
 	render: function() {
-		console.log('render', this.props);
 		return (
 			<List style={{height: 500, overflow: 'scroll'}}>
 				{this.props.tweets.map(function(tweet) {

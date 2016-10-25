@@ -40,7 +40,6 @@ var DashboardTable = React.createClass({
     this.refs.dashTable.handleSearch(event.target.value);
   },
   downloadCSV: function() {
-    console.log('called down');
     this.refs.dashTable.handleExportCSV();
   },
   render: function() {

@@ -34,15 +34,15 @@ var contextRecord;
 var ScopeTab = React.createClass({
 	mixins: [Navigation, FluxMixin],
 
-	getInitialState: function() {
+	getInitialState: function () {
 		//var context = this.getFlux().store("DocumentStore").getContext(this.props.cid);
 		//var documentStore = this.getFlux().store("DocumentStore").getState();
 		//var propertiesColl = documentStore.propertiesColl;
 		contextRecord = this.getFlux().store("DocumentStore").getContext(this.props.cid);
 		var currentAssets = [];
 		var allProperties = this.getFlux().store("DocumentStore").getProperties({});//propertiesColl.find();
-		contextRecord.scopeProperties.map(function(p) {
-			currentAssets.push(this.getFlux().store("DocumentStore").getProperty({entity_key: p}));
+		contextRecord.scopeProperties.map(function (p) {
+			currentAssets.push(this.getFlux().store("DocumentStore").getProperty({ entity_key: p }));
 		}.bind(this));
 		return {
 			fullWidth: false,
@@ -51,7 +51,7 @@ var ScopeTab = React.createClass({
 			currentAssets: currentAssets,
 			filteredData: Immutable.List(),
 			displayData: Immutable.List(),
-			searchText: "" ,
+			searchText: "",
 			sortKey: 'name',
 			sortDir: 'asc',
 			fixedHeader: true,
@@ -67,27 +67,35 @@ var ScopeTab = React.createClass({
 			//height: "calc(100vh - 150px)"
 		};
 	},
-	componentWillMount: function() {
+	componentWillMount: function () {
 		this.setState({
 			data: Immutable.fromJS(this.state.allProperties).toList(),
 			filteredData: Immutable.fromJS(this.state.allProperties).toList(),
 			displayData: Immutable.fromJS(this.state.allProperties).toList()
 		});
 	},
-	componentWillReceiveProps: function(nextProps) {
+	componentWillReceiveProps: function (nextProps) {
+		contextRecord = this.getFlux().store("DocumentStore").getContext(nextProps.cid);
+		var currentAssets = [];
+		var allProperties = this.getFlux().store("DocumentStore").getProperties({});//propertiesColl.find();
+		contextRecord.scopeProperties.map(function (p) {
+			currentAssets.push(this.getFlux().store("DocumentStore").getProperty({ entity_key: p }));
+		}.bind(this));
+
 		this.setState({
 			data: Immutable.fromJS(this.state.allProperties).toList(),
 			filteredData: Immutable.fromJS(this.state.allProperties).toList(),
-			displayData: Immutable.fromJS(this.state.allProperties).toList()
+			displayData: Immutable.fromJS(this.state.allProperties).toList(),
+			currentAssets: currentAssets
 		});
 	},
-	getRow: function(i) {
+	getRow: function (i) {
 		return this.state.allProperties[i];
 	},
-	filterData:  function(event) {
+	filterData: function (event) {
 		event.preventDefault();
 		const regex = new RegExp(event.target.value, 'i');
-		const filtered = this.state.data.filter(function(datum) {
+		const filtered = this.state.data.filter(function (datum) {
 			return (datum.get('name').search(regex) > -1);
 		});
 		var displayData;
@@ -106,23 +114,23 @@ var ScopeTab = React.createClass({
 			displayData: displayData
 		});
 	},
-	focusSearch: function() {
-		this.setState({ fullWidth: true});
+	focusSearch: function () {
+		this.setState({ fullWidth: true });
 	},
-	blurSearch: function() {
-		this.setState({fullWidth: false});
+	blurSearch: function () {
+		this.setState({ fullWidth: false });
 	},
-	addProperty: function(key, event) {
+	addProperty: function (key, event) {
 		contextRecord.scopeProperties = contextRecord.scopeProperties.concat(key);
 		this.currentAssets = this.state.currentAssets;
-		var addedProperty = this.getFlux().store("DocumentStore").getProperty({entity_key: key});
+		var addedProperty = this.getFlux().store("DocumentStore").getProperty({ entity_key: key });
 		this.currentAssets = this.currentAssets.concat(addedProperty);
 		this.setState({
 			currentAssets: this.currentAssets
 		});
 		this.getFlux().store("DocumentStore").saveDatabase();
 	},
-	removeProperty: function(key, event) {
+	removeProperty: function (key, event) {
 		var scopeProperties = contextRecord.scopeProperties;
 		var currentAssets = this.state.currentAssets;
 		var propertyToDelete = scopeProperties.indexOf(key);
@@ -136,22 +144,22 @@ var ScopeTab = React.createClass({
 
 		this.getFlux().store("DocumentStore").saveDatabase();
 	},
-	renderActionButton: function(row) {
+	renderActionButton: function (row) {
 		var key = row.get('entity_key');
 		if (_.contains(contextRecord.scopeProperties, key)) {
 			return (
-				<IconButton style={{color: Colors.RED_BASE}} onTouchTap={this.removeProperty.bind(this, key)}>
+				<IconButton style={{ color: Colors.RED_BASE }} onTouchTap={this.removeProperty.bind(this, key)}>
 					<RemoveIcon size={20} />
 				</IconButton>
 			);
 		}
 		return (
-			<IconButton style={{color: Colors.GREEN_BASE}} onTouchTap={this.addProperty.bind(this, key)}>
+			<IconButton style={{ color: Colors.GREEN_BASE }} onTouchTap={this.addProperty.bind(this, key)}>
 				<AddIcon size={20} />
 			</IconButton>
 		);
 	},
-	sortTable: function(key, event) {
+	sortTable: function (key, event) {
 		var sortDir = 'asc';
 		var filtered = this.state.displayData;
 		if (key == this.state.sortKey) {
@@ -173,22 +181,25 @@ var ScopeTab = React.createClass({
 			displayData: displayData
 		});
 	},
-	handleTouch: function(id, event) {
+	handleTouch: function (id, event) {
 		this.transitionTo('/apt/asset/dashboard/' + id);
 	},
-	render: function() {
+	render: function () {
 		var sortStyle = {
 			color: Colors.DARK,
 		}
 		var iconSize = 15;
+		//<Col md={6} style={{margin: 0, padding: 0, marginTop: 20}}>
+		//<Col md={6} style={{margin: 0, padding: 0, marginTop: -10}}>
+
 		return (
 			<div>
-				<Col md={6} style={{margin: 0, padding: 0, marginTop: 20}}>
-					<div style={{backgroundColor: "white", width: "100%", height: "calc(100vh - 145px)"}}>
-						<div id="md-table-sort" style={{paddingTop: 20, paddingLeft: 20, width: "calc(100% - 5px)" }}>
+				<Col className="tab-col" md={6}>
+					<div style={{ backgroundColor: "white", width: "100%", height: "calc(100vh - 145px)" }}>
+						<div id="md-table-sort" style={{ paddingTop: 20, paddingLeft: 20, width: "calc(100% - 5px)" }}>
 							<div>
 								<Row>
-									<Col md={1} style={{marginTop: 10, marginRight: -20}}>
+									<Col md={1} style={{ marginTop: 10, marginRight: -20 }}>
 										<SearchIcon size={30} />
 									</Col>
 									<Col md={11}>
@@ -215,13 +226,13 @@ var ScopeTab = React.createClass({
 										enableSelectAll={this.state.enableSelectAll}
 										>
 										<TableRow>
-											<TableHeaderColumn style={{width: "70px"}}>
+											<TableHeaderColumn style={{ width: "70px" }}>
 											</TableHeaderColumn>
-											<TableHeaderColumn style={{width: "70px"}}>
+											<TableHeaderColumn style={{ width: "70px" }}>
 											</TableHeaderColumn>
 											<TableHeaderColumn >
-												<Row style={{margin: 0, padding: 0}}>
-													<Col style={{margin: 0, padding: 0, lineHeight: '48px', height: 48}} md={6}>
+												<Row style={{ margin: 0, padding: 0 }}>
+													<Col style={{ margin: 0, padding: 0, lineHeight: '48px', height: 48 }} md={6}>
 														Property
 													</Col>
 													<Col md={6}>
@@ -232,8 +243,8 @@ var ScopeTab = React.createClass({
 												</Row>
 											</TableHeaderColumn>
 											<TableHeaderColumn>
-												<Row style={{margin: 0, padding: 0}}>
-													<Col style={{margin: 0, padding: 0, lineHeight: '48px', height: 48}} md={6}>
+												<Row style={{ margin: 0, padding: 0 }}>
+													<Col style={{ margin: 0, padding: 0, lineHeight: '48px', height: 48 }} md={6}>
 														Scope
 													</Col>
 													<Col md={6}>
@@ -244,8 +255,8 @@ var ScopeTab = React.createClass({
 												</Row>
 											</TableHeaderColumn>
 											<TableHeaderColumn>
-												<Row style={{margin: 0, padding: 0}}>
-													<Col style={{margin: 0, padding: 0, lineHeight: '48px', height: 48}} md={6}>
+												<Row style={{ margin: 0, padding: 0 }}>
+													<Col style={{ margin: 0, padding: 0, lineHeight: '48px', height: 48 }} md={6}>
 														Category
 													</Col>
 													<Col md={6}>
@@ -256,8 +267,8 @@ var ScopeTab = React.createClass({
 												</Row>
 											</TableHeaderColumn>
 											<TableHeaderColumn>
-												<Row style={{margin: 0, padding: 0}}>
-													<Col style={{margin: 0, padding: 0, lineHeight: '48px', height: 48}} md={6}>
+												<Row style={{ margin: 0, padding: 0 }}>
+													<Col style={{ margin: 0, padding: 0, lineHeight: '48px', height: 48 }} md={6}>
 														Subcategory
 													</Col>
 													<Col md={6}>
@@ -276,12 +287,12 @@ var ScopeTab = React.createClass({
 										showRowHover={this.state.showRowHover}
 										stripedRows={this.state.stripedRows}
 										>
-										{this.state.displayData.map( (row, index) => (
-											<TableRow style={{height: 75}} key={index} >
-												<TableRowColumn style={{width: "70px"}}>
+										{this.state.displayData.map((row, index) => (
+											<TableRow style={{ height: 75 }} key={index} >
+												<TableRowColumn style={{ width: "70px" }}>
 													{this.renderActionButton(row)}
 												</TableRowColumn>
-												<TableRowColumn style={{width: "70px"}}><Avatar src={row.get('image_url')} /></TableRowColumn>
+												<TableRowColumn style={{ width: "70px" }}><Avatar src={row.get('image_url')} /></TableRowColumn>
 												<TableRowColumn>{row.get('name')}</TableRowColumn>
 												<TableRowColumn>{row.get('scope')}</TableRowColumn>
 												<TableRowColumn>{row.get('category')}</TableRowColumn>
@@ -294,19 +305,19 @@ var ScopeTab = React.createClass({
 						</div>
 					</div>
 				</Col>
-				<Col md={6} style={{margin: 0, padding: 0, marginTop: -10}}>
-					<div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around'}}>
-						<span style={{fontSize: 16, paddingTop: "0px", paddingBottom: "20px", textTransform: "uppercase", letterSpacing: "1.5px"}}>Scope Properties</span>
+				<Col className="tab-col" md={6}>
+					<div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
+						<span style={{ fontSize: 16, paddingTop: "0px", paddingBottom: "20px", textTransform: "uppercase", letterSpacing: "1.5px" }}>Scope Properties</span>
 
 						<GridList
-							style={{width: "90%", height:"calc(100vh - 250px)", overflowY: 'auto', marginBottom: 24}}
+							style={{ width: "90%", height: "calc(100vh - 250px)", overflowY: 'auto', marginBottom: 24 }}
 							cellHeight={200}
 							>
 							{this.state.currentAssets.map((tile) => (
 								<GridTile
 									key={tile.entity_key}
 									title={tile.name}
-									style={{cursor: 'pointer'}}
+									style={{ cursor: 'pointer' }}
 									subtitle={tile.category + ' - ' + tile.subcategory}
 									onTouchTap={() => this.handleTouch(tile.id)}
 									>

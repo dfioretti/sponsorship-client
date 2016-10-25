@@ -44,7 +44,7 @@ var FixedSide = React.createClass({
 		});
 	},
 	goHome: function() {
-		this.transitionTo('portfolio');
+		this.transitionTo('/');
 	},
 	goScope: function() {
 		this.transitionTo('analyze');
@@ -91,6 +91,10 @@ var FixedSide = React.createClass({
 			cid: cid,
 			name: this.state.assessmentName
 		};
+		this.setState({
+			assessmentName: "",
+			dialogOpen: false
+		});
 		this.props.contextCollection.insert(context);
 		this.transitionTo('/assessment/' + cid);
 		/*
@@ -168,10 +172,10 @@ var FixedSide = React.createClass({
 								<StepLabel>Define Scope Properties</StepLabel>
 							</Step>
 							<Step>
-								<StepLabel>Visualze Data</StepLabel>
+								<StepLabel>Model Analytics</StepLabel>
 							</Step>
 							<Step>
-								<StepLabel>Model Analytics</StepLabel>
+								<StepLabel>Visualize Data</StepLabel>
 							</Step>
 						</Stepper>
 					</div>

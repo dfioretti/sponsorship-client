@@ -47,6 +47,7 @@ var DashboardGrid = React.createClass({
   },
   layoutChanged: function(layout) {
     this.setState({items: layout});
+    this.props.persistDashboard(layout);
   },
   commitUpdate: function(layout) {
     this.props.persistDashboard(layout);

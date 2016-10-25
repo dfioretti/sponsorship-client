@@ -28,7 +28,7 @@ var DashboardChart = React.createClass({
 	buildPropertiesFromProps: function() {
 		var properties = {};
 		this.props.data.properties.forEach(function(prop) {
-			properties[prop.key] = this.getFlux().store("AssetsStore").getAssetByKey(prop.key);
+			properties[prop.key] = this.getFlux().store("DocumentStore").getProperty({entity_key: prop.key });
 		}.bind(this));
 		return properties;
 	},
