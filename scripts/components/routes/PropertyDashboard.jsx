@@ -356,10 +356,10 @@ var PropertyDashboard = React.createClass({
 			<span className="text-fix dark">{data.value}</span>
 		);
 	},
-	downloadCSV: function() {
+	downloadCSV: function () {
 		this.refs.propertyTable.handleExportCSV();
 	},
-	handleSearchChange: function(event) {
+	handleSearchChange: function (event) {
 		this.refs.propertyTable.handleSearch(event.target.value);
 	},
 	renderPropertyData: function (property) {
@@ -715,7 +715,13 @@ var PropertyDashboard = React.createClass({
 	render: function () {
 		if (this.state.property == null) {
 			return (
-				<CircularProgress size={3} />
+				<Row style={{ marginTop: "25%" }}>
+					<Col md={5}></Col>
+					<Col md={2}>
+						<CircularProgress size={3} />
+					</Col>
+					<Col md={5}></Col>
+				</Row>
 			);
 		}
 

@@ -51,7 +51,7 @@ var Assessment = React.createClass({
 						<div style={(this.state.activeTab == 'evaluate') ? activeStyle : inactiveStyle} />
 					</Col>
 					<Col style={colStyle} md={4}>
-						<FlatButton rippleColor="transparent" backgroundColor={Colors.WHITE} labelStyle={labelStyle} hoverColor={Colors.WHITE} style={{color: Colors.MAIN, width: "100%", padding: 0, margin: 0, marginTop: 0, height: 30, fontSize: 10}} onTouchTap={this.tabChange.bind(this, "analyze")} label="Visualize" />
+						<FlatButton rippleColor="transparent" backgroundColor={Colors.WHITE} labelStyle={labelStyle} hoverColor={Colors.WHITE} style={{color: Colors.MAIN, width: "100%", padding: 0, margin: 0, marginTop: 0, height: 30, fontSize: 10}} onTouchTap={this.tabChange.bind(this, "visualize")} label="Visualize" />
 						<div style={(this.state.activeTab == 'visualize') ? activeStyle : inactiveStyle} />
 					</Col>
 				</Row>

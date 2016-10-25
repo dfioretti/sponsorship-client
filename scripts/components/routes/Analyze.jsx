@@ -11,7 +11,6 @@ var Fluxxor = require('fluxxor');
 var FluxMixin = Fluxxor.FluxMixin(React);
 var DashboardGrid = require('../common/DashboardGrid.jsx');
 var Tabs = require('material-ui').Tabs;
-var CircularProgress =  require('material-ui').CircularProgress;
 var Tab = require('material-ui').Tab;
 var Colors = require('../../constants/colors.js');
 var ScopeTab = require('../common/ScopeTab.jsx');
