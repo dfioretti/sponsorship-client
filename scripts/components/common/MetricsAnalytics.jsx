@@ -13,6 +13,7 @@ var DragDropContext = require('react-dnd').DragDropContext;
 var HTML5Backend = require('react-dnd-html5-backend');
 var DropMetric = require('../editors/DropMetric.jsx');
 var TextField = require('material-ui').TextField;
+var Popover = require('material-ui').Popover;
 var numberFormat = require('underscore.string/numberFormat');
 var DragMetric = require('../editors/DragMetric.jsx');
 var Colors = require('../../constants/colors.js');
@@ -52,6 +53,7 @@ var MetricsAnalytics = React.createClass({
     var formulaWeights = [];
     var formulaToggles = [];
     var name = "";
+    var kpiIcon = null;
    
     if (this.props.fid !== null) {
       var formulaRecord = this.getFlux().store("DocumentStore").getFormula(this.props.fid);
@@ -60,10 +62,23 @@ var MetricsAnalytics = React.createClass({
       formulaWeights = formulaRecord.formulaWeights;
       formulaToggles = formulaRecord.formulaToggles;
       name = formulaRecord.name;
+      kpiIcon = formulaRecord.icon;
     }
 
-    return { cid: this.props.cid, data: data, name: name, metrics: metrics, formulaWeights: formulaWeights, formulaToggles: formulaToggles, currentInput: -1, formula: formula }
+    return { kpiIcon: kpiIcon, showIconPopover: false, cid: this.props.cid, data: data, name: name, metrics: metrics, formulaWeights: formulaWeights, formulaToggles: formulaToggles, currentInput: -1, formula: formula }
   },
+  closeIconPopover: function() {
+        this.setState({
+            showIconPopover: false
+        });
+    },
+    setKpiIcon: function(event) {
+      console.log('set kpi icon', event.currentTarget.id);
+        this.setState({
+            kpiIcon: event.currentTarget.id,
+            showIconPopover: false
+        });
+    },
   formatValue: function(cell, row) {
     cell = parseFloat(cell);
     if (cell < 1) {
@@ -322,7 +337,8 @@ var MetricsAnalytics = React.createClass({
         formula: this.state.formula,
         formulaWeights: this.state.formulaWeights,
         formulaToggles: this.state.formulaToggles,
-        metrics: this.state.metrics
+        metrics: this.state.metrics,
+        icon: this.state.kpiIcon
       }
       this.getFlux().store("DocumentStore").getState().formulasColl.insert(formula);
     } else {
@@ -333,6 +349,7 @@ var MetricsAnalytics = React.createClass({
       formulaRecord.formulaWeights = this.state.formulaWeights; 
       formulaRecord.formulaToggles = this.state.formulaToggles;
       formulaRecord.metrics = this.state.metrics;
+      formulaRecord.icon = this.state.kpiIcon;
     }
     this.getFlux().store("DocumentStore").saveDatabase();
     this.getFlux().actions.calculateFormula(fid);
@@ -379,6 +396,44 @@ var MetricsAnalytics = React.createClass({
       name: event.target.value
     });
   },
+  toggleIconPopover: function(event) {
+        event.preventDefault();
+        this.setState({
+            showIconPopover: true,
+            anchorEl: event.currentTarget,
+            kpiIcon: null
+        });
+    },
+  renderIconDropdown: function() {
+    var items = [];
+          for (var i = 1; i < 150; i++) {
+              items.push(i);
+          }
+          return (
+              <div>
+                  <IconButton onTouchTap={this.toggleIconPopover} style={{height: 60, width: 60, backgroundColor: "white"}}>
+                      <Avatar color="white" backgroundColor="white" style={{backgroundColor: "white"}} src={(this.state.kpiIcon) ? '/images/score/analytics-' + this.state.kpiIcon + '.png' : '/images/metrics/add.png'} />
+                  </IconButton>
+                  <Popover
+                      open={this.state.showIconPopover}
+                      anchorEl={this.state.anchorEl}
+                      anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                        targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                      onRequestClose={this.closeIconPopover}
+                  >
+                      <div style={{width: 300, height: 300}}>
+                          {items.map(function(i) {
+                              return (
+                                  <IconButton id={i} key={i} onTouchTap={this.setKpiIcon} style={{margin: 4, height: 60, width: 60}}>
+                                      <Avatar src={'/images/score/analytics-' + i + '.png'} />
+                                  </IconButton>
+                              );
+                          }.bind(this))}
+                      </div>
+                  </Popover>
+              </div>
+        );
+  },
   render: function() {
     var selectRowProp = {
       mode: 'checkbox',
@@ -391,7 +446,13 @@ var MetricsAnalytics = React.createClass({
     return (
     <Grid fluid={true}>
       <Row style={{marginTop: 15, marginBottom: 15}}>
+      <Col md={1}></Col>
+      <Col md={6}>
         <span className="text-fix dark med">KPI Name:&nbsp;&nbsp;&nbsp;</span><TextField hintText="Enter Name" value={this.state.name} onChange={this.updateName} fullWidth={false} />
+      </Col>
+      <Col md={4} style={{marginBottom: 15}}>
+        {this.renderIconDropdown()} 
+      </Col>
       </Row>
       <Row>
       </Row>

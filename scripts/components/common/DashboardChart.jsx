@@ -96,7 +96,7 @@ var DashboardChart = React.createClass({
 				}
 			},
 			grid: {
-				//containLabel: true,
+				containLabel: true,
 				bottom: 50,
 			},
 			calculable: true,
@@ -163,8 +163,9 @@ var DashboardChart = React.createClass({
 			radar: [
 				{
 					indicator: indicators,
-					radius: '60%',
-					scale: true
+					radius: '50%',
+					scale: false,
+					center: ['50%', '45%']
 				}
 			],
 			tooltip: {
@@ -243,7 +244,7 @@ var DashboardChart = React.createClass({
 					name: 'Series',
 					type: 'pie',
 					radius: '55%',
-					center: ['50%', '60%'],
+					center: ['50%', '50%'],
 					data: this.buildSeries()
 				}
 			]
@@ -267,7 +268,7 @@ var DashboardChart = React.createClass({
 		return (
 			<ReactEcharts
 				option={this.getPieOptions()}
-				height={this.props.height}
+				height={this.props.height - 50}
 				theme="theme2"
 				/>
 		);
@@ -278,7 +279,7 @@ var DashboardChart = React.createClass({
 		return (
 			<ReactEcharts
 				option={this.getRadarOptions()}
-				height={this.props.height}
+				height={this.props.height - 50}
 				theme="theme2"
 				/>
 		);
@@ -311,7 +312,7 @@ var DashboardChart = React.createClass({
 				break;
 		}
 		width = "100%";
-		var chartHeight = (this.props.height - 50);
+		var chartHeight = (this.props.height - 20);
 		return (
 			<div style={{margin: "0px 20px 0px 20px", height: "100%"}}>
 			<ReactEcharts

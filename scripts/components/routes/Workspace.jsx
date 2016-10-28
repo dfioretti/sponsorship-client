@@ -38,7 +38,6 @@ var Navigation = require('react-router').Navigation;
 var Workspace = React.createClass({
 	mixins: [Navigation, FluxMixin, StoreWatchMixin("DocumentStore")],//, StoreWatchMixin("DashboardHomeStore", "AssetsStore")],
 	componentWillMount: function () {
-		console.log("state in worspace", this.state);
 		//this.getFlux().actions.syncData();
 		//this.getFlux().actions.loadDashboards();
 		//this.getFlux().actions.loadAssets();
@@ -86,7 +85,6 @@ var Workspace = React.createClass({
 		return data;
 	},
 	onBarSearch: function (searchText, dataSource) {
-		console.log("on bar search", searchText, dataSource);
 		this.setState({ searchText: searchText });
 	},
 	onSearchBlur: function () {
@@ -113,7 +111,6 @@ var Workspace = React.createClass({
 		});
 	},
 	render: function () {
-		console.log('doing render', this.state);
 		if (!this.state.propertiesLoaded || !this.state.databaseLoaded) {// || !this.state.dashboardsLoaded) {
 			return (
 				<MuiThemeProvider>

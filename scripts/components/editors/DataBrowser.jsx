@@ -61,30 +61,26 @@ var DataBrowser = React.createClass({
 		return;
 	},
 	loadFormulaData: function(props) {
-		console.log('load formula data', props);
 		if (props.currentNode == null) return this.clearState();
 		if (props.node == null) return this.clearState();
-		if (props.node.type == "formula") {
+		if (props.node.category == "formula") {
 			var displayData = this.getFlux().store("DocumentStore").getState().formulaCalculations.find({fid: props.node.fid})[0];
 			if (typeof(displayData) == 'undefined') return this.clearState();
-			console.log('display data', displayData);
 			this.setState({
 				data: displayData.data,
 				stats: displayData.stats
 			});
 			return;
-		} 
-		if (props.node.type == 'node') {
+		}
+		if (props.node.category == 'score' || props.node.category == 'root') {
 			var displayData = this.getFlux().store("DocumentStore").getState().modelCalculations.find({sid: props.node.sid})[0];
 			if (typeof(displayData) == 'undefined') return this.clearState();
-			console.log("display data", displayData);
 			this.setState({
 				data: displayData.result,
 				stats: displayData.data
 			});
 			return;
 		}
-		console.log(props);
 		return this.clearState();
 		//console.log('kk load formula data', props);
 		var stats = new StatEngine();
@@ -108,11 +104,11 @@ var DataBrowser = React.createClass({
 	},
 	renderAggregateTable: function(node) {
 		if (node == null) return null;
-		if (node.type == 'node') return this.renderScoreTable();
+		if (node.type !== 'formula') return this.renderScoreTable();
 		return (
 			<BootstrapTable
 				data={this.state.stats}
-				height="185"
+				height="300"
 				search={false}
 				>
 			<TableHeaderColumn
@@ -163,7 +159,7 @@ var DataBrowser = React.createClass({
 		return (
 			<BootstrapTable
 				data={tableData}
-				height="185"
+				height="300"
 				search={false}
 				>
 				<TableHeaderColumn
@@ -185,11 +181,11 @@ var DataBrowser = React.createClass({
 	},
 	renderDataTable: function(node) {
 		if (node == null) return null;
-		if (node.type == 'node') return this.renderScoreTable();
+		if (node.category !== 'formula') return this.renderScoreTable();
 		return (
 			<BootstrapTable
 				data={this.state.data}
-				height="185"
+				height="300"
 				search={false}
 				>
 				<TableHeaderColumn
@@ -221,7 +217,7 @@ var DataBrowser = React.createClass({
 					dataField="rank"
 					hidden={true}
 					dataSort={true}
-					>Ran	k
+					>Rank
 				</TableHeaderColumn>
 				<TableHeaderColumn
 					dataField="weight"
@@ -243,7 +239,7 @@ var DataBrowser = React.createClass({
 		//var output = stats.calculateFormula(this.props.node.fid, this.props.formulasColl, this.props.scopeProperties, this.props.metricsColl);
 		//console.log('props', this.props, this.props.node);
 		return (
-			<div style={{marginTop: 20}}>
+			<div style={{marginTop: 20, height: 300}}>
 				<div className="title med small-pad center" style={{backgroundColor: 'white'}}>Browse Data</div>
 				<Divider />
 				<Row style={{marginTop: 0, backgroundColor: 'white', padding: 10, marginLeft: 0, marginRight: 0}}>

@@ -16,7 +16,7 @@ StatEngine.prototype = {
 	setCollection: function(collection) {
 		this.collection = collection;
 	},
-	
+
 	rank: function(metric, list) {
 		list.sort();
 		return ( ( list.indexOf( metric ) + 1 ) / list.length );
@@ -55,7 +55,7 @@ StatEngine.prototype = {
 			parent: node.parent,
 			children: [],
 			weight: weight / 100.0,
-			norm: norm,	
+			norm: norm,
 			fid: node.fid,
 			sid: node.sid,
 			type: node.type
@@ -82,9 +82,10 @@ StatEngine.prototype = {
 	},
 	scoreNode: function(node, data) {
 		if (node.parent == -1) {
-			console.log('at the root');
+			this.calculateSubscore(node, data);
+			//console.log('at the root', node, data);
 		} else if (node.children.length == 0) {
-			var node = { 
+			var node = {
 				weight: node.weight,
 				norm: node.norm,
 				value: this.formulaCalcColl.findOne({fid: node.fid})
@@ -102,13 +103,16 @@ StatEngine.prototype = {
 		console.log('testing 123', formula);
 	},
 	calculateSubscore: function(node, data) {
+		console.log('calculate sub s', data);
 		var values = {};
 		var raw = [];
 		var result = {};
 		data.map(function(d) {
+			if (d.value == null) return;
+			console.log('in mapping', d);
 			_.keys(d.value.result).map(function(k) {
 				if (typeof(values[k]) == 'undefined')  {
-					console.log()
+					console.log(' undefined?');
 					values[k] = (d.weight * d.value.result[k].rank_weight);
 				}
 				else {
@@ -121,7 +125,7 @@ StatEngine.prototype = {
 		});
 		var stdev = ss.standardDeviation(raw);
 		var mean = ss.mean(raw);
-		var zScores = [];	
+		var zScores = [];
 		_.keys(values).map(function(k) {
 			var zScore = ss.zScore(values[k], mean, stdev);
 			zScores.push(zScore);

@@ -222,7 +222,7 @@ function initilizeScoreCanvas(savedModel) {
   // Some of these values may be overridden in a particular TextBlock.
   function textStyle() {
     return {
-      font: "9pt Avenir-Medium",
+      font: "9pt Avenir-Medium italic",
       stroke: "white"
     };
   }
